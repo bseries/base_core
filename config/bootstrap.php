@@ -107,38 +107,38 @@ $rules->add('any', function($user, $entity, $options) {
 
 // ------------------------------------------------------------------------------------------------
 
-// Must come after base_core but before any other libraries.
-// FIXME Change sort order below to have base media autoloaded.
-if (is_dir(LITHIUM_LIBRARY_PATH . '/base_media')) {
-	Libraries::add('base_media');
-}
-
 // Continue loading and bootstrapping modules. Certain modules may already been loaded. These
 // must be skipped. Also we load the module types in order. Always load core modules first.
 
-$modules = glob(
-	LITHIUM_LIBRARY_PATH . '/{base,cms,ecommerce,billing}_*',
-	GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
-);
-// Alphabetically sort entries but always put _core modules top.
-uasort($modules, function($a, $b) {
-	if (strpos($a, '_core') !== false) {
-		return -1;
-	}
-	if (strpos($b, '_core') !== false) {
-		return 1;
-	}
-	return strcmp($a, $b);
-});
-$modules = array_map('basename', $modules);
+$moduleTypes = [ // This array also defines the primary order in which modules are loaded.
+	'base' => 'Bento', // base modules must come first.
+	'cms' => 'Bureau',
+	'billing' => 'Billing',
+	'ecommerce' => 'Boutique'
+];
+foreach ($moduleTypes as $prefix => $title) {
+	$modules = array_map('basename', glob(
+		LITHIUM_LIBRARY_PATH . "/{$prefix}_*",
+		GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
+	));
 
-foreach ($modules as $name) {
-	if (Libraries::get($name)) {
-		// Certain modules may already been loaded (i.e. base_core) during the bootstrap
-		// process above. Prevent loading them and their config files a second time.
-		continue;
+	uasort($modules, function($a, $b) {
+		if (strpos($a, '_core') !== false) {
+			return -1;
+		} elseif (strpos($b, '_core') !== false) {
+			return 1;
+		}
+		return strcmp($a, $b);
+	});
+
+	foreach ($modules as $name) {
+		if (Libraries::get($name)) {
+			// Certain modules may already been loaded (i.e. base_core) during the bootstrap
+			// process above. Prevent loading them and their config files a second time.
+			continue;
+		}
+		Libraries::add($name);
 	}
-	Libraries::add($name);
 }
 
 ?>
