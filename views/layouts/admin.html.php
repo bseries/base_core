@@ -182,6 +182,7 @@ if (!isset($meta)) {
 				<?php foreach (['ecommerce' => 'AD Boutique', 'billing' => 'AD Billing', 'cms' => 'AD Base', 'base' => 'AD Bento'] as $prefix => $title): ?>
 					<?php if (defined($constant = strtoupper($prefix) . '_CORE_VERSION')): ?>
 						<?= $title ?> <?= constant($constant) ?>
+						<?php break ?>
 					<?php endif ?>
 				<?php endforeach ?>
 				</div>
