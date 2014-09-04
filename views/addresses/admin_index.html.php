@@ -11,7 +11,7 @@ $this->set([
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
 
 	<div class="top-actions">
-		<?= $this->html->link($t('new address'), ['action' => 'add', 'library' => 'cms_core'], ['class' => 'button add']) ?>
+		<?= $this->html->link($t('new address'), ['action' => 'add', 'library' => 'base_core'], ['class' => 'button add']) ?>
 	</div>
 
 	<div class="help">
@@ -42,7 +42,7 @@ $this->set([
 					<?= $this->html->link($user->title(), [
 						'controller' => $user->isVirtual() ? 'VirtualUsers' : 'Users',
 						'action' => 'edit', 'id' => $user->id,
-						'library' => 'cms_core'
+						'library' => 'base_core'
 					]) ?>
 				<?php else: ?>
 					-
@@ -53,8 +53,8 @@ $this->set([
 						<?= $this->date->format($item->created, 'date') ?>
 					</time>
 				<td class="actions">
-					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'cms_core'], ['class' => 'button']) ?>
-					<?= $this->html->link($t('edit'), ['id' => $item->id, 'action' => 'edit', 'library' => 'cms_core'], ['class' => 'button']) ?>
+					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button']) ?>
+					<?= $this->html->link($t('edit'), ['id' => $item->id, 'action' => 'edit', 'library' => 'base_core'], ['class' => 'button']) ?>
 			<?php endforeach ?>
 		</tbody>
 	</table>

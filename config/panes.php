@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,15 +10,15 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-use cms_core\extensions\cms\Panes;
+use base_core\extensions\cms\Panes;
 use lithium\g11n\Message;
-use cms_core\extensions\cms\Settings;
+use base_core\extensions\cms\Settings;
 
 extract(Message::aliases());
 
 Panes::register('dashboard', [
 	'title' => $t('Dashboard'),
-	'url' => ['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'cms_core'],
+	'url' => ['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'base_core'],
 	'actions' => false,
 	'order' => 100
 ]);
@@ -41,7 +41,7 @@ Panes::register('viewSite', [
 	'actions' => false
 ]);
 
-$base = ['controller' => 'users', 'action' => 'index', 'library' => 'cms_core', 'admin' => true];
+$base = ['controller' => 'users', 'action' => 'index', 'library' => 'base_core', 'admin' => true];
 Panes::register('access.users', [
 	'title' => $t('Users'),
 	'url' => $base
@@ -57,7 +57,7 @@ Panes::register('access.addresses', [
 
 Panes::register('external.support', [
 	'title' => $t('Contact Support'),
-	'url' => ['controller' => 'Pages', 'action' => 'support', 'library' => 'cms_core']
+	'url' => ['controller' => 'Pages', 'action' => 'support', 'library' => 'base_core']
 ]);
 Panes::register('external.ga', [
 	'title' => $t('Google Analytics'),

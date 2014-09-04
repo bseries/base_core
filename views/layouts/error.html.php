@@ -2,7 +2,7 @@
 
 use lithium\core\Environment;
 use lithium\util\Inflector;
-use cms_core\extensions\cms\Settings;
+use base_core\extensions\cms\Settings;
 
 $site = Settings::read('site');
 $locale = Environment::get('locale');
@@ -17,7 +17,7 @@ $locale = Environment::get('locale');
 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<!--[if lt IE 9]>>
-			<script src="<?= $this->assets->url('/cms-core/js/compat/html5shiv.js') ?>"></script>
+			<script src="<?= $this->assets->url('/base-core/js/compat/html5shiv.js') ?>"></script>
 		<![endif]-->
 		<noscript>
 			<link rel="stylesheet" type="text/css" href="<?= $this->assets->url('/app/css/compat/noscript.css') ?>">
@@ -27,14 +27,14 @@ $locale = Environment::get('locale');
 		<![endif]-->
 
 		<?php echo $this->assets->style([
-			'/cms-core/css/reset',
+			'/base-core/css/reset',
 			'/app/css/base'
 		]) ?>
 		<?php echo $this->styles() ?>
-		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => false], ['library' => 'cms_core']) ?>
+		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => false], ['library' => 'base_core']) ?>
 		<?php
 			$scripts = array_merge(
-				['/cms-core/js/require'],
+				['/base-core/js/require'],
 				$this->assets->availableScripts('base'),
 				$this->assets->availableScripts('view'),
 				$this->assets->availableScripts('layout')
@@ -42,10 +42,10 @@ $locale = Environment::get('locale');
 		?>
 		<?php echo $this->assets->script($scripts) ?>
 		<?php echo $this->scripts() ?>
-		<?=$this->view()->render(['element' => 'head_app_defines'], [], ['library' => 'cms_core']) ?>
+		<?=$this->view()->render(['element' => 'head_app_defines'], [], ['library' => 'base_core']) ?>
 		<?php if (Settings::read('googleAnalytics.default')): ?>
 			<?=$this->view()->render(['element' => 'ga'], [], [
-				'library' => 'cms_core'
+				'library' => 'base_core'
 			]) ?>
 		<?php endif ?>
 		<?=$this->view()->render(['element' => 'head'], [], [

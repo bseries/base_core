@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -158,7 +158,7 @@ if (!Environment::is('development')) {
 			$message .= ' ;message was `' . $e->getMessage() . '`.';
 			Logger::debug($message);
 
-			$controller = Libraries::instance('controllers', 'cms_core.Errors', ['request' => $params['request']]);
+			$controller = Libraries::instance('controllers', 'base_core.Errors', ['request' => $params['request']]);
 
 			$map = [
 				500 => 'fiveohoh',

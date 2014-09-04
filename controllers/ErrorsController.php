@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,11 +10,11 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\controllers;
+namespace base_core\controllers;
 
 use jsend\Response as JSendResponse;
 
-class ErrorsController extends \cms_core\controllers\BaseController {
+class ErrorsController extends \base_core\controllers\BaseController {
 
 	public function fourohthree() {
 		if ($this->request->url == '/admin') {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau
+ * Base
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,7 +10,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\controllers;
+namespace base_core\controllers;
 
 use lithium\util\Inflector;
 use lithium\analysis\Logger;

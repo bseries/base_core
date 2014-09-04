@@ -1,5 +1,5 @@
-BUREAU Core
--- Core functionality for bureau.
+Base Core
+-- Core functionality for Bento.
 
 Synopsis
 --------
@@ -48,7 +48,7 @@ David Persson for Atelier Disko (david@atelierdisko.de).
 
 Copyright & License
 -------------------
-Bureau Core is Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
+This library is Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
 
 -- This software is proprietary and confidential. Redistributions   --
 -- not permitted. Unless required by applicable law or agreed to    --

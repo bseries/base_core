@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,11 +10,11 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-define('CMS_CORE_VERSION', '1.2.0');
+define('BASE_CORE_VERSION', '1.2.0');
 
 use lithium\core\Libraries;
-use cms_core\extensions\cms\Features;
-use cms_core\models\Assets;
+use base_core\extensions\cms\Features;
+use base_core\models\Assets;
 use lithium\net\http\Media as HttpMedia;
 
 if (!include LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/core/Libraries.php') {
@@ -61,7 +61,7 @@ foreach (glob(LITHIUM_LIBRARY_PATH . '/li3_*') as $item) {
 }
 
 // Adding myself.
-Libraries::add('cms_core', [
+Libraries::add('base_core', [
 	'bootstrap' => false
 ]);
 
@@ -107,8 +107,8 @@ $rules->add('any', function($user, $entity, $options) {
 
 // ------------------------------------------------------------------------------------------------
 
-// Must come after cms_core but before any other libraries.
-Libraries::add('cms_media');
+// Must come after base_core but before any other libraries.
+Libraries::add('base_media');
 
 // Continue loading and bootstrapping modules. Certain modules may already been loaded. These
 // must be skipped. Also we load the module types in order. Always load core modules first.
@@ -131,7 +131,7 @@ $modules = array_map('basename', $modules);
 
 foreach ($modules as $name) {
 	if (Libraries::get($name)) {
-		// Certain modules may already been loaded (i.e. cms_core) during the bootstrap
+		// Certain modules may already been loaded (i.e. base_core) during the bootstrap
 		// process above. Prevent loading them and their config files a second time.
 		continue;
 	}

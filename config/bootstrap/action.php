@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -22,13 +22,13 @@ use lithium\analysis\Logger;
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$libraries = Libraries::get();
 
-	require_once $libraries['cms_core']['path'] . '/config/routes.php';
+	require_once $libraries['base_core']['path'] . '/config/routes.php';
 	require_once $libraries['app']['path'] . '/config/routes.php';
 
 	// Load other libraries.
 	unset($libraries['app']);
 	unset($libraries['lithium']);
-	unset($libraries['cms_core']);
+	unset($libraries['base_core']);
 	foreach (array_reverse($libraries) as $name => $config) {
 		$file = "{$config['path']}/config/routes.php";
 		file_exists($file) ? call_user_func(function() use ($file) { include $file; }) : null;
@@ -102,7 +102,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) use ($errorRespo
 	$message  = 'Showing maintenance page.';
 	Logger::debug($message);
 
-	$controller = Libraries::instance('controllers', 'cms_core.Errors', ['request' => $params['request']]);
+	$controller = Libraries::instance('controllers', 'base_core.Errors', ['request' => $params['request']]);
 
 	return $controller(
 		$params['request'],

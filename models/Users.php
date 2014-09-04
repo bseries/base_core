@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,25 +10,25 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\models;
+namespace base_core\models;
 
 use lithium\util\Validator;
 use lithium\security\Password;
 use lithium\g11n\Message;
-use cms_core\models\Addresses;
+use base_core\models\Addresses;
 use billing_core\models\TaxZones;
-use cms_core\extensions\cms\Settings;
-use cms_core\extensions\cms\Features;
-use cms_core\models\Assets;
+use base_core\extensions\cms\Settings;
+use base_core\extensions\cms\Features;
+use base_core\models\Assets;
 
-class Users extends \cms_core\models\Base {
+class Users extends \base_core\models\Base {
 
 	protected static $_actsAs = [
-		'cms_core\extensions\data\behavior\Timestamp',
-		'cms_core\extensions\data\behavior\ReferenceNumber' => [
+		'base_core\extensions\data\behavior\Timestamp',
+		'base_core\extensions\data\behavior\ReferenceNumber' => [
 			'models' => [
-				'cms_core\models\Users',
-				'cms_core\models\VirtualUsers'
+				'base_core\models\Users',
+				'base_core\models\VirtualUsers'
 			]
 		]
 	];
@@ -46,7 +46,7 @@ class Users extends \cms_core\models\Base {
 		extract(Message::aliases());
 		$model = static::_object();
 
-		static::behavior('cms_core\extensions\data\behavior\ReferenceNumber')->config(
+		static::behavior('base_core\extensions\data\behavior\ReferenceNumber')->config(
 			Settings::read('user.number')
 		);
 

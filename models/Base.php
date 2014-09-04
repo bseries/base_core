@@ -1,6 +1,6 @@
 <?php
 
-namespace cms_core\models;
+namespace base_core\models;
 
 use DateTime;
 

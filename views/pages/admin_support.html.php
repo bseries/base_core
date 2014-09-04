@@ -1,6 +1,6 @@
 <?php
 
-use cms_core\extensions\cms\Settings;
+use base_core\extensions\cms\Settings;
 
 $this->set([
 	'page' => [
@@ -12,6 +12,6 @@ $this->set([
 ?>
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
 	<?=$this->view()->render(['element' => 'contact'], ['item' => Settings::read('contact.exec')], [
-		'library' => 'cms_core'
+		'library' => 'base_core'
 	]) ?>
 </article>

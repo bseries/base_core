@@ -1,5 +1,5 @@
 /*!
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -20,29 +20,29 @@ requirejs.config({
   waitSeconds: 15,
   paths: {
     // Basics
-    'domready': 'cms-core/js/require/domready',
-    'text': 'cms-core/js/require/text',
-    'async': 'cms-core/js/require/async',
-    'propertyParser': 'cms-core/js/require/propertyParser',
-    'jquery': 'cms-core/js/jquery',
-    'jqueryUi': 'cms-core/js/jqueryUi',
-    'router': 'cms-core/js/router',
+    'domready': 'base-core/js/require/domready',
+    'text': 'base-core/js/require/text',
+    'async': 'base-core/js/require/async',
+    'propertyParser': 'base-core/js/require/propertyParser',
+    'jquery': 'base-core/js/jquery',
+    'jqueryUi': 'base-core/js/jqueryUi',
+    'router': 'base-core/js/router',
 
     // Other
-    'util': 'cms-core/js/util',
-    'notify': 'cms-core/js/notify',
-    'editor': 'cms-core/js/editor',
-    'editor-media': 'cms-core/js/editor/media',
-    'editor-page-break': 'cms-core/js/editor/page-break',
-    'wysihtml5': 'cms-core/js/wysihtml5',
-    'modal': 'cms-core/js/modal',
-    'nprogress': 'cms-core/js/nprogress',
-    'handlebars': 'cms-core/js/handlebars',
-    'list': 'cms-core/js/list',
-    'widgets': 'cms-core/js/widgets',
+    'util': 'base-core/js/util',
+    'notify': 'base-core/js/notify',
+    'editor': 'base-core/js/editor',
+    'editor-media': 'base-core/js/editor/media',
+    'editor-page-break': 'base-core/js/editor/page-break',
+    'wysihtml5': 'base-core/js/wysihtml5',
+    'modal': 'base-core/js/modal',
+    'nprogress': 'base-core/js/nprogress',
+    'handlebars': 'base-core/js/handlebars',
+    'list': 'base-core/js/list',
+    'widgets': 'base-core/js/widgets',
 
     // Compat
-    'modernizr': 'cms-core/js/compat/modernizr',
+    'modernizr': 'base-core/js/compat/modernizr',
   },
   shim: {
     'jquery': {

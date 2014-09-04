@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -11,7 +11,7 @@
  */
 
 use lithium\security\Auth;
-use cms_core\models\Users;
+use base_core\models\Users;
 use lithium\storage\Session;
 
 Auth::config([

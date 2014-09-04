@@ -4,8 +4,8 @@ use lithium\util\Inflector;
 use lithium\core\Libraries;
 use lithium\core\Environment;
 use li3_flash_message\extensions\storage\FlashMessage;
-use cms_core\extensions\cms\Settings;
-use cms_core\models\Assets;
+use base_core\extensions\cms\Settings;
+use base_core\models\Assets;
 
 $site = Settings::read('site');
 $locale = Environment::get('locale');
@@ -43,7 +43,7 @@ FlashMessage::clear();
 			'/app/css/base'
 		]) ?>
 		<?php echo $this->styles() ?>
-		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => false], ['library' => 'cms_core']) ?>
+		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => false], ['library' => 'base_core']) ?>
 		<?php
 			$scripts = array_merge(
 				['/app/js/require'],
@@ -56,7 +56,7 @@ FlashMessage::clear();
 		<?php echo $this->scripts() ?>
 		<?php if (Settings::read('service.googleAnalytics.default') && !Environment::is('development')): ?>
 			<?=$this->view()->render(['element' => 'ga'], [], [
-				'library' => 'cms_core'
+				'library' => 'base_core'
 			]) ?>
 		<?php endif ?>
 		<?=$this->view()->render(['element' => 'head'], [], [
@@ -89,7 +89,7 @@ FlashMessage::clear();
 
 		<?php if (!Environment::is('production')): ?>
 			<?=$this->view()->render(['element' => 'dev_bar'], [], [
-				'library' => 'cms_core'
+				'library' => 'base_core'
 			]) ?>
 		<?php endif ?>
 

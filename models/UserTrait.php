@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,10 +10,10 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\models;
+namespace base_core\models;
 
-use cms_core\models\Users;
-use cms_core\models\VirtualUsers;
+use base_core\models\Users;
+use base_core\models\VirtualUsers;
 
 trait UserTrait {
 

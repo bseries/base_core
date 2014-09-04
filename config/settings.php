@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,8 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-use cms_core\extensions\cms\Settings;
-use cms_core\extensions\cms\Features;
+use base_core\extensions\cms\Settings;
+use base_core\extensions\cms\Features;
 
 Settings::register('site.title');
 

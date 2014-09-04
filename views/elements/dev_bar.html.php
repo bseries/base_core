@@ -1,7 +1,7 @@
 <?php
 
 use lithium\core\Environment;
-use cms_core\extensions\cms\Settings;
+use base_core\extensions\cms\Settings;
 use Naneau\SemVer\Parser as SemVer;
 
 $version = SemVer::parse(str_replace('__PROJECT_VERSION_BUILD__', 'dev', PROJECT_VERSION));

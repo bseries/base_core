@@ -1,6 +1,6 @@
 <?php
 
-use cms_core\extensions\cms\Features;
+use base_core\extensions\cms\Features;
 
 $this->set([
 	'page' => [
@@ -63,7 +63,7 @@ $this->set([
 						'list' => $currencies
 					]) ?>
 					<div class="help">
-						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'cms_core']) ?>
+						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'base_core']) ?>
 					</div>
 					<?= $this->form->field('billing_vat_reg_no', [
 						'type' => 'text',
@@ -71,7 +71,7 @@ $this->set([
 						'label' => $t('Billing VAT Reg. No.')
 					]) ?>
 					<div class="help">
-						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'cms_core']) ?>
+						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'base_core']) ?>
 					</div>
 				</section>
 				<section class="grid-column-right">
@@ -91,9 +91,9 @@ $this->set([
 		<div class="bottom-actions">
 			<?php if ($item->exists()): ?>
 				<?php if ($item->is_active): ?>
-					<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'cms_core'], ['class' => 'button large']) ?>
+					<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'base_core'], ['class' => 'button large']) ?>
 				<?php else: ?>
-					<?= $this->html->link($t('activate'), ['id' => $item->id, 'action' => 'activate', 'library' => 'cms_core'], ['class' => 'button large']) ?>
+					<?= $this->html->link($t('activate'), ['id' => $item->id, 'action' => 'activate', 'library' => 'base_core'], ['class' => 'button large']) ?>
 				<?php endif ?>
 			<?php endif ?>
 			<?= $this->form->button($t('save'), ['type' => 'submit', 'class' => 'large save']) ?>

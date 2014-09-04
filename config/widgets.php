@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -11,9 +11,9 @@
  */
 
 use lithium\g11n\Message;
-use cms_core\extensions\cms\Widgets;
-use cms_core\models\Users;
-use cms_core\models\VirtualUsers;
+use base_core\extensions\cms\Widgets;
+use base_core\models\Users;
+use base_core\models\VirtualUsers;
 
 extract(Message::aliases());
 
@@ -22,7 +22,7 @@ Widgets::register('support', function() use ($t) {
 		'title' => $t('Contact Support'),
 		'url' => [
 			'controller' => 'Pages', 'action' => 'support',
-			'library' => 'cms_core', 'admin' => true
+			'library' => 'base_core', 'admin' => true
 		]
 	];
 }, [
@@ -42,7 +42,7 @@ Widgets::register('users', function() use ($t) {
 	return [
 		'title' => $t('Users'),
 		'url' => [
-			'controller' => 'Users', 'library' => 'cms_core', 'admin' => true, 'action' => 'index'
+			'controller' => 'Users', 'library' => 'base_core', 'admin' => true, 'action' => 'index'
 		],
 		'data' => [
 			$t('Total') => $total

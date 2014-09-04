@@ -15,7 +15,7 @@
 		<?php if (!$authedUser): ?>
 			<li><?= $this->html->link('Login to your account.', [
 				'controller' => 'Users', 'action' => 'session', 'admin' => true,
-				'library' => 'cms_core'
+				'library' => 'base_core'
 			]) ?>
 		<?php endif ?>
 		<li><?php echo $t(
@@ -23,10 +23,10 @@
 			[
 				'url' => $this->html->link(
 					$this->url(
-						['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'cms_core'],
+						['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'base_core'],
 						['absolute' => true]
 					),
-					['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'cms_core']
+					['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'base_core']
 				)
 			]
 		)?></li>

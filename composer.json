@@ -1,6 +1,6 @@
 {
-    "name": "atelierdisko/cms_core",
-    "description": "Core functionality for bureau.",
+    "name": "atelierdisko/base_core",
+    "description": "Core functionality for Bento.",
     "homepage": "http://atelierdisko.de",
     "type": "lithium-library",
     "license": "proprietary",
@@ -29,9 +29,6 @@
       "ext-memcached": "Enables highly-performant object caching."
     },
     "repositories": [
-      {
-        "type": "vcs",
-        "url": "https://github.com/uor/li3_flash_message"
-      }
+      { "type": "vcs", "url": "https://github.com/uor/li3_flash_message" }
    ]
 }

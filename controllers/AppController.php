@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,14 +10,14 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\controllers;
+namespace base_core\controllers;
 
 use lithium\net\http\Router;
 
-class AppController extends \cms_core\controllers\BaseController {
+class AppController extends \base_core\controllers\BaseController {
 
 	public function admin_api_discover() {
-		$base = ['controller' => 'media', 'library' => 'cms_media', 'admin' => true];
+		$base = ['controller' => 'media', 'library' => 'base_media', 'admin' => true];
 
 		$data = [
 			'media:index' => Router::match($base + ['action' => 'api_index'], $this->request),
@@ -26,7 +26,7 @@ class AppController extends \cms_core\controllers\BaseController {
 			'media:transfer-meta' => Router::match($base + ['action' => 'api_transfer_meta'], $this->request),
 			'media:transfer' => Router::match($base + ['action' => 'api_transfer'], $this->request) . '?title=__TITLE__',
 			'widgets:view' => Router::match([
-				'controller' => 'widgets', 'library' => 'cms_core',
+				'controller' => 'widgets', 'library' => 'base_core',
 				'action' => 'api_view', 'name' => '__NAME__', 'admin' => true
 			], $this->request),
 		];

@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,9 +10,9 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\extensions\command;
+namespace base_core\extensions\command;
 
-use cms_core\models\Users as UsersModel;
+use base_core\models\Users as UsersModel;
 
 class Users extends \lithium\console\Command {
 

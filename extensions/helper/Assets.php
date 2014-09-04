@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,10 +10,10 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\extensions\helper;
+namespace base_core\extensions\helper;
 
-use cms_core\extensions\cms\Settings;
-use cms_core\models\Assets as AssetsModel;
+use base_core\extensions\cms\Settings;
+use base_core\models\Assets as AssetsModel;
 use lithium\core\Libraries;
 use lithium\util\Inflector;
 
@@ -102,10 +102,10 @@ class Assets extends \lithium\template\Helper {
 					return -1;
 				}
 				// ... and core first.
-				if ($a['name'] === 'cms_core') {
+				if ($a['name'] === 'base_core') {
 					return -1;
 				}
-				if ($b['name'] === 'cms_core') {
+				if ($b['name'] === 'base_core') {
 					return 1;
 				}
 				return strcmp($a['name'], $b['name']);
@@ -133,7 +133,7 @@ class Assets extends \lithium\template\Helper {
 		} elseif ($type == 'layout') {
 			// Load corresponding layout script; when admin load it from _core
 			// when in app load it from app.
-			$library = $options['admin'] ? 'cms_core' : 'app';
+			$library = $options['admin'] ? 'base_core' : 'app';
 			$layout = $this->_context->_config['layout'];
 
 			if ($script = $this->_script($library, "views/layouts/{$layout}")) {

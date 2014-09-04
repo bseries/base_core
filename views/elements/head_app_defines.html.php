@@ -8,7 +8,7 @@ App = {
 	},
 	api: {
 		<?php if ($admin): ?>
-			discover: "<?= $this->url(['library' => 'cms_core', 'action' => 'api_discover', 'admin' => true, 'controller' => 'App']) ?>"
+			discover: "<?= $this->url(['library' => 'base_core', 'action' => 'api_discover', 'admin' => true, 'controller' => 'App']) ?>"
 		<?php else: ?>
 			discover: "<?= $this->url(['action' => 'api_discover', 'controller' => 'App']) ?>"
 		<?php endif ?>

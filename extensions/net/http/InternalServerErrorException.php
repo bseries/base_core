@@ -1,6 +1,6 @@
 <?php
 
-namespace cms_core\extensions\net\http;
+namespace base_core\extensions\net\http;
 
 class InternalServerErrorException extends \RuntimeException {
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,22 +10,22 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\controllers;
+namespace base_core\controllers;
 
-use cms_core\models\Users;
-use cms_core\models\Addresses;
-use cms_core\models\Currencies;
+use base_core\models\Users;
+use base_core\models\Addresses;
+use base_core\models\Currencies;
 use li3_flash_message\extensions\storage\FlashMessage;
 use lithium\g11n\Message;
 use lithium\security\Auth;
-use cms_core\extensions\cms\Features;
+use base_core\extensions\cms\Features;
 use li3_mailer\action\Mailer;
 use lithium\analysis\Logger;
 
-class UsersController extends \cms_core\controllers\BaseController {
+class UsersController extends \base_core\controllers\BaseController {
 
-	use \cms_core\controllers\AdminDeleteTrait;
-	use \cms_core\controllers\AdminActivateTrait;
+	use \base_core\controllers\AdminDeleteTrait;
+	use \base_core\controllers\AdminActivateTrait;
 
 	public function admin_index() {
 		$data = Users::find('all', [
@@ -47,7 +47,7 @@ class UsersController extends \cms_core\controllers\BaseController {
 
 			if ($item->save($this->request->data, compact('events'))) {
 				FlashMessage::write($t('Successfully saved.'), ['level' => 'success']);
-				return $this->redirect(['action' => 'index', 'library' => 'cms_core']);
+				return $this->redirect(['action' => 'index', 'library' => 'base_core']);
 			} else {
 				FlashMessage::write($t('Failed to save.'), ['level' => 'error']);
 			}
@@ -76,7 +76,7 @@ class UsersController extends \cms_core\controllers\BaseController {
 
 			if ($item->save($this->request->data)) {
 				FlashMessage::write($t('Successfully saved.'), ['level' => 'success']);
-				return $this->redirect(['action' => 'index', 'library' => 'cms_core']);
+				return $this->redirect(['action' => 'index', 'library' => 'base_core']);
 			} else {
 				FlashMessage::write($t('Failed to save.'), ['level' => 'error']);
 			}

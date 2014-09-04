@@ -1,6 +1,6 @@
 <?php
 
-use cms_core\extensions\cms\Features;
+use base_core\extensions\cms\Features;
 
 $this->set([
 	'page' => [
@@ -23,7 +23,7 @@ $nickRgb = function($nick) {
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
 
 	<div class="top-actions">
-		<?= $this->html->link($t('new user'), ['action' => 'add', 'library' => 'cms_core'], ['class' => 'button add']) ?>
+		<?= $this->html->link($t('new user'), ['action' => 'add', 'library' => 'base_core'], ['class' => 'button add']) ?>
 	</div>
 
 	<div class="help">
@@ -76,16 +76,16 @@ $nickRgb = function($nick) {
 						<?= $this->date->format($item->created, 'date') ?>
 					</time>
 				<td class="actions">
-					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'cms_core'], ['class' => 'button']) ?>
+					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php if ($item->is_active): ?>
-						<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'cms_core'], ['class' => 'button']) ?>
+						<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php else: ?>
-						<?= $this->html->link($t('activate'), ['id' => $item->id, 'action' => 'activate', 'library' => 'cms_core'], ['class' => 'button']) ?>
+						<?= $this->html->link($t('activate'), ['id' => $item->id, 'action' => 'activate', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php endif ?>
 					<?php if ($authedUser['id'] != $item->id): ?>
-						<?= $this->html->link($t('become'), ['id' => $item->id, 'action' => 'become', 'library' => 'cms_core'], ['class' => 'button']) ?>
+						<?= $this->html->link($t('become'), ['id' => $item->id, 'action' => 'become', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php endif ?>
-					<?= $this->html->link($t('open'), ['id' => $item->id, 'action' => 'edit', 'library' => 'cms_core'], ['class' => 'button']) ?>
+					<?= $this->html->link($t('open'), ['id' => $item->id, 'action' => 'edit', 'library' => 'base_core'], ['class' => 'button']) ?>
 			<?php endforeach ?>
 		</tbody>
 	</table>

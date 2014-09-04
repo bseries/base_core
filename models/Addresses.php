@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,19 +10,19 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\models;
+namespace base_core\models;
 
 use lithium\core\Environment;
-use cms_core\models\Countries;
+use base_core\models\Countries;
 use lithium\util\Validator;
 use lithium\g11n\Message;
 
-class Addresses extends \cms_core\models\Base {
+class Addresses extends \base_core\models\Base {
 
-	use \cms_core\models\UserTrait;
+	use \base_core\models\UserTrait;
 
 	protected static $_actsAs = [
-		'cms_core\extensions\data\behavior\Timestamp'
+		'base_core\extensions\data\behavior\Timestamp'
 	];
 
 	public static function init() {

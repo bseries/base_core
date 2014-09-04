@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -10,14 +10,14 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace cms_core\controllers;
+namespace base_core\controllers;
 
 use lithium\net\http\Router;
-use cms_core\extensions\cms\Widgets;
+use base_core\extensions\cms\Widgets;
 use jsend\Response as JSendResponse;
 use lithium\analysis\Logger;
 
-class WidgetsController extends \cms_core\controllers\BaseController {
+class WidgetsController extends \base_core\controllers\BaseController {
 
 	public function admin_api_view() {
 		$start = microtime(true);

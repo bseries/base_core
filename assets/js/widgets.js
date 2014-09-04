@@ -1,5 +1,5 @@
 /*!
- * Bureau Core
+ * Base Core
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
@@ -13,9 +13,9 @@ define([
   'jquery',
   'router',
   'handlebars',
-  'text!cms-core/js/templates/widgets/counter.hbs',
-  'text!cms-core/js/templates/widgets/table.hbs',
-  'text!cms-core/js/templates/widgets/quickdial.hbs',
+  'text!base-core/js/templates/widgets/counter.hbs',
+  'text!base-core/js/templates/widgets/table.hbs',
+  'text!base-core/js/templates/widgets/quickdial.hbs',
   'domready!'
 ], function(
   $,

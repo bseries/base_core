@@ -4,9 +4,9 @@ use lithium\core\Environment;
 use li3_flash_message\extensions\storage\FlashMessage;
 use lithium\security\Auth;
 use lithium\util\Inflector;
-use cms_core\extensions\cms\Panes;
-use cms_core\extensions\cms\Settings;
-use cms_core\models\Assets;
+use base_core\extensions\cms\Panes;
+use base_core\extensions\cms\Settings;
+use base_core\models\Assets;
 
 $site = Settings::read('site');
 $locale = Environment::get('locale');
@@ -53,21 +53,21 @@ if (!isset($meta)) {
 	<head>
 		<?php echo $this->html->charset() ?>
 		<title><?php echo ($title = $this->title()) ? "{$title} - " : null ?>Admin – <?= $site['title'] ?></title>
-		<link rel="icon" href="<?= $this->assets->url('/cms-core/ico/admin.png') ?>">
+		<link rel="icon" href="<?= $this->assets->url('/base-core/ico/admin.png') ?>">
 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 		<?php echo $this->assets->style([
-			'/cms-core/css/reset',
-			'/cms-core/css/admin'
+			'/base-core/css/reset',
+			'/base-core/css/admin'
 		]) ?>
 		<link href='https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 		<?php echo $this->styles() ?>
-		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => true], ['library' => 'cms_core']) ?>
+		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => true], ['library' => 'base_core']) ?>
 		<?php
 			$scripts = array_merge(
-				['/cms-core/js/jquery'],
-				['/cms-core/js/require'],
+				['/base-core/js/jquery'],
+				['/base-core/js/require'],
 				$this->assets->availableScripts('base', ['admin' => true]),
 				$this->assets->availableScripts('view', ['admin' => true]),
 				$this->assets->availableScripts('layout', ['admin' => true])
@@ -102,7 +102,7 @@ if (!isset($meta)) {
 		<div id="container">
 			<header class="main">
 				<h1 class="t-super-alpha">
-					<?= $this->html->link($site['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'cms_core']) ?>
+					<?= $this->html->link($site['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core']) ?>
 				</h1>
 				<h2 class="t-super-alpha rich-page-title">
 					<?php if ($page['type'] != 'standalone'): ?>
@@ -139,9 +139,9 @@ if (!isset($meta)) {
 							</time>
 						</div>
 
-						<?= $this->html->link($t('Logout'), ['controller' => 'users', 'action' => 'logout', 'library' => 'cms_core', 'admin' => true]) ?>
+						<?= $this->html->link($t('Logout'), ['controller' => 'users', 'action' => 'logout', 'library' => 'base_core', 'admin' => true]) ?>
 						<?php if (isset($authedUser['original'])): ?>
-							<?= $this->html->link($t('Debecome'), ['controller' => 'users', 'action' => 'debecome', 'library' => 'cms_core', 'admin' => true]) ?>
+							<?= $this->html->link($t('Debecome'), ['controller' => 'users', 'action' => 'debecome', 'library' => 'base_core', 'admin' => true]) ?>
 						<?php endif ?>
 					<?php endif ?>
 				</div>
@@ -179,7 +179,7 @@ if (!isset($meta)) {
 		<footer class="main">
 			<div class="nav-bottom">
 				<div>
-				<?php foreach (['ecommerce' => 'AD Boutique', 'billing' => 'AD Billing', 'cms' => 'AD Bureau', 'base' => 'AD Bento'] as $prefix => $title): ?>
+				<?php foreach (['ecommerce' => 'AD Boutique', 'billing' => 'AD Billing', 'cms' => 'AD Base', 'base' => 'AD Bento'] as $prefix => $title): ?>
 					<?php if (defined($constant = strtoupper($prefix) . '_CORE_VERSION')): ?>
 						<?= $title ?> <?= constant($constant) ?>
 					<?php endif ?>
