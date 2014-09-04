@@ -3,44 +3,7 @@ Base Core
 
 Synopsis
 --------
-
-Bureau is explicit.
-
-Bureau is an opinionated CMS framework that make several assumptions:
-
-- Caching through memcached; don't hit the filesystem, memcached as the
-  most superior caching system.
-- Globalization by default - everything will need to be globalized eventually.
-- English as the default language.
-- Conservativity in database choice; MySql as the default.
-- Separation of assets and media; ready for future CDN support.
-- Filesystem as  the best storage for files.
-- RequireJS for JavaScript dependency managment.
-
-Goals
------
-- Reusability
-- Auto-generating administrative interface.
-- Provide boilerplate HTML, CSS and JS.
-- Fine media management.
-- Evolve with requirements becoming more specific to our needs, but stay as
-  generic as needed to provide reusability.
-- Self-service managment of content[1]
-
-Challenges
-----------
-- Boilerplate vs. CMS
-- One size fits all[1]
-- Lowest common denominator[1]
-
-Non-Goals
----------
-- Content coupled to technology
-- Lock-in(?)
-- No in-app query logging; let the database do that for you
-- Provide common JS, Apps should not depend on any js provided in the modules.
-
-[1] as per http://de.slideshare.net/spacemonkeylabs/content-management-systems-and-mongodb-4354336
+n/a
 
 Authors
 -------
