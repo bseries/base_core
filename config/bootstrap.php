@@ -108,7 +108,10 @@ $rules->add('any', function($user, $entity, $options) {
 // ------------------------------------------------------------------------------------------------
 
 // Must come after base_core but before any other libraries.
-Libraries::add('base_media');
+// FIXME Change sort order below to have base media autoloaded.
+if (is_dir(LITHIUM_LIBRARY_PATH . '/base_media')) {
+	Libraries::add('base_media');
+}
 
 // Continue loading and bootstrapping modules. Certain modules may already been loaded. These
 // must be skipped. Also we load the module types in order. Always load core modules first.
@@ -117,7 +120,7 @@ $modules = glob(
 	LITHIUM_LIBRARY_PATH . '/{base,cms,ecommerce,billing}_*',
 	GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
 );
-// Alphabetically sort entriesbut always put _core modules top.
+// Alphabetically sort entries but always put _core modules top.
 uasort($modules, function($a, $b) {
 	if (strpos($a, '_core') !== false) {
 		return -1;
