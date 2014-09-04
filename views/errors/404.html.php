@@ -2,10 +2,10 @@
 
 use lithium\core\Environment;
 
-$searchEngines = array(
+$searchEngines = [
 	'bing', 'google', 'yahoo', 'altavista',
 	'facebook', 'duckduckgo'
-);
+];
 $referer = $this->_request->env('HTTP_REFERER');
 
 $internalReferal = false;

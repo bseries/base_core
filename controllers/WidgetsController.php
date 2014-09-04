@@ -39,10 +39,10 @@ class WidgetsController extends \base_core\controllers\BaseController {
 			Logger::write('notice', $message);
 		}
 
-		$this->render(array(
+		$this->render([
 			'type' => $this->request->accepts(),
 			'data' => $response->to('array')
-		));
+		]);
 	}
 }
 

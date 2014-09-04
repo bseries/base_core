@@ -74,11 +74,11 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 			}
 			$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
 
-			return Cache::read('default', $cacheKey, array(
+			return Cache::read('default', $cacheKey, [
 				'write' => function() use ($self, $params, $chain) {
-					return array('+1 day' => $chain->next($self, $params, $chain));
+					return ['+1 day' => $chain->next($self, $params, $chain)];
 				}
-			));
+			]);
 		});
 	}
 	return $chain->next($self, $params, $chain);

@@ -40,10 +40,10 @@ class ErrorsController extends \base_core\controllers\BaseController {
 			$response = new JSendResponse();
 			$response->error('An unkown error occured.');
 
-			$this->render(array(
+			$this->render([
 				'type' => $this->request->accepts(),
 				'data' => $response->to('array')
-			));
+			]);
 		}
 	}
 

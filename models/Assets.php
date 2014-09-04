@@ -17,9 +17,9 @@ use lithium\util\Set;
 
 class Assets extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'connection' => false
-	);
+	];
 
 	protected static $_schemes = [];
 

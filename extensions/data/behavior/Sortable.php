@@ -62,10 +62,10 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 		$field = $behavior->config('field');
 		$fieldEscaped = $model::connection()->name($field);
 
-		$result = $model::find('first', array(
+		$result = $model::find('first', [
 			'conditions' => $cluster,
 			'fields' => 'MAX(' . $fieldEscaped . ') AS `highest_weight`',
-		));
+		]);
 		return current($result->data());
 	}
 
@@ -128,11 +128,11 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 			if (!$id) {
 				throw new Exception('Could not determine cluster values.');
 			}
-			$result = $model::find('first', array(
+			$result = $model::find('first', [
 				'conditions' => compact('id'),
 				'fields' => $missing,
 				'order' => false
-			));
+			]);
 			if (!$result) {
 				throw new Exception('Could not determine cluster values.');
 			}
@@ -149,11 +149,11 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 	 */
 	protected static function _moveBelow($model, $behavior, $id, $belowId, $cluster = []) {
 		$weights = [];
-		$results = $model::find('all', array(
-			'conditions' => array('id' => array($id, $belowId)),
-			'fields' => array('id', $field = $behavior->config('field')),
+		$results = $model::find('all', [
+			'conditions' => ['id' => [$id, $belowId]],
+			'fields' => ['id', $field = $behavior->config('field')],
 			'order' => false
-		));
+		]);
 		foreach ($results as $result) {
 			$weights[$result->id] = $result->{$field};
 		}

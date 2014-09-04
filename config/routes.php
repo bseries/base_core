@@ -14,24 +14,24 @@ use lithium\net\http\Router;
 use base_core\extensions\cms\Features;
 
 // Errors
-Router::connect('/403', array(
+Router::connect('/403', [
 	'controller' => 'Errors', 'action' => 'fourohthree', 'library' => 'base_core'
-));
-Router::connect('/404', array(
+]);
+Router::connect('/404', [
 	'controller' => 'Errors', 'action' => 'fourohfour', 'library' => 'base_core'
-));
-Router::connect('/500', array(
+]);
+Router::connect('/500', [
 	'controller' => 'Errors', 'action' => 'fiveohoh', 'library' => 'base_core'
-));
-Router::connect('/503', array(
+]);
+Router::connect('/503', [
 	'controller' => 'Errors', 'action' => 'fiveohthree', 'library' => 'base_core'
-));
-Router::connect('/maintenance', array(
+]);
+Router::connect('/maintenance', [
 	'controller' => 'Errors', 'action' => 'maintenance', 'library' => 'base_core'
-));
-Router::connect('/browser', array(
+]);
+Router::connect('/browser', [
 	'controller' => 'Errors', 'action' => 'browser', 'library' => 'base_core'
-));
+]);
 
 // Administration
 $persist = ['persist' => ['admin', 'controller']];

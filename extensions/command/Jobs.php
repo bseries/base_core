@@ -31,9 +31,9 @@ class Jobs extends \lithium\console\Command {
 			}
 		}
 		$this->out();
-		$name = $this->in($t('Enter job to run:'), array(
+		$name = $this->in($t('Enter job to run:'), [
 			'choices' => $names
-		));
+		]);
 
 		$this->out($t('Running job...'), false);
 		CmsJobs::runName($name);

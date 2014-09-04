@@ -38,7 +38,7 @@ class AppController extends \base_core\controllers\BaseController {
 			], $this->request),
 		];
 
-		$this->render(array('type' => $this->request->accepts(), 'data' => $data));
+		$this->render(['type' => $this->request->accepts(), 'data' => $data]);
 	}
 }
 

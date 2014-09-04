@@ -159,10 +159,10 @@ Multibyte::config([
  * @see lithium\util\Inflector::slug()
  */
 Inflector::rules('transliteration', Catalog::read(true, 'inflection.transliteration', 'en'));
-Inflector::rules('transliteration', array(
+Inflector::rules('transliteration', [
 	'/–|—/' => '-',
 	'/…/' => '...'
-));
+]);
 
 /**
  * Grammar

@@ -19,13 +19,13 @@ use lithium\util\Inflector;
 
 class Assets extends \lithium\template\Helper {
 
-	public function image($path, array $options = array()) {
+	public function image($path, array $options = []) {
 		$path = $this->url($path);
 		return $this->_context->html->image($path, $options);
 	}
 
-	public function style($path, array $options = array()) {
-		$defaults = array('type' => 'stylesheet', 'inline' => true);
+	public function style($path, array $options = []) {
+		$defaults = ['type' => 'stylesheet', 'inline' => true];
 		list($scope, $options) = $this->_options($defaults, $options);
 
 		if (is_array($path)) {
@@ -39,8 +39,8 @@ class Assets extends \lithium\template\Helper {
 		return $this->_context->html->style($path, $options);
 	}
 
-	public function script($path, array $options = array()) {
-		$defaults = array('inline' => true);
+	public function script($path, array $options = []) {
+		$defaults = ['inline' => true];
 		list($scope, $options) = $this->_options($defaults, $options);
 
 		if (is_array($path)) {
