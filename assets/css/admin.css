@@ -941,7 +941,7 @@ button.large,
 
 /* Help
 -------------------------------------------------------------- */
-article > .none-available,
+.none-available,
 article > .help {
   color: var(--color-dim-black);
   background: white;
@@ -962,7 +962,9 @@ form .help {
   margin-top: -.5em;
   margin-bottom: 1.5em;
 }
-
+.grid-row > .none-available {
+  margin-bottom: 0;
+}
 .none-available {
   display: inline-block;
 }
