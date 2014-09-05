@@ -119,12 +119,19 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 // set_error_handler($errorHandler);
 // set_exception_handler($exceptionHandler);
 use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
 
 if (Environment::is('development')) {
-	$whoops = new Run();
-	$whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler);
-	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-	$whoops->register();
+	$run = new Run();
+
+	$run->pushHandler(new PrettyPageHandler());
+
+	$handler = new JsonResponseHandler();
+	$handler->onlyForAjaxRequests(true);
+	$run->pushHandler($handler);
+
+	$run->register();
 }
 
 if (USE_LOGGING) {
