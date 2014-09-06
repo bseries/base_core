@@ -19,7 +19,6 @@
         "unionofrad/li3_lldr": "dev-master as 1.0.0-dev",
         "uor/li3_flash_message": "dev-master as 1.0.0-dev",
         "atelierdisko/li3_mailer": "dev-master as 1.0.0-dev",
-        "atelierdisko/li3_taggable": "dev-master as 1.0.0-dev",
         "atelierdisko/jsend": "0.5.*",
         "unionofrad/lithium": "dev-dev as 1.0.0-dev",
         "composer/installers": "~1.0",
