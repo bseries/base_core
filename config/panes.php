@@ -20,23 +20,23 @@ Panes::register('dashboard', [
 	'title' => $t('Dashboard'),
 	'url' => ['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'base_core'],
 	'actions' => false,
-	'order' => 100
+	'weight' => 0
 ]);
 Panes::register('access', [
 	'title' => $t('Access'),
-	'order' => 20
+	'weight' => 80
 ]);
 Panes::register('external', [
 	'title' => $t('External'),
-	'order' => 15
+	'weight' => 85
 ]);
 Panes::register('authoring', [
 	'title' => $t('Authoring'),
-	'order' => 90
+	'weight' => 10
 ]);
 Panes::register('viewSite', [
 	'title' => $t('Site'),
-	'order' => 5,
+	'weight' => 95,
 	'url' => '/',
 	'actions' => false
 ]);
@@ -44,26 +44,31 @@ Panes::register('viewSite', [
 $base = ['controller' => 'users', 'action' => 'index', 'library' => 'base_core', 'admin' => true];
 Panes::register('access.users', [
 	'title' => $t('Users'),
-	'url' => $base
+	'url' => $base,
+	'weight' => 0
 ]);
 Panes::register('access.virtualUsers', [
 	'title' => $t('Virtual Users'),
-	'url' => ['controller' => 'VirtualUsers'] + $base
+	'url' => ['controller' => 'VirtualUsers'] + $base,
+	'weight' => 1
 ]);
 Panes::register('access.addresses', [
 	'title' => $t('Addresses'),
-	'url' => ['controller' => 'Addresses'] + $base
+	'url' => ['controller' => 'Addresses'] + $base,
+	'weight' => 2
 ]);
 
 Panes::register('external.support', [
 	'title' => $t('Contact Support'),
-	'url' => ['controller' => 'Pages', 'action' => 'support', 'library' => 'base_core']
+	'url' => ['controller' => 'Pages', 'action' => 'support', 'library' => 'base_core'],
+	'weight' => 0
 ]);
 Panes::register('external.ga', [
 	'title' => $t('Google Analytics'),
 	'url' => function() {
 		return 'https://www.google.com/analytics/web/#report/visitors-overview/' . Settings::read('googleAnalytics.default.propertyId');
-	}
+	},
+	'weight' => 10
 ]);
 
 ?>

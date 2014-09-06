@@ -30,9 +30,9 @@ class Panes extends \lithium\core\StaticObject {
 			'title' => $name,
 			'url' => null,
 			'active' => null,
-			// The higher the weight the higher the possible position.
+			// The more weight the lower the pane moves.
 			// Should be a number between 0-100 inclusive.
-			'order' => 1,
+			'weight' => 0,
 			'panes' => $secondary ? false : []
 		];
 		if (is_callable($options['url'])) {
@@ -51,7 +51,22 @@ class Panes extends \lithium\core\StaticObject {
 
 	// Only if $request is provided we can determine current active.
 	public static function read($request) {
-		foreach (static::$_data as $item) {
+		$sorter = function($a, $b) {
+			if ($a['weight'] === $b['weight']) {
+				return 0;
+			}
+			return $a['weight'] > $b['weight'] ? 1 : -1;
+		};
+
+		// This will modify the registered data but maybe
+		// save us some cycles if read again. Sorter then
+		// doesn't have to do much sorting.
+		uasort(static::$_data, $sorter);
+
+		foreach (static::$_data as &$item) {
+			// While we're here sort subpanes.
+			uasort($item['panes'], $sorter);
+
 			if (!$item['url']) {
 				if ($item['panes']) {
 					// Some primary panes are just predefined and may or may not have sub-panes
@@ -66,16 +81,12 @@ class Panes extends \lithium\core\StaticObject {
 			}
 			$results[] = $item;
 		}
-		$results = Set::sort($results, '/order', 'desc');
 
 		$found = false;
 		foreach ($results as &$pane) {
 			if (!$pane['panes']) {
 				continue;
 			}
-			// While we're here sort subpanes.
-			// FIXME Does not work, why?
-			// $pane['panes'] = Set::sort($pane['panes'], '/order', 'desc');
 
 			if (($key = static::_active($pane['panes'], $request)) !== false) {
 				// We can simplify things here as we don't need to also set the sub-panes active.
