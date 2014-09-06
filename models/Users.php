@@ -76,7 +76,7 @@ class Users extends \base_core\models\Base {
 		$model->validates['name'] = [
 			[
 				'notEmpty',
-				'on' => ['create'],
+				'on' => ['create', 'update'],
 				'last' => true,
 				'message' => $t('This field cannot be empty.')
 			]
@@ -84,14 +84,14 @@ class Users extends \base_core\models\Base {
 		$model->validates['email'] = [
 			[
 				'notEmpty',
-				'on' => ['create'],
+				'on' => ['create', 'update'],
 				'last' => true,
 				'message' => $t('This field cannot be empty.')
 			],
 			[
 				'email',
 				'deep' => true,
-				'on' => ['create'],
+				'on' => ['create', 'update'],
 				'message' => $t('Invalid e–mail.')
 			],
 			[
