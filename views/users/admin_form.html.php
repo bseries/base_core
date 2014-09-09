@@ -29,6 +29,8 @@ $this->set([
 					]) ?>
 					<div class="help"><?= $t('Leave empty to autogenerate number.') ?></div>
 				<?php endif ?>
+			</section>
+			<section class="grid-column-right">
 				<?= $this->form->field('email', ['type' => 'email', 'label' => $t('E–mail')]) ?>
 				<?= $this->form->field('is_notified', [
 					'type' => 'checkbox',
@@ -37,12 +39,11 @@ $this->set([
 					'value' => 1
 				]) ?>
 			</section>
+		</div>
+		<div class="grid-row">
+			<section class="grid-column-left">
+			</section>
 			<section class="grid-column-right">
-				<?= $this->form->field('role', [
-					'type' => 'select',
-					'label' => $t('Role'),
-					'list' => $roles
-				]) ?>
 				<?= $this->form->field('locale', [
 					'type' => 'select',
 					'label' => $t('Locale'),
@@ -55,7 +56,8 @@ $this->set([
 				]) ?>
 			</section>
 		</div>
-		<div class="grid-row<?= $useBilling ? '' : ' grid-row-last'?>">
+		<div class="grid-row">
+			<h1 class="h-beta"><?= $t('Sicherheit') ?></h1>
 			<div class="grid-column-left">
 				<?=$this->form->field('password', ['type' => 'password', 'label' => 'Neues Passwort', 'autocomplete' => 'off']) ?>
 				<div class="help">
@@ -63,9 +65,18 @@ $this->set([
 				</div>
 				<?=$this->form->field('password_repeat', ['type' => 'password', 'label' => 'Neues Passwort (wiederholen)', 'autocomplete' => 'off']) ?>
 			</div>
+			<div class="grid-column-right">
+				<?= $this->form->field('role', [
+					'type' => 'select',
+					'label' => $t('Role'),
+					'list' => $roles
+				]) ?>
+			</div>
 		</div>
 		<?php if ($useBilling): ?>
-			<div class="grid-row grid-row-last">
+			<div class="grid-row">
+				<h1 class="h-beta"><?= $t('Billing') ?></h1>
+
 				<section class="grid-column-left">
 					<?= $this->form->field('billing_address_id', [
 						'type' => 'select',
@@ -75,7 +86,33 @@ $this->set([
 					<div class="help">
 						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'base_core']) ?>
 					</div>
+				</section>
+				<section class="grid-column-right">
+					<?= $this->form->field('billing_currency', [
+						'type' => 'select',
+						'label' => $t('Currency'),
+						'list' => $currencies
+					]) ?>
+					<?= $this->form->field('billing_vat_reg_no', [
+						'type' => 'text',
+						'autocomplete' => 'off',
+						'label' => $t('VAT Reg. No.')
+					]) ?>
+					<?php if ($useBillingTime = Libraries::get('billing_time')): ?>
+						<?= $this->form->field('billing_invoice_frequency', [
+							'type' => 'select',
+							'label' => $t('Invoice Frequency'),
+							'list' => $invoiceFrequencies
+						]) ?>
+					<?php endif ?>
+				</section>
+			</div>
+		<?php endif ?>
+		<?php if ($useEcommerce = Libraries::get('ecommerce_core')): ?>
+			<div class="grid-row">
+				<h1 class="h-beta"><?= $t('eCommerce') ?></h1>
 
+				<section class="grid-column-left">
 					<?= $this->form->field('shipping_address_id', [
 						'type' => 'select',
 						'label' => $t('Shipping Address'),
@@ -84,18 +121,6 @@ $this->set([
 					<div class="help">
 						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'base_core']) ?>
 					</div>
-				</section>
-				<section class="grid-column-right">
-					<?= $this->form->field('billing_currency', [
-						'type' => 'select',
-						'label' => $t('Billing Currency'),
-						'list' => $currencies
-					]) ?>
-					<?= $this->form->field('billing_vat_reg_no', [
-						'type' => 'text',
-						'autocomplete' => 'off',
-						'label' => $t('Billing VAT Reg. No.')
-					]) ?>
 				</section>
 			</div>
 		<?php endif ?>
