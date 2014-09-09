@@ -12,13 +12,13 @@
 
 namespace base_core\models;
 
+use lithium\core\Libraries;
 use lithium\util\Validator;
 use lithium\security\Password;
 use lithium\g11n\Message;
 use base_core\models\Addresses;
 use billing_core\models\TaxZones;
 use base_core\extensions\cms\Settings;
-use base_core\extensions\cms\Features;
 use base_core\models\Assets;
 
 class Users extends \base_core\models\Base {
@@ -112,7 +112,7 @@ class Users extends \base_core\models\Base {
 	}
 
 	public function title($entity) {
-		if (Features::enabled('useBilling')) {
+		if (Libraries::get('billing_core')) {
 			return $entity->name . '/' . $entity->number;
 		}
 		return $entity->name;

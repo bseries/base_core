@@ -56,7 +56,6 @@ Settings::register('availableCurrencies', [
 ]);
 
 Features::register('useNewGoogleAnalyticsTrackingCode', true);
-Features::register('useBilling', false);
 Features::register('user.sendActivationMail', false);
 
 ?>

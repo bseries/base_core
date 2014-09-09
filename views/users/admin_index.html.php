@@ -1,6 +1,6 @@
 <?php
 
-use base_core\extensions\cms\Features;
+use lithium\core\Libraries;
 
 $this->set([
 	'page' => [
@@ -39,7 +39,7 @@ $nickRgb = function($nick) {
 				<td data-sort="is-active" class="is-active flag list-sort"><?= $t('Active?') ?>
 				<td data-sort="is-notified" class="is-notified flag list-sort"><?= $t('Notified?') ?>
 				<td>
-				<?php if (Features::enabled('useBilling')): ?>
+				<?php if ($useBilling = Libraries::get('billing_core')): ?>
 					<td data-sort="number" class="number list-sort"><?= $t('Number') ?>
 				<?php endif ?>
 				<td data-sort="name" class="name emphasize list-sort asc"><?= $t('Name') ?>
@@ -65,7 +65,7 @@ $nickRgb = function($nick) {
 						style="background: rgb(<?=implode(',' , $nickRgb($item->email))?>);"
 					>
 					</div>
-				<?php if (Features::enabled('useBilling')): ?>
+				<?php if ($useBilling): ?>
 					<td class="number emphasize"><?= $item->number ?>
 				<?php endif ?>
 				<td class="name emphasize"><?= $item->name ?>

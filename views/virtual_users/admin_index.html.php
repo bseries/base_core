@@ -1,6 +1,6 @@
 <?php
 
-use base_core\extensions\cms\Features;
+use lithium\core\Libraries;
 
 $this->set([
 	'page' => [
@@ -24,7 +24,7 @@ $this->set([
 		<thead>
 			<tr>
 				<td data-sort="is-active" class="is-active flag list-sort"><?= $t('Active?') ?>
-				<?php if (Features::enabled('useBilling')): ?>
+				<?php if ($useBilling = Libraries::get('billing_core')): ?>
 					<td data-sort="number" class="number list-sort"><?= $t('Number') ?>
 				<?php endif ?>
 				<td data-sort="name" class="name emphasize list-sort asc"><?= $t('Name') ?>
@@ -43,7 +43,7 @@ $this->set([
 			<?php foreach ($data as $item): ?>
 			<tr>
 				<td class="is-active flag"><?= $item->is_active ? '✓ ' : '×' ?>
-				<?php if (Features::enabled('useBilling')): ?>
+				<?php if ($useBilling): ?>
 					<td class="number emphasize"><?= $item->number ?>
 				<?php endif ?>
 				<td class="name emphasize"><?= $item->name ?>

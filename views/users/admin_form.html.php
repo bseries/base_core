@@ -1,6 +1,6 @@
 <?php
 
-use base_core\extensions\cms\Features;
+use lithium\core\Libraries;
 
 $this->set([
 	'page' => [
@@ -22,7 +22,7 @@ $this->set([
 		<div class="grid-row">
 			<section class="grid-column-left">
 				<?= $this->form->field('name', ['type' => 'text', 'label' => $t('Name'), 'class' => 'use-for-title']) ?>
-				<?php if (Features::enabled('useBilling')): ?>
+				<?php if ($useBilling = Libraries::get('billing_core')): ?>
 					<?= $this->form->field('number', [
 						'type' => 'text',
 						'label' => $t('Number')
@@ -55,7 +55,7 @@ $this->set([
 				]) ?>
 			</section>
 		</div>
-		<div class="grid-row<?= Features::enabled('useBilling') ? '' : ' grid-row-last'?>">
+		<div class="grid-row<?= $useBilling ? '' : ' grid-row-last'?>">
 			<div class="grid-column-left">
 				<?=$this->form->field('password', ['type' => 'password', 'label' => 'Neues Passwort', 'autocomplete' => 'off']) ?>
 				<div class="help">
@@ -64,7 +64,7 @@ $this->set([
 				<?=$this->form->field('password_repeat', ['type' => 'password', 'label' => 'Neues Passwort (wiederholen)', 'autocomplete' => 'off']) ?>
 			</div>
 		</div>
-		<?php if (Features::enabled('useBilling')): ?>
+		<?php if ($useBilling): ?>
 			<div class="grid-row grid-row-last">
 				<section class="grid-column-left">
 					<?= $this->form->field('billing_address_id', [
