@@ -15,9 +15,11 @@ namespace base_core\controllers;
 use base_core\models\VirtualUsers;
 use base_core\models\Currencies;
 use base_core\models\Addresses;
-use li3_flash_message\extensions\storage\FlashMessage;
+use billing_core\models\Invoices;
+use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\security\Auth;
+use li3_flash_message\extensions\storage\FlashMessage;
 
 class VirtualUsersController extends \base_core\controllers\BaseController {
 
@@ -56,7 +58,10 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 				]
 			]);
 		}
-		return compact('roles', 'timezones', 'currencies', 'locales', 'addresses');
+		if (Libraries::get('billing_time')) {
+			$invoiceFrequencies = Invoices::enum('frequency');
+		}
+		return compact('roles', 'timezones', 'currencies', 'locales', 'addresses', 'invoiceFrequencies');
 	}
 }
 

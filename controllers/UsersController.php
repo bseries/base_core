@@ -15,14 +15,14 @@ namespace base_core\controllers;
 use base_core\models\Users;
 use base_core\models\Addresses;
 use base_core\models\Currencies;
-use li3_flash_message\extensions\storage\FlashMessage;
+use base_core\extensions\cms\Features;
+use billing_core\models\Invoices;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\security\Auth;
-use base_core\extensions\cms\Features;
-use li3_mailer\action\Mailer;
 use lithium\analysis\Logger;
-use billing_core\models\Invoices;
+use li3_mailer\action\Mailer;
+use li3_flash_message\extensions\storage\FlashMessage;
 
 class UsersController extends \base_core\controllers\BaseController {
 

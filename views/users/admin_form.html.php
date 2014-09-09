@@ -57,7 +57,7 @@ $this->set([
 			</section>
 		</div>
 		<div class="grid-row">
-			<h1 class="h-beta"><?= $t('Sicherheit') ?></h1>
+			<h1 class="h-beta"><?= $t('Security') ?></h1>
 			<div class="grid-column-left">
 				<?=$this->form->field('password', ['type' => 'password', 'label' => 'Neues Passwort', 'autocomplete' => 'off']) ?>
 				<div class="help">
