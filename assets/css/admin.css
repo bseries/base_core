@@ -666,8 +666,9 @@ select:not([multiple]) {
 input[type="checkbox"] {
   display: none;
 }
+
 input[type="checkbox"] ~ label {
-  margin-top: 3px;
+  margin-top: 23px;
   position: relative;
   float: left;
   line-height: 34px;
