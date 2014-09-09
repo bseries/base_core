@@ -159,7 +159,7 @@ pre, code, .fixed {
   padding-bottom: 2em;
   margin-bottom: 2.5em;
 }
-.grid-row-last {
+.grid-row:nth-last-child(2) {
   border: none;
 }
 .grid-column-left {
