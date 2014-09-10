@@ -40,6 +40,7 @@ requirejs.config({
     'handlebars': 'base-core/js/handlebars',
     'list': 'base-core/js/list',
     'widgets': 'base-core/js/widgets',
+    'moment': 'base-core/js/moment',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',

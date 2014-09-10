@@ -1274,7 +1274,7 @@ td .minor {
 
 .media-explorer .available .item {
   width: 300px;
-  height: 280px;
+  height: 300px;
   overflow: hidden;
   display: inline-block;
   margin-right: 40px;
@@ -1308,6 +1308,9 @@ td .minor {
   font-family: var(--font-family-mono);
 }
 .media-explorer .available .item:hover .meta {
+  display: block;
+}
+.media-explorer .available .item .title {
   display: block;
 }
 
