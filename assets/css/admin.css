@@ -559,6 +559,11 @@ form label {
   display: block;
   margin-left: 4px;
 }
+form label + input,
+form label + select {
+  margin-top: 5px;
+}
+
 form select,
 form input,
 form textarea {
