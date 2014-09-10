@@ -179,14 +179,6 @@ class Users extends \base_core\models\Base {
 			]
 		]) ?: Addresses::create();
 	}
-
-	public function taxZone($entity) {
-		return TaxZones::generate(
-			$entity->address('billing')->country,
-			$entity->vat_reg_no,
-			$entity->locale
-		);
-	}
 }
 
 Users::init();

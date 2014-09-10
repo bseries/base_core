@@ -91,14 +91,6 @@ class VirtualUsers extends \base_core\models\Base {
 			]
 		]) ?: Addresses::create();
 	}
-
-	public function taxZone($entity) {
-		return TaxZones::generate(
-			($address = $entity->address('billing')) ? $address->country : null,
-			$entity->vat_reg_no,
-			$entity->locale
-		);
-	}
 }
 
 VirtualUsers::init();
