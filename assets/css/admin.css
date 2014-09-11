@@ -659,9 +659,9 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   text-indent: 0.01px;
-  text-overflow: '';
+  text-overflow: ellipsis;
   line-height: 1.5;
-  padding: .5em 40px .3em .5em !important;
+/*  padding: .5em 40px .3em .5em !important; */
 }
 select:not([multiple]) {
   background: white url("../ico/field_arrow_down.png?v=__PROJECT_VERSION_BUILD__") no-repeat right 8px center;
