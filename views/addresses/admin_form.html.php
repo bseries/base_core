@@ -41,7 +41,7 @@ $this->set([
 			</div>
 		</div>
 
-		<div class="grid-row grid-row-last">
+		<div class="grid-row">
 			<section class="grid-column-left">
 				<?= $this->form->field('name', [
 					'type' => 'text',
