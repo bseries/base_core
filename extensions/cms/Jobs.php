@@ -36,6 +36,9 @@ class Jobs extends \lithium\core\StaticObject {
 	}
 
 	public static function runName($name) {
+		if (!USE_SCHEDULED_JOBS) {
+			return;
+		}
 		foreach (static::$_recurring as $frequency => $data) {
 			if (!isset($data[$name])) {
 				continue;
@@ -55,6 +58,9 @@ class Jobs extends \lithium\core\StaticObject {
 	}
 
 	public static function runFrequency($frequency) {
+		if (!USE_SCHEDULED_JOBS) {
+			return;
+		}
 		Logger::write('debug', "Running all jobs with frequency `{$frequency}`.");
 
 		foreach (static::$_recurring[$frequency] as $item) {
