@@ -58,9 +58,7 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 				]
 			]);
 		}
-		if (Libraries::get('billing_time')) {
-			$invoiceFrequencies = Invoices::enum('frequency');
-		}
+		$invoiceFrequencies = Invoices::enum('frequency');
 		return compact('roles', 'timezones', 'currencies', 'locales', 'addresses', 'invoiceFrequencies');
 	}
 }

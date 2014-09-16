@@ -88,23 +88,21 @@ $this->set([
 					</div>
 				</section>
 				<section class="grid-column-right">
-					<?= $this->form->field('billing_currency', [
+					<?= $this->form->field('currency', [
 						'type' => 'select',
 						'label' => $t('Currency'),
 						'list' => $currencies
 					]) ?>
-					<?= $this->form->field('billing_vat_reg_no', [
+					<?= $this->form->field('vat_reg_no', [
 						'type' => 'text',
 						'autocomplete' => 'off',
 						'label' => $t('VAT Reg. No.')
 					]) ?>
-					<?php if ($useBillingTime = Libraries::get('billing_time')): ?>
-						<?= $this->form->field('billing_invoice_frequency', [
-							'type' => 'select',
-							'label' => $t('Invoice Frequency'),
-							'list' => $invoiceFrequencies
-						]) ?>
-					<?php endif ?>
+					<?= $this->form->field('auto_invoice_frequency', [
+						'type' => 'select',
+						'label' => $t('Auto Invoice Frequency'),
+						'list' => $invoiceFrequencies
+					]) ?>
 					<?= $this->form->field('is_auto_invoiced', [
 						'type' => 'checkbox',
 						'label' => $t('auto invoice'),
