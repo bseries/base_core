@@ -26,6 +26,7 @@ $this->set([
 			<tr>
 				<td data-sort="is-active" class="is-active flag list-sort"><?= $t('Active?') ?>
 				<?php if ($useBilling = Libraries::get('billing_core')): ?>
+					<td data-sort="is-auto-invoiced" class="is-auto-invoiced flag list-sort"><?= $t('Auto inv.?') ?>
 					<td data-sort="number" class="number list-sort"><?= $t('Number') ?>
 				<?php endif ?>
 				<td data-sort="name" class="name emphasize list-sort asc"><?= $t('Name') ?>
@@ -45,6 +46,7 @@ $this->set([
 			<tr>
 				<td class="is-active flag"><?= $item->is_active ? '✓ ' : '×' ?>
 				<?php if ($useBilling): ?>
+					<td class="is-auto-invoiced flag"><?= $item->is_auto_invoiced ? '✓ ' : '×' ?>
 					<td class="number emphasize"><?= $item->number ?>
 				<?php endif ?>
 				<td class="name emphasize"><?= $item->name ?>

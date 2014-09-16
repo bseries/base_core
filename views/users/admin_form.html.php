@@ -105,6 +105,12 @@ $this->set([
 							'list' => $invoiceFrequencies
 						]) ?>
 					<?php endif ?>
+					<?= $this->form->field('is_auto_invoiced', [
+						'type' => 'checkbox',
+						'label' => $t('auto invoice'),
+						'checked' => (boolean) $item->is_auto_invoiced,
+						'value' => 1
+					]) ?>
 				</section>
 			</div>
 		<?php endif ?>

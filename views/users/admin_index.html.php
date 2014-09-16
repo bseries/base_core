@@ -39,8 +39,11 @@ $nickRgb = function($nick) {
 			<tr>
 				<td data-sort="is-active" class="is-active flag list-sort"><?= $t('Active?') ?>
 				<td data-sort="is-notified" class="is-notified flag list-sort"><?= $t('Notified?') ?>
-				<td>
 				<?php if ($useBilling = Libraries::get('billing_core')): ?>
+					<td data-sort="is-auto-invoiced" class="is-auto-invoiced flag list-sort"><?= $t('Auto inv.?') ?>
+				<?php endif ?>
+				<td>
+				<?php if ($useBilling): ?>
 					<td data-sort="number" class="number list-sort"><?= $t('Number') ?>
 				<?php endif ?>
 				<td data-sort="name" class="name emphasize list-sort asc"><?= $t('Name') ?>
@@ -60,6 +63,9 @@ $nickRgb = function($nick) {
 			<tr>
 				<td class="is-active flag"><?= $item->is_active ? '✓ ' : '×' ?>
 				<td class="is-notified flag"><?= $item->is_notified ? '✓ ' : '×' ?>
+				<?php if ($useBilling): ?>
+					<td class="is-auto-invoiced flag"><?= $item->is_auto_invoiced ? '✓ ' : '×' ?>
+				<?php endif ?>
 				<td>
 					<div
 						class="avatar"
