@@ -12,7 +12,9 @@
 
 namespace base_core\extensions\cms;
 
+use lithium\util\Set;
 use lithium\analysis\Logger;
+use Cz\Dependency as Resolver;
 
 class Jobs extends \lithium\core\StaticObject {
 
@@ -28,10 +30,13 @@ class Jobs extends \lithium\core\StaticObject {
 
 	public static function recur($name, $run, array $options = []) {
 		$options += [
-			'frequency' => null
+			'frequency' => null,
+			'depends' => []
 		];
 		if (isset($options['frequency'])) {
-			static::$_recurring[$options['frequency']][$name] = compact('name', 'run');
+			static::$_recurring[$options['frequency']][$name] = compact('name', 'run') + [
+				'depends' => Set::normalize($options['depends'])
+			];
 		}
 	}
 
@@ -57,21 +62,50 @@ class Jobs extends \lithium\core\StaticObject {
 		Logger::write('debug', "Finished running job `{$item['name']}`; took {$took}s.");
 	}
 
+	public static function read($name = null) {
+		if (!$name) {
+			return ['recurring' => static::$_recurring];
+		}
+		foreach (static::$_recurring as $frequency => $data) {
+			if (isset($data[$name])) {
+				return $data[$name];
+			}
+		}
+	}
+
 	public static function runFrequency($frequency) {
 		if (!USE_SCHEDULED_JOBS) {
 			return;
 		}
 		Logger::write('debug', "Running all jobs with frequency `{$frequency}`.");
 
+		// Resolve depdendencies and get order first
+		$resolver = new Resolver();
+
 		foreach (static::$_recurring[$frequency] as $item) {
-			static::_run($item);
+			$depends = [];
+
+			foreach ($item['depends'] as $name => $type) {
+				if (!$result = static::read($name)) { // Will find in any freq.
+					if ($type != 'optional') {
+						throw new Exception("Job `{$name}` not available but required dependency by `{$item['name']}`.");
+					}
+					continue;
+				}
+				$deps[] = $name;
+			}
+			$resolver->add($item['name'], $deps);
+		}
+
+		$order = $resolver->getResolved();
+		Logger::write('debug', "Resolved dependencies into run order: " . implode(' -> '. $order));
+
+		foreach ($order as $name) {
+			static::_run(static::read($name));
 		}
 		Logger::write('debug', "Finished running all jobs with frequency `{$frequency}`.");
 	}
 
-	public static function read() {
-		return ['recurring' => static::$_recurring];
-	}
 }
 
 ?>

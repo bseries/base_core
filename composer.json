@@ -22,7 +22,8 @@
         "atelierdisko/jsend": "0.5.*",
         "unionofrad/lithium": "dev-dev as 1.0.0-dev",
         "composer/installers": "~1.0",
-        "filp/whoops": "~1.0"
+        "filp/whoops": "~1.0",
+        "czproject/dependency-php": "1.0.*"
     },
     "suggests": {
       "ext-memcached": "Enables highly-performant object caching."
