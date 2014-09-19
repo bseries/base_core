@@ -1270,6 +1270,9 @@ td .minor {
 .media-explorer .good-night .available {
   background-color: var(--color-gray-darkest);
 }
+.media-explorer input[type="checkbox"].good-night-switch ~ label {
+  margin-top: 4px;
+}
 .media-explorer input[type="checkbox"].good-night-switch ~ label:before {
   background-color: var(--color-gray-darkest);
 }
