@@ -180,6 +180,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		);
 		if (Features::read('user.sendActivationMail') && $item->is_notified) {
 			$result = $result && Mailer::deliver('user_activated', [
+				'library' => 'billing_core',
 				'to' => $item->email,
 				'subject' => $t('Your account has been activated.'),
 				'data' => [
