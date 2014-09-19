@@ -121,17 +121,23 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PlainTextHandler;
 
-if (Environment::is('development')) {
-	$run = new Run();
+// Whoops doesn't work reliably in cli.
+if (Environment::is('development') && PHP_SAPI !== 'cli') {
+	// Do not name this variable run as it might
+	// interfer with li3 console's run closure.
+	$whoops = new Run();
 
-	$run->pushHandler(new PrettyPageHandler());
+	$whoops->pushHandler(new PrettyPageHandler());
 
 	$handler = new JsonResponseHandler();
 	$handler->onlyForAjaxRequests(true);
-	$run->pushHandler($handler);
+	$whoops->pushHandler($handler);
 
-	$run->register();
+	$whoops->pushHandler(new PlainTextHandler());
+
+	$whoops->register();
 }
 
 if (USE_LOGGING) {
