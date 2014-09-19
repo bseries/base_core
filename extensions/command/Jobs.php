@@ -13,31 +13,29 @@
 namespace base_core\extensions\command;
 
 use base_core\extensions\cms\Jobs as CmsJobs;
-use lithium\g11n\Message;
 
 class Jobs extends \lithium\console\Command {
 
-	public function run() {
-		extract(Message::aliases());
+	public function run($name = null) {
+		if (!$name) {
+			$this->header('Registered Recurring Jobs');
+			$data = CmsJobs::read();
+			$names = [];
 
-		$this->header('Registered Recurring Jobs');
-		$data = CmsJobs::read();
-		$names = [];
-
-		foreach ($data['recurring'] as $frequency => $jobs) {
-			foreach ($jobs as $job) {
-				$names[] = $job['name'];
-				$this->out("- {$job['name']}, frequency: {$frequency}, via: {$job['library']}");
+			foreach ($data['recurring'] as $frequency => $jobs) {
+				foreach ($jobs as $job) {
+					$names[] = $job['name'];
+					$this->out("- {:green}{$job['name']}{:end}, frequency: {$frequency}");
+				}
 			}
+			$this->out();
+			$name = $this->in('Enter job to run:', [
+				'choices' => $names
+			]);
 		}
-		$this->out();
-		$name = $this->in($t('Enter job to run:'), [
-			'choices' => $names
-		]);
 
-		$this->out($t('Running job...'), false);
-		CmsJobs::runName($name);
-		$this->out($t('done.'));
+		$this->out("Running job `{:green}{$name}{:end}`... ", false);
+		$this->out(CmsJobs::runName($name) ? 'OK' : 'FAILED');
 	}
 
 	public function runFrequency($frequency) {

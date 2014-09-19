@@ -15,6 +15,7 @@ namespace base_core\extensions\cms;
 use lithium\util\Set;
 use lithium\analysis\Logger;
 use Cz\Dependency as Resolver;
+use Exception;
 
 class Jobs extends \lithium\core\StaticObject {
 
@@ -48,8 +49,9 @@ class Jobs extends \lithium\core\StaticObject {
 			if (!isset($data[$name])) {
 				continue;
 			}
-			static::_run($data[$name]);
+			return static::_run($data[$name]);
 		}
+		throw new Exception("Job `{$name}` not found.`");
 	}
 
 	protected static function _run($item) {
@@ -60,6 +62,8 @@ class Jobs extends \lithium\core\StaticObject {
 
 		$took = round((microtime(true) - $start) / 1000, 2);
 		Logger::write('debug', "Finished running job `{$item['name']}`; took {$took}s.");
+
+		return true;
 	}
 
 	public static function read($name = null) {
