@@ -66,7 +66,7 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 });
 
 // Request logging.
-Dispatcher::applyFilter('run', function($self, $params, $chain) use ($errorResponse){
+Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$request = $params['request'];
 
 	$message = sprintf('%s %s', $request->method, $request->url);
@@ -95,7 +95,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) use ($errorRespo
 });
 
 // Mainteance page handling.
-Dispatcher::applyFilter('run', function($self, $params, $chain) use ($errorResponse){
+Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	if (!Environment::get('maintenance')) {
 		return $chain->next($self, $params, $chain);
 	}
