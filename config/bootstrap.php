@@ -12,6 +12,8 @@
 
 define('BASE_CORE_VERSION', '1.2.0');
 
+define('IS_ADMIN', strpos($_SERVER['REQUEST_URI'], '/admin') === 0);
+
 use lithium\core\Libraries;
 use base_core\extensions\cms\Features;
 use base_core\models\Assets;
@@ -87,23 +89,7 @@ require 'panes.php';
 
 require 'media.php';
 require 'widgets.php';
-
-use li3_access\security\Access;
-
-Access::config([
-	'entity' => [
-		'adapter' => 'Rules',
-		'allowAny' => true // When at least one rule matches succeed.
-	]
-]);
-$rules = Access::adapter('entity');
-
-$rules->add('user.role:admin', function($user, $entity, $options) {
-	return $user->role == 'admin';
-});
-$rules->add('any', function($user, $entity, $options) {
-	return true;
-});
+require 'access.php';
 
 // ------------------------------------------------------------------------------------------------
 

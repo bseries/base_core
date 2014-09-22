@@ -3,7 +3,6 @@
 use lithium\util\Inflector;
 use lithium\core\Libraries;
 use lithium\core\Environment;
-use lithium\security\Auth;
 use li3_flash_message\extensions\storage\FlashMessage;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
@@ -67,7 +66,7 @@ FlashMessage::clear();
 	<?php
 		$classes = ['layout-default'];
 
-		if (Auth::check('default')) {
+		if ($authedUser) {
 			$classes[] = 'user-authed';
 		}
 
