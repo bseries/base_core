@@ -27,6 +27,7 @@ requirejs.config({
     'jquery': 'base-core/js/jquery',
     'jqueryUi': 'base-core/js/jqueryUi',
     'router': 'base-core/js/router',
+    'underscore': 'base-core/js/underscore',
 
     // Other
     'util': 'base-core/js/util',
@@ -52,6 +53,9 @@ requirejs.config({
     'jqueryUi': {
       deps: ['jquery'],
       exports: '$'
+    },
+    'underscore': {
+      exports: '_'
     },
 
     // App (here Admin)

@@ -954,6 +954,22 @@ article > .help {
   padding: 20px 30px;
   margin-bottom: 3.5em;
 }
+
+@keyframes pulse {
+  0% {transform: opacity: 0;}
+  25% {transform: opacity: .5;}
+  50% {opacity: 1; }
+  75% {opacity: .5; }
+}
+p.loading {
+  animation: pulse 2s linear infinite;
+  color: gray;
+}
+.media-explorer p.loading {
+  text-align: center;
+  margin: 200px 0 0 -30px;
+}
+
 .help {
   color: gray;
   font-size: 14px;
@@ -1216,7 +1232,7 @@ td .minor {
   height: 78px;
   padding: 20px;
 }
-.media-explorer .button:not([disabled]) {
+.media-explorer .actions .button:not([disabled]) {
   background-color: white;
 }
 .media-explorer .button.progress {
@@ -1265,6 +1281,19 @@ td .minor {
 }
 .media-explorer .available .items {
   padding: 50px 0 0 40px;
+}
+
+.media-explorer .available .items .load-more {
+  margin: 50px 0 100px -30px;
+}
+.media-explorer .available .items .load-more a {
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+}
+.media-explorer .available .items .load-more a:not(:hover) {
+  color: white;
+  background: blue;
 }
 
 .media-explorer .good-night .available {
@@ -1437,13 +1466,13 @@ td .minor {
   font-size: var(--font-size-alpha);
   width: 440px;
   margin: 0 auto;
-  padding-top: 27%;
+  padding-top: 212px;
   position: absolute;
   left: calc(50% - 220px);
   text-align: center;
 }
 .media-explorer .drag-message {
-  background: url(../ico/mex_drag.png) no-repeat center 35%;
+  background: url(../ico/mex_drag.png) no-repeat center 45px;
 }
 
 @keyframes bg-up-down {
@@ -1452,7 +1481,7 @@ td .minor {
   100% { background-position: center 55%; }
 }
 .media-explorer .dragging-message {
-  background: url(../ico/mex_dragging.png) no-repeat center 55%;
+  background: url(../ico/mex_dragging.png) no-repeat center 50px;
   color: var(--color-ad-blue);
   font-weight: bold;
 }

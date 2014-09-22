@@ -23,7 +23,8 @@ class AppController extends \base_core\controllers\BaseController {
 		if (Libraries::get('base_media')) {
 			$base = ['controller' => 'media', 'library' => 'base_media', 'admin' => true];
 			$data += [
-				'media:index' => Router::match($base + ['action' => 'api_index'], $this->request),
+				'media:index' => Router::match($base + ['action' => 'api_index', 'page' => '__PAGE__'], $this->request),
+				'media:search' => Router::match($base + ['action' => 'api_search', 'page' => '__PAGE__', 'q' => '__Q__'], $this->request),
 				'media:view' => Router::match($base + ['action' => 'api_view', 'id' => '__ID__'], $this->request),
 				'media:transfer-preflight' => Router::match($base + ['action' => 'api_transfer_preflight'], $this->request),
 				'media:transfer-meta' => Router::match($base + ['action' => 'api_transfer_meta'], $this->request),
