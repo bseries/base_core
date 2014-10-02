@@ -20,6 +20,11 @@ use lithium\action\Dispatcher;
 use lithium\action\Request;
 use lithium\action\Response;
 use lithium\net\http\Media;
+use ff\Features;
+use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PlainTextHandler;
 
 $path = dirname(Libraries::get(true, 'path'));
 ini_set('error_reporting', E_ALL);
@@ -118,10 +123,6 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 
 // set_error_handler($errorHandler);
 // set_exception_handler($exceptionHandler);
-use Whoops\Run;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Handler\JsonResponseHandler;
-use Whoops\Handler\PlainTextHandler;
 
 // Whoops doesn't work reliably in cli.
 if (Environment::is('development') && PHP_SAPI !== 'cli') {
@@ -140,7 +141,7 @@ if (Environment::is('development') && PHP_SAPI !== 'cli') {
 	$whoops->register();
 }
 
-if (USE_LOGGING) {
+if (Features::enabled('logging')) {
 	Logger::config([
 		'default' => [
 			'adapter' => 'File',

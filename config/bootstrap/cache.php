@@ -18,8 +18,9 @@ use lithium\storage\cache\adapter\Memcache;
 use lithium\storage\Session;
 use lithium\data\Connections;
 use lithium\data\source\Database;
+use ff\Features;
 
-if (USE_MEMCACHED) {
+if (Features::enabled('memcached')) {
 	if (!Memcache::enabled()) {
 		throw new Exception("Memcached not available.");
 	}

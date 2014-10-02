@@ -1,6 +1,5 @@
 <?php
 
-use base_core\extensions\cms\Features;
 use lithium\core\Libraries;
 
 $this->set([
@@ -28,7 +27,7 @@ $nickRgb = function($nick) {
 	</div>
 
 	<div class="help">
-	<?php if (Features::enabled('user.sendActivationMail')): ?>
+	<?php if (Settings::read('user.sendActivationMail')): ?>
 		<?= $t('The user will be notified by e-mail when her account is activated.') ?>
 	<?php endif ?>
 		<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>

@@ -15,6 +15,7 @@ namespace base_core\extensions\cms;
 use lithium\util\Set;
 use lithium\analysis\Logger;
 use Cz\Dependency as Resolver;
+use ff\Features;
 use Exception;
 
 class Jobs extends \lithium\core\StaticObject {
@@ -42,7 +43,7 @@ class Jobs extends \lithium\core\StaticObject {
 	}
 
 	public static function runName($name) {
-		if (!USE_SCHEDULED_JOBS) {
+		if (!Features::enabled('scheduledJobs')) {
 			return;
 		}
 		foreach (static::$_recurring as $frequency => $data) {
@@ -78,7 +79,7 @@ class Jobs extends \lithium\core\StaticObject {
 	}
 
 	public static function runFrequency($frequency) {
-		if (!USE_SCHEDULED_JOBS) {
+		if (!Features::enabled('scheduledJobs')) {
 			return;
 		}
 		Logger::write('debug', "Running all jobs with frequency `{$frequency}`.");

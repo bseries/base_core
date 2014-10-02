@@ -15,7 +15,6 @@ namespace base_core\controllers;
 use base_core\models\Users;
 use base_core\models\Addresses;
 use base_core\models\Currencies;
-use base_core\extensions\cms\Features;
 use billing_core\models\Invoices;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
@@ -178,7 +177,7 @@ class UsersController extends \base_core\controllers\BaseController {
 			['is_active' => true],
 			['whitelist' => ['is_active'], 'validate' => false]
 		);
-		if (Features::read('user.sendActivationMail') && $item->is_notified) {
+		if (Settings::read('user.sendActivationMail') && $item->is_notified) {
 			$result = $result && Mailer::deliver('user_activated', [
 				'library' => 'billing_core',
 				'to' => $item->email,

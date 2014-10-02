@@ -11,7 +11,6 @@
  */
 
 use base_core\extensions\cms\Settings;
-use base_core\extensions\cms\Features;
 
 Settings::register('site.title');
 
@@ -40,12 +39,14 @@ Settings::register('contact.exec.district', 'St. Pauli');
 Settings::register('service.googleAnalytics.default.account');
 Settings::register('service.googleAnalytics.default.domain');
 Settings::register('service.googleAnalytics.default.propertyId');
+Settings::register('service.googleAnalytics.default.useUniversalAnalytics', false);
 
 Settings::register('user.number', [
 	'sort' => '/([0-9]{4}-[0-9]{4})/',
 	'extract' => '/[0-9]{4}-([0-9]{4})/',
 	'generate' => '%Y-%%04.d'
 ]);
+Settings::register('user.sendActivationMail', false);
 
 Settings::register('availableCountries', [
 	'DE', 'US', 'CA'
@@ -55,7 +56,5 @@ Settings::register('availableCurrencies', [
 	'EUR', 'USD'
 ]);
 
-Features::register('useNewGoogleAnalyticsTrackingCode', true);
-Features::register('user.sendActivationMail', false);
 
 ?>
