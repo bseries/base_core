@@ -66,7 +66,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 		return array_diff($current, $builtin);
 	};
 
-	if (IS_ADMIN) {
+	if (strpos($params['request']->url, '/admin') === 0) {
 		$access = Access::check('admin', Auth::check('default'), $params['request'], [
 			'rules' => $allNewlyDefinedRules('admin')
 		]);

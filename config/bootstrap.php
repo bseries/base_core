@@ -12,8 +12,6 @@
 
 define('BASE_CORE_VERSION', '1.2.0');
 
-define('IS_ADMIN', strpos($_SERVER['REQUEST_URI'], '/admin') === 0);
-
 use lithium\core\Libraries;
 use base_core\extensions\cms\Features;
 use base_core\models\Assets;
