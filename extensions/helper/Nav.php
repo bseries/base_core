@@ -188,9 +188,13 @@ class Nav extends \lithium\template\Helper {
 				}
 				$out .= "</{$options['itemTag']}>";
 			} else {
-				$attributes = array_filter([
-					'class' => $item['class']
-				] + $linkOptions);
+				$attributes = [
+					'escape' => $item['escape']
+				] + $linkOptions;
+
+				if ($item['class']) {
+					$attributes['class'] = $item['class'];
+				}
 
 				if ($item['active']) {
 					if (isset($attributes['class'])) {
