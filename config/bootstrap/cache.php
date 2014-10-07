@@ -85,6 +85,30 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
+if (Features::enabled('fpc')) {
+	// Will ignore any existing session and dynamic data.
+	// Doesn't work with redirects.
+	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+		$request = $params['request'];
+		$cacheKey = 'fpc_' . md5(serialize([
+			$request->url,
+			$request->type()
+		]));
+
+		if ($cached = Cache::read('default', $cacheKey)) {
+			return $cached;
+		}
+		$response = $chain->next($self, $params, $chain);
+
+		if ($response->type() !== 'html' || strpos($request->url, '/admin') === 0) {
+			return $response;
+		} else {
+			Cache::write('default', $cacheKey, $response, '+1 hour');
+		}
+		return $response;
+	});
+}
+
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	if (Environment::is('development')) {
 		return $chain->next($self, $params, $chain);

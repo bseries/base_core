@@ -66,6 +66,7 @@ Libraries::add('base_core', [
 ]);
 
 require LITHIUM_APP_PATH . '/config/connections.php';
+require LITHIUM_APP_PATH . '/config/features.php';
 require 'bootstrap/errors.php';
 require 'bootstrap/action.php';
 
