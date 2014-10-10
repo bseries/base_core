@@ -90,21 +90,25 @@ if (Features::enabled('fpc')) {
 	// Doesn't work with redirects.
 	Dispatcher::applyFilter('run', function($self, $params, $chain) {
 		$request = $params['request'];
-		$cacheKey = 'fpc_' . md5(serialize([
-			$request->url,
-			$request->type()
-		]));
-
-		if ($cached = Cache::read('default', $cacheKey)) {
-			return $cached;
-		}
 		$response = $chain->next($self, $params, $chain);
 
-		if ($response->type() !== 'html' || strpos($request->url, '/admin') === 0) {
+		$cacheKey = 'fpc_' . $request->url;
+
+		$skip = !$request->is('get') || $response->type() !== 'html';
+		$skip = $skip || strpos($request->url, '/admin') === 0;
+
+		if ($skip) {
 			return $response;
-		} else {
-			Cache::write('default', $cacheKey, $response, '+1 hour');
 		}
+
+		// Effectivly disable compression as this cannot be handled by webservers.
+		$backup = ini_get('memcached.compression_threshold');
+		ini_set('memcached.compression_threshold', 10000000);
+
+		Cache::write('default', $cacheKey, $response->body(), '+1 hour');
+
+		ini_set('memcached.compression_threshold', $backup);
+
 		return $response;
 	});
 }
