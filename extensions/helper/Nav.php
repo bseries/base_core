@@ -125,7 +125,9 @@ class Nav extends \lithium\template\Helper {
 			switch ($options['match']) {
 				case 'contain':
 				case 'loose':
-					$url = strtok($url, ':');
+					if (preg_match('#://(.*)#', $url, $matches)) {
+						$url = $matches[1];
+					}
 				case 'strict':
 					$match = $this->_matchContain($url, $this->_context->request()->url);
 
