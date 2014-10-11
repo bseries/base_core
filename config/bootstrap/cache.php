@@ -26,7 +26,7 @@ if (Features::enabled('memcached')) {
 	}
 	Cache::config([
 		'default' => [
-			'scope' => PROJECT_NAME . ':' . PROJECT_VERSION,
+			'scope' => PROJECT_NAME . ':' . PROJECT_CONTEXT . ':' . PROJECT_VERSION,
 			'adapter' => 'Memcache',
 			'host' => '127.0.0.1:11211'
 		]
