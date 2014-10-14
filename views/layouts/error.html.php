@@ -19,9 +19,6 @@ $locale = Environment::get('locale');
 		<!--[if lt IE 9]>>
 			<script src="<?= $this->assets->url('/base-core/js/compat/html5shiv.js') ?>"></script>
 		<![endif]-->
-		<noscript>
-			<link rel="stylesheet" type="text/css" href="<?= $this->assets->url('/app/css/compat/noscript.css') ?>">
-		</noscript>
 		<!--[if lt IE 10]>
 			<link rel="stylesheet" type="text/css" href="<?= $this->assets->url('/app/css/compat/ie9.css') ?>">
 		<![endif]-->
