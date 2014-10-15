@@ -17,6 +17,7 @@ use lithium\analysis\Logger;
 use Cz\Dependency as Resolver;
 use ff\Features;
 use Exception;
+use RuntimeException;
 
 class Jobs extends \lithium\core\StaticObject {
 
@@ -88,12 +89,14 @@ class Jobs extends \lithium\core\StaticObject {
 		$resolver = new Resolver();
 
 		foreach (static::$_recurring[$frequency] as $item) {
-			$depends = [];
+			$deps = [];
 
 			foreach ($item['depends'] as $name => $type) {
 				if (!$result = static::read($name)) { // Will find in any freq.
 					if ($type != 'optional') {
-						throw new Exception("Job `{$name}` not available but required dependency by `{$item['name']}`.");
+						$message  = "Job `{$name}` not available but required dependency by ";
+						$message .= "`{$item['name']}`.";
+						throw new RuntimeException($message);
 					}
 					continue;
 				}
@@ -102,15 +105,16 @@ class Jobs extends \lithium\core\StaticObject {
 			$resolver->add($item['name'], $deps);
 		}
 
-		$order = $resolver->getResolved();
-		Logger::write('debug', "Resolved dependencies into run order: " . implode(' -> '. $order));
+		if (!$order = $resolver->getResolved()) {
+			throw new RuntimeException("Failed to resolve run order dependencies.");
+		}
+		Logger::write('debug', "Resolved dependencies into run order: " . implode(' -> ', $order));
 
 		foreach ($order as $name) {
 			static::_run(static::read($name));
 		}
 		Logger::write('debug', "Finished running all jobs with frequency `{$frequency}`.");
 	}
-
 }
 
 ?>
