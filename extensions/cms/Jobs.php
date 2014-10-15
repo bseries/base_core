@@ -83,14 +83,17 @@ class Jobs extends \lithium\core\StaticObject {
 		if (!Features::enabled('scheduledJobs')) {
 			return;
 		}
+		if (!static::$_recurring[$frequency]) {
+			Logger::write('debug', "No jobs to run for frequency `{$frequency}`.");
+			return true;
+		}
 		Logger::write('debug', "Running all jobs with frequency `{$frequency}`.");
 
 		// Resolve depdendencies and get order first
 		$resolver = new Resolver();
+		$deps = [];
 
 		foreach (static::$_recurring[$frequency] as $item) {
-			$deps = [];
-
 			foreach ($item['depends'] as $name => $type) {
 				if (!$result = static::read($name)) { // Will find in any freq.
 					if ($type != 'optional') {
@@ -104,7 +107,6 @@ class Jobs extends \lithium\core\StaticObject {
 			}
 			$resolver->add($item['name'], $deps);
 		}
-
 		if (!$order = $resolver->getResolved()) {
 			throw new RuntimeException("Failed to resolve run order dependencies.");
 		}
