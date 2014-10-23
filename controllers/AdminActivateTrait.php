@@ -23,7 +23,9 @@ trait AdminActivateTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::find($this->request->id);
+
+		$result = $item->save(
 			['is_active' => true],
 			['whitelist' => ['is_active'], 'validate' => false]
 		);
@@ -33,8 +35,14 @@ trait AdminActivateTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to activate.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 
 	public function admin_deactivate() {
@@ -43,7 +51,9 @@ trait AdminActivateTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::find($this->request->id);
+
+		$result = $item->save(
 			['is_active' => false],
 			['whitelist' => ['is_active'], 'validate' => false]
 		);
@@ -53,8 +63,14 @@ trait AdminActivateTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to deactivate.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 }
 

@@ -23,7 +23,9 @@ trait AdminPublishTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::first($this->request->id);
+
+		$result = $item->save(
 			['is_published' => true],
 			['whitelist' => ['is_published'], 'validate' => false]
 		);
@@ -33,8 +35,14 @@ trait AdminPublishTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to publish.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 
 	public function admin_unpublish() {
@@ -43,7 +51,9 @@ trait AdminPublishTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::first($this->request->id);
+
+		$result = $item->save(
 			['is_published' => false],
 			['whitelist' => ['is_published'], 'validate' => false]
 		);
@@ -53,8 +63,15 @@ trait AdminPublishTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to unpublish.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 }
 

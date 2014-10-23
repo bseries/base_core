@@ -23,11 +23,11 @@ trait AdminEditTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$redirectUrl = $this->_redirectUrl + [
+		$item = $model::find($this->request->id);
+
+		$redirectUrl = $this->_redirectUrl($item) + [
 			'action' => 'index', 'library' => $this->_library
 		];
-
-		$item = $model::find($this->request->id);
 
 		if ($this->request->data) {
 			if ($item->save($this->request->data)) {

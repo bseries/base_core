@@ -23,7 +23,9 @@ trait AdminLockTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::first($this->request->id);
+
+		$result = $item->save(
 			['is_locked' => true],
 			[
 				'whitelist' => ['is_locked'],
@@ -37,8 +39,14 @@ trait AdminLockTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to lock.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 
 	public function admin_unlock() {
@@ -47,7 +55,9 @@ trait AdminLockTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::first($this->request->id);
+
+		$result = $item->save(
 			['is_locked' => false],
 			[
 				'whitelist' => ['is_locked'],
@@ -61,8 +71,14 @@ trait AdminLockTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to unlock.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 }
 

@@ -23,7 +23,9 @@ trait AdminPromoteTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::first($this->request->id);
+
+		$result = $item->save(
 			['is_promoted' => true],
 			['whitelist' => ['is_promoted'], 'validate' => false]
 		);
@@ -33,8 +35,14 @@ trait AdminPromoteTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to promote.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 
 	public function admin_unpromote() {
@@ -43,7 +51,9 @@ trait AdminPromoteTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$result = $model::first($this->request->id)->save(
+		$item = $model::first($this->request->id);
+
+		$result = $item->save(
 			['is_promoted' => false],
 			['whitelist' => ['is_promoted'], 'validate' => false]
 		);
@@ -53,8 +63,14 @@ trait AdminPromoteTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to unpromote.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 }
 

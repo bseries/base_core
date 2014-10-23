@@ -31,8 +31,14 @@ trait AdminDeleteTrait {
 		} else {
 			$model::pdo()->rollback();
 			FlashMessage::write($t('Failed to delete.'), ['level' => 'error']);
+			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect($this->request->referer());
+		$url = ['action' => 'index', 'library' => $this->_library];
+
+		if ($redirectUrl = $this->_redirectUrl($item)) {
+			$url = $redirectUrl + $url;
+		}
+		return $this->redirect($url);
 	}
 }
 

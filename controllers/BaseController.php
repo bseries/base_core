@@ -36,13 +36,6 @@ class BaseController extends \lithium\action\Controller {
 	protected $_library;
 
 	/**
-	 * Url used after i.e. edit or add.
-	 *
-	 * @var string
-	 */
-	protected $_redirectUrl = [];
-
-	/**
 	 * Initializes parent, then populates more properties.
 	 */
 	protected function _init() {
@@ -61,6 +54,15 @@ class BaseController extends \lithium\action\Controller {
 	 * Populates select data.
 	 */
 	protected function _selects($item = null) {
+		return [];
+	}
+
+	/**
+	 * Url used after i.e. edit or add.
+	 *
+	 * @return array
+	 */
+	protected function _redirectUrl($item = null) {
 		return [];
 	}
 
