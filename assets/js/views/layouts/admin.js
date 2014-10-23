@@ -66,26 +66,6 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
   // Table sorting/filtering
   //
 
-  var ListPagination = {
-    init: function(list) {
-      if (list.items.length > list.page) {
-        var $container = $(list.listContainer);
-        var $more = $('<a href="#more" class="button more">more</a>');
-        $container.append($more);
-
-        $more.on('click', function(ev) {
-          ev.preventDefault();
-          list.show(1, list.page + 50);
-
-          if (list.items.length < list.page) {
-            $more.remove();
-          }
-        });
-      }
-    },
-    name: "pagination"
-  };
-
   var $list = $('.use-list');
   if ($list.length) {
     var listValueNames = [];
@@ -94,13 +74,13 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
       listValueNames.push($(this).data('sort'));
     });
     var list = new List($list.get(0), {
-      page: 50,
+      // Always show everything.
+      page: $list.find('.list > *').length,
       // Does not work.
       // indexAsync: true,
       searchClass: 'list-search',
       sortClass: 'list-sort',
       valueNames: listValueNames,
-      plugins: [ListPagination]
     });
   }
 
@@ -250,5 +230,25 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
     });
   }
 
+  //
+  // Highlight anchored row if hash is inside table.
+  //
+  var hash = window.location.hash.substring(1);
+  if (hash) {
+    var $row = $('[data-id="' + hash + '"]');
 
+    if ($row.is('tr') && $row.length) {
+      $row.addClass('highlight-anchored');
+
+      require(['scrollTo'], function(ScrollTo) {
+        setTimeout(function() {
+          ScrollTo.offsets(
+            $row.offset().left,
+            $row.offset().top - Math.round($(window).height() * 0.10),
+            300
+          );
+        }, 600); // Allow header message to appear.
+      });
+    }
+  }
 });

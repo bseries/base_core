@@ -42,6 +42,7 @@ requirejs.config({
     'list': 'base-core/js/list',
     'widgets': 'base-core/js/widgets',
     'moment': 'base-core/js/moment',
+    'scrollTo': 'base-core/js/scrollTo',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',

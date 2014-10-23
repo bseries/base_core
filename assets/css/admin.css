@@ -1049,6 +1049,7 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 var(--space-v-tighter);
+  /* table-layout: fixed; */
 }
 td {
 	vertical-align: middle;
@@ -1084,7 +1085,7 @@ thead {
 tbody td {
   padding: 0 .5em;
   background: white;
-  transition: background .1s;
+  transition: background .05s;
 }
 tbody tr:hover td {
    background: var(--color-ad-yellow);
@@ -1103,6 +1104,7 @@ table .actions a {
   color: transparent;
 }
 tbody tr:not(:hover) .button {
+  color: transparent;
   background: transparent !important;
 }
 tbody .button:hover {
@@ -1114,6 +1116,7 @@ table img {
   vertical-align: middle;
 }
 table .flag {
+  width: 60px;
   text-align: center;
 }
 tbody .flage {
@@ -1123,9 +1126,14 @@ table .date {
   max-width: none;
   width: 150px;
 }
+table .media {
+  width: 30px;
+}
+table .emphasize {
+  max-width: 240px;
+}
 tbody .emphasize {
   color: black;
-  max-width: 240px;
 }
 form [name*=status],
 tbody .status {
@@ -1161,6 +1169,11 @@ table .more-content {
 
 td .minor {
   color: var(--color-gray-darker);
+}
+
+tr.highlight-anchored td {
+  background: var(--color-ci-green);
+
 }
 
 /* Notifications
@@ -1511,6 +1524,7 @@ td .minor {
 .list-search {
   width: 140px;
   background-color: white;
+  transition: width .25s;
 }
 .list-search:focus {
   width: 90%;
