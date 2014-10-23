@@ -46,6 +46,14 @@ class Date extends \lithium\template\Helper {
 					$timezone
 				);
 				return $formatter->format($date);
+			case 'long-date':
+				$formatter = new IntlDateFormatter(
+					$locale,
+					IntlDateFormatter::LONG,
+					IntlDateFormatter::NONE,
+					$timezone
+				);
+				return $formatter->format($date);
 			case 'datetime':
 				$formatter = new IntlDateFormatter(
 					$locale,
