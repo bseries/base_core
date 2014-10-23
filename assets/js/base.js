@@ -43,6 +43,8 @@ requirejs.config({
     'widgets': 'base-core/js/widgets',
     'moment': 'base-core/js/moment',
     'scrollTo': 'base-core/js/scrollTo',
+    'qtip': 'base-core/js/qtip',
+    'thingsLoaded': 'base-core/js/thingsLoaded',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',
@@ -72,9 +74,12 @@ requirejs.config({
     'list': {
       exports: 'window.List'
     },
-    'listPagination': {
-      exports: 'window.ListPagination',
-      deps: ['list']
+    'qtip': {
+      deps: ['jquery']
+    },
+    'thingsLoaded': {
+      deps: ['jquery'],
+      exports: 'ThingsLoaded'
     },
 
     // Compat

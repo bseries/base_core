@@ -251,4 +251,47 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
       });
     }
   }
+
+  //
+  // Enlarge images when hovering over them in a table.
+  //
+  var $img = $('td.media img');
+  if ($img.length) {
+    require(['router', 'thingsLoaded', 'qtip'], function(Router, ThingsLoaded) {
+      $img.qtip({
+        style: {
+          widget: false,
+          def: false
+        },
+        show: {
+          effect: false
+        },
+        hide: {
+          effect: false
+        },
+        effect: false,
+        content: {
+          text: function(ev, api) {
+            var $el = $(this);
+            var checker = new ThingsLoaded.ImageChecker();
+
+            var dfr = Router.match('media:view', {'id': $el.data('media-id')})
+              .then(function(url) {
+                return $.getJSON(url);
+              })
+              .then(function(data) {
+                var url = data.data.file.versions.fix2admin.url;
+                checker.addUrl(url);
+
+                checker.run().always(function() {
+                  api.set('content.text', $('<img />').attr('src', url));
+                });
+              });
+            return 'Loading…'
+          }
+        }
+      });
+    });
+  }
+
 });
