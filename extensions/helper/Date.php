@@ -37,50 +37,25 @@ class Date extends \lithium\template\Helper {
 			throw new Exception("Cannot parse date value `{$value}`.");
 		}
 
-		switch ($type) {
-			case 'full-date':
-				$formatter = new IntlDateFormatter(
-					$locale,
-					IntlDateFormatter::FULL,
-					IntlDateFormatter::NONE,
-					$timezone
-				);
-				return $formatter->format($date);
-			case 'long-date':
-				$formatter = new IntlDateFormatter(
-					$locale,
-					IntlDateFormatter::LONG,
-					IntlDateFormatter::NONE,
-					$timezone
-				);
-				return $formatter->format($date);
-			case 'datetime':
-				$formatter = new IntlDateFormatter(
-					$locale,
-					IntlDateFormatter::SHORT,
-					IntlDateFormatter::SHORT,
-					$timezone
-				);
-				return $formatter->format($date);
-			case 'date':
-				$formatter = new IntlDateFormatter(
-					$locale,
-					IntlDateFormatter::SHORT,
-					IntlDateFormatter::NONE,
-					$timezone
-				);
-				return $formatter->format($date);
-			case 'time':
-				$formatter = new IntlDateFormatter(
-					$locale,
-					IntlDateFormatter::NONE,
-					IntlDateFormatter::SHORT,
-					$timezone
-				);
-				return $formatter->format($date);
-			case 'w3c':
-				return $date->format(DateTime::W3C);
+		$types = [
+			'time' => [IntlDateFormatter::NONE, IntlDateFormatter::SHORT],
+			'date' => [IntlDateFormatter::SHORT, IntlDateFormatter::NONE],
+			'full-date' => [IntlDateFormatter::FULL, IntlDateFormatter::NONE],
+			'long-date' => [IntlDateFormatter::LONG, IntlDateFormatter::NONE],
+			'datetime' => [IntlDateFormatter::SHORT, IntlDateFormatter::SHORT]
+		];
+		if (isset($types[$type])) {
+			$formatter = new IntlDateFormatter(
+				$locale,
+				$types[$type][0],
+				$types[$type][1],
+				$timezone
+			);
+			return $formatter->format($date);
+		} elseif ($type == 'w3c') {
+			return $date->format(DateTime::W3C);
 		}
+		throw new Exception("Invalid date format type `{$type}`.");
 	}
 
 	protected function _locale() {
