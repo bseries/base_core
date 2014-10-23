@@ -247,7 +247,7 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
             $row.offset().top - Math.round($(window).height() * 0.10),
             300
           );
-        }, 600); // Allow header message to appear.
+        }, 800); // Allow header message to appear.
       });
     }
   }

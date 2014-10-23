@@ -1171,9 +1171,8 @@ td .minor {
   color: var(--color-gray-darker);
 }
 
-tr.highlight-anchored td {
+tbody tr.highlight-anchored td {
   background: var(--color-ci-green);
-
 }
 
 /* Notifications
