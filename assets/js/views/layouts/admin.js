@@ -241,13 +241,11 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
       $row.addClass('highlight-anchored');
 
       require(['scrollTo'], function(ScrollTo) {
-        setTimeout(function() {
-          ScrollTo.offsets(
-            $row.offset().left,
-            $row.offset().top - Math.round($(window).height() * 0.10),
-            300
-          );
-        }, 800); // Allow header message to appear.
+        ScrollTo.offsets(
+          $row.offset().left,
+          $row.offset().top - Math.round($(window).height() * 0.10),
+          300
+        );
       });
     }
   }
@@ -287,7 +285,7 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
                   api.set('content.text', $('<img />').attr('src', url));
                 });
               });
-            return 'Loading…'
+            return 'Loading…';
           }
         }
       });
