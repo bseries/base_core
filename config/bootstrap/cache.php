@@ -144,4 +144,44 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	return $response;
 });
 
+use lithium\net\http\Router;
+
+$cachedUrls = [];
+Dispatcher::applyFilter('run', function($self, $params, $chain) use (&$cachedUrls) {
+	$cachedUrls = Cache::read('default', 'template_view_urls');
+
+	$result = $chain->next($self, $params, $chain);
+
+	Cache::write('default', 'template_view_urls', $cachedUrls);
+	return $result;
+});
+Libraries::applyFilter('instance', function($self, $params, $chain) use (&$cachedUrls) {
+	if ($params['name'] !== 'File' || $params['type'] !== 'adapter.template.view') {
+		return $chain->next($self, $params, $chain);
+	}
+
+	$req = $params['options']['request'];
+	$h = $params['options']['view']->outputFilters['h'];
+
+	$params['options']['handlers'] = [
+		'url' => function($url, $ref, array $options = array()) use (&$req, $h, &$cachedUrls) {
+			$key = md5(serialize([
+				$url,
+				$options,
+				$req->url
+			]));
+			if (isset($cachedUrls[$key])) {
+				return $cachedUrls[$key];
+			}
+			$url = Router::match($url ?: '', $req, $options);
+
+			$result = $h ? str_replace('&amp;', '&', $h($url)) : $url;
+
+			$cachedUrls[$key] = $result;
+			return $result;
+		}
+	];
+	return $chain->next($self, $params, $chain);
+});
+
 ?>
