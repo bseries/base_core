@@ -1126,10 +1126,10 @@ table .date {
   max-width: none;
   width: 150px;
 }
-table img.media, /* <-- deprecated, cells now have media class */
 table td.media img {
   cursor: pointer;
-  width: 30px;
+  max-width: 100px;
+  max-height: 42px;
 }
 table .emphasize {
   max-width: 240px;
