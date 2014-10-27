@@ -9,7 +9,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List, Progress) {
+require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function($, List, Progress) {
 
   $('.compound-users').each(function() {
     var $el = $(this);
@@ -271,7 +271,7 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
         text: function(ev, api) {
           var $el = $(this);
 
-          require(['router', 'thingsLoaded', 'qtip'], function(Router, ThingsLoaded) {
+          require(['router', 'thingsLoaded'], function(Router, ThingsLoaded) {
             var checker = new ThingsLoaded.ImageChecker();
 
             var dfr = Router.match('media:view', {'id': $el.data('media-id')})
