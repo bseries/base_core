@@ -255,22 +255,23 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
   //
   var $img = $('td.media img');
   if ($img.length) {
-    require(['router', 'thingsLoaded', 'qtip'], function(Router, ThingsLoaded) {
-      $img.qtip({
-        style: {
-          widget: false,
-          def: false
-        },
-        show: {
-          effect: false
-        },
-        hide: {
-          effect: false
-        },
-        effect: false,
-        content: {
-          text: function(ev, api) {
-            var $el = $(this);
+    $img.qtip({
+      style: {
+        widget: false,
+        def: false
+      },
+      show: {
+        effect: false
+      },
+      hide: {
+        effect: false
+      },
+      effect: false,
+      content: {
+        text: function(ev, api) {
+          var $el = $(this);
+
+          require(['router', 'thingsLoaded', 'qtip'], function(Router, ThingsLoaded) {
             var checker = new ThingsLoaded.ImageChecker();
 
             var dfr = Router.match('media:view', {'id': $el.data('media-id')})
@@ -285,10 +286,10 @@ require(['jquery', 'list', 'nprogress', 'notify', 'domready!'], function($, List
                   api.set('content.text', $('<img />').attr('src', url));
                 });
               });
-            return 'Loading…';
-          }
+          });
+          return 'Loading…';
         }
-      });
+      }
     });
   }
 
