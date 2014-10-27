@@ -45,6 +45,7 @@ requirejs.config({
     'scrollTo': 'base-core/js/scrollTo',
     'qtip': 'base-core/js/qtip',
     'thingsLoaded': 'base-core/js/thingsLoaded',
+    'echo': 'base-core/js/echo',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',

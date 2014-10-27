@@ -293,4 +293,13 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
     });
   }
 
+  if ($('[data-echo]').length) {
+    require(['echo'], function(Echo) {
+      Echo.init({
+        offset: 100,
+        throttle: 250,
+        unload: false
+      });
+    });
+  }
 });
