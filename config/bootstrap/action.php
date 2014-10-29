@@ -89,9 +89,12 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 		} elseif (is_string($clean) && strlen($clean) > 500) {
 			$clean = '[too large - '. strlen($clean) . ' bytes suppressed]';
 		}
+		$scrubFields = ['password', 'password_repeat'];
 
-		if (isset($clean['password'])) {
-			$clean['password'] = '[protected]';
+		foreach ($scrubFields as $field) {
+			if (isset($clean[$field])) {
+				$clean[$field] = '[protected]';
+			}
 		}
 		$message .= " with:\n" . var_export($clean, true);
 	}
