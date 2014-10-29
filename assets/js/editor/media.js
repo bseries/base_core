@@ -79,7 +79,6 @@ define([
               // FIXME Allow controlling version.
 
               image.setAttribute('src', data.versions.fix10.url);
-              image.setAttribute('class', 'media image');
               image.setAttribute('alt', 'image');
               image.setAttribute('title', data.title);
               image.setAttribute('data-media-id', data.id);
