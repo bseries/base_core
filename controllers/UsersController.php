@@ -131,7 +131,7 @@ class UsersController extends \base_core\controllers\BaseController {
 	}
 
 	public function admin_session() {
-		if (Auth::check('default')) {
+		if (Auth::check('admin')) {
 			return $this->redirect('/admin');
 		}
 		$this->_render['layout'] = 'admin_blank';
@@ -141,7 +141,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		extract(Message::aliases());
 
 		if ($this->request->data) {
-			if (Auth::check('default', $this->request)) {
+			if (Auth::check('admin', $this->request)) {
 				$message = "Authenticated user with email `{$this->request->data['email']}`.";
 				Logger::write('debug', $message);
 				FlashMessage::write($t('Authenticated.'), ['level' => 'success']);
@@ -159,7 +159,7 @@ class UsersController extends \base_core\controllers\BaseController {
 	public function admin_logout() {
 		extract(Message::aliases());
 
-		Auth::clear('default');
+		Auth::clear('admin');
 
 		FlashMessage::write($t('Successfully logged out.'), ['level' => 'success']);
 		return $this->redirect('/admin/session');
@@ -202,7 +202,7 @@ class UsersController extends \base_core\controllers\BaseController {
 	public function admin_become() {
 		extract(Message::aliases());
 
-		$auth = Auth::check('default');
+		$auth = Auth::check('admin');
 
 		$new = Users::find('first', ['conditions' => ['id' => $this->request->id]])->data();
 
@@ -215,7 +215,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		unset($new['password']);
 		unset($new['original']['password']);
 
-		Auth::set('default', $new);
+		Auth::set('admin', $new);
 		FlashMessage::write($t('Became user `{:name}`.', $new), ['level' => 'success']);
 
 		return $this->redirect($this->request->referer());
@@ -224,9 +224,9 @@ class UsersController extends \base_core\controllers\BaseController {
 	public function admin_debecome() {
 		extract(Message::aliases());
 
-		$auth = Auth::check('default');
+		$auth = Auth::check('admin');
 
-		Auth::set('default', $auth['original']);
+		Auth::set('admin', $auth['original']);
 		FlashMessage::write($t('Became user `{:name}` again.', $auth['original']), ['level' => 'success']);
 
 		return $this->redirect($this->request->referer());

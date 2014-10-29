@@ -67,11 +67,11 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	};
 
 	if (strpos($params['request']->url, '/admin') === 0) {
-		$access = Access::check('admin', Auth::check('default'), $params['request'], [
+		$access = Access::check('admin', Auth::check('default') ?: Auth::check('admin'), $params['request'], [
 			'rules' => $allNewlyDefinedRules('admin')
 		]);
 	} else {
-		$access = Access::check('app', Auth::check('default'), $params['request'], [
+		$access = Access::check('app', Auth::check('default') ?: Auth::check('admin'), $params['request'], [
 			'rules' => $allNewlyDefinedRules('app')
 		]);
 	}

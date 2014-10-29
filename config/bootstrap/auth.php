@@ -23,6 +23,15 @@ Auth::config([
 		'session' => [
 			'name' => 'cookie'
 		]
+	],
+	'admin' => [
+		'adapter' => 'Form',
+		'model' => 'Users',
+		'fields' => ['email', 'password'],
+		'scope' => ['is_active' => true, 'role' => 'admin'],
+		'session' => [
+			'name' => 'cookie'
+		]
 	]
 ]);
 
@@ -30,7 +39,7 @@ Auth::config([
 // Note only real users get authenticated.
 Auth::applyFilter('set', function($self, $params, $chain) {
 	$result = $chain->next($self, $params, $chain);
-	$key = Session::key($params['name']);
+	$key = Session::key('default');
 
 	if (isset($params['data']['original'])) {
 		$id = $params['data']['original']['id'];
@@ -53,7 +62,7 @@ Auth::applyFilter('set', function($self, $params, $chain) {
 	return $result;
 });
 Auth::applyFilter('clear', function($self, $params, $chain) {
-	$key = Session::key($params['name']);
+	$key = Session::key('default');
 
 	$result = $chain->next($self, $params, $chain);
 
