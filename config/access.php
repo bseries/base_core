@@ -52,7 +52,13 @@ Access::adapter('admin')->add('role', function($user, $request, $options) {
 	if (preg_match('#^/admin/(session|login|logout)$#', $request->url)) {
 		return true;
 	}
-	return $user['role'] == 'admin';
+	if ($user['role'] === 'admin') {
+		return true;
+	}
+	if (isset($user['original']['role']) && $user['original']['role'] === 'admin') {
+		return true;
+	}
+	return false;
 });
 
 //
