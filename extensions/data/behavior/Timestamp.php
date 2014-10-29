@@ -46,6 +46,13 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 
 		return $data;
 	}
+
+	public static function touchTimestamp($model, $behavior, $id, $field) {
+		return $model::update(
+			[$field => date('Y-m-d H:i:s')],
+			['id' => $id]
+		);
+	}
 }
 
 ?>
