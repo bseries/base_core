@@ -32,7 +32,6 @@ Access::config([
 // Setup access for entities.
 //
 $rules = Access::adapter('entity');
-
 $rules->add('user.role:admin', function($user, $entity, $options) {
 	return $user->role == 'admin';
 });
