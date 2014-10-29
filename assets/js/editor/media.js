@@ -14,6 +14,7 @@ define([
   $, wysihtml5, MediaExplorerModal, Router
 ) {
   return function EditorMedia() {
+
     var _this = this;
 
     this.mediaExplorerConfig = {
@@ -75,12 +76,14 @@ define([
             var insert = function(data) {
               image = doc.createElement('IMG');
 
-              image.setAttribute('src', data.versions.fix1.url);
+              // FIXME Allow controlling version.
+
+              image.setAttribute('src', data.versions.fix10.url);
               image.setAttribute('class', 'media image');
               image.setAttribute('alt', 'image');
               image.setAttribute('title', data.title);
               image.setAttribute('data-media-id', data.id);
-              image.setAttribute('data-media-version', 'fix1');
+              image.setAttribute('data-media-version', 'fix10');
 
               composer.selection.insertNode(image);
             };
@@ -88,11 +91,12 @@ define([
             $(document).one('media-explorer:selected', function(ev, ids) {
               $.each(ids, function(k, id) {
                 _this.item(id).done(function(data) {
-                  insert(data.file);
+                  insert(data.data.file);
                 });
               });
               MediaExplorerModal.close();
             });
+
           },
           state: function(composer) {
             wysihtml5.commands.insertImage.state(composer);
