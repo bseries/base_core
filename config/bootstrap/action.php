@@ -50,12 +50,18 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	}
 	return $chain->next($self, $params, $chain);
 });
+
 // Inject environment variables into templates; remember variables are only
 // injected into the original template, for elements variables must be passed
-// manually.
+// manually. Uses application Users model if available.
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	if ($params['handler']['type'] == 'html') {
-		$params['data']['authedUser'] = Auth::check('default');
+		if ($user = Auth::check('default')) {
+			$model = Libraries::locate('models', 'Users');
+			$params['data']['authedUser'] = $model::create($user);
+		} else {
+			$params['data']['authedUser'] = null;
+		}
 
 		$params['data']['locale'] = Environment::get('locale');
 
