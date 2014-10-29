@@ -1181,17 +1181,23 @@ tbody tr.highlight-anchored td {
 -------------------------------------------------------------- */
 #messages {
   overflow: hidden;
+  top: 50px;
+  right: 0;
+  height: 50px;
+  width: 500px;
+  position: absolute;
+  text-align: right;
 }
 #messages .message {
+  position: relative;
+  display: inline-block;
   transition: .75s all;
-  position: absolute;
-  top: 50px;
-  right: 20px;
   background: var(--color-ad-yellow);
   padding: 1em;
+  right: 20px;
 }
 #messages .message.hide {
-  display: block;
+  display: inline-block;
   right: -400px;
 }
 #messages .message.error {
