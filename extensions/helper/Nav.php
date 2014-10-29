@@ -62,6 +62,7 @@ class Nav extends \lithium\template\Helper {
 			'id' => null,
 			'class' => null,
 			'escape' => true,
+			'exclude' => false, // When `true` will not try to match this item.
 			'active' => null,
 			'title' => null,
 			'rel' => null,
@@ -79,6 +80,7 @@ class Nav extends \lithium\template\Helper {
 			'id' => $options['id'],
 			'class' => $options['class'],
 			'escape' => $options['escape'],
+			'exclude' => $options['exclude'],
 			'active' => $options['active'],
 			'_title' => $options['title'], // This obviously is a hack :)
 			'nested' => $options['nested']
@@ -119,6 +121,10 @@ class Nav extends \lithium\template\Helper {
 		$active = ['key' => null, 'match' => null];
 
 		foreach ($items as $key => &$item) {
+			if ($item['exclude']) {
+				continue;
+			}
+
 			$url = $this->_context->url($item['url']);
 			$url = strtok($url, '?');
 
