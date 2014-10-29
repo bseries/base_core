@@ -99,7 +99,7 @@ FlashMessage::clear();
 
 		<div id="container">
 			<header class="main">
-				<?=$this->view()->render(['element' => 'header'], [], [
+				<?=$this->view()->render(['element' => 'header'], compact('authedUser'), [
 					'library' => 'app'
 				]) ?>
 			</header>
@@ -108,7 +108,7 @@ FlashMessage::clear();
 			</div>
 		</div>
 		<footer class="main">
-			<?=$this->view()->render(['element' => 'footer'], [], [
+			<?=$this->view()->render(['element' => 'footer'], compact('authedUser'), [
 				'library' => 'app'
 			]) ?>
 		</footer>
