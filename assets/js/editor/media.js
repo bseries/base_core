@@ -8,17 +8,19 @@
  * in writing, software distributed on an "AS IS" BASIS, WITHOUT-
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-define(['jquery', 'wysihtml5', 'mediaExplorerModal'],
-function($, wysihtml5, MediaExplorerModal) {
+define([
+  'jquery', 'wysihtml5', 'mediaExplorerModal', 'router'
+], function(
+  $, wysihtml5, MediaExplorerModal, Router
+) {
   return function EditorMedia() {
     var _this = this;
 
     this.mediaExplorerConfig = {
-        'selectable': true,
-        'endpoints': {
-          view: '/files/__ID__'
-        }
+      'available': {
         // FIXME Restrict to images only.
+        'selectable': true,
+      }
     };
 
     this.init = function(options) {
@@ -28,18 +30,11 @@ function($, wysihtml5, MediaExplorerModal) {
       return _this;
     };
 
-    // Returns endpoint string; may replace __ID__ placeholder.
-    this.endpoint = function(name, id) {
-      var item = _this.mediaExplorerConfig.endpoints[name];
-
-      if (name == 'view') {
-        return item.replace('__ID__', id);
-      }
-      return item;
-    };
-
     this.item = function(id) {
-      return $.getJSON(_this.endpoint('view', id));
+      return Router.match('media:view', {id: id})
+        .then(function(url) {
+            return $.getJSON(url);
+        });
     };
 
     this.toolbar = function() {

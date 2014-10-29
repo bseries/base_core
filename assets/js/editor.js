@@ -36,13 +36,13 @@ function($, wysihtml5, MediaExplorerModal) {
             "set_class": "small"
         },
         h2: {
-          "set_class": "beta",
+          "set_class": "h-beta",
           "check_attributes": {
             "class": "class"
           }
         },
         h3: {
-          "set_class": "gamma",
+          "set_class": "h-gamma",
           "check_attributes": {
             "class": "class"
           }

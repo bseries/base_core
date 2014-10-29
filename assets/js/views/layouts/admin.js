@@ -164,12 +164,11 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
   var editorElements = $('.use-editor');
 
   if (editorElements.length) {
-    require(['jquery', 'editor', 'editor-media', 'editor-page-break'],
-      function($, Editor, EditorMedia, EditorPageBreak) {
+    require(['jquery', 'editor', 'editor-media'],
+      function($, Editor, EditorMedia) {
 
         var externalPlugins = {
-          media: (new EditorMedia()).init({endpoints: App.media.endpoints}),
-          'page-break': new EditorPageBreak()
+          media: (new EditorMedia()).init({endpoints: App.media.endpoints})
         };
 
         var pluginsByClasses = function(el) {
