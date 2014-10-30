@@ -126,6 +126,16 @@ $this->set([
 						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'base_core']) ?>
 					</div>
 				</section>
+				<?php if ($useRent = Libraries::get('ecommerce_rent')): ?>
+					<section class="grid-column-right">
+						<?= $this->form->field('can_rent', [
+							'type' => 'checkbox',
+							'label' => $t('can rent'),
+							'checked' => (boolean) $item->can_rent,
+							'value' => 1
+						]) ?>
+					</section>
+				<?php endif ?>
 			</div>
 		<?php endif ?>
 		<div class="bottom-actions">

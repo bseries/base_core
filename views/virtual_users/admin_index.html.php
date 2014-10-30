@@ -30,7 +30,9 @@ $this->set([
 					<td data-sort="number" class="number list-sort"><?= $t('Number') ?>
 				<?php endif ?>
 				<td data-sort="name" class="name emphasize list-sort asc"><?= $t('Name') ?>
-				<td data-sort="email" class="email list-sort"><?= $t('Email') ?>
+				<?php if (!$useBilling): ?>
+					<td data-sort="email" class="email list-sort"><?= $t('Email') ?>
+				<?php endif ?>
 				<td data-sort="role" class="role list-sort"><?= $t('Role') ?>
 				<td data-sort="created" class="date created list-sort"><?= $t('Created') ?>
 				<td class="actions">
@@ -50,7 +52,9 @@ $this->set([
 					<td class="number emphasize"><?= $item->number ?>
 				<?php endif ?>
 				<td class="name emphasize"><?= $item->name ?>
-				<td class="email"><?= $item->email ?>
+				<?php if (!$useBilling): ?>
+					<td class="email"><?= $item->email ?>
+				<?php endif ?>
 				<td class="role"><?= $item->role ?>
 				<td class="date created">
 					<time datetime="<?= $this->date->format($item->created, 'w3c') ?>">
