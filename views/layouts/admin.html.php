@@ -66,7 +66,6 @@ if (!isset($meta)) {
 		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => true], ['library' => 'base_core']) ?>
 		<?php
 			$scripts = array_merge(
-				['/base-core/js/jquery'],
 				['/base-core/js/require'],
 				$this->assets->availableScripts('base', ['admin' => true]),
 				$this->assets->availableScripts('view', ['admin' => true]),
