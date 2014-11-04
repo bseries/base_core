@@ -673,7 +673,7 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"] ~ label {
-  margin-top: 23px;
+  margin-top: 27px;
   position: relative;
   float: left;
   line-height: 34px;
