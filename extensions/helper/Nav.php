@@ -172,7 +172,9 @@ class Nav extends \lithium\template\Helper {
 			$linkOptions = array_filter([
 				'escape' => $item['escape'],
 				'title' => $item['_title']
-			]) + array_filter($item['link']);
+			], function($v) {
+				return is_bool($v) || !empty($v);
+			}) + array_filter($item['link']);
 
 			if ($options['itemTag']) {
 				$attributes = array_filter([
