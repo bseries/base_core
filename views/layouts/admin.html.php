@@ -118,7 +118,7 @@ if (!isset($meta)) {
 					<?php endforeach ?>
 				</h2>
 				<div class="nav-top">
-					<?php if ($authedUser = Auth::check('default')): ?>
+					<?php if ($authedUser): ?>
 						<div class="welcome">
 							<?php echo $t('Moin {:name}!', [
 								'name' => '<span class="name">' . strtok($authedUser->name, ' ') . '</span>'
