@@ -23,15 +23,6 @@ Auth::config([
 		'session' => [
 			'name' => 'cookie'
 		]
-	],
-	'admin' => [
-		'adapter' => 'Form',
-		'model' => 'Users',
-		'fields' => ['email', 'password'],
-		'scope' => ['is_active' => true, 'role' => 'admin'],
-		'session' => [
-			'name' => 'cookie'
-		]
 	]
 ]);
 

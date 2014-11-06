@@ -56,7 +56,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 // manually. Uses application Users model if available.
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	if ($params['handler']['type'] == 'html') {
-		if (($user = Auth::check('default')) || ($user = Auth::check('admin'))) {
+		if ($user = Auth::check('default')) {
 			$model = Libraries::locate('models', 'Users');
 			$params['data']['authedUser'] = $model::create($user);
 		} else {
