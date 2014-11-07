@@ -147,6 +147,7 @@ $detectDevice = function($request) {
 	Cache::write('default', $cacheKey, $ua, '+1 week');
 	return $ua;
 };
+// Wrapped in dispatcher as we need the request object.
 Dispatcher::applyFilter('run', function($self, $params, $chain) use ($detectDevice) {
 	if (!Features::enabled('deviceDetection')) {
 		return $chain->next($self, $params, $chain);
