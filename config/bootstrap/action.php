@@ -134,7 +134,7 @@ $detectDevice = function($request) {
 	}
 	$cacheKey = 'deviceDetection_' . md5($cacheKey);
 
-	if ($ua = Cache::read('default', $cacheKey)) {
+	if (!Environment::is('development') && ($ua = Cache::read('default', $cacheKey))) {
 		return $ua;
 	}
 	$ua = [
@@ -153,10 +153,11 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) use ($detectDevi
 	}
 	$device = $detectDevice($params['request']);
 
-	Media::applyFilter('_handle', function($self, $params, $chain) use ($ua) {
+	Media::applyFilter('_handle', function($self, $params, $chain) use ($device) {
 		if ($params['handler']['type'] == 'html') {
 			$params['data']['device'] = $device;
 		}
+		return $chain->next($self, $params, $chain);
 	});
 	return $chain->next($self, $params, $chain);
 });
