@@ -68,8 +68,17 @@ FlashMessage::clear();
 
 		if ($authedUser) {
 			$classes[] = 'user-authed';
-		}
 
+		}
+		if (isset($device)) {
+			foreach ($device as $name => $flag) {
+				if (is_bool($flag) && $flag ) {
+					$classes[] = 'device-' . strtolower(Inflector::slug($name));
+				} elseif (is_string($flag)) {
+					$classes[] = 'device-' . strtolower(Inflector::slug($name)) . '-' . strtolower($flag);
+				}
+			}
+		}
 		if (isset($extraBodyClasses)) {
 			$classes = array_merge($classes, $extraBodyClasses);
 		}

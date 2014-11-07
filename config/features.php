@@ -12,6 +12,12 @@
 
 use ff\Features;
 
-Features::expect(['memcached', 'logging', 'scheduledJobs', 'fpc']);
+Features::expect([
+	'memcached',
+	'logging',
+	'scheduledJobs',
+	'fpc',
+	'deviceDetection'
+]);
 
 ?>
