@@ -19,6 +19,7 @@ use lithium\security\Auth;
 use Mobile_Detect as MobileDetect;
 use lithium\storage\Cache;
 use lithium\analysis\Logger;
+use ff\Features;
 
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$libraries = Libraries::get();
