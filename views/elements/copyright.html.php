@@ -50,6 +50,6 @@ if (!isset($begin) || $begin == $end) {
 		<?php echo sprintf('&copy; %1$s %2$s.', $years, $holder) ?>
 	<?php endif ?>
 	<?php if (!$minimal): ?>
-		&nbsp;<?php echo $t('All rights reserved.') ?>
+		<span class="copyright__rights"><?php echo $t('All rights reserved.') ?></span>
 	<?php endif ?>
 </div>
