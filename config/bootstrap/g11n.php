@@ -70,7 +70,7 @@ Environment::set('test', ['locale' => 'en', 'locales' => ['en' => 'English']]);
  * @see lithiumm\core\Environment
  */
 $setLocale = function($self, $params, $chain) {
-	if ($user = Auth::check('default')) {
+	if (PHP_SAPI !== 'cli' && ($user = Auth::check('default'))) {
 		$timezone = $user['timezone'];
 	} else {
 		$timezone = Environment::get('timezone') ?: 'UTC';
