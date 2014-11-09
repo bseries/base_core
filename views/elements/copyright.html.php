@@ -46,9 +46,12 @@ if (!isset($begin) || $begin == $end) {
 <div class="copyright">
 	<?php if (isset($object)): ?>
 		<?php echo sprintf('%1$s &copy; %2$s %3$s.', ucfirst($object), $years, $holder) ?>
+
 	<?php else: ?>
 		<?php echo sprintf('&copy; %1$s %2$s.', $years, $holder) ?>
+
 	<?php endif ?>
+
 	<?php if (!$minimal): ?>
 		<span class="copyright__rights"><?php echo $t('All rights reserved.') ?></span>
 	<?php endif ?>
