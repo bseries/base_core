@@ -175,6 +175,24 @@ class Addresses extends \base_core\models\Base {
 			return implode("\n", array_filter($result));
 		}
 	}
+
+	// FIXME Auto map regions to prefixes.
+	public static function completePhone($value, $region) {
+		if (!empty($value)) {
+			// First remove any whitespace characters so we can match more easily.
+			$value = preg_replace('/\s/', '', $value);
+
+			// If the number doesn't not already have a national prefix, add
+			// one according to region.
+			if (!preg_match('/^(\+|00)/', $value)) {
+				if ($region === 'DE') {
+					// Assume we have a leading 0 for the city.
+					$value = preg_replace('/^(0)/','+49', $value);
+				}
+			}
+		}
+		return $value;
+	}
 }
 
 Addresses::init();
