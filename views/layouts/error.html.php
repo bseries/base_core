@@ -52,14 +52,6 @@ $locale = Environment::get('locale');
 	<?php
 		$classes = ['layout-error'];
 
-		foreach ($ua as $name => $flag) {
-			if (is_bool($flag) && $flag ) {
-				$classes[] = strtolower(Inflector::slug($name));
-			} elseif (is_string($flag)) {
-				$classes[] = strtolower(Inflector::slug($name)) . '-' . strtolower($flag);
-			}
-		}
-
 		if (isset($extraBodyClasses)) {
 			$classes = array_merge($classes, $extraBodyClasses);
 		}
