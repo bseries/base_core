@@ -12,8 +12,6 @@
 
 namespace base_core\extensions\data\behavior;
 
-// use \Exception;
-
 class StatusChange extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
@@ -23,19 +21,30 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 	protected static function _filters($model, $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
 			$field = $behavior->config('field');
+			$to = null;
 
-			if (empty($params['data'][$field])) {
+			if ($params['entity']->exists()) {
+				if (!empty($params['data'][$field])) {
+					$to = $params['data'][$field];
+				}
+			} else {
+				if (!empty($params['entity']->{$field})) {
+					$to = $params['entity']->{$field};
+				}
+			}
+
+			if (!$to) {
 				return $chain->next($self, $params, $chain);
 			}
 			$old = null;
 
 			if ($params['entity']->exists()) {
-				// @fixme modified method does not work, why?
+				// FIXME modified method does not work, why?
 				$old = $model::find('first', [
 					'conditions' => ['id' => $params['entity']->id],
 					'fields' => [$field]
 				]);
-				if ($old->$field == $params['data'][$field]) {
+				if ($old->$field == $to) {
 					return $chain->next($self, $params, $chain);
 				}
 			}
@@ -44,7 +53,7 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 			}
 			return $params['entity']->statusChange(
 				$old ? $old->$field : null,
-				$params['data'][$field]
+				$to
 			);
 		});
 	}
