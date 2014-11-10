@@ -47,7 +47,7 @@ MailerMedia::type('text', 'text/plain', [
 	'view' => 'li3_mailer\template\Mail',
 	'paths' => [
 		'template' => [
-			Libraries::get('app', 'path') . '/mails/:template}.{:type}.php',
+			Libraries::get('app', 'path') . '/mails/{:template}.{:type}.php',
 			Libraries::get('base_core', 'path') . '/mails/{:template}.{:type}.php',
 			'{:library}/mails/{:template}.{:type}.php'
 		],
