@@ -35,7 +35,7 @@ HttpMedia::type('html', 'text/html', [
 			Libraries::get('base_core', 'path') . '/views/{:controller}/{:template}.{:type}.php',
 			'{:library}/views/{:controller}/{:template}.{:type}.php',
 		],
-		'layout'   => [
+		'layout' => [
 			Libraries::get('app', 'path') . '/views/layouts/{:layout}.{:type}.php',
 			Libraries::get('base_core', 'path') . '/views/layouts/{:layout}.{:type}.php',
 			'{:library}/views/layouts/{:layout}.{:type}.php',
@@ -51,7 +51,7 @@ MailerMedia::type('text', 'text/plain', [
 			Libraries::get('base_core', 'path') . '/mails/{:template}.{:type}.php',
 			'{:library}/mails/{:template}.{:type}.php'
 		],
-		'layout'   => [
+		'layout' => [
 			Libraries::get('app', 'path') . '/mails/layouts/{:layout}.{:type}.php',
 			Libraries::get('base_core', 'path') . '/mails/layouts/{:layout}.{:type}.php',
 			'{:library}/mails/layouts/{:layout}.{:type}.php'
