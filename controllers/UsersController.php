@@ -15,6 +15,7 @@ namespace base_core\controllers;
 use base_core\models\Users;
 use base_core\models\Addresses;
 use base_core\models\Currencies;
+use base_core\extensions\cms\Settings;
 use billing_core\models\Invoices;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
