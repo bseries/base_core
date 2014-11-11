@@ -110,6 +110,9 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	if (!Environment::get('maintenance')) {
 		return $chain->next($self, $params, $chain);
 	}
+	// if (($user = Auth::check('default')) && $user->role === 'admin') {
+	//	return $chain->next($self, $params, $chain);
+	// }
 	$message  = 'Showing maintenance page.';
 	Logger::debug($message);
 
