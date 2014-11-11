@@ -113,7 +113,9 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$message  = 'Showing maintenance page.';
 	Logger::debug($message);
 
-	$controller = Libraries::instance('controllers', 'base_core.Errors', ['request' => $params['request']]);
+	$controller = Libraries::instance('controllers', 'base_core.Errors', [
+		'request' => $params['request']
+	]);
 
 	return $controller(
 		$params['request'],
