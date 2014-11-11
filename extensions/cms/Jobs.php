@@ -45,6 +45,7 @@ class Jobs extends \lithium\core\StaticObject {
 
 	public static function runName($name) {
 		if (!Features::enabled('scheduledJobs')) {
+			Logger::debug("Scheduled jobs disabled! Tried running `{$name}`.");
 			return;
 		}
 		foreach (static::$_recurring as $frequency => $data) {
