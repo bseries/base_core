@@ -128,13 +128,16 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 
 $detectDevice = function($request) {
 	$detect = new MobileDetect();
-	$headers = array_merge($detect->getUaHttpHeaders(), array_keys($detect->getMobileHeaders()));
+	$headers = array_merge(
+		$detect->getUaHttpHeaders(),
+		array_keys($detect->getMobileHeaders()
+	));
 
 	$cacheKey = '';
 
 	foreach ($headers as $header) {
 		if ($value = $request->env($header)) {
-			$cacheKey = $header . $value;
+			$cacheKey .= $header . $value;
 		}
 	}
 	$cacheKey = 'deviceDetection_' . md5($cacheKey);
