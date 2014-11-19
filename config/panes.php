@@ -58,12 +58,5 @@ Panes::register('external.support', [
 	'url' => ['controller' => 'Pages', 'action' => 'support', 'library' => 'base_core'],
 	'weight' => 0
 ]);
-Panes::register('external.ga', [
-	'title' => $t('Google Analytics'),
-	'url' => function() {
-		return 'https://www.google.com/analytics/web/#report/visitors-overview/' . Settings::read('googleAnalytics.default.propertyId');
-	},
-	'weight' => 10
-]);
 
 ?>
