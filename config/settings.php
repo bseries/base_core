@@ -48,13 +48,8 @@ Settings::register('user.number', [
 ]);
 Settings::register('user.sendActivationMail', false);
 
-Settings::register('availableCountries', [
-	'DE', 'US', 'CA'
-]);
-
 Settings::register('availableCurrencies', [
 	'EUR', 'USD'
 ]);
-
 
 ?>

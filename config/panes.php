@@ -52,11 +52,6 @@ Panes::register('access.virtualUsers', [
 	'url' => ['controller' => 'VirtualUsers'] + $base,
 	'weight' => 1
 ]);
-Panes::register('access.addresses', [
-	'title' => $t('Addresses'),
-	'url' => ['controller' => 'Addresses'] + $base,
-	'weight' => 2
-]);
 
 Panes::register('external.support', [
 	'title' => $t('Contact Support'),

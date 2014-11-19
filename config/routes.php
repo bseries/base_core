@@ -70,14 +70,6 @@ Router::connect('/admin/virtual-users/{:action}/{:args}', [
 	'controller' => 'VirtualUsers', 'library' => 'base_core', 'admin' => true
 ], $persist);
 
-// Addresses
-Router::connect('/admin/addresses/{:action}/{:id:[0-9]+}', [
-	'controller' => 'addresses', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/addresses/{:action}/{:args}', [
-	'controller' => 'addresses', 'library' => 'base_core', 'admin' => true
-], $persist);
-
 // Misc
 Router::connect('/admin/support', [
 	'controller' => 'pages', 'action' => 'support', 'library' => 'base_core', 'admin' => true

@@ -12,14 +12,16 @@
 
 namespace base_core\models;
 
+use RuntimeException;
 use lithium\core\Libraries;
 use lithium\util\Validator;
 use lithium\security\Password;
 use lithium\g11n\Message;
-use base_core\models\Addresses;
-use billing_core\models\TaxZones;
+
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
+
+use base_core\models\Addresses;
 
 class Users extends \base_core\models\Base {
 
@@ -166,16 +168,28 @@ class Users extends \base_core\models\Base {
 
 	// Will always return a address object, even if none is
 	// associated with this user.
+	//
+	// Can only be used if base_address is available. Address type field
+	// availability depends on used libraries.
 	public function address($entity, $type = 'billing') {
-		$field = "{$type}_address";
-		if ($entity->$field) {
-			return $entity->$field;
+		if (!static::hasField($field = "{$type}_address")) {
+			$message  = "User model has no field `{$filed}`. ";
+			$message .= "You may need to require the ecommerce_core or billing_core library.";
+			throw new RuntimeException($message);
 		}
 
-		$field = "{$type}_address_id";
+		if ($entity->$field) {
+			// Return if directly attached.
+			return $entity->$field;
+		}
+		if (!class_exists('Address')) {
+			$message  = "The base_address library is not available. ";
+			$message .= "Require it as a dependency to enable `Users::address()`.";
+			throw new RuntimeException($message);
+		}
 		return Addresses::find('first', [
 			'conditions' => [
-				'id' => $entity->$field
+				'id' => $entity->{"{$type}_address_id"}
 			]
 		]) ?: Addresses::create();
 	}

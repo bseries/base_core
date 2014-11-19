@@ -12,17 +12,19 @@
 
 namespace base_core\controllers;
 
-use base_core\models\Users;
-use base_core\models\Addresses;
-use base_core\models\Currencies;
-use base_core\extensions\cms\Settings;
-use billing_core\models\Invoices;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\security\Auth;
 use lithium\analysis\Logger;
 use li3_mailer\action\Mailer;
 use li3_flash_message\extensions\storage\FlashMessage;
+
+use base_core\models\Users;
+use base_core\models\Currencies;
+use base_core\extensions\cms\Settings;
+
+use base_address\models\Addresses;
+use billing_core\models\Invoices;
 
 class UsersController extends \base_core\controllers\BaseController {
 
@@ -100,15 +102,18 @@ class UsersController extends \base_core\controllers\BaseController {
 			'de' => 'Deutsch',
 			'en' => 'English'
 		];
+
 		if ($item) {
-			$addresses = [
-				null => '-- ' . $t('no address') . ' --'
-			];
-			$addresses += Addresses::find('list', [
-				'conditions' => [
-					'user_id' => $item->id
-				]
-			]);
+			if (Libraries::get('base_address')) {
+				$addresses = [
+					null => '-- ' . $t('no address') . ' --'
+				];
+				$addresses += Addresses::find('list', [
+					'conditions' => [
+						'user_id' => $item->id
+					]
+				]);
+			}
 		}
 
 		if (Libraries::get('billing_core')) {
@@ -117,7 +122,11 @@ class UsersController extends \base_core\controllers\BaseController {
 
 		return compact(
 			'roles',
-			'timezones', 'currencies', 'locales',
+			'timezones',
+			'locales',
+
+			// Optional
+			'currencies',
 			'addresses',
 			'invoiceFrequencies'
 		);

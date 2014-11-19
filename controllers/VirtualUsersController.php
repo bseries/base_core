@@ -12,14 +12,16 @@
 
 namespace base_core\controllers;
 
-use base_core\models\VirtualUsers;
-use base_core\models\Currencies;
-use base_core\models\Addresses;
-use billing_core\models\Invoices;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\security\Auth;
 use li3_flash_message\extensions\storage\FlashMessage;
+
+use base_core\models\VirtualUsers;
+use base_core\models\Currencies;
+
+use base_address\models\Addresses;
+use billing_core\models\Invoices;
 
 class VirtualUsersController extends \base_core\controllers\BaseController {
 
@@ -48,22 +50,34 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 			'de' => 'Deutsch',
 			'en' => 'English'
 		];
+
 		if ($item) {
-			$addresses = [
-				null => '-- ' . $t('no address') . ' --'
-			];
-			$addresses += Addresses::find('list', [
-				'conditions' => [
-					'virtual_user_id' => $item->id
-				]
-			]);
+			if (Libraries::get('base_address')) {
+				$addresses = [
+					null => '-- ' . $t('no address') . ' --'
+				];
+				$addresses += Addresses::find('list', [
+					'conditions' => [
+						'user_id' => $item->id
+					]
+				]);
+			}
 		}
 
 		if (Libraries::get('billing_core')) {
 			$invoiceFrequencies = Invoices::enum('frequency');
 		}
 
-		return compact('roles', 'timezones', 'currencies', 'locales', 'addresses', 'invoiceFrequencies');
+		return compact(
+			'roles',
+			'timezones',
+			'locales',
+
+			// Optional
+			'currencies',
+			'addresses',
+			'invoiceFrequencies'
+		);
 	}
 }
 
