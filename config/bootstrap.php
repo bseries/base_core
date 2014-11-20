@@ -14,7 +14,6 @@ define('BASE_CORE_VERSION', '1.2.0');
 
 use lithium\core\Libraries;
 use lithium\net\http\Media as HttpMedia;
-use lithium\analysis\Logger;
 use base_core\models\Assets;
 
 if (!include LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/core/Libraries.php') {
@@ -144,10 +143,6 @@ foreach ($moduleTypes as $prefix => $title) {
 		foreach ($available as $config) {
 			if (file_exists($file = $path . "/config/{$config}.php")) {
 				require_once $file;
-
-				if (PROJECT_DEBUG) {
-					Logger::debug("Loaded configuration for module `{$name}`: {$config}.php");
-				}
 			}
 
 			if (file_exists($path . "/config/bootstrap.php")) {
