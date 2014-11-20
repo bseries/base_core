@@ -84,6 +84,9 @@ require 'panes.php';
 
 // ------------------------------------------------------------------------------------------------
 
+require LITHIUM_APP_PATH . '/config/routes.php';
+require 'routes.php';
+
 require 'media.php';
 require 'widgets.php';
 require 'access.php';
@@ -120,7 +123,18 @@ foreach ($moduleTypes as $prefix => $title) {
 			// process above. Prevent loading them and their config files a second time.
 			continue;
 		}
-		Libraries::add($name);
+		Libraries::add($name, [
+			'bootstrap' => false // Modules bootstrap not needed. See below.
+		]);
+
+		// Now auto load files from the modules config directories in order.
+		foreach (['routes', 'settings', 'media', 'panes', 'widgets', 'misc'] as $config) {
+			$file = Libraries::get($name, 'path') . "/config/{$config}.php";
+
+			if (file_exists($file)) {
+				require_once $file;
+			}
+		}
 	}
 }
 

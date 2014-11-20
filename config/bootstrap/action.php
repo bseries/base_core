@@ -21,26 +21,6 @@ use lithium\storage\Cache;
 use lithium\analysis\Logger;
 
 //
-// Automatic routes loading.
-//
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	$libraries = Libraries::get();
-
-	require_once $libraries['base_core']['path'] . '/config/routes.php';
-	require_once $libraries['app']['path'] . '/config/routes.php';
-
-	// Load other libraries.
-	unset($libraries['app']);
-	unset($libraries['lithium']);
-	unset($libraries['base_core']);
-	foreach (array_reverse($libraries) as $name => $config) {
-		$file = "{$config['path']}/config/routes.php";
-		file_exists($file) ? call_user_func(function() use ($file) { include $file; }) : null;
-	}
-	return $chain->next($self, $params, $chain);
-});
-
-//
 // Admin routing.
 //
 Dispatcher::config([
