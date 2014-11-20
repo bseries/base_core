@@ -19,9 +19,8 @@ use lithium\storage\Session;
 use lithium\data\Connections;
 use lithium\data\source\Database;
 use lithium\net\http\Router;
-use ff\Features;
 
-if (Features::enabled('memcached')) {
+if (PROJECT_FEATURES_MEMCACHED) {
 	if (!Memcache::enabled()) {
 		throw new Exception("Memcached not available.");
 	}
@@ -86,7 +85,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
-if (Features::enabled('fpc')) {
+if (PROJECT_FEATURES_FPC) {
 	// Will ignore any existing session and dynamic data.
 	// Doesn't work with redirects.
 	Dispatcher::applyFilter('run', function($self, $params, $chain) {

@@ -19,7 +19,6 @@ use lithium\security\Auth;
 use Mobile_Detect as MobileDetect;
 use lithium\storage\Cache;
 use lithium\analysis\Logger;
-use ff\Features;
 
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$libraries = Libraries::get();
@@ -157,7 +156,7 @@ $detectDevice = function($request) {
 };
 // Wrapped in dispatcher as we need the request object.
 Dispatcher::applyFilter('run', function($self, $params, $chain) use ($detectDevice) {
-	if (!Features::enabled('deviceDetection')) {
+	if (!PROJECT_FEATURE_DEVICE_DETECTION) {
 		return $chain->next($self, $params, $chain);
 	}
 	$device = $detectDevice($params['request']);

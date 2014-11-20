@@ -13,7 +13,6 @@
 define('BASE_CORE_VERSION', '1.2.0');
 
 use lithium\core\Libraries;
-use base_core\extensions\cms\Features;
 use base_core\models\Assets;
 use lithium\net\http\Media as HttpMedia;
 

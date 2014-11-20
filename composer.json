@@ -21,7 +21,6 @@
         "uor/li3_flash_message": "dev-master as 1.0.0-dev",
         "atelierdisko/li3_mailer": "dev-master as 1.0.0-dev",
         "atelierdisko/jsend": "0.5.*",
-        "atelierdisko/ff": "dev-master as 0.5.0-dev",
         "unionofrad/lithium": "dev-dev as 1.0.0-dev",
         "composer/installers": "~1.0",
         "filp/whoops": "~1.0",

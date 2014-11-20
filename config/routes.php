@@ -11,7 +11,6 @@
  */
 
 use lithium\net\http\Router;
-use base_core\extensions\cms\Features;
 
 // Errors
 Router::connect('/403', [

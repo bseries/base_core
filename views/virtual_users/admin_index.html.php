@@ -1,6 +1,5 @@
 <?php
 
-use base_core\extensions\cms\Features;
 use lithium\core\Libraries;
 
 $this->set([

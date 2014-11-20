@@ -12,7 +12,6 @@
 
 use lithium\core\ErrorHandler;
 use lithium\core\Libraries;
-use lithium\core\Environment;
 use lithium\analysis\Logger;
 use lithium\util\String;
 use lithium\data\Connections;
@@ -20,7 +19,6 @@ use lithium\action\Dispatcher;
 use lithium\action\Request;
 use lithium\action\Response;
 use lithium\net\http\Media;
-use ff\Features;
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
@@ -29,10 +27,10 @@ use Whoops\Handler\PlainTextHandler;
 $path = dirname(Libraries::get(true, 'path'));
 ini_set('error_reporting', E_ALL);
 
-if (Environment::is('production')) {
-	ini_set('display_errors', false);
-} else {
+if (PROJECT_DEBUG) {
 	ini_set('display_errors', true);
+} else {
+	ini_set('display_errors', false);
 }
 
 $mapErrorType = function($type) {
@@ -94,7 +92,7 @@ $handler = function($info) use ($mapErrorType, $path) {
 
 	Logger::error($message);
 
-	return Environment::is('production');
+	return !PROJECT_DEBUG;
 };
 $errorHandler = function($code, $message, $file, $line = 0, $context = null) use ($handler) {
 	$trace = debug_backtrace();
@@ -125,7 +123,7 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 // set_exception_handler($exceptionHandler);
 
 // Whoops doesn't work reliably in cli.
-if (Environment::is('development') && PHP_SAPI !== 'cli') {
+if (PROJECT_DEBUG && PHP_SAPI !== 'cli') {
 	// Do not name this variable run as it might
 	// interfer with li3 console's run closure.
 	$whoops = new Run();
@@ -141,7 +139,7 @@ if (Environment::is('development') && PHP_SAPI !== 'cli') {
 	$whoops->register();
 }
 
-if (Features::enabled('logging')) {
+if (PROJECT_FEATURES_LOGGING) {
 	Logger::config([
 		'default' => [
 			'adapter' => 'File',
@@ -162,7 +160,7 @@ $errorResponse = function($request, $code) {
 	return Dispatcher::run($request);
 };
 
-if (!Environment::is('development')) {
+if (!PROJECT_DEBUG) {
 	Dispatcher::applyFilter('run', function($self, $params, $chain) use ($errorResponse){
 		try {
 			return $chain->next($self, $params, $chain);
