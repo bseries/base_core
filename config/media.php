@@ -13,11 +13,15 @@
 use base_core\models\Assets;
 use lithium\net\http\Media as HttpMedia;
 
-// Register "empty" schemes, base must be set
-// through app. Cannot provide sane defaults here.
-Assets::registerScheme('file');
-Assets::registerScheme('http');
-Assets::registerScheme('https');
+Assets::registerScheme('file', [
+	'base' => PROJECT_ASSETS_FILE_BASE
+]);
+Assets::registerScheme('http', [
+	'base' => PROJECT_ASSETS_HTTP_BASE
+]);
+Assets::registerScheme('https', [
+	'base' => PROJECT_ASSETS_HTTPS_BASE
+]);
 
 HttpMedia::type('binary', 'application/octet-stream', [
 	'cast' => false,
