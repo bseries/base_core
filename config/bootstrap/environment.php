@@ -12,15 +12,15 @@
 
 use lithium\core\Environment;
 
-Environment::set($map[PROJECT_CONTEXT]);
-
-// For BC
 $map = [
 	'test' => 'test',
 	'dev' => 'development',
 	'stage' => 'staging',
 	'prod' => 'production'
 ];
+Environment::set($map[PROJECT_CONTEXT]);
+
+// For BC
 Environment::is(function($request) use ($map) {
 	return $map[PROJECT_CONTEXT];
 });
