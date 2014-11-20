@@ -20,11 +20,11 @@ use li3_mailer\action\Mailer;
 use li3_flash_message\extensions\storage\FlashMessage;
 
 use base_core\models\Users;
-use base_core\models\Currencies;
 use base_core\extensions\cms\Settings;
 
 use base_address\models\Addresses;
 use billing_core\models\Invoices;
+use base_core\models\Currencies;
 
 class UsersController extends \base_core\controllers\BaseController {
 
@@ -97,7 +97,6 @@ class UsersController extends \base_core\controllers\BaseController {
 			'Europe/Berlin' => 'Europe/Berlin',
 			'UTC' => 'UTC'
 		];
-		$currencies = Currencies::find('list');
 		$locales = [
 			'de' => 'Deutsch',
 			'en' => 'English'
@@ -117,6 +116,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		}
 
 		if (Libraries::get('billing_core')) {
+			$currencies = Currencies::find('list');
 			$invoiceFrequencies = Invoices::enum('frequency');
 		}
 

@@ -18,10 +18,10 @@ use lithium\security\Auth;
 use li3_flash_message\extensions\storage\FlashMessage;
 
 use base_core\models\VirtualUsers;
-use base_core\models\Currencies;
 
 use base_address\models\Addresses;
 use billing_core\models\Invoices;
+use base_core\models\Currencies;
 
 class VirtualUsersController extends \base_core\controllers\BaseController {
 
@@ -45,7 +45,6 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 			'Europe/Berlin' => 'Europe/Berlin',
 			'UTC' => 'UTC'
 		];
-		$currencies = Currencies::find('list');
 		$locales = [
 			'de' => 'Deutsch',
 			'en' => 'English'
@@ -65,6 +64,7 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 		}
 
 		if (Libraries::get('billing_core')) {
+			$currencies = Currencies::find('list');
 			$invoiceFrequencies = Invoices::enum('frequency');
 		}
 
