@@ -52,6 +52,7 @@ date_default_timezone_set('UTC');
  * @see lithiumm\g11n\Message
  * @see lithiumm\core\Environment
  */
+
 Environment::set('test', ['locale' => 'en']);
 Environment::set('development', ['locale' => PROJECT_LOCALE]);
 Environment::set('staging', ['locale' => PROJECT_LOCALE]);

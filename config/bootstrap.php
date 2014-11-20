@@ -130,7 +130,17 @@ foreach ($moduleTypes as $prefix => $title) {
 		// Now auto load files from the modules config directories in order.
 		$path = Libraries::get($name, 'path');
 
-		foreach (['routes', 'settings', 'media', 'panes', 'widgets', 'misc'] as $config) {
+		$available = [
+			'routes',
+			'settings',
+			'media',
+			'jobs',
+			'panes',
+			'widgets',
+			'contents',
+			'misc'
+		];
+		foreach ($available as $config) {
 			if (file_exists($file = $path . "/config/{$config}.php")) {
 				require_once $file;
 			}
