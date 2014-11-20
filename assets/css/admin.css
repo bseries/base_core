@@ -1142,10 +1142,15 @@ tbody .status {
   font-weight: bold;
 }
 
+/* Nested Positions/Items in Forms */
+table.nested-items-alpha td {
+  padding: 10px;
+  vertical-align: top;
+}
+
 table .nested-add-action  {
   text-align: center;
 }
-
 table button.add-nested {
   width: 50px;
   height: 50px;
@@ -1161,6 +1166,7 @@ table button.add-nested:hover {
   background-size: auto 50px;
 }
 
+/* Sub-Items in Index */
 table .sub-item td:first-child {
   border-left: 30px solid var(--color-gray-dark);
 }

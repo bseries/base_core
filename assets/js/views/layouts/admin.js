@@ -101,8 +101,17 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
       $newNested.find('input,select').each(function() {
         $(this).attr('name', $(this).attr('name').replace(/\[new\]/, '[' + key + ']'));
       });
+
+      // New nested items may hava media attachment fields.
+      if ($newNested.find('.use-media-attachment-direct').length) {
+        require(['mediaAttachment'], function(MediaAttachment) {
+          MediaAttachment.direct($newNested.find('.use-media-attachment-direct'));
+        });
+      }
+
       $nested.find('tbody').append($newNested);
     });
+
     $nested.on('click', '.delete-nested',function(ev) {
       ev.preventDefault();
 
@@ -148,12 +157,12 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
   var attachJoined = $('.use-media-attachment-joined');
 
   if (attachDirect.length || attachJoined.length) {
-    require(['jquery', 'mediaAttachment'], function($, MediaAttachment) {
+    require(['mediaAttachment'], function(MediaAttachment) {
         attachDirect.each(function(k, el) {
-          MediaAttachment.direct(el, {endpoints: App.media.endpoints});
+          MediaAttachment.direct(el);
         });
         attachJoined.each(function(k, el) {
-          MediaAttachment.joined(el, {endpoints: App.media.endpoints});
+          MediaAttachment.joined(el);
         });
     });
   }
@@ -164,8 +173,8 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
   var editorElements = $('.use-editor');
 
   if (editorElements.length) {
-    require(['jquery', 'editor', 'editor-media'],
-      function($, Editor, EditorMedia) {
+    require(['editor', 'editor-media'],
+      function(Editor, EditorMedia) {
 
         var externalPlugins = {
           media: (new EditorMedia()).init({endpoints: App.media.endpoints})
@@ -203,8 +212,8 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
   //
   var sortableElement = $('.use-manual-sorting');
   if (sortableElement.length) {
-    require(['jquery', 'jqueryUi'],
-      function($) {
+    require(['jqueryUi'],
+      function() {
         sortableElement.sortable({
           placeholder: 'sortable-placeholder',
           items: '> tr',
