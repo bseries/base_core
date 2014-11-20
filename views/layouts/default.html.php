@@ -100,7 +100,7 @@ FlashMessage::clear();
 		</div>
 		<div id="modal-overlay" class="hide"></div>
 
-		<?php if (!Environment::is('production')): ?>
+		<?php if (PROJECT_DEBUG): ?>
 			<?=$this->view()->render(['element' => 'dev_bar'], [], [
 				'library' => 'base_core'
 			]) ?>
