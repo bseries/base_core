@@ -43,47 +43,44 @@ if (PROJECT_FEATURE_MEMCACHED) {
 	]);
 }
 
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	if (Environment::is('development')) {
-		return $chain->next($self, $params, $chain);
-	}
-	$cacheKey = 'core.libraries';
+if (!PROJECT_DEBUG) {
+	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+		$cacheKey = 'core.libraries';
 
-	if ($cached = Cache::read('default', $cacheKey)) {
-		$cached = (array) $cached + Libraries::cache();
-		Libraries::cache($cached);
-	}
-	$result = $chain->next($self, $params, $chain);
-
-	if ($cached != ($data = Libraries::cache())) {
-		Cache::write('default', $cacheKey, $data, '+1 day');
-	}
-	return $result;
-});
-
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	if (Environment::is('development')) {
-		return $chain->next($self, $params, $chain);
-	}
-	foreach (Connections::get() as $name) {
-		if (!(($connection = Connections::get($name)) instanceof Database)) {
-			continue;
+		if ($cached = Cache::read('default', $cacheKey)) {
+			$cached = (array) $cached + Libraries::cache();
+			Libraries::cache($cached);
 		}
-		$connection->applyFilter('describe', function($self, $params, $chain) use ($name) {
-			if ($params['fields']) {
-				return $chain->next($self, $params, $chain);
-			}
-			$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
+		$result = $chain->next($self, $params, $chain);
 
-			return Cache::read('default', $cacheKey, [
-				'write' => function() use ($self, $params, $chain) {
-					return ['+1 day' => $chain->next($self, $params, $chain)];
+		if ($cached != ($data = Libraries::cache())) {
+			Cache::write('default', $cacheKey, $data, '+1 day');
+		}
+		return $result;
+	});
+
+	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+		foreach (Connections::get() as $name) {
+			if (!(($connection = Connections::get($name)) instanceof Database)) {
+				continue;
+			}
+			$connection->applyFilter('describe', function($self, $params, $chain) use ($name) {
+				if ($params['fields']) {
+					return $chain->next($self, $params, $chain);
 				}
-			]);
-		});
-	}
-	return $chain->next($self, $params, $chain);
-});
+				$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
+
+				return Cache::read('default', $cacheKey, [
+					'write' => function() use ($self, $params, $chain) {
+						return ['+1 day' => $chain->next($self, $params, $chain)];
+					}
+				]);
+			});
+		}
+		return $chain->next($self, $params, $chain);
+	});
+}
+
 
 if (PROJECT_FEATURE_FPC) {
 	// Will ignore any existing session and dynamic data.
@@ -113,41 +110,40 @@ if (PROJECT_FEATURE_FPC) {
 	});
 }
 
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	if (Environment::is('development')) {
-		return $chain->next($self, $params, $chain);
-	}
-	$request  = $params['request'];
-	$response = $chain->next($self, $params, $chain);
+if (!PROJECT_DEBUG) {
+	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+		$request  = $params['request'];
+		$response = $chain->next($self, $params, $chain);
 
-	// Cache only HTML responses, JSON responses come from
-	// APIs and are most often highly dynamic.
-	if ($response->type() !== 'html' || strpos($request->url, '/admin') === 0 || Session::read('default')) {
-		$response->headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
-		$response->headers['Pragma'] = 'no-cache';
-		$response->headers['Expires'] = '0';
+		// Cache only HTML responses, JSON responses come from
+		// APIs and are most often highly dynamic.
+		if ($response->type() !== 'html' || strpos($request->url, '/admin') === 0 || Session::read('default')) {
+			$response->headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+			$response->headers['Pragma'] = 'no-cache';
+			$response->headers['Expires'] = '0';
+			return $response;
+		}
+
+		$hash = 'W/' . md5(serialize([
+			$response->body,
+			$response->headers,
+			PROJECT_VERSION
+		]));
+		$condition = trim($request->get('http:if_none_match'), '"');
+
+		if ($condition === $hash) {
+			$response->status(304);
+			$response->body = [];
+		}
+		$response->headers['ETag'] = "\"{$hash}\"";
 		return $response;
-	}
-
-	$hash = 'W/' . md5(serialize([
-		$response->body,
-		$response->headers,
-		PROJECT_VERSION
-	]));
-	$condition = trim($request->get('http:if_none_match'), '"');
-
-	if ($condition === $hash) {
-		$response->status(304);
-		$response->body = [];
-	}
-	$response->headers['ETag'] = "\"{$hash}\"";
-	return $response;
-});
+	});
+}
 
 //
 // Cache Router::match calls.
 //
-if (!Environment::is('development')) {
+if (!PROJECT_DEBUG) {
 	$cachedUrls = Cache::read('default', 'template_view_urls');
 
 	// Workaround as we currently cannot filter Dispatcher::run. This results into max nesting.
