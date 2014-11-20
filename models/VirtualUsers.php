@@ -19,7 +19,7 @@ use lithium\g11n\Message;
 
 use base_core\extensions\cms\Settings;
 
-use base_core\models\Addresses;
+use base_address\models\Addresses;
 
 class VirtualUsers extends \base_core\models\Base {
 
@@ -84,17 +84,17 @@ class VirtualUsers extends \base_core\models\Base {
 	// Can only be used if base_address is available. Address type field
 	// availability depends on used libraries.
 	public function address($entity, $type = 'billing') {
-		if (!static::hasField($field = "{$type}_address")) {
-			$message  = "User model has no field `{$filed}`. ";
+		if (!static::hasField("{$type}_address_id")) {
+			$message  = "User model has no field `{$type}_address_id`. ";
 			$message .= "You may need to require the ecommerce_core or billing_core library.";
 			throw new RuntimeException($message);
 		}
 
-		if ($entity->$field) {
+		if ($entity->{"{$type}_address"}) {
 			// Return if directly attached.
-			return $entity->$field;
+			return $entity->{"{$type}_address"};
 		}
-		if (!class_exists('Address')) {
+		if (!Libraries::get('base_address')) {
 			$message  = "The base_address library is not available. ";
 			$message .= "Require it as a dependency to enable `Users::address()`.";
 			throw new RuntimeException($message);
