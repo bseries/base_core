@@ -84,7 +84,10 @@ $this->set([
 						'list' => $addresses
 					]) ?>
 					<div class="help">
-						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'base_core']) ?>
+						<?= $this->html->link($t('Create new address.'), [
+							'library' => 'base_address',
+							'controller' => 'Addresses', 'action' => 'add'
+						]) ?>
 					</div>
 				</section>
 				<section class="grid-column-right">
@@ -123,7 +126,10 @@ $this->set([
 						'list' => $addresses
 					]) ?>
 					<div class="help">
-						<?= $this->html->link($t('Create new address.'), ['controller' => 'Addresses', 'action' => 'add', 'library' => 'base_core']) ?>
+						<?= $this->html->link($t('Create new address.'), [
+							'library' => 'base_address',
+							'controller' => 'Addresses', 'action' => 'add'
+						]) ?>
 					</div>
 				</section>
 				<?php if ($useRent = Libraries::get('ecommerce_rent')): ?>
