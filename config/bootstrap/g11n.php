@@ -52,12 +52,10 @@ date_default_timezone_set('UTC');
  * @see lithiumm\g11n\Message
  * @see lithiumm\core\Environment
  */
-// $locale = 'en';
-// $locales = ['en' => 'English'];
-
-// Environment::set('production', compact('locale', 'locales'));
-// Environment::set('development', compact('locale', 'locales'));
-Environment::set('test', ['locale' => 'en', 'locales' => ['en' => 'English']]);
+Environment::set('test', ['locale' => 'en']);
+Environment::set('development', ['locale' => PROJECT_LOCALE]);
+Environment::set('staging', ['locale' => PROJECT_LOCALE]);
+Environment::set('production', ['locale' => PROJECT_LOCALE]);
 
 /**
  * Effective/Request Locale
@@ -80,14 +78,14 @@ $setLocale = function($self, $params, $chain) {
 	try {
 		if (!$params['request']->locale()) {
 			$params['request']->locale(Locale::preferred(
-				$params['request'], Environment::get('locales')
+				$params['request'], explode(' ', PROJECT_LOCALES)
 			));
 		}
 		if ($locale = $params['request']->locale()) {
 			Environment::set(true, ['locale' => $locale]);
 		}
 	} catch (\Exception $e) {
-		// Cannot parse locale.
+		// Cannot parse locale. Will continue to use default effective locale.
 	}
 	return $chain->next($self, $params, $chain);
 };
