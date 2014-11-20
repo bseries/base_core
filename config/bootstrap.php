@@ -74,7 +74,6 @@ if (PHP_SAPI !== 'cli') {
 require 'bootstrap/session.php';
 require 'bootstrap/g11n.php';
 require 'bootstrap/media.php';
-require 'features.php';
 require 'settings.php';
 
 if (PHP_SAPI === 'cli') {
