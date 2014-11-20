@@ -139,7 +139,7 @@ if (PROJECT_DEBUG && PHP_SAPI !== 'cli') {
 	$whoops->register();
 }
 
-if (PROJECT_FEATURES_LOGGING) {
+if (PROJECT_FEATURE_LOGGING) {
 	Logger::config([
 		'default' => [
 			'adapter' => 'File',

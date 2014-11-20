@@ -51,7 +51,7 @@ require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/storage/Cache.php';
 Libraries::add('lithium');
 Libraries::add('app', ['default' => true]);
 
-require 'bootstrap/config/environment.php';
+require 'bootstrap/environment.php';
 require LITHIUM_APP_PATH . '/libraries/autoload.php';
 
 // Register any lithium libraries.

@@ -43,7 +43,7 @@ class Jobs extends \lithium\core\StaticObject {
 	}
 
 	public static function runName($name) {
-		if (!PROJECT_FEATURES_SCHEDULED_JOBS) {
+		if (!PROJECT_FEATURE_SCHEDULED_JOBS) {
 			Logger::debug("Scheduled jobs disabled! Tried running `{$name}`.");
 			return;
 		}
@@ -80,7 +80,7 @@ class Jobs extends \lithium\core\StaticObject {
 	}
 
 	public static function runFrequency($frequency) {
-		if (!PROJECT_FEATURES_SCHEDULED_JOBS) {
+		if (!PROJECT_FEATURE_SCHEDULED_JOBS) {
 			return;
 		}
 		if (!static::$_recurring[$frequency]) {
