@@ -128,11 +128,18 @@ foreach ($moduleTypes as $prefix => $title) {
 		]);
 
 		// Now auto load files from the modules config directories in order.
-		foreach (['routes', 'settings', 'media', 'panes', 'widgets', 'misc'] as $config) {
-			$file = Libraries::get($name, 'path') . "/config/{$config}.php";
+		$path = Libraries::get($name, 'path');
 
-			if (file_exists($file)) {
+		foreach (['routes', 'settings', 'media', 'panes', 'widgets', 'misc'] as $config) {
+			if (file_exists($file = $path . "/config/{$config}.php")) {
 				require_once $file;
+			}
+
+			if (file_exists($path . "/config/bootstrap.php")) {
+				trigger_error(
+					"Found deprecated bootstrap file in module `{$name}`.",
+					E_USER_DEPRECATED
+				);
 			}
 		}
 	}
