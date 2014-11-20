@@ -20,6 +20,9 @@ use Mobile_Detect as MobileDetect;
 use lithium\storage\Cache;
 use lithium\analysis\Logger;
 
+//
+// Automatic routes loading.
+//
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$libraries = Libraries::get();
 
@@ -37,12 +40,16 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
-// Admin routing
+//
+// Admin routing.
+//
 Dispatcher::config([
 	'rules' => ['admin' => ['action' => 'admin_{:action}']]
 ]);
 
+//
 // Admin layout.
+//
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$parsed = Router::parse($params['request']);
 
@@ -52,9 +59,13 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
+//
+// Layout variable injection.
+//
 // Inject environment variables into templates; remember variables are only
 // injected into the original template, for elements variables must be passed
 // manually. Uses application Users model if available.
+//
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	if ($params['handler']['type'] == 'html') {
 		if ($user = Auth::check('default')) {
@@ -72,7 +83,9 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
+//
 // Request logging.
+//
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$request = $params['request'];
 
@@ -104,70 +117,74 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
-// Mainteance page handling.
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	if (!Environment::get('maintenance')) {
-		return $chain->next($self, $params, $chain);
-	}
-	// if (($user = Auth::check('default')) && $user->role === 'admin') {
-	//	return $chain->next($self, $params, $chain);
-	// }
-	$message  = 'Showing maintenance page.';
-	Logger::debug($message);
+//
+// Maintenance page handling.
+//
+if (PROJECT_MAINTENANCE) {
+	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+		// if (($user = Auth::check('default')) && $user->role === 'admin') {
+		//	return $chain->next($self, $params, $chain);
+		// }
+		$message  = 'Showing maintenance page.';
+		Logger::debug($message);
 
-	$controller = Libraries::instance('controllers', 'base_core.Errors', [
-		'request' => $params['request']
-	]);
+		$controller = Libraries::instance('controllers', 'base_core.Errors', [
+			'request' => $params['request']
+		]);
 
-	return $controller(
-		$params['request'],
-		['action' => 'maintenance']
-	);
-});
+		return $controller(
+			$params['request'],
+			['action' => 'maintenance']
+		);
+	});
+}
 
-$detectDevice = function($request) {
-	$detect = new MobileDetect();
-	$headers = array_merge(
-		$detect->getUaHttpHeaders(),
-		array_keys($detect->getMobileHeaders()
-	));
+//
+// Device detection.
+//
+if (PROJECT_FEATURE_DEVICE_DETECTION) {
+	$detectDevice = function($request) {
+		$detect = new MobileDetect();
+		$headers = array_merge(
+			$detect->getUaHttpHeaders(),
+			array_keys($detect->getMobileHeaders()
+		));
 
-	$cacheKey = '';
+		$cacheKey = '';
 
-	foreach ($headers as $header) {
-		if ($value = $request->env($header)) {
-			$cacheKey .= $header . $value;
+		foreach ($headers as $header) {
+			if ($value = $request->env($header)) {
+				$cacheKey .= $header . $value;
+			}
 		}
-	}
-	$cacheKey = 'deviceDetection_' . md5($cacheKey);
+		$cacheKey = 'deviceDetection_' . md5($cacheKey);
 
-	if (!Environment::is('development') && ($ua = Cache::read('default', $cacheKey))) {
+		if (!PROJECT_DEBUG && ($ua = Cache::read('default', $cacheKey))) {
+			return $ua;
+		}
+		$ua = [
+			// 'isMobile' => $detect->isMobile(),
+			// 'isTablet' => $detect->isTablet(),
+			// 'mobileGrade' => $detect->mobileGrade(),
+			'isIos' => $detect->isiOS()
+		];
+
+		Cache::write('default', $cacheKey, $ua, '+1 week');
 		return $ua;
-	}
-	$ua = [
-		// 'isMobile' => $detect->isMobile(),
-		// 'isTablet' => $detect->isTablet(),
-		// 'mobileGrade' => $detect->mobileGrade(),
-		'isIos' => $detect->isiOS()
-	];
+	};
 
-	Cache::write('default', $cacheKey, $ua, '+1 week');
-	return $ua;
-};
-// Wrapped in dispatcher as we need the request object.
-Dispatcher::applyFilter('run', function($self, $params, $chain) use ($detectDevice) {
-	if (!PROJECT_FEATURE_DEVICE_DETECTION) {
-		return $chain->next($self, $params, $chain);
-	}
-	$device = $detectDevice($params['request']);
+	// Wrapped in dispatcher as we need the request object.
+	Dispatcher::applyFilter('run', function($self, $params, $chain) use ($detectDevice) {
+		$device = $detectDevice($params['request']);
 
-	Media::applyFilter('_handle', function($self, $params, $chain) use ($device) {
-		if ($params['handler']['type'] == 'html') {
-			$params['data']['device'] = $device;
-		}
+		Media::applyFilter('_handle', function($self, $params, $chain) use ($device) {
+			if ($params['handler']['type'] == 'html') {
+				$params['data']['device'] = $device;
+			}
+			return $chain->next($self, $params, $chain);
+		});
 		return $chain->next($self, $params, $chain);
 	});
-	return $chain->next($self, $params, $chain);
-});
+}
 
 ?>
