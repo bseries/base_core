@@ -18,11 +18,12 @@ $map = [
 	'stage' => 'staging',
 	'prod' => 'production'
 ];
-Environment::set($map[PROJECT_CONTEXT]);
 
-// For BC
-Environment::is(function($request) use ($map) {
+Environment::is(function() use ($map) {
 	return $map[PROJECT_CONTEXT];
 });
+
+// Trigger detector and even init unknown envs.
+Environment::set([]);
 
 ?>

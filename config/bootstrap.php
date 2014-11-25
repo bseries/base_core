@@ -63,7 +63,6 @@ foreach (glob(LITHIUM_LIBRARY_PATH . '/li3_*') as $item) {
 Libraries::add('base_core', [
 	'bootstrap' => false
 ]);
-
 require 'bootstrap/connections.php';
 require 'bootstrap/errors.php';
 require 'bootstrap/action.php';
