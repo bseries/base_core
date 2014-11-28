@@ -79,13 +79,14 @@ if (PHP_SAPI === 'cli') {
 	require 'bootstrap/console.php';
 }
 require 'bootstrap/auth.php';
-require 'panes.php';
+require 'bootstrap/mail.php';
 
 // ------------------------------------------------------------------------------------------------
 
 require LITHIUM_APP_PATH . '/config/routes.php';
 require 'routes.php';
 
+require 'panes.php';
 require 'media.php';
 require 'widgets.php';
 require 'access.php';
