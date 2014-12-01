@@ -1,17 +1,29 @@
-<script>
-App = {
-	assets: {
-		base: "<?= $this->assets->base() ?>"
-	},
-	media: {
-		base: "<?= $this->media->base() ?>"
-	},
-	api: {
-		<?php if (!empty($admin)): ?>
-			discover: "<?= $this->url(['library' => 'base_core', 'action' => 'api_discover', 'admin' => true, 'controller' => 'App']) ?>"
-		<?php else: ?>
-			discover: "<?= $this->url(['action' => 'api_discover', 'controller' => 'App']) ?>"
-		<?php endif ?>
-	}
+<?php
+
+$discoverUrl = [
+	'controller' => 'App', 'action' => 'api_discover'
+];
+
+if (!empty($admin)) {
+	$discoverUrl += [
+		'library' => 'base_core', 'admin' => true
+	];
 }
+
+$app = [
+	'assets' => [
+		'base' => $this->assets->base()
+	],
+	'media' => [
+		'base' => $this->media->base()
+	],
+	'api' => [
+		'discover' => $this->url($discoverUrl)
+	]
+];
+
+?>
+<!-- App Defines -->
+<script>
+	App = <?php echo json_encode($app, JSON_PRETTY_PRINT) ?>
 </script>
