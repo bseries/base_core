@@ -18,7 +18,7 @@ use lithium\util\Set;
 class Serializable extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
-		'fields' => [],
+		'fields' => []
 	];
 
 	protected static function _config($model, $behavior, $config, $defaults) {
@@ -87,9 +87,10 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 
 	protected static function _normalize($value, $pass) {
 		$normalize = function($values) {
-			$values = array_filter(array_map('trim', $values));
-			sort($values);
-
+			if (is_numeric(key($values))) {
+				$values = array_filter(array_map('trim', $values));
+				sort($values);
+			}
 			return $values;
 		};
 
