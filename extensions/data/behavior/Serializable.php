@@ -42,7 +42,16 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 				$params['data'][$field] = static::_normalize($params['data'][$field], $type);
 				$params['data'][$field] = static::_serialize($params['data'][$field], $type);
 			}
-			return $chain->next($self, $params, $chain);
+			$result = $chain->next($self, $params, $chain);
+
+			foreach ($behavior->config('fields') as $field => $type) {
+				if (!isset($params['entity']->{$field})) {
+					continue;
+				}
+				$params['entity']->{$field} = static::_unserialize($params['entity']->{$field}, $type);
+			}
+
+			return $result;
 		});
 		$model::applyFilter('find', function($self, $params, $chain) use ($behavior) {
 			$result = $chain->next($self, $params, $chain);
