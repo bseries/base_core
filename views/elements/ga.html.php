@@ -11,7 +11,7 @@ use base_core\extensions\cms\Settings;
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', '<?php echo Settings::read('service.googleAnalytics.default.account') ?>', '<?php echo Settings::read('googleAnalytics.default.domain') ?>');
-  ga('anonymizeIp', true);
+  ga('set', 'anonymizeIp', true);
   ga('send', 'pageview');
 
 </script>
