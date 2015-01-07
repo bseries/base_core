@@ -10,19 +10,19 @@
     },
     "require": {
         "php": ">=5.5.0",
-        "mobiledetect/mobiledetectlib": "2.*",
-        "davidpersson/temporary": "1.*",
-        "davidpersson/li3_behaviors": "1.1.*",
-        "atelierdisko/li3_access": "1.0.*",
+        "mobiledetect/mobiledetectlib": "2.*@stable",
+        "davidpersson/temporary": "1.0.*@stable",
+        "davidpersson/li3_behaviors": "1.1.*@stable",
+        "atelierdisko/li3_access": "1.0.*@beta",
         "unionofrad/li3_cldr": "1.0.*@beta",
         "unionofrad/li3_lldr": "1.0.*@beta",
         "atelierdisko/li3_flash_message": "1.0.*@beta",
         "atelierdisko/li3_mailer": "1.0.*@beta",
         "atelierdisko/jsend": "0.5.*@beta",
         "unionofrad/lithium": "dev-dev as 1.0.0-dev",
-        "composer/installers": "~1.0",
-        "filp/whoops": "~1.0",
-        "czproject/dependency-php": "1.0.*"
+        "composer/installers": "1.0.*@stable",
+        "filp/whoops": "1.1.*@stable",
+        "czproject/dependency-php": "1.0.*@stable"
     },
     "suggests": {
       "ext-memcached": "Enables highly-performant object caching."
