@@ -11,7 +11,6 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.0",
-        "naneau/semver": "0.0.*",
         "mobiledetect/mobiledetectlib": "2.*",
         "davidpersson/temporary": "1.*",
         "davidpersson/li3_behaviors": "1.1.*",

@@ -100,12 +100,6 @@ FlashMessage::clear();
 		</div>
 		<div id="modal-overlay" class="hide"></div>
 
-		<?php if (PROJECT_DEBUG): ?>
-			<?=$this->view()->render(['element' => 'dev_bar'], [], [
-				'library' => 'base_core'
-			]) ?>
-		<?php endif ?>
-
 		<div id="container">
 			<header class="main">
 				<?=$this->view()->render(['element' => 'header'], compact('authedUser'), [
