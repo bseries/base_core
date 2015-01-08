@@ -65,7 +65,6 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
   //
   // Table sorting/filtering
   //
-
   var $list = $('.use-list');
   if ($list.length) {
     var listValueNames = [];
