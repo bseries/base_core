@@ -132,7 +132,10 @@ class Nav extends \lithium\template\Helper {
 				case 'contain':
 				case 'loose':
 					if (preg_match('#://(.*)#', $url, $matches)) {
-						$url = $matches[1];
+						$url = $matches[1]; // Ignore protocol.
+					}
+					if (preg_match('/(.*)#/', $url, $matches)) {
+						$url = $matches[1]; // Ignore hashes (#).
 					}
 				case 'strict':
 					$match = $this->_matchContain($url, $this->_context->request()->url);
