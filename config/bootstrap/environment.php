@@ -14,13 +14,15 @@ use lithium\core\Environment;
 
 $map = [
 	'test' => 'test',
-	'dev' => 'development',
 	'stage' => 'staging',
 	'prod' => 'production'
 ];
 
 Environment::is(function() use ($map) {
-	return $map[PROJECT_CONTEXT];
+	if (isset($map[PROJECT_CONTEXT])) {
+		return $map[PROJECT_CONTEXT];
+	}
+	return 'development';
 });
 
 // Trigger detector and even init unknown envs.
