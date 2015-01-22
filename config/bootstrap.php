@@ -10,7 +10,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-define('BASE_CORE_VERSION', '1.2.0');
+define('BASE_CORE_VERSION', '1.3.0');
 
 use lithium\core\Libraries;
 use lithium\net\http\Media as HttpMedia;
