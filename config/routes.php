@@ -22,6 +22,26 @@ $modifiers = [
 ];
 $persist = ['admin', 'controller'];
 
+// Explicit API routes for service discovery, JS routing and general API.
+// /admin/api/base-core/app/discover
+// /admin/api/base-core/widgets/total-revenue
+Router::connect('/admin/api/discover', [
+	'controller' => 'app',
+	'action' => 'discover',
+	'library' => 'base_core',
+	'admin' => true,
+	'api' => true
+], compact('modifiers', 'persist'));
+
+Router::connect('/admin/api/widgets/{:name}', [
+	'controller' => 'widgets',
+	'action' => 'api_view',
+	'library' => 'base_core',
+	'admin' => true,
+	'api' => true
+], compact('modifiers', 'persist'));
+
+
 // Error routes for showcasing and developing error pages. Normally those aren't
 // viewed directly. Commonly an exception inside the app will be handled and
 // then the error controller be called.
@@ -44,24 +64,9 @@ Router::connect('/browser', [
 	'controller' => 'Errors', 'action' => 'browser', 'library' => 'base_core'
 ]);
 
-// Explicit API routes for service discovery, JS routing and general API.
-// /admin/api/base-core/app/discover
-// /admin/api/base-core/widgets/total-revenue
-Router::connect('/admin/api/discover', [
-	'controller' => 'app',
-	'action' => 'discover',
-	'library' => 'base_core',
-	'admin' => true,
-	'api' => true
-], compact('modifiers', 'persist'));
-
-Router::connect('/admin/api/widgets/{:name}', [
-	'controller' => 'widgets',
-	'action' => 'api_view',
-	'library' => 'base_core',
-	'admin' => true,
-	'api' => true
-], compact('modifiers', 'persist'));
+//
+// Generic Routes
+//
 
 // Generic index route.
 // /admin/ecommerce/orders
