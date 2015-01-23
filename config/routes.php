@@ -12,7 +12,19 @@
 
 use lithium\net\http\Router;
 
-// Errors
+$modifiers = [
+	'library' => function($v) {
+		return str_replace('-', '_', $v);
+	},
+	'action' => function($v) {
+		return str_replace('-', '_', $v);
+	}
+];
+$persist = ['admin', 'controller'];
+
+// Error routes for showcasing and developing error pages. Normally those aren't
+// viewed directly. Commonly an exception inside the app will be handled and
+// then the error controller be called.
 Router::connect('/403', [
 	'controller' => 'Errors', 'action' => 'fourohthree', 'library' => 'base_core'
 ]);
@@ -32,55 +44,68 @@ Router::connect('/browser', [
 	'controller' => 'Errors', 'action' => 'browser', 'library' => 'base_core'
 ]);
 
-// Administration
-$persist = ['persist' => ['admin', 'controller']];
-
-Router::connect('/admin', [
-	'controller' => 'pages', 'action' => 'home', 'library' => 'base_core', 'admin' => true
-], $persist);
-
-Router::connect('/admin/session', [
-	'controller' => 'users', 'action' => 'session', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/login', [
-	'controller' => 'users', 'action' => 'login', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/logout', [
-	'controller' => 'users', 'action' => 'logout', 'library' => 'base_core', 'admin' => true
-], $persist);
-
-// Users
-Router::connect('/admin/users/{:id:[0-9]+}/change-role/{:role}', [
-	'controller' => 'users', 'action' => 'change_role', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/users/{:action}/{:id:[0-9]+}', [
-	'controller' => 'users', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/users/{:action}/{:args}', [
-	'controller' => 'users', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/virtual-users/{:id:[0-9]+}/change-role/{:role}', [
-	'controller' => 'VirtualUsers', 'action' => 'change_role', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/virtual-users/{:action}/{:id:[0-9]+}', [
-	'controller' => 'VirtualUsers', 'library' => 'base_core', 'admin' => true
-], $persist);
-Router::connect('/admin/virtual-users/{:action}/{:args}', [
-	'controller' => 'VirtualUsers', 'library' => 'base_core', 'admin' => true
-], $persist);
-
-// Misc
-Router::connect('/admin/support', [
-	'controller' => 'pages', 'action' => 'support', 'library' => 'base_core', 'admin' => true
-], $persist);
-
-// Administration JavaScript Environment
+// Explicit API routes for service discovery, JS routing and general API.
+// /admin/api/base-core/app/discover
+// /admin/api/base-core/widgets/total-revenue
 Router::connect('/admin/api/discover', [
-	'controller' => 'app', 'action' => 'api_discover', 'library' => 'base_core', 'admin' => true
-], $persist);
+	'controller' => 'app',
+	'action' => 'discover',
+	'library' => 'base_core',
+	'admin' => true,
+	'api' => true
+], compact('modifiers', 'persist'));
 
 Router::connect('/admin/api/widgets/{:name}', [
-	'controller' => 'widgets', 'action' => 'api_view', 'library' => 'base_core', 'admin' => true
-], $persist);
+	'controller' => 'widgets',
+	'action' => 'api_view',
+	'library' => 'base_core',
+	'admin' => true,
+	'api' => true
+], compact('modifiers', 'persist'));
+
+// Generic index route.
+// /admin/ecommerce/orders
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-]+}", [
+	'action' => 'index',
+	'admin' => true
+], compact('modifiers', 'persist'));
+
+// Generic action route.
+// /admin/ecommerce/orders/delete/23
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}/{:id:[0-9]+}", [
+	'admin' => true
+], compact('modifiers', 'persist'));
+
+// Generic view route.
+// /admin/ecommerce/orders/23
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-]+}/{:id:[0-9]+}", [
+	'action' => 'view',
+	'admin' => true
+], compact('modifiers', 'persist'));
+
+// Generic add route.
+// /admin/ecommerce/orders/add
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/add", [
+	'action' => 'add',
+	'admin' => true
+], compact('modifiers', 'persist'));
+
+// Generic action route with value.
+// /admin/ecommerce/orders/update-status/23/checked-out
+
+// FIXME: Turn the rules below this commented route into a generic rules.
+// Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}/{:id:[0-9]+}/{:value}", [
+//	'admin' => true
+// ], compact('modifiers', 'persist'));
+
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/update-status/{:id:[0-9]+}/{:status}", [
+	'admin' => true,
+	'action' => 'update-status'
+], compact('modifiers', 'persist'));
+
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:id:[0-9]+}/change-role/{:role}", [
+	'admin' => true,
+	'action' => 'change_role'
+], compact('modifiers', 'persist'));
 
 ?>

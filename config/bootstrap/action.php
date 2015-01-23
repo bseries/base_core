@@ -21,10 +21,13 @@ use lithium\storage\Cache;
 use lithium\analysis\Logger;
 
 //
-// Admin routing.
+// Admin routing. Order matters.
 //
 Dispatcher::config([
-	'rules' => ['admin' => ['action' => 'admin_{:action}']]
+	'rules' => [
+		'api' => ['action' => 'api_{:action}'],
+		'admin' => ['action' => 'admin_{:action}'],
+	]
 ]);
 
 //
