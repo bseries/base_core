@@ -1584,7 +1584,7 @@ tbody tr.highlight-anchored td {
 
 /* Dashboard / Widgets
 ---------------------------------------------------------------- */
-.view-pages-admin-home .widgets {
+.home .widgets {
   max-width: 950px;
   column-count: 2;
   column-gap: var(--space-h-tight);
