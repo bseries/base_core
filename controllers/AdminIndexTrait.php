@@ -18,9 +18,9 @@ trait AdminIndexTrait {
 		$model = $this->_model;
 
 		$data = $model::find('all', [
-			'order' => ['created' => 'DESC']
+			'order' => ['modified' => 'DESC']
 		]);
-		return compact('data');
+		return compact('data') + $this->_selects();
 	}
 }
 
