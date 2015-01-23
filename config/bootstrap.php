@@ -131,6 +131,7 @@ foreach ($moduleTypes as $prefix => $title) {
 		$path = Libraries::get($name, 'path');
 
 		$available = [
+			'routes',
 			'settings',
 			'media',
 			'jobs',
@@ -149,12 +150,6 @@ foreach ($moduleTypes as $prefix => $title) {
 		if (file_exists($path . "/config/bootstrap.php")) {
 			trigger_error(
 				"Found deprecated bootstrap file in module `{$name}`.",
-				E_USER_DEPRECATED
-			);
-		}
-		if (file_exists($path . "/config/routes.php")) {
-			trigger_error(
-				"Found deprecated routes file in module `{$name}`.",
 				E_USER_DEPRECATED
 			);
 		}
