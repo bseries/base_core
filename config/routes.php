@@ -22,7 +22,33 @@ $modifiers = [
 ];
 $persist = ['admin', 'controller'];
 
-// Explicit API routes for service discovery, JS routing and general API.
+//
+// Explicit routes for this module.
+//
+
+// Route for dashboard / home.
+Router::connect('/admin', [
+	'controller' => 'Pages',
+	'action' => 'home',
+	'library' => 'base_core',
+	'admin' => true
+], compact('modifiers', 'persist'));
+
+Router::connect('/admin/session', [
+	'controller' => 'Users',
+	'action' => 'session',
+	'library' => 'base_core',
+	'admin' => true
+], compact('modifiers', 'persist'));
+
+Router::connect('/admin/logout', [
+	'controller' => 'Users',
+	'action' => 'logout',
+	'library' => 'base_core',
+	'admin' => true
+], compact('modifiers', 'persist'));
+
+// Routes for service discovery, JS routing and general API.
 // /admin/api/base-core/app/discover
 // /admin/api/base-core/widgets/total-revenue
 Router::connect('/admin/api/discover', [
@@ -69,34 +95,34 @@ Router::connect('/browser', [
 //
 
 // Generic index route.
-// /admin/ecommerce/orders
+// /admin/ecommerce-core/orders
 Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-]+}", [
 	'action' => 'index',
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
 // Generic action route.
-// /admin/ecommerce/orders/delete/23
+// /admin/ecommerce-core/orders/delete/23
 Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}/{:id:[0-9]+}", [
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
 // Generic view route.
-// /admin/ecommerce/orders/23
+// /admin/ecommerce-core/orders/23
 Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-]+}/{:id:[0-9]+}", [
 	'action' => 'view',
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
-// Generic add route.
-// /admin/ecommerce/orders/add
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/add", [
-	'action' => 'add',
+// Generic single action route.
+// /admin/ecommerce-core/orders/add
+// /admin/base-media/media/transfer
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}", [
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
 // Generic action route with value.
-// /admin/ecommerce/orders/update-status/23/checked-out
+// /admin/ecommerce-core/orders/update-status/23/checked-out
 
 // FIXME: Turn the rules below this commented route into a generic rules.
 // Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}/{:id:[0-9]+}/{:value}", [
@@ -105,7 +131,7 @@ Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/add", [
 
 Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/update-status/{:id:[0-9]+}/{:status}", [
 	'admin' => true,
-	'action' => 'update-status'
+	'action' => 'update_status'
 ], compact('modifiers', 'persist'));
 
 Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:id:[0-9]+}/change-role/{:role}", [
