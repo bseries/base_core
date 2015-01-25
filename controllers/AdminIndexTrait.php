@@ -34,8 +34,8 @@ trait AdminIndexTrait {
 		$totalPages = ceil($model::find('count') / $perPage);
 
 		$paging = [
-			'current' => $page,
-			'total' => $totalPages
+			'current' => (integer) $page,
+			'total' => (integer) $totalPages
 		];
 
 		return compact('data', 'paging') + $this->_selects();

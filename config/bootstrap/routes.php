@@ -34,7 +34,7 @@ $formatters = [
 		return str_replace('_', '-', $v);
 	}
 ];
-$persist = ['admin', 'controller'];
+$persist = ['admin', 'controller', 'library'];
 
 $library = '{:library:[a-z\-]+}';
 $controller = '{:controller:[a-z\-]+}';
@@ -53,6 +53,10 @@ Router::connect("/admin/{$library}/{$controller}", [
 ], compact('modifiers', 'formatters', 'persist'));
 
 // Generic page and sorted index route.
+Router::connect("/admin/{$library}/{$controller}/page:{:page:\d+}", [
+	'action' => 'index',
+	'admin' => true
+], compact('modifiers', 'formatters', 'persist'));
 Router::connect("/admin/{$library}/{$controller}/page:{:page:\d+},order:{:orderField:[\w\-]+}@{orderDirection:(desc|asc)+}", [
 	'action' => 'index',
 	'admin' => true
