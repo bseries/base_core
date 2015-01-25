@@ -24,10 +24,22 @@ use lithium\analysis\Logger;
 // Admin routing. Order matters.
 //
 Dispatcher::config([
-	'rules' => [
-		'api' => ['action' => 'api_{:action}'],
-		'admin' => ['action' => 'admin_{:action}'],
-	]
+	// FIXME: Use simple continued rules, once they become available
+	//        as a feature in lithium instead of callback.
+	// 'api' => ['action' => 'api_{:action}'],
+	// 'admin' => ['action' => 'admin_{:action}']
+	'rules' => function($params) {
+		if (isset($params['api'], $params['admin'])) {
+			return ['action' => ['action' => 'admin_api_{:action}']];
+		}
+		if (isset($params['admin'])) {
+			return ['action' => ['action' => 'admin_{:action}']];
+		}
+		if (isset($params['api'])) {
+			return ['action' => ['action' => 'api_{:action}']];
+		}
+		return [];
+	}
 ]);
 
 //

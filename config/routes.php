@@ -29,6 +29,13 @@ Router::connect('/admin/session', [
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
+Router::connect('/admin/login', [
+	'controller' => 'Users',
+	'action' => 'login',
+	'library' => 'base_core',
+	'admin' => true
+], compact('modifiers', 'persist'));
+
 Router::connect('/admin/logout', [
 	'controller' => 'Users',
 	'action' => 'logout',
