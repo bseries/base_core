@@ -14,10 +14,8 @@ define('router', ['jquery'], function($) {
   // Expects to have access to a global `App` object that must
   // have a `routes` property defined on it, containing all
   // route mappings.
-  function Router() {
-    var _this = this;
-
-    this.match = function(name, params) {
+  window.router = {
+    match: function(name, params) {
       var dfr = new $.Deferred();
       var template = App.routes[name];
 
@@ -27,9 +25,8 @@ define('router', ['jquery'], function($) {
       dfr.resolve(template);
 
       return dfr;
-    };
-  }
+    }
+  };
 
-  window.router = Router;
   return window.router;
 });
