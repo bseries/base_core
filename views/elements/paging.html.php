@@ -1,54 +1,10 @@
 <?php
 
-// Always show first and last and three around current active.
-$jumps = range(1, $total);
+var_dump($paginator->getPages());die;
 
-if (count($jumps) > 10) {
-	if ($current > $total -  5) {
-		$jumps = array();
-
-		$jumps[] = 1;
-		$jumps[] = '...';
-
-		// 3 before, 3 after
-
-		for ($i = ($total - $current) + 3; $i > 0; $i--) {
-			$jumps[] = $current - $i;
-		}
-
-		// n after, includes current.
-		for ($i = $current; $i <= $total; $i++) {
-			$jumps[] = $i;
-		}
-
-	} elseif ($current > 5) {
-		$jumps[] = $total;
-		$jumps = array();
-
-		$jumps[] = 1;
-		$jumps[] = '...';
-
-		// 3 before, 3 after
-		for ($i = 1; $i <= 3; $i++) {
-			$jumps[] = $current - $i;
-		}
-		$jumps[] = $current;
-
-		// 3 before, 3 after
-		for ($i = 1; $i <= 3; $i++) {
-			$jumps[] = $current + $i;
-		}
-
-		$jumps[] = '...';
-		$jumps[] = $total;
-	} else {
-		$jumps = range(1, 8);
-		$jumps[] = '...';
-		$jumps[] = $total;
-	}
+foreach ($paginator as $i) {
+var_dump($i);
 }
-var_dump($jumps);
-
 ?>
 <?php if ($total > 0): ?>
 	<nav class="nav-paging">

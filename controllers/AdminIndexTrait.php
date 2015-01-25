@@ -12,18 +12,30 @@
 
 namespace base_core\controllers;
 
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\ArrayAdapter;
+
 trait AdminIndexTrait {
 
 	public function admin_index() {
 		$model = $this->_model;
 
-		// Handle pagination.
-		$page = $this->request->page ?: 1;
-		$perPage = 20;
-
 		// Handle sorting. We support sorting by one
 		// dimension at a time only.
 		$order = ['modified' => 'DESC'];
+
+		// Handle pagination.
+		$page = $this->request->page ?: 1;
+		Paginator::setDefaultItemCountPerPage($perPage = 20);
+		Paginator::setDefaultScrollingStyle('Sliding');
+
+		$count = $model::find('count');
+
+		$paginator = new Paginator(new ArrayAdapter(
+			range(0, $count)
+		));
+		$paginator->setCurrentPageNumber($page);
+		$paginator->setCacheEnabled(false);
 
 		$data = $model::find('all', [
 			'page' => $page,
@@ -31,14 +43,7 @@ trait AdminIndexTrait {
 			'order' => $order
 		]);
 
-		$totalPages = ceil($model::find('count') / $perPage);
-
-		$paging = [
-			'current' => (integer) $page,
-			'total' => (integer) $totalPages
-		];
-
-		return compact('data', 'paging') + $this->_selects();
+		return compact('data', 'paginator') + $this->_selects();
 	}
 }
 
