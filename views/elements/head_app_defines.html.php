@@ -1,12 +1,12 @@
 <?php
 
 $discoverUrl = [
-	'controller' => 'App', 'action' => 'api_discover'
+	'controller' => 'App', 'action' => 'discover', 'api' => true
 ];
 
 if (!empty($admin)) {
 	$discoverUrl += [
-		'library' => 'base_core', 'admin' => true
+		'library' => 'base_core', 'admin' => true, 'api' => true
 	];
 }
 

@@ -10,70 +10,190 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-define('BASE_CORE_VERSION', '1.3.0');
+//
+// This bootstrap file boots the application as well as any libraries, plugins or modules.
+//
+// ## Environment
+// We are using our own environment handling through .env files. This replaces
+// the lithium environment handling, which may - in future - go away.
+//
+// ## Loading
+// There are 3 groups of libraries (lithium libraries, bento modules, composer libraries)
+// that are loaded depending on their type by either of the 2 available autoloaders (lithium
+// or composer). Both lithium libaries and bento modules are loaded through lithium's autoloader
+// all other make use of the composer autoloader.
+//
+// ## Configurations
+// During bootstrap configuration is loaded from the modules and the app. The configuration
+// file names are defined formally by the bootstrap function `bootstrapFormal()` below. This
+// somewhat differs from common lithium app's and libraries.
+//
+// ### Routes
+// Route configuration is handled in a special way as routes defined first will match
+// first. App routes are always loaded first, then explicit module routes and at the
+// very last the most generic module routes. Modules should never define app routes.
+//
+// ### Settings
+// Modules don't have access to settings to the app's settings during configuration. The
+// app itself has access to default settings as defined in the modules configuration. This
+// is to prevent modules from overwriting the app's settings.
+
+//
+// Function definitions.
+//
+
+$defineFromDotEnvFile = function($file) {
+	$fh = fopen($file, 'r');
+	$results = [];
+
+	while (!feof($fh)) {
+		$line = fgets($fh);
+
+		if (!preg_match('/(?:export )?([a-zA-Z_][a-zA-Z0-9_]*)=(.*)/', $line, $matches)) {
+			continue;
+		}
+		$key = $matches[1];
+		$value = trim($matches[2], '"\'');
+
+		switch ($value) {
+			case 'y':
+			case 'yes':
+			case 'true':
+				$value = true;
+				break;
+			case 'n':
+			case 'no':
+			case 'false':
+				$value = false;
+				break;
+		}
+		define('PROJECT_' . $key, $value);
+	}
+
+	fclose($fh);
+	return $results;
+};
+
+// Implements a boostraping function that replaces the common lithium bootstraping for
+// modules and app.
+$bootstrapFormal = function($name, $path) {
+	if ($name !== 'app') {
+		$available = [
+			'version',
+			'routes',
+			'settings',
+			'media',
+			'jobs',
+			'panes',
+			'widgets',
+			'contents',
+			'misc'
+		];
+	} else {
+		// Load app configuration last, so it can overwrite module default configuration and
+		// isn't overwritten by anything else.
+		$available = [
+			// App routes have already been loaded.
+			'settings',
+			'media',
+			'access',
+			'switchboard',
+			'base',
+			'cms',
+			'billing',
+			'ecommerce'
+		];
+	}
+
+	foreach ($available as $config) {
+		if (file_exists($file = $path . "/config/{$config}.php")) {
+			require_once $file;
+		}
+	}
+
+	// Configuration deprecations.
+	if (file_exists($path . "/config/bootstrap.php")) {
+		trigger_error(
+			"Found deprecated bootstrap file in `{$name}`.",
+			E_USER_DEPRECATED
+		);
+	}
+};
+
+//
+// Preparing the environment.
+//
+
+// Load the currently active environment file from the project's root/config directory.
+// Assumes we are located inside `project/app/libraries/base_core/config`. Any variables
+// defined inside the env file are prefixed with `PROJECT_`.
+$defineFromDotEnvFile(dirname(dirname(dirname(dirname(__DIR__)))) . '/config/current.env');
+
+// Define some lithium internal constants. We won't use them ourserselves as they are
+// planned to go away in future lithium versions.
+define('LITHIUM_APP_PATH', PROJECT_PATH . '/app');
+define('LITHIUM_LIBRARY_PATH', PROJECT_PATH . '/app/libraries');
+
+//
+// Lithium library loading.
+//
+
+// Preload some classes always used to increase performance.
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Object.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/StaticObject.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/Collection.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/collection/Filters.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/Inflector.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/String.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Adaptable.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Environment.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/Message.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Message.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Media.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Request.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Response.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Route.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Router.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Controller.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Dispatcher.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Request.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Response.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/View.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/view/Renderer.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/view/Compiler.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/view/adapter/File.php';
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/storage/Cache.php';
+
+// Make lithium's autoloader class available and initialize composer's autoloader. Composer's
+// autoloader is by default aware of all its libraries through a statically generated file.
+// Lithium's autoloader must be told of them via `Libaries::add()`.
+require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Libraries.php';
+require PROJECT_PATH . '/app/libraries/autoload.php';
 
 use lithium\core\Libraries;
-use lithium\net\http\Media as HttpMedia;
-use base_core\models\Assets;
-
-if (!include LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/core/Libraries.php') {
-	$message  = "Lithium core could not be found.  Check the value of LITHIUM_LIBRARY_PATH in ";
-	$message .= __FILE__ . ".  It should point to the directory containing your ";
-	$message .= "/libraries directory.";
-	throw new ErrorException($message);
-}
-
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/core/Object.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/core/StaticObject.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/util/Collection.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/util/collection/Filters.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/util/Inflector.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/util/String.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/core/Adaptable.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/core/Environment.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/net/Message.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/net/http/Message.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/net/http/Media.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/net/http/Request.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/net/http/Response.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/net/http/Route.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/net/http/Router.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/action/Controller.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/action/Dispatcher.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/action/Request.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/action/Response.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/template/View.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/template/view/Renderer.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/template/view/Compiler.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/template/view/adapter/File.php';
-require LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/storage/Cache.php';
 
 Libraries::add('lithium');
-Libraries::add('app', ['default' => true]);
 
+// Make lithium understand our environment management.
 require 'bootstrap/environment.php';
-require LITHIUM_APP_PATH . '/libraries/autoload.php';
 
-// Register any lithium libraries.
-foreach (glob(LITHIUM_LIBRARY_PATH . '/li3_*') as $item) {
+// Register any lithium libraries. These must come before
+// loading any other bento modules as they possibly make
+// use of them.
+foreach (glob(PROJECT_ROOT . '/app/libraries/li3_*') as $item) {
 	Libraries::add(basename($item));
 }
 
-// Adding myself.
-Libraries::add('base_core', [
-	'bootstrap' => false
-]);
 require 'bootstrap/connections.php';
 require 'bootstrap/errors.php';
 require 'bootstrap/action.php';
 
 if (PHP_SAPI !== 'cli') {
 	require 'bootstrap/cache.php';
+	require 'bootstrap/session.php';
 }
-require 'bootstrap/session.php';
 require 'bootstrap/g11n.php';
 require 'bootstrap/media.php';
-require 'settings.php';
 
 if (PHP_SAPI === 'cli') {
 	require 'bootstrap/console.php';
@@ -83,18 +203,16 @@ require 'bootstrap/mail.php';
 
 // ------------------------------------------------------------------------------------------------
 
-require LITHIUM_APP_PATH . '/config/routes.php';
-require 'routes.php';
-
-require 'panes.php';
-require 'media.php';
-require 'widgets.php';
-require 'access.php';
+require PROJECT_ROOT . '/app/config/routes.php';
 
 // ------------------------------------------------------------------------------------------------
 
-// Continue loading and bootstrapping modules. Certain modules may already been loaded. These
-// must be skipped. Also we load the module types in order. Always load core modules first.
+//
+// Loading modules.
+//
+
+// Continue loading and bootstrapping modules. Also we load the module types in order. Always
+// load core modules first.
 
 $moduleTypes = [ // This array also defines the primary order in which modules are loaded.
 	'base' => 'Bento', // base modules must come first.
@@ -102,9 +220,10 @@ $moduleTypes = [ // This array also defines the primary order in which modules a
 	'billing' => 'Billing',
 	'ecommerce' => 'Boutique'
 ];
+
 foreach ($moduleTypes as $prefix => $title) {
 	$modules = array_map('basename', glob(
-		LITHIUM_LIBRARY_PATH . "/{$prefix}_*",
+		PROJECT_ROOT . "/app/libraries/{$prefix}_*",
 		GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
 	));
 
@@ -118,42 +237,27 @@ foreach ($moduleTypes as $prefix => $title) {
 	});
 
 	foreach ($modules as $name) {
-		if (Libraries::get($name)) {
-			// Certain modules may already been loaded (i.e. base_core) during the bootstrap
-			// process above. Prevent loading them and their config files a second time.
-			continue;
-		}
 		Libraries::add($name, [
-			'bootstrap' => false // Modules bootstrap not needed. See below.
+			'bootstrap' => false
 		]);
-
-		// Now auto load files from the modules config directories in order.
-		$path = Libraries::get($name, 'path');
-
-		$available = [
-			'routes',
-			'settings',
-			'media',
-			'jobs',
-			'panes',
-			'widgets',
-			'contents',
-			'misc'
-		];
-		foreach ($available as $config) {
-			if (file_exists($file = $path . "/config/{$config}.php")) {
-				require_once $file;
-			}
-		}
-
-		// Configuration deprecations.
-		if (file_exists($path . "/config/bootstrap.php")) {
-			trigger_error(
-				"Found deprecated bootstrap file in module `{$name}`.",
-				E_USER_DEPRECATED
-			);
-		}
+		$bootstrapFormal($name, Libraries::get($name, 'path'));
 	}
 }
+
+// ------------------------------------------------------------------------------------------------
+
+//
+// Loading the app.
+//
+
+Libraries::add('app', [
+	'default' => true,
+	'bootstrap' => false
+]);
+$bootstrapFormal('app', PROJECT_ROOT . '/app');
+
+// ------------------------------------------------------------------------------------------------
+
+require 'bootstrap/routes.php';
 
 ?>

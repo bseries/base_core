@@ -101,7 +101,7 @@ if (!isset($meta)) {
 		<div id="container">
 			<header class="main">
 				<h1 class="t-super-alpha">
-					<?= $this->html->link($site['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core']) ?>
+					<?= $this->html->link($site['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core', 'admin' => true]) ?>
 				</h1>
 				<h2 class="t-super-alpha rich-page-title">
 					<?php if ($page['type'] != 'standalone'): ?>

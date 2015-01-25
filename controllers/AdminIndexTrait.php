@@ -17,10 +17,28 @@ trait AdminIndexTrait {
 	public function admin_index() {
 		$model = $this->_model;
 
+		// Handle pagination.
+		$page = $this->request->page ?: 1;
+		$perPage = 20;
+
+		// Handle sorting. We support sorting by one
+		// dimension at a time only.
+		$order = ['modified' => 'DESC'];
+
 		$data = $model::find('all', [
-			'order' => ['modified' => 'DESC']
+			'page' => $page,
+			'limit' => $perPage,
+			'order' => $order
 		]);
-		return compact('data') + $this->_selects();
+
+		$totalPages = ceil($model::find('count') / $perPage);
+
+		$paging = [
+			'current' => $page,
+			'total' => $totalPages
+		];
+
+		return compact('data', 'paging') + $this->_selects();
 	}
 }
 

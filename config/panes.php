@@ -12,7 +12,6 @@
 
 use base_core\extensions\cms\Panes;
 use lithium\g11n\Message;
-use base_core\extensions\cms\Settings;
 
 extract(Message::aliases());
 
