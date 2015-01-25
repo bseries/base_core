@@ -121,11 +121,11 @@ Catalog::config([
 	],
 	'app' => [
 	 	'adapter' => 'Gettext',
-	 	'path' => Libraries::get('app', 'resources') . '/g11n/po'
+	 	'path' => PROJECT_PATH . '/app/resources/g11n/po'
 	 ],
 	'lithium' => [
 		'adapter' => 'Php',
-		'path' => LITHIUM_LIBRARY_PATH . '/unionofrad/lithium/lithium/g11n/resources/php'
+		'path' => PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/g11n/resources/php'
 	]
 ] + Catalog::config());
 

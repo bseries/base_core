@@ -112,7 +112,7 @@ $bootstrapFormal = function($name, $path) {
 	}
 
 	// Configuration deprecations.
-	if (file_exists($path . "/config/bootstrap.php")) {
+	if ($name !== 'base_core' && file_exists($path . "/config/bootstrap.php")) {
 		trigger_error(
 			"Found deprecated bootstrap file in `{$name}`.",
 			E_USER_DEPRECATED
@@ -174,13 +174,19 @@ use lithium\core\Libraries;
 
 Libraries::add('lithium');
 
+// Must add the app here as lithium plugins may rely on its path being accessible.
+Libraries::add('app', [
+	'default' => true,
+	'bootstrap' => false
+]);
+
 // Make lithium understand our environment management.
 require 'bootstrap/environment.php';
 
 // Register any lithium libraries. These must come before
 // loading any other bento modules as they possibly make
 // use of them.
-foreach (glob(PROJECT_ROOT . '/app/libraries/li3_*') as $item) {
+foreach (glob(PROJECT_PATH . '/app/libraries/li3_*') as $item) {
 	Libraries::add(basename($item));
 }
 
@@ -199,11 +205,12 @@ if (PHP_SAPI === 'cli') {
 	require 'bootstrap/console.php';
 }
 require 'bootstrap/auth.php';
+require 'bootstrap/access.php';
 require 'bootstrap/mail.php';
 
 // ------------------------------------------------------------------------------------------------
 
-require PROJECT_ROOT . '/app/config/routes.php';
+require PROJECT_PATH . '/app/config/routes.php';
 
 // ------------------------------------------------------------------------------------------------
 
@@ -223,7 +230,7 @@ $moduleTypes = [ // This array also defines the primary order in which modules a
 
 foreach ($moduleTypes as $prefix => $title) {
 	$modules = array_map('basename', glob(
-		PROJECT_ROOT . "/app/libraries/{$prefix}_*",
+		PROJECT_PATH . "/app/libraries/{$prefix}_*",
 		GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
 	));
 
@@ -240,7 +247,7 @@ foreach ($moduleTypes as $prefix => $title) {
 		Libraries::add($name, [
 			'bootstrap' => false
 		]);
-		$bootstrapFormal($name, Libraries::get($name, 'path'));
+		$bootstrapFormal($name, PROJECT_PATH . '/app/libraries/' . $name);
 	}
 }
 
@@ -250,11 +257,7 @@ foreach ($moduleTypes as $prefix => $title) {
 // Loading the app.
 //
 
-Libraries::add('app', [
-	'default' => true,
-	'bootstrap' => false
-]);
-$bootstrapFormal('app', PROJECT_ROOT . '/app');
+$bootstrapFormal('app', PROJECT_PATH . '/app');
 
 // ------------------------------------------------------------------------------------------------
 

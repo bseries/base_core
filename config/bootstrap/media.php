@@ -11,11 +11,13 @@
  */
 
 use lithium\util\Collection;
-use lithium\core\Libraries;
 use lithium\net\http\Media as HttpMedia;
 use li3_mailer\net\mail\Media as MailerMedia;
 
 Collection::formats('lithium\net\http\Media');
+
+$app = PROJECT_PATH . '/app';
+$baseCore = PROJECT_PATH . '/app/libraries/base_core';
 
 //
 // Override media type definitions to set path search order.
@@ -31,13 +33,13 @@ HttpMedia::type('html', 'text/html', [
 	'view' => 'lithium\template\View',
 	'paths' => [
 		'template' => [
-			Libraries::get('app', 'path') . '/views/{:controller}/{:template}.{:type}.php',
-			Libraries::get('base_core', 'path') . '/views/{:controller}/{:template}.{:type}.php',
+			$app . '/views/{:controller}/{:template}.{:type}.php',
+			$baseCore . '/views/{:controller}/{:template}.{:type}.php',
 			'{:library}/views/{:controller}/{:template}.{:type}.php',
 		],
 		'layout' => [
-			Libraries::get('app', 'path') . '/views/layouts/{:layout}.{:type}.php',
-			Libraries::get('base_core', 'path') . '/views/layouts/{:layout}.{:type}.php',
+			$app . '/views/layouts/{:layout}.{:type}.php',
+			$baseCore . '/views/layouts/{:layout}.{:type}.php',
 			'{:library}/views/layouts/{:layout}.{:type}.php',
 		],
 		// 'element'  => '{:library}/views/elements/{:template}.{:type}.php'
@@ -47,13 +49,13 @@ MailerMedia::type('text', 'text/plain', [
 	'view' => 'li3_mailer\template\Mail',
 	'paths' => [
 		'template' => [
-			Libraries::get('app', 'path') . '/mails/{:template}.{:type}.php',
-			Libraries::get('base_core', 'path') . '/mails/{:template}.{:type}.php',
+			$app . '/mails/{:template}.{:type}.php',
+			$baseCore . '/mails/{:template}.{:type}.php',
 			'{:library}/mails/{:template}.{:type}.php'
 		],
 		'layout' => [
-			Libraries::get('app', 'path') . '/mails/layouts/{:layout}.{:type}.php',
-			Libraries::get('base_core', 'path') . '/mails/layouts/{:layout}.{:type}.php',
+			$app . '/mails/layouts/{:layout}.{:type}.php',
+			$baseCore . '/mails/layouts/{:layout}.{:type}.php',
 			'{:library}/mails/layouts/{:layout}.{:type}.php'
 		],
 		// 'element'  => '{:library}/mails/elements/{:template}.{:type}.php'
