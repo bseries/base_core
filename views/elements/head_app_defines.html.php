@@ -6,7 +6,7 @@ $discoverUrl = [
 
 if (!empty($admin)) {
 	$discoverUrl += [
-		'library' => 'base_core', 'admin' => true, 'api' => true
+		'library' => 'base_core', 'admin' => true
 	];
 }
 
