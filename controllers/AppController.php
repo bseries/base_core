@@ -21,21 +21,21 @@ class AppController extends \base_core\controllers\BaseController {
 		$data = [];
 
 		if (Libraries::get('base_media')) {
-			$base = ['controller' => 'media', 'library' => 'base_media', 'admin' => true];
+			$base = ['controller' => 'media', 'library' => 'base_media', 'admin' => true, 'api' => true];
 			$data += [
-				'media:index' => Router::match($base + ['action' => 'api_index', 'page' => '__PAGE__'], $this->request),
-				'media:search' => Router::match($base + ['action' => 'api_search', 'page' => '__PAGE__', 'q' => '__Q__'], $this->request),
-				'media:view' => Router::match($base + ['action' => 'api_view', 'id' => '__ID__'], $this->request),
-				'media:transfer-preflight' => Router::match($base + ['action' => 'api_transfer_preflight'], $this->request),
-				'media:transfer-meta' => Router::match($base + ['action' => 'api_transfer_meta'], $this->request),
-				'media:transfer' => Router::match($base + ['action' => 'api_transfer'], $this->request) . '?title=__TITLE__'
+				'media:index' => Router::match($base + ['action' => 'index', 'page' => '__PAGE__'], $this->request),
+				'media:search' => Router::match($base + ['action' => 'search', 'page' => '__PAGE__', 'q' => '__Q__'], $this->request),
+				'media:view' => Router::match($base + ['action' => 'view', 'id' => '__ID__'], $this->request),
+				'media:transfer-preflight' => Router::match($base + ['action' => 'transfer_preflight'], $this->request),
+				'media:transfer-meta' => Router::match($base + ['action' => 'transfer_meta'], $this->request),
+				'media:transfer' => Router::match($base + ['action' => 'transfer'], $this->request) . '?title=__TITLE__'
 			];
 		}
 
 		$data += [
 			'widgets:view' => Router::match([
 				'controller' => 'widgets', 'library' => 'base_core',
-				'action' => 'api_view', 'name' => '__NAME__', 'admin' => true
+				'action' => 'view', 'id' => '__ID__', 'admin' => true, 'api' => true
 			], $this->request),
 		];
 

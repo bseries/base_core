@@ -38,23 +38,13 @@ Router::connect('/admin/logout', [
 
 // Routes for service discovery, JS routing and general API.
 // /admin/api/base-core/app/discover
-// /admin/api/base-core/widgets/total-revenue
-Router::connect('/admin/api/discover', [
+Router::connect('/admin/api/base-core/app/discover', [
 	'controller' => 'app',
 	'action' => 'discover',
 	'library' => 'base_core',
 	'admin' => true,
 	'api' => true
 ], compact('modifiers', 'persist'));
-
-Router::connect('/admin/api/widgets/{:name}', [
-	'controller' => 'widgets',
-	'action' => 'api_view',
-	'library' => 'base_core',
-	'admin' => true,
-	'api' => true
-], compact('modifiers', 'persist'));
-
 
 // Error routes for showcasing and developing error pages. Normally those aren't
 // viewed directly. Commonly an exception inside the app will be handled and

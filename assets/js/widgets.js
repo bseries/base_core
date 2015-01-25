@@ -38,7 +38,7 @@ define([
     this.data = function() {
       var dfr = new $.Deferred();
 
-      Router.match('widgets:view', {name: _this.name})
+      Router.match('widgets:view', {id: _this.name})
         .done(function(url) {
           $.ajax({url: url, dataType: 'json'}).done(function(data) {
             dfr.resolve(data.data);
