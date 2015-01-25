@@ -80,22 +80,22 @@ Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/update-stat
 	'action' => 'update_status'
 ], compact('modifiers', 'formatters', 'persist'));
 
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/change-role{:id:[0-9]+}/{:role}", [
+Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/change-role/{:id:[0-9]+}/{:role}", [
 	'admin' => true,
 	'action' => 'change_role'
 ], compact('modifiers', 'formatters', 'persist'));
 
-// Generic API single action/add route.
-// /admin/api/base-media/media/transfer
-Router::connect('/admin/api/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}', [
+// Generic API view route.
+// /admin/api/base-core/widgets/total-revenue
+Router::connect('/admin/api/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}:{:id:([a-z0-9\-_]+|__ID__)}', [
+	'action' => 'view',
 	'admin' => true,
 	'api' => true
 ], compact('modifiers', 'formatters', 'persist'));
 
-// Generic API view route.
-// /admin/api/base-core/widgets/total-revenue
-Router::connect('/admin/api/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:id:([a-z0-9\-_]+|__ID__)}', [
-	'action' => 'view',
+// Generic API single action/add route.
+// /admin/api/base-media/media/transfer
+Router::connect('/admin/api/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-]+}', [
 	'admin' => true,
 	'api' => true
 ], compact('modifiers', 'formatters', 'persist'));
