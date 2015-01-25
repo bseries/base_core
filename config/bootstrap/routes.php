@@ -36,26 +36,37 @@ $formatters = [
 ];
 $persist = ['admin', 'controller'];
 
+$library = '{:library:[a-z\-]+}';
+$controller = '{:controller:[a-z\-]+}';
+$action = '{:action:[a-z\-]+}';
+$id = '{:id:\d+}';
+
 //
 // Generic Routes
 //
 
 // Generic index route.
 // /admin/ecommerce-core/orders
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-]+}", [
+Router::connect("/admin/{$library}/{$controller}", [
+	'action' => 'index',
+	'admin' => true
+], compact('modifiers', 'formatters', 'persist'));
+
+// Generic page and sorted index route.
+Router::connect("/admin/{$library}/{$controller}/page:{:page:\d+},order:{:orderField:[\w\-]+}@{orderDirection:(desc|asc)+}", [
 	'action' => 'index',
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
 
 // Generic action route.
 // /admin/ecommerce-core/orders/delete/23
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}/{:id:[0-9]+}", [
+Router::connect("/admin/{$library}/{$controller}/{$action}/{$id}", [
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
 
 // Generic view route.
 // /admin/ecommerce-core/orders/23
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-]+}/{:id:[0-9]+}", [
+Router::connect("/admin/{$library}/{$controller}/{$id}", [
 	'action' => 'view',
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
@@ -63,7 +74,7 @@ Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-]+}/{:id:[0-9]+}
 // Generic single action route.
 // /admin/ecommerce-core/orders/add
 // /admin/base-media/media/transfer
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-_]+}", [
+Router::connect("/admin/{$library}/{$controller}/{$action}", [
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
 
@@ -75,19 +86,19 @@ Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a
 //	'admin' => true
 // ], compact('modifiers', 'formatters', 'persist'));
 
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/update-status/{:id:[0-9]+}/{:status}", [
+Router::connect("/admin/{$library}/{$controller}/update-status/{$id}/{:status}", [
 	'admin' => true,
 	'action' => 'update_status'
 ], compact('modifiers', 'formatters', 'persist'));
 
-Router::connect("/admin/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/change-role/{:id:[0-9]+}/{:role}", [
+Router::connect("/admin/{$library}/{$controller}/change-role/{$id}/{:role}", [
 	'admin' => true,
 	'action' => 'change_role'
 ], compact('modifiers', 'formatters', 'persist'));
 
 // Generic API view route.
 // /admin/api/base-core/widgets/total-revenue
-Router::connect('/admin/api/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}:{:id:([a-z0-9\-_]+|__ID__)}', [
+Router::connect("/admin/api/{$library}/{$controller}:{:id:(\w\d\-]+|__ID__)}", [
 	'action' => 'view',
 	'admin' => true,
 	'api' => true
@@ -95,7 +106,7 @@ Router::connect('/admin/api/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}:{:id:([
 
 // Generic API single action/add route.
 // /admin/api/base-media/media/transfer
-Router::connect('/admin/api/{:library:[a-z\-_]+}/{:controller:[a-z\-_]+}/{:action:[a-z\-]+}', [
+Router::connect("/admin/api/{$library}/{$controller}/{$action}", [
 	'admin' => true,
 	'api' => true
 ], compact('modifiers', 'formatters', 'persist'));
