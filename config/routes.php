@@ -11,6 +11,7 @@
  */
 
 use lithium\net\http\Router;
+use base_core\extensions\net\http\ClientRouter;
 
 $persist = ['admin', 'controller'];
 
@@ -43,15 +44,11 @@ Router::connect('/admin/logout', [
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
-// Routes for service discovery, JS routing and general API.
-// /admin/api/base-core/app/discover
-Router::connect('/admin/api/base-core/app/discover', [
-	'controller' => 'app',
-	'action' => 'discover',
-	'library' => 'base_core',
-	'admin' => true,
-	'api' => true
-], compact('modifiers', 'persist'));
+ClientRouter::provide('widgets:view', [
+	'controller' => 'widgets', 'library' => 'base_core',
+	'action' => 'view', 'admin' => true, 'api' => true,
+	'id' => '__ID__'
+]);
 
 // Error routes for showcasing and developing error pages. Normally those aren't
 // viewed directly. Commonly an exception inside the app will be handled and

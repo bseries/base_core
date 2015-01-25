@@ -11,47 +11,25 @@
 
 define('router', ['jquery'], function($) {
 
-  if (window.router !== undefined) {
-    return window.router; // static
-  }
-
+  // Expects to have access to a global `App` object that must
+  // have a `routes` property defined on it, containing all
+  // route mappings.
   function Router() {
     var _this = this;
 
-    this.data = {};
-
-    this.initialized = null;
-
-    this.init = function() {
-      _this.initialized = new $.Deferred();
-
-      $.getJSON(App.api.discover).done(function(data) {
-        $.each(data, function(k, v) {
-          _this.connect(k, v);
-        });
-        _this.initialized.resolve();
-      });
-
-      return _this;
-    };
-
-    this.connect = function(name, template) {
-      _this.data[name] = template;
-    };
-
     this.match = function(name, params) {
-      return _this.initialized.then(function() {
-        var template = _this.data[name];
-        $.each(params || {}, function(k, v) {
-          template = template.replace('__' + k.toUpperCase() + '__', v);
-        });
+      var dfr = new $.Deferred();
+      var template = App.routes[name];
 
-        return template;
+      $.each(params || {}, function(k, v) {
+        template = template.replace('__' + k.toUpperCase() + '__', v);
       });
+      dfr.resolve(template);
+
+      return dfr;
     };
   }
 
-  window.router = new Router();
-  window.router.init();
+  window.router = Router;
   return window.router;
 });

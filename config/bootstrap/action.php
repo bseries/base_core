@@ -14,6 +14,7 @@ use lithium\core\Libraries;
 use lithium\core\Environment;
 use lithium\action\Dispatcher;
 use lithium\net\http\Router;
+use base_core\extensions\net\http\ClientRouter;
 use lithium\net\http\Media;
 use lithium\security\Auth;
 use Mobile_Detect as MobileDetect;
@@ -63,6 +64,8 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 //
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	if ($params['handler']['type'] == 'html') {
+		$request = $params['handler']['request'];
+
 		if ($user = Auth::check('default')) {
 			$model = Libraries::locate('models', 'Users');
 			$params['data']['authedUser'] = $model::create($user);
@@ -72,6 +75,14 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 
 		$params['data']['locale'] = Environment::get('locale');
 
+		foreach (ClientRouter::get() as $name => $ps) {
+			if (!empty($request->params['admin']) && empty($ps['admin'])) {
+				continue;
+			} elseif (empty($request->params['admin']) && !empty($ps['admin'])) {
+				continue;
+			}
+			$params['data']['routes'][$name] = Router::match($ps, $request);
+		}
 		// $params['data']['site'] = Environment::get('site');
 		// $params['data']['service'] = Environment::get('service');
 	}

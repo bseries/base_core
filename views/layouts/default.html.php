@@ -43,7 +43,11 @@ FlashMessage::clear();
 			'/app/css/base'
 		]) ?>
 		<?php echo $this->styles() ?>
-		<?=$this->view()->render(['element' => 'head_app_defines'], ['admin' => false], ['library' => 'base_core']) ?>
+		<?=$this->view()->render(
+			['element' => 'head_app_defines'],
+			['admin' => false, 'routes' => $routes],
+			['library' => 'base_core']
+		) ?>
 		<?php
 			$scripts = array_merge(
 				['/app/js/require'],

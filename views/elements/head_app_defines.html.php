@@ -1,14 +1,6 @@
 <?php
 
-$discoverUrl = [
-	'controller' => 'App', 'action' => 'discover', 'api' => true
-];
-
-if (!empty($admin)) {
-	$discoverUrl += [
-		'library' => 'base_core', 'admin' => true
-	];
-}
+use base_core\extensions\net\http\ClientRouter;
 
 $app = [
 	'assets' => [
@@ -17,13 +9,11 @@ $app = [
 	'media' => [
 		'base' => $this->media->base()
 	],
-	'api' => [
-		'discover' => $this->url($discoverUrl)
-	]
+	'routes' => $routes
 ];
 
 ?>
-<!-- App Defines -->
+<!-- Application Definitions -->
 <script>
-	App = <?php echo json_encode($app, JSON_PRETTY_PRINT) ?>
+App = <?php echo json_encode($app, JSON_PRETTY_PRINT) ?>
 </script>
