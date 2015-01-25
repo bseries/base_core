@@ -39,13 +39,12 @@ requirejs.config({
     'modal': 'base-core/js/modal',
     'nprogress': 'base-core/js/nprogress',
     'handlebars': 'base-core/js/handlebars',
-    'list': 'base-core/js/list',
     'widgets': 'base-core/js/widgets',
     'moment': 'base-core/js/moment',
     'scrollTo': 'base-core/js/scrollTo',
     'qtip': 'base-core/js/qtip',
     'thingsLoaded': 'base-core/js/thingsLoaded',
-    'echo': 'base-core/js/echo',
+    'indexTable': 'base-core/js/indexTable',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',
@@ -71,9 +70,6 @@ requirejs.config({
     },
     'handlebars': {
       exports: 'Handlebars'
-    },
-    'list': {
-      exports: 'window.List'
     },
     'qtip': {
       deps: ['jquery']

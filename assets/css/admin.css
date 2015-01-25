@@ -1098,7 +1098,7 @@ tbody td {
   transition: background .05s;
 }
 tbody tr:hover td {
-   background: var(--color-ad-yellow);
+  background: var(--color-ad-yellow);
 }
 tbody tr:hover td a {
   color: var(--color-dim-black);
@@ -1116,6 +1116,7 @@ table .actions a {
 tbody tr:not(:hover) .button {
   color: transparent;
   background: transparent !important;
+  transition: none;
 }
 tbody .button:hover {
   color: var(--color-dim-black);
@@ -1187,10 +1188,6 @@ table .more-content {
 
 td .minor {
   color: var(--color-gray-darker);
-}
-
-tbody tr.highlight-anchored td {
-  background: var(--color-ci-green);
 }
 
 /* Notifications

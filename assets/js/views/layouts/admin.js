@@ -9,7 +9,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function($, List, Progress) {
+require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
 
   $('.compound-users').each(function() {
     var $el = $(this);
@@ -65,21 +65,10 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
   //
   // Table sorting/filtering
   //
-  var $list = $('.use-list');
-  if ($list.length) {
-    var listValueNames = [];
-
-    $list.find('thead .list-sort').each(function() {
-      listValueNames.push($(this).data('sort'));
-    });
-    var list = new List($list.get(0), {
-      // Always show everything.
-      page: $list.find('.list > *').length,
-      // Does not work.
-      // indexAsync: true,
-      searchClass: 'list-search',
-      sortClass: 'list-sort',
-      valueNames: listValueNames,
+  var $table = $('.use-index-table');
+  if ($table.length) {
+    require(['indexTable'], function(IndexTable) {
+      var table = new IndexTable($table);
     });
   }
 
@@ -237,76 +226,4 @@ require(['jquery', 'list', 'nprogress', 'notify', 'qtip', 'domready!'], function
     });
   }
 
-  //
-  // Highlight anchored row if hash is inside table.
-  //
-  var hash = window.location.hash.substring(1);
-  if (hash) {
-    var $row = $('[data-id="' + hash + '"]');
-
-    if ($row.is('tr') && $row.length) {
-      $row.addClass('highlight-anchored');
-
-      require(['scrollTo'], function(ScrollTo) {
-        ScrollTo.offsets(
-          $row.offset().left,
-          $row.offset().top - Math.round($(window).height() * 0.10),
-          300
-        );
-      });
-    }
-  }
-
-  //
-  // Enlarge images when hovering over them in a table.
-  //
-  var $img = $('td.media img');
-  if ($img.length) {
-    $img.qtip({
-      style: {
-        widget: false,
-        def: false
-      },
-      show: {
-        effect: false
-      },
-      hide: {
-        effect: false
-      },
-      effect: false,
-      content: {
-        text: function(ev, api) {
-          var $el = $(this);
-
-          require(['router', 'thingsLoaded'], function(Router, ThingsLoaded) {
-            var checker = new ThingsLoaded.ImageChecker();
-
-            var dfr = Router.match('media:view', {'id': $el.data('media-id')})
-              .then(function(url) {
-                return $.getJSON(url);
-              })
-              .then(function(data) {
-                var url = data.data.file.versions.fix2admin.url;
-                checker.addUrl(url);
-
-                checker.run().always(function() {
-                  api.set('content.text', $('<img />').attr('src', url));
-                });
-              });
-          });
-          return 'Loading…';
-        }
-      }
-    });
-  }
-
-  if ($('[data-echo]').length) {
-    require(['echo'], function(Echo) {
-      Echo.init({
-        offset: 100,
-        throttle: 250,
-        unload: false
-      });
-    });
-  }
 });

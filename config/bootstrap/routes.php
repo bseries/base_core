@@ -53,11 +53,12 @@ Router::connect("/admin/{$library}/{$controller}", [
 ], compact('modifiers', 'formatters', 'persist'));
 
 // Generic page and sorted index route.
-Router::connect("/admin/{$library}/{$controller}/page:{:page:\d+}", [
+Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)}", [
 	'action' => 'index',
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
-Router::connect("/admin/{$library}/{$controller}/page:{:page:\d+},order:{:orderField:[\w\-]+}@{orderDirection:(desc|asc)+}", [
+
+Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)},order:{:orderField:([\w\-]+|__ORDER_DIRECTION__)}@{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}", [
 	'action' => 'index',
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
