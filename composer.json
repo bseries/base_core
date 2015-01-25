@@ -22,7 +22,8 @@
         "unionofrad/lithium": "dev-dev as 1.0.0-dev",
         "composer/installers": "1.0.*@stable",
         "filp/whoops": "1.1.*@stable",
-        "czproject/dependency-php": "1.0.*@stable"
+        "czproject/dependency-php": "1.0.*@stable",
+        "zendframework/zend-paginator": "2.*@stable"
     },
     "suggests": {
       "ext-memcached": "Enables highly-performant object caching."
