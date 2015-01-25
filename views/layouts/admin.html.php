@@ -186,7 +186,7 @@ if (!isset($meta)) {
 				<?php endforeach ?>
 				</div>
 				<div class="copyright">
-					© <?= date('Y') ?> <?= $this->html->link('Atelier Disko', 'http://atelierdisko.de', ['target' => 'new']) ?>
+					© 2013&ndash;<?= date('Y') ?> <?= $this->html->link('Atelier Disko', 'http://atelierdisko.de', ['target' => 'new']) ?>
 				</div>
 			</div>
 		</footer>
