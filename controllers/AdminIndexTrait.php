@@ -25,7 +25,6 @@ trait AdminIndexTrait {
 		$order = ['modified' => 'DESC'];
 
 		// Handle pagination.
-		$page = $this->request->page ?: 1;
 		Paginator::setDefaultItemCountPerPage($perPage = 20);
 		Paginator::setDefaultScrollingStyle('Sliding');
 
@@ -34,7 +33,7 @@ trait AdminIndexTrait {
 		$paginator = new Paginator(new ArrayAdapter(
 			range(0, $count)
 		));
-		$paginator->setCurrentPageNumber($page);
+		$paginator->setCurrentPageNumber($page = $this->request->page ?: 1);
 		$paginator->setCacheEnabled(false);
 
 		$data = $model::find('all', [

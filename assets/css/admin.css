@@ -1569,6 +1569,17 @@ tbody tr.highlight-anchored td {
   margin-top: 2em;
 }
 
+/* Pagination/Paging
+---------------------------------------------------------------- */
+.nav-paging .active {
+  font-weight: bold;
+}
+.nav-paging {
+  text-align: center;
+  margin-top: 4em;
+  margin-bottom: 1em;
+}
+
 /* Sortable
 -------------------------------------------------------------- */
 .ui-sortable-helper {
