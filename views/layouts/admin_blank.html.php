@@ -37,7 +37,7 @@ $page += [
 		<link href='https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 		<?php echo $this->styles() ?>
 		<?=$this->view()->render(
-			['element' => 'head_app_defines'],
+			['element' => 'define_app'],
 			['admin' => true, 'routes' => $routes],
 			['library' => 'base_core']
 		) ?>

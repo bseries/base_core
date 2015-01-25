@@ -44,7 +44,7 @@ FlashMessage::clear();
 		]) ?>
 		<?php echo $this->styles() ?>
 		<?=$this->view()->render(
-			['element' => 'head_app_defines'],
+			['element' => 'define_app'],
 			['admin' => false, 'routes' => $routes],
 			['library' => 'base_core']
 		) ?>
