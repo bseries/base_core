@@ -21,7 +21,7 @@ class WidgetsController extends \base_core\controllers\BaseController {
 
 	public function admin_api_view() {
 		$start = microtime(true);
-		$item = Widgets::read($this->request->name);
+		$item = Widgets::read($this->request->id);
 
 		$response = new JSendResponse();
 
