@@ -41,9 +41,29 @@ $controller = '{:controller:[a-z\-]+}';
 $action = '{:action:[a-z\-]+}';
 $id = '{:id:\d+}';
 
-//
-// Generic Routes
-//
+// Generic API view route.
+// /admin/api/base-core/widgets/total-revenue
+Router::connect("/admin/api/{$library}/{$controller}:{:id:([\w\d\-]+|__ID__)}", [
+	'action' => 'view',
+	'admin' => true,
+	'api' => true
+], compact('modifiers', 'formatters', 'persist'));
+
+// Generic API single action/add route.
+// /admin/api/base-media/media/transfer
+Router::connect("/admin/api/{$library}/{$controller}/{$action}", [
+	'admin' => true,
+	'api' => true
+], compact('modifiers', 'formatters', 'persist'));
+
+// Generic API index route.
+// /admin/api/base-media/media
+Router::connect("/admin/api/{$library}/{$controller}", [
+	'action' => 'index',
+	'admin' => true,
+	'api' => true
+], compact('modifiers', 'formatters', 'persist'));
+
 
 // Generic index route.
 // /admin/ecommerce-core/orders
@@ -103,21 +123,6 @@ Router::connect("/admin/{$library}/{$controller}/update-status/{$id}/{:status}",
 Router::connect("/admin/{$library}/{$controller}/change-role/{$id}/{:role}", [
 	'admin' => true,
 	'action' => 'change_role'
-], compact('modifiers', 'formatters', 'persist'));
-
-// Generic API view route.
-// /admin/api/base-core/widgets/total-revenue
-Router::connect("/admin/api/{$library}/{$controller}:{:id:([\w\d\-]+|__ID__)}", [
-	'action' => 'view',
-	'admin' => true,
-	'api' => true
-], compact('modifiers', 'formatters', 'persist'));
-
-// Generic API single action/add route.
-// /admin/api/base-media/media/transfer
-Router::connect("/admin/api/{$library}/{$controller}/{$action}", [
-	'admin' => true,
-	'api' => true
 ], compact('modifiers', 'formatters', 'persist'));
 
 ?>
