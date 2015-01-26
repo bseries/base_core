@@ -58,7 +58,7 @@ Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)}", [
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
 
-Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)},order:{:orderField:([\w\-]+|__ORDER_DIRECTION__)}@{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}", [
+Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)},order:{:orderField:([\w\-]+|__ORDER_DIRECTION__)}+{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}", [
 	'action' => 'index',
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
@@ -103,7 +103,7 @@ Router::connect("/admin/{$library}/{$controller}/change-role/{$id}/{:role}", [
 
 // Generic API view route.
 // /admin/api/base-core/widgets/total-revenue
-Router::connect("/admin/api/{$library}/{$controller}:{:id:(\w\d\-]+|__ID__)}", [
+Router::connect("/admin/api/{$library}/{$controller}:{:id:([\w\d\-]+|__ID__)}", [
 	'action' => 'view',
 	'admin' => true,
 	'api' => true

@@ -25,7 +25,7 @@ trait AdminIndexTrait {
 		$order = ['modified' => 'DESC'];
 
 		// Handle pagination.
-		Paginator::setDefaultItemCountPerPage($perPage = 20);
+		Paginator::setDefaultItemCountPerPage($perPage = 25);
 		Paginator::setDefaultScrollingStyle('Sliding');
 
 		$count = $model::find('count');
