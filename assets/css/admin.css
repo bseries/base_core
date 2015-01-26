@@ -1569,6 +1569,8 @@ td .minor {
 /* Pagination/Paging
 ---------------------------------------------------------------- */
 .nav-paging .active {
+  background: var(--color-ci-blue);
+  color: white;
   font-weight: bold;
 }
 .nav-paging {
