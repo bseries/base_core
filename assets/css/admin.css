@@ -1099,6 +1099,13 @@ tbody td {
 tbody tr:hover td {
   background: var(--color-ad-yellow);
 }
+tbody .actions .button {
+  visibility: hidden;
+}
+tbody tr:hover .actions .button {
+  visibility: visible;
+}
+
 tbody tr:hover td a {
   color: var(--color-dim-black);
 }
@@ -1113,38 +1120,35 @@ table .actions {
   text-align: right;
   min-width: 70px;
 }
-table .actions a {
-  color: transparent;
-}
-tbody tr:not(:hover) .button {
-  color: transparent;
-  background: transparent !important;
-  transition: none;
-}
-tbody .button:hover {
-  color: var(--color-dim-black);
+table .actions .button {
+  margin-left: -4px;
 }
 
-table img {
-  max-height: 50px;
-  vertical-align: middle;
-}
 table .flag {
   width: 60px;
   text-align: center;
-}
-tbody .flage {
-  font-weight: bold;
 }
 table .date {
   max-width: none;
   width: 150px;
 }
+
+table td.media {
+  line-height: 0;
+  padding-top: 0;
+}
 table td.media img {
   cursor: pointer;
-  max-width: 100px;
-  max-height: 42px;
+  max-width: 100%;
+  height: 40px;
+  vertical-align: middle;
 }
+table td .avatar {
+  width: 40px;
+  height: 40px;
+}
+
+
 table .emphasize {
   max-width: 240px;
 }
@@ -1693,13 +1697,6 @@ td .minor {
   float: none;
   width: 500px;
   margin: 10% auto;
-}
-
-/* Avatar
--------------------------------------------------------------- */
-.avatar {
-  width: 30px;
-  height: 30px;
 }
 
 /* Drop / Tooltip

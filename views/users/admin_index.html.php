@@ -19,7 +19,6 @@ $nickRgb = function($nick) {
 	return $rgb;
 };
 
-
 ?>
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
 
@@ -74,7 +73,7 @@ $nickRgb = function($nick) {
 				<?php if ($useRent): ?>
 					<td class="can-rent flag"><?= $item->can_rent ? '✓ ' : '×' ?>
 				<?php endif ?>
-				<td>
+				<td class="media">
 					<div
 						class="avatar"
 						style="background: rgb(<?=implode(',' , $nickRgb($item->email))?>);"
@@ -93,7 +92,7 @@ $nickRgb = function($nick) {
 						<?= $this->date->format($item->created, 'date') ?>
 					</time>
 				<td class="actions">
-					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button']) ?>
+					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button delete']) ?>
 					<?php if ($item->is_active): ?>
 						<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php else: ?>

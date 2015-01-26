@@ -9,6 +9,15 @@ $this->set([
 	]
 ]);
 
+$nickRgb = function($nick) {
+	$hash = abs(crc32($nick));
+
+	$rgb = [$hash % 255, $hash % 255, $hash % 255];
+	$rgb[$hash % 2] = 100;
+
+	return $rgb;
+};
+
 ?>
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
 
@@ -26,6 +35,9 @@ $this->set([
 				<td data-sort="is-active" class="is-active flag list-sort"><?= $t('Active?') ?>
 				<?php if ($useBilling = Libraries::get('billing_core')): ?>
 					<td data-sort="is-auto-invoiced" class="is-auto-invoiced flag list-sort"><?= $t('Auto inv.?') ?>
+				<?php endif ?>
+					<td class="media">
+				<?php if ($useBilling): ?>
 					<td data-sort="number" class="number list-sort"><?= $t('Number') ?>
 				<?php endif ?>
 				<td data-sort="name" class="name emphasize list-sort asc"><?= $t('Name') ?>
@@ -48,6 +60,14 @@ $this->set([
 				<td class="is-active flag"><?= $item->is_active ? '✓ ' : '×' ?>
 				<?php if ($useBilling): ?>
 					<td class="is-auto-invoiced flag"><?= $item->is_auto_invoiced ? '✓ ' : '×' ?>
+				<?php endif ?>
+				<td class="media">
+					<div
+						class="avatar"
+						style="background: rgb(<?=implode(',' , $nickRgb($item->email))?>);"
+					>
+					</div>
+				<?php if ($useBilling): ?>
 					<td class="number emphasize"><?= $item->number ?>
 				<?php endif ?>
 				<td class="name emphasize"><?= $item->name ?>
@@ -60,7 +80,7 @@ $this->set([
 						<?= $this->date->format($item->created, 'date') ?>
 					</time>
 				<td class="actions">
-					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button']) ?>
+					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button delete']) ?>
 					<?php if ($item->is_active): ?>
 						<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php else: ?>
