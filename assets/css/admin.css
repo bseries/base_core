@@ -1539,31 +1539,18 @@ td .minor {
   display: none;
 }
 
-/* List & Table Filtering/Search
+/* Index Table Sorting
 -------------------------------------------------------------- */
-.list-search {
-  width: 140px;
-  background-color: white;
-  transition: width .25s;
-}
-.list-search:focus {
-  width: 90%;
-}
-.list-sort:hover {
+.table-sort:hover {
   cursor: pointer;
   background-color: white;
   color: var(--color-dim-black);
 }
-.list-sort.asc:after {
+.table-sort.asc:after {
   content: "⌄";
 }
-.list-sort.desc:after {
+.table-sort.desc:after {
   content: "⌃";
-}
-.use-list .more {
-  text-align: center;
-  display: block;
-  margin-top: 2em;
 }
 
 /* Pagination/Paging

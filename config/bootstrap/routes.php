@@ -58,7 +58,7 @@ Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)}", [
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));
 
-Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)},order:{:orderField:([\w\-]+|__ORDER_DIRECTION__)}+{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}", [
+Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)},order:{:orderField:([\w\-\.]+|__ORDER_DIRECTION__)}-{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}", [
 	'action' => 'index',
 	'admin' => true
 ], compact('modifiers', 'formatters', 'persist'));

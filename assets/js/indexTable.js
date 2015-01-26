@@ -9,8 +9,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-define(['jquery', 'router', 'thingsLoaded', 'qtip', 'domready!'],
-function($, Router, ThingsLoaded) {
+define(['jquery', 'router', 'thingsLoaded', 'nprogress', 'qtip', 'domready!'],
+function($, Router, ThingsLoaded, Progress) {
 
     return function IndexTable($element) {
       var _this = this;
@@ -23,19 +23,20 @@ function($, Router, ThingsLoaded) {
         sort: null
       };
 
+      // Holds the API of qtip for current tooltips.
+      this.imagesTooltips = null;
+
       this._initSorting = function() {
         _this.$element.find('thead .table-sort').each(function() {
-          _this.sortableFields.push($(this).data('sort'));
+          _this.sortableFields.push($(this));
         });
         _this.endpoints.sort = _this.$element.data('endpoint-sort');
 
-        $.each(_this.sortableFields, function(k, v) {
-          _this.$element.find('thead .' + v).on('click', function(ev) {
-          console.debug('???');
-            var $th = $(this);
+        $.each(_this.sortableFields, function(k, $th) {
+          $th.on('click', function(ev) {
             var direction = $th.hasClass('desc') ? 'asc' : 'desc';
 
-            $th.removeClass('desc asc');
+            _this.$element.find('thead td').removeClass('desc asc');
             $th.addClass(direction);
 
             _this._requestSort($th.data('sort'), direction);
@@ -50,11 +51,20 @@ function($, Router, ThingsLoaded) {
 
         return $.get(url)
           .done(function(html) {
-            var $tbody = $(html).find('.use-index-table tbody');
-            _this.$element.find('tbody').html($tbody);
+            _this._destroyImages();
 
+            _this.$element.find('tbody').replaceWith(
+              $(html).find('.use-index-table tbody')
+            );
+            history.pushState(null,null, url);
             _this._initImages();
           });
+      };
+
+      this._destroyImages = function() {
+        if (_this.imagesTooltips) {
+          _this.imagesTooltips.destroy(true);
+        }
       };
 
       // Enlarge images when hovering over them in a table.
@@ -64,7 +74,7 @@ function($, Router, ThingsLoaded) {
         if ($img.length) {
           return true;
         }
-        $img.qtip({
+        var tooltips = $img.qtip({
           style: {
             widget: false,
             def: false
@@ -99,6 +109,8 @@ function($, Router, ThingsLoaded) {
             }
           }
         });
+
+        _this.imagesTooltips = tooltips.qtip('api');
       };
 
       this._initSorting();
