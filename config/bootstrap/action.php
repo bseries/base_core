@@ -60,12 +60,14 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 //
 // Inject environment variables into templates; remember variables are only
 // injected into the original template, for elements variables must be passed
-// manually. Uses application Users model if available.
+// manually.
 //
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	if ($params['handler']['type'] == 'html') {
 		$request = $params['handler']['request'];
 
+		// Inject $authedUser as an object.
+		// Uses application Users model if available.
 		if ($user = Auth::check('default')) {
 			$model = Libraries::locate('models', 'Users');
 			$params['data']['authedUser'] = $model::create($user);
@@ -73,8 +75,11 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 			$params['data']['authedUser'] = null;
 		}
 
+		// Inject current effective locale as $locale.
 		$params['data']['locale'] = Environment::get('locale');
 
+		// Inject client routes as $routes.
+		$params['data']['routes'] = [];
 		foreach (ClientRouter::get() as $name => $ps) {
 			if (!empty($request->params['admin']) && empty($ps['admin'])) {
 				continue;
@@ -83,8 +88,6 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 			}
 			$params['data']['routes'][$name] = Router::match($ps, $request);
 		}
-		// $params['data']['site'] = Environment::get('site');
-		// $params['data']['service'] = Environment::get('service');
 	}
 	return $chain->next($self, $params, $chain);
 });
