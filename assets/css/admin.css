@@ -772,11 +772,12 @@ button,
 .button {
   outline: 0;
   text-transform: capitalize;
-  height: 35px;
+  height: 40px;
+  min-width: 40px;
+  line-height: 44px;
+  padding: 0 15px;
   text-align: center;
   display: inline-block;
-  padding: 10px 12px;
-  line-height: 17px;
   color: var(--color-dim-black);
   border: none;
   background: var(--color-gray-dark);
@@ -1063,37 +1064,35 @@ table {
 }
 td {
 	vertical-align: middle;
-    padding: .2em .75em;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
 
     max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
-    height: 3em;
 }
+
 td:last-child {
   max-width: inherit;
-}
-table td + td {
-  padding-left: 20px;
-}
-
-tbody td:not(.flag):not(.actions), tfoot td {
-  font-family: var(--font-family-mono);
-}
-
-tfoot td {
-  font-weight: bold;
 }
 
 thead {
   color: white;
   background: var(--color-ad-blue);
 }
+tfoot td {
+  font-weight: bold;
+}
 
+thead td {
+  padding-top: 2px;
+  line-height: 38px;
+}
 tbody td {
-  padding: 0 .5em;
+  padding-top: 2px;
+  line-height: 36px; /* Tune to actual 40px height */
   background: white;
   transition: background .05s;
 }
@@ -1104,9 +1103,13 @@ tbody tr:hover td a {
   color: var(--color-dim-black);
 }
 
+tbody td:not(.flag):not(.actions), tfoot td {
+  font-family: var(--font-family-mono);
+}
+
 table .actions {
-  margin-right: -.3em;
-  margin-left: -20px;
+  padding-top: 0;
+  padding-right: 0;
   text-align: right;
   min-width: 70px;
 }
