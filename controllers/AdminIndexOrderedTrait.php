@@ -12,7 +12,7 @@
 
 namespace base_core\controllers;
 
-trait AdminIndexSortableTrait {
+trait AdminIndexOrderedTrait {
 
 	public function admin_index() {
 		$model = $this->_model;
