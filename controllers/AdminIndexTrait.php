@@ -19,6 +19,7 @@ trait AdminIndexTrait {
 
 	public function admin_index() {
 		$model = $this->_model;
+		$conditions = [];
 		$with = [];
 
 		// Handle sorting. We support sorting by one
@@ -28,7 +29,6 @@ trait AdminIndexTrait {
 		} else {
 			$orderField = 'modified';
 		}
-
 		if ($this->request->orderDirection) {
 			$orderDirection = strtoupper($this->request->orderDirection);
 		} else {
@@ -36,13 +36,12 @@ trait AdminIndexTrait {
 		}
 		$order = [$orderField => $orderDirection];
 
-		// Enable relations if we're ordering by a relation's field.
 		if (preg_match('/^(.*)\./', $orderField, $matches)) {
+			// Enable relations if we're ordering by a relation's field.
 			$with[] = $matches[1];
 		}
-
-		// Support virtual users and users as a single user alias.
 		if ($orderField === 'users') {
+			// Support virtual users and users as a single user alias.
 			$with[] = 'VirtualUser';
 			$order['VirtualUser'] = $orderDirection;
 		}
@@ -51,7 +50,7 @@ trait AdminIndexTrait {
 		Paginator::setDefaultItemCountPerPage($perPage = 25);
 		Paginator::setDefaultScrollingStyle('Sliding');
 
-		$count = $model::find('count');
+		$count = $model::find('count', compact('conditions', 'with'));
 
 		$paginator = new Paginator(new ArrayAdapter(
 			range(0, $count)
@@ -60,6 +59,7 @@ trait AdminIndexTrait {
 		$paginator->setCacheEnabled(false);
 
 		$data = $model::find('all', [
+			'conditions' => $conditions,
 			'page' => $page,
 			'limit' => $perPage,
 			'order' => $order,

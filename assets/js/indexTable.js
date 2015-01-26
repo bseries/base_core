@@ -44,10 +44,10 @@ function($, Router, ThingsLoaded, Progress) {
         });
       };
 
-      this._requestSort = function(field, direction) {
+      this._request = function(orderField, orderDirection) {
         var url = _this.endpoints.sort
-          .replace('__ORDER_FIELD__', field)
-          .replace('__ORDER_DIRECTION__', direction);
+          .replace('__ORDER_FIELD__', orderfield)
+          .replace('__ORDER_DIRECTION__', orderDirection);
 
         return $.get(url)
           .done(function(html) {

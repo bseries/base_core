@@ -1108,7 +1108,7 @@ table .actions {
   margin-right: -.3em;
   margin-left: -20px;
   text-align: right;
-  min-width: 140px;
+  min-width: 70px;
 }
 table .actions a {
   color: transparent;
@@ -1539,7 +1539,7 @@ td .minor {
   display: none;
 }
 
-/* Index Table Sorting
+/* Index Table: Sorting
 -------------------------------------------------------------- */
 .table-sort:hover {
   cursor: pointer;
@@ -1553,7 +1553,7 @@ td .minor {
   content: "⌃";
 }
 
-/* Pagination/Paging
+/* Index Table: Pagination/Paging
 ---------------------------------------------------------------- */
 .nav-paging .active {
   background: var(--color-ci-blue);
