@@ -144,7 +144,8 @@ if (PROJECT_FEATURE_LOGGING) {
 		'default' => [
 			'adapter' => 'File',
 			'path' => $path . '/log',
-			'timestamp' => '[Y-m-d H:i:s]',
+			'timestamp' => 'Y-m-d H:i:s',
+			'format' => "[{:timestamp}] [{:priority}] {:message}\n",
 			// Log everything into one file.
 			'file' => function($data, $config) { return 'app.log'; },
 			'priority' => ['debug', 'error', 'notice', 'warning']
