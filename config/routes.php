@@ -13,7 +13,7 @@
 use lithium\net\http\Router;
 use base_core\extensions\net\http\ClientRouter;
 
-$persist = ['admin', 'controller'];
+$persist = ['admin', 'controller', 'library'];
 
 // Route for dashboard / home.
 Router::connect('/admin', [
@@ -23,26 +23,12 @@ Router::connect('/admin', [
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
-Router::connect('/admin/session', [
+Router::connect('/admin/{:action:session|login|logout}', [
 	'controller' => 'Users',
-	'action' => 'session',
 	'library' => 'base_core',
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
-Router::connect('/admin/login', [
-	'controller' => 'Users',
-	'action' => 'login',
-	'library' => 'base_core',
-	'admin' => true
-], compact('modifiers', 'persist'));
-
-Router::connect('/admin/logout', [
-	'controller' => 'Users',
-	'action' => 'logout',
-	'library' => 'base_core',
-	'admin' => true
-], compact('modifiers', 'persist'));
 
 ClientRouter::provide('widgets:view', [
 	'controller' => 'widgets', 'library' => 'base_core',
