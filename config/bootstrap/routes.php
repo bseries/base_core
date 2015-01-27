@@ -28,7 +28,13 @@ $formatters = [
 		return str_replace('_', '-', $v);
 	},
 	'controller' => function($v) {
-		return str_replace('_', '-', Inflector::underscore($v));
+		// Controller may come in as library.Controller.
+		if (strpos($v, '.') !== false) {
+			list($library, $controller) = explode('.', $v);
+		} else {
+			$controller = $v;
+		}
+		return str_replace('_', '-', Inflector::underscore($controller));
 	},
 	'action' => function($v) {
 		return str_replace('_', '-', $v);
