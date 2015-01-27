@@ -28,15 +28,9 @@ use base_core\models\Currencies;
 
 class UsersController extends \base_core\controllers\BaseController {
 
+	use \base_core\controllers\AdminIndexTrait;
 	use \base_core\controllers\AdminDeleteTrait;
 	use \base_core\controllers\AdminActivateTrait;
-
-	public function admin_index() {
-		$data = Users::find('all', [
-			'order' => ['name' => 'ASC']
-		]);
-		return compact('data');
-	}
 
 	public function admin_add() {
 		extract(Message::aliases());

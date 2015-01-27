@@ -20,58 +20,60 @@ $nickRgb = function($nick) {
 };
 
 ?>
-<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
+<article
+	class="use-index-table"
+	data-endpoint-sort="<?= $this->url([
+		'action' => 'index',
+		'page' => $paginator->getPages()->current,
+		'orderField' => '__ORDER_FIELD__',
+		'orderDirection' => '__ORDER_DIRECTION__'
+	]) ?>"
+>
 
 	<div class="top-actions">
-		<?= $this->html->link($t('new user'), ['action' => 'add', 'library' => 'base_core'], ['class' => 'button add']) ?>
+		<?= $this->html->link($t('new user'), ['action' => 'add'], ['class' => 'button add']) ?>
 	</div>
 
 	<div class="help">
-	<?php if (Settings::read('user.sendActivationMail')): ?>
-		<?= $t('The user will be notified by e-mail when her account is activated.') ?>
-	<?php endif ?>
+		<?php if (Settings::read('user.sendActivationMail')): ?>
+			<?= $t('The user will be notified by e-mail when her account is activated.') ?>
+		<?php endif ?>
 		<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>
 	</div>
 
 	<table>
 		<thead>
 			<tr>
-				<td data-sort="is-active" class="is-active flag list-sort"><?= $t('Active?') ?>
-				<td data-sort="is-notified" class="is-notified flag list-sort"><?= $t('Notified?') ?>
+				<td data-sort="is-active" class="flag table-sort"><?= $t('Active?') ?>
+				<td data-sort="is-notified" class="flag table-sort"><?= $t('Notified?') ?>
 				<?php if ($useBilling = Libraries::get('billing_core')): ?>
-					<td data-sort="is-auto-invoiced" class="is-auto-invoiced flag list-sort"><?= $t('Auto inv.?') ?>
+					<td data-sort="is-auto-invoiced" class="flag table-sort"><?= $t('Auto inv.?') ?>
 				<?php endif ?>
 				<?php if ($useRent = Libraries::get('ecommerce_rent')): ?>
-					<td data-sort="can-rent" class="can-rent flag list-sort"><?= $t('Rent?') ?>
+					<td data-sort="can-rent" class="flag table-sort"><?= $t('Rent?') ?>
 				<?php endif ?>
 				<td>
 				<?php if ($useBilling): ?>
-					<td data-sort="number" class="number list-sort"><?= $t('Number') ?>
+					<td data-sort="number" class="number table-sort"><?= $t('Number') ?>
 				<?php endif ?>
-				<td data-sort="name" class="name emphasize list-sort asc"><?= $t('Name') ?>
+				<td data-sort="name" class="name emphasize table-sort"><?= $t('Name') ?>
 				<?php if (!$useBilling): ?>
-					<td data-sort="email" class="email list-sort"><?= $t('Email') ?>
+					<td data-sort="email" class="email table-sort"><?= $t('Email') ?>
 				<?php endif ?>
-				<td data-sort="role" class="role list-sort"><?= $t('Role') ?>
-				<td data-sort="created" class="date created list-sort"><?= $t('Created') ?>
+				<td data-sort="role" class="table-sort"><?= $t('Role') ?>
+				<td data-sort="modified" class="date table-sort desc"><?= $t('Modified') ?>
 				<td class="actions">
-					<?= $this->form->field('search', [
-						'type' => 'search',
-						'label' => false,
-						'placeholder' => $t('Filter'),
-						'class' => 'list-search'
-					]) ?>
 		</thead>
 		<tbody class="list">
 			<?php foreach ($data as $item): ?>
 			<tr>
-				<td class="is-active flag"><?= $item->is_active ? '✓ ' : '×' ?>
-				<td class="is-notified flag"><?= $item->is_notified ? '✓ ' : '×' ?>
+				<td class="flag"><?= $item->is_active ? '✓ ' : '×' ?>
+				<td class="flag"><?= $item->is_notified ? '✓ ' : '×' ?>
 				<?php if ($useBilling): ?>
-					<td class="is-auto-invoiced flag"><?= $item->is_auto_invoiced ? '✓ ' : '×' ?>
+					<td class="flag"><?= $item->is_auto_invoiced ? '✓ ' : '×' ?>
 				<?php endif ?>
 				<?php if ($useRent): ?>
-					<td class="can-rent flag"><?= $item->can_rent ? '✓ ' : '×' ?>
+					<td class="flag"><?= $item->can_rent ? '✓ ' : '×' ?>
 				<?php endif ?>
 				<td class="media">
 					<div
@@ -86,10 +88,10 @@ $nickRgb = function($nick) {
 				<?php if (!$useBilling): ?>
 					<td class="email"><?= $item->email ?>
 				<?php endif ?>
-				<td class="role"><?= $item->role ?>
-				<td class="date created">
-					<time datetime="<?= $this->date->format($item->created, 'w3c') ?>">
-						<?= $this->date->format($item->created, 'date') ?>
+				<td><?= $item->role ?>
+				<td class="date">
+					<time datetime="<?= $this->date->format($item->modified, 'w3c') ?>">
+						<?= $this->date->format($item->modified, 'date') ?>
 					</time>
 				<td class="actions">
 					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button delete']) ?>
@@ -105,4 +107,6 @@ $nickRgb = function($nick) {
 			<?php endforeach ?>
 		</tbody>
 	</table>
+
+	<?=$this->view()->render(['element' => 'paging'], compact('paginator'), ['library' => 'base_core']) ?>
 </article>

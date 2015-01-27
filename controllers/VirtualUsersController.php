@@ -25,17 +25,11 @@ use base_core\models\Currencies;
 
 class VirtualUsersController extends \base_core\controllers\BaseController {
 
+	use \base_core\controllers\AdminIndexTrait;
 	use \base_core\controllers\AdminDeleteTrait;
 	use \base_core\controllers\AdminActivateTrait;
 	use \base_core\controllers\AdminAddTrait;
 	use \base_core\controllers\AdminEditTrait;
-
-	public function admin_index() {
-		$data = VirtualUsers::find('all', [
-			'order' => ['name' => 'ASC']
-		]);
-		return compact('data');
-	}
 
 	protected function _selects($item = null) {
 		extract(Message::aliases());
