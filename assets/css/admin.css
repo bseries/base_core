@@ -767,6 +767,9 @@ button.login, .button.login {
   color: white;
   background-color: var(--color-dim-black);
 }
+.button.add:before {
+  content: "+ "
+}
 
 button,
 .button {
@@ -802,6 +805,10 @@ button.large,
   font-size: var(--font-size-gamma);
   padding: 16px 25px;
   line-height: 28px;
+}
+
+.button + .button {
+  margin-left: -4px;
 }
 
 /* Editor
@@ -1119,9 +1126,6 @@ table .actions {
   padding-right: 0;
   text-align: right;
   min-width: 70px;
-}
-table .actions .button {
-  margin-left: -4px;
 }
 
 table .flag {
