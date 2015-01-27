@@ -80,8 +80,8 @@ Router::connect("/admin/{$library}/{$controller}/page:{:page:(\d+|__PAGE__)}", [
 
 $template  = "/admin/{$library}/{$controller}";
 $template .= "/page:{:page:(\d+|__PAGE__)}";
-$template .= ",order:{:orderField:([\w\-\.]+|__ORDER_DIRECTION__)}";
-$template .= "-{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}";
+$template .= ",order:{:orderField:([\w\-\.\|]+|__ORDER_FIELD__)}";
+$template .= "--{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}";
 Router::connect($template, [
 	'action' => 'index',
 	'admin' => true

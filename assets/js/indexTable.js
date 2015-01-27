@@ -39,14 +39,16 @@ function($, Router, ThingsLoaded, Progress) {
             _this.$element.find('thead td').removeClass('desc asc');
             $th.addClass(direction);
 
-            _this._requestSort($th.data('sort'), direction);
+            _this._request($th.data('sort'), direction);
           });
         });
       };
 
       this._request = function(orderField, orderDirection) {
+        Progress.start();
+
         var url = _this.endpoints.sort
-          .replace('__ORDER_FIELD__', orderfield)
+          .replace('__ORDER_FIELD__', orderField)
           .replace('__ORDER_DIRECTION__', orderDirection);
 
         return $.get(url)
@@ -58,6 +60,9 @@ function($, Router, ThingsLoaded, Progress) {
             );
             history.pushState(null,null, url);
             _this._initImages();
+          })
+          .always(function() {
+            Progress.done(true);
           });
       };
 
@@ -71,7 +76,7 @@ function($, Router, ThingsLoaded, Progress) {
       this._initImages = function() {
         var $img = _this.$element.find('tbody td.media img');
 
-        if ($img.length) {
+        if (!$img.length) {
           return true;
         }
         var tooltips = $img.qtip({

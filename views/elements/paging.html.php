@@ -3,7 +3,7 @@
 $pages = $paginator->getPages();
 
 ?>
-<?php if ($pages->pageCount > 0): ?>
+<?php if ($pages->pageCount > 1): ?>
 	<nav class="nav-paging">
 		<?php if (isset($pages->previous)): ?>
 			<?= $this->html->link('←', ['action' => 'index', 'page' => $pages->previous], [

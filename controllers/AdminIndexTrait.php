@@ -21,6 +21,7 @@ trait AdminIndexTrait {
 		$model = $this->_model;
 		$conditions = [];
 		$with = [];
+		$order = [];
 
 		// Handle sorting. We support sorting by one
 		// dimension at a time only.
@@ -29,22 +30,31 @@ trait AdminIndexTrait {
 		} else {
 			$orderField = 'modified';
 		}
+		if (strpos($orderField, '|') !== false) {
+			$orderFields = explode('|', $orderField);
+		} else {
+			$orderFields = [$orderField];
+		}
+
 		if ($this->request->orderDirection) {
 			$orderDirection = strtoupper($this->request->orderDirection);
 		} else {
 			$orderDirection = 'DESC';
 		}
-		$order = [$orderField => $orderDirection];
 
-		if (preg_match('/^(.*)\./', $orderField, $matches)) {
-			// Enable relations if we're ordering by a relation's field.
-			$with[] = $matches[1];
+		foreach ($orderFields as $orderField) {
+			if (preg_match('/^(.*)\./', $orderField, $matches)) {
+				// Enable relations if we're ordering by a relation's field.
+				$with[] = $matches[1];
+			}
+			$order[$orderField] = $orderDirection;
 		}
-		if ($orderField === 'users') {
+		if (in_array('user', $orderFields)) {
 			// Support virtual users and users as a single user alias.
 			$with[] = 'VirtualUser';
 			$order['VirtualUser'] = $orderDirection;
 		}
+
 
 		// Handle pagination.
 		Paginator::setDefaultItemCountPerPage($perPage = 25);
@@ -53,7 +63,7 @@ trait AdminIndexTrait {
 		$count = $model::find('count', compact('conditions', 'with'));
 
 		$paginator = new Paginator(new ArrayAdapter(
-			range(0, $count)
+			range(1, $count)
 		));
 		$paginator->setCurrentPageNumber($page = $this->request->page ?: 1);
 		$paginator->setCacheEnabled(false);
@@ -63,9 +73,8 @@ trait AdminIndexTrait {
 			'page' => $page,
 			'limit' => $perPage,
 			'order' => $order,
-			'with' => $with
+			'with' => array_unique($with)
 		]);
-
 		return compact('data', 'paginator', 'order') + $this->_selects();
 	}
 }
