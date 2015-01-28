@@ -19,22 +19,29 @@ Settings::register('site.title');
 // there the alphabet would be too limited for a password style string.
 Settings::register('security.cookieSecret', 'alsFDDT§$sdfs');
 
-Settings::register('contact.default.name', 'Acme Inc.');
-Settings::register('contact.default.type', 'organization'); // organization or person
-Settings::register('contact.default.email', 'mail@example.com');
-Settings::register('contact.default.phone', '+49 (0) 12 345 678');
-Settings::register('contact.default.city', 'Las Vegas');
+Settings::register('contact.defalt', [
+	'name' => 'Acme Inc.',
+	'type' => 'organization',
+	'email' => 'mail@example.com',
+	'phone' => '+49 (0) 12 345 678',
+	'postal_code' => '12345',
+	'street_address' => 'Boulevard of Dreams 23',
+	'city' => 'Las Vegas',
+	'country' => 'USA'
+]);
 
-Settings::register('contact.exec.name', 'Atelier Disko');
-Settings::register('contact.exec.type', 'organization');
-Settings::register('contact.exec.email', 'info@atelierdisko.de');
-Settings::register('contact.exec.phone', '+49 (0) 40 355 618 96');
-Settings::register('contact.exec.website', 'http://atelierdisko.de');
-Settings::register('contact.exec.postal_code', 'D-20359');
-Settings::register('contact.exec.street_address', 'Budapester Straße 49');
-Settings::register('contact.exec.city', 'Hamburg');
-Settings::register('contact.exec.country', 'Germany');
-Settings::register('contact.exec.district', 'St. Pauli');
+Settings::register('contact.exec', [
+	'name' => 'Atelier Disko',
+	'type' => 'organization',
+	'email' => 'info@atelierdisko.de',
+	'phone' => '+49 (0) 40 355 618 96',
+	'website' => 'http://atelierdisko.de',
+	'postal_code' => 'D-20359',
+	'street_address' => 'Budapester Straße 49',
+	'city' => 'Hamburg',
+	'country' => 'Germany',
+	'district' => 'St. Pauli'
+]);
 
 Settings::register('service.googleAnalytics.default.account');
 Settings::register('service.googleAnalytics.default.domain');
