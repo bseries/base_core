@@ -970,7 +970,7 @@ button.large,
 article > .help {
   color: var(--color-dim-black);
   background: white;
-  padding: 20px 30px;
+  padding: 20px 30px 15px 30px;
   margin-bottom: 3.5em;
 }
 
