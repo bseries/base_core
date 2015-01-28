@@ -19,7 +19,7 @@ Settings::register('site.title');
 // there the alphabet would be too limited for a password style string.
 Settings::register('security.cookieSecret', 'alsFDDT§$sdfs');
 
-Settings::register('contact.defalt', [
+Settings::register('contact.default', [
 	'name' => 'Acme Inc.',
 	'type' => 'organization',
 	'email' => 'mail@example.com',
@@ -34,7 +34,7 @@ Settings::register('contact.exec', [
 	'name' => 'Atelier Disko',
 	'type' => 'organization',
 	'email' => 'info@atelierdisko.de',
-	'phone' => '+49 (0) 40 355 618 96',
+	'phone' => null,
 	'website' => 'http://atelierdisko.de',
 	'postal_code' => 'D-20359',
 	'street_address' => 'Budapester Straße 49',
