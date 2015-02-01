@@ -14,7 +14,7 @@
         "davidpersson/temporary": "1.0.*@stable",
         "davidpersson/li3_behaviors": "1.1.*@stable",
         "atelierdisko/li3_access": "1.0.*@beta",
-        "unionofrad/li3_cldr": "dev-master as 1.0.0-beta",
+        "unionofrad/li3_cldr": "dev-master",
         "unionofrad/li3_lldr": "1.0.*@beta",
         "atelierdisko/li3_flash_message": "1.0.*@beta",
         "atelierdisko/li3_mailer": "1.0.*@beta",
