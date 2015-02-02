@@ -14,7 +14,7 @@ $pages = $paginator->getPages();
 			<?= $this->html->link($pages->first, ['action' => 'index', 'page' => $pages->first], [
 				'rel' => 'prev', 'class' => 'button'
 			]) ?>
-			&mdash;
+			&nbsp;&mdash;
 		<?php endif ?>
 		<?php foreach ($pages->pagesInRange as $page): ?>
 			<?= $this->html->link($page, ['action' => 'index', 'page' => $page], [
@@ -22,7 +22,7 @@ $pages = $paginator->getPages();
 			]) ?>
 		<?php endforeach ?>
 		<?php if (!in_array($pages->last, $pages->pagesInRange)): ?>
-			&mdash;
+			&mdash;&nbsp;
 			<?= $this->html->link($pages->last, ['action' => 'index', 'page' => $pages->last], [
 				'rel' => 'prev', 'class' => 'button'
 			]) ?>
