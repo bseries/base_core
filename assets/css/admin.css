@@ -573,6 +573,9 @@ form textarea {
 form select {
   height: 37px;
 }
+form select[multiple] {
+  height: 80px;
+}
 textarea {
   line-height: var(--line-height-normal);
 }
