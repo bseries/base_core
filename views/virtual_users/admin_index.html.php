@@ -10,7 +10,7 @@ $this->set([
 ]);
 
 $nickRgb = function($nick) {
-	$hash = abs(crc32($nick));
+	$hash = abs(crc32($nick)) * 2;
 
 	$rgb = [$hash % 255, $hash % 255, $hash % 255];
 	$rgb[$hash % 2] = 100;
