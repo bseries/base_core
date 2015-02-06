@@ -33,7 +33,7 @@ Access::config([
 //
 $rules = Access::adapter('entity');
 $rules->add('user.role:admin', function($user, $entity, $options) {
-	return $user->role == 'admin';
+	return $user && $user->role === 'admin';
 });
 $rules->add('any', function($user, $entity, $options) {
 	return true;
@@ -50,6 +50,9 @@ Access::adapter('admin')->add('role', function($user, $request, $options) {
 	}
 	if (preg_match('#^/admin/(session|login|logout)$#', $request->url)) {
 		return true;
+	}
+	if (!$user) {
+		return false;
 	}
 	if ($user['role'] === 'admin') {
 		return true;
