@@ -125,42 +125,38 @@ class Nav extends \lithium\template\Helper {
 				continue;
 			}
 
-			$url = $this->_context->url($item['url']);
-			$url = strtok($url, '?');
+			$subject = $this->_context->url($item['url']);
+			$object = $this->_context->request()->url;
 
-			switch ($options['match']) {
-				case 'contain':
-				case 'loose':
-					if (preg_match('#://(.*)#', $url, $matches)) {
-						$url = $matches[1]; // Ignore protocol.
-					}
-					if (preg_match('/(.*)#/', $url, $matches)) {
-						$url = $matches[1]; // Ignore hashes (#).
-					}
-				case 'strict':
-					$match = $this->_matchContain($url, $this->_context->request()->url);
+			if ($options['match'] === 'option') {
+				if ($item['active']) {
+					$active = ['key' => $key, 'match' => true];
+					break;
+				}
+				continue;
+			}
+			if ($options['match'] === 'diff') {
+				$count = $this->_countDiffUrls($subject, $object);
 
-					if ($options['match'] === 'strict') {
-						$requireMatch = self::COMPLETE_MATCH;
-					} else {
-						$requireMatch = self::PARTIAL_MATCH;
-					}
-					if ($match >= $requireMatch || ($match > $active['match'] && $active['match'])) {
-						$active = ['key' => $key, 'match' => $match];
-					}
-					break;
-				case 'diff':
-					$count = $this->_countDiffUrls($url, $this->_context->request()->url);
+				if ($count < $active['match'] || $active['match']) {
+					$active = ['key' => $key, 'match' => $count];
+					// Never break continue to find best match.
+				}
+				continue;
+			}
+			$subject = parse_url($subject, PHP_URL_PATH);
+			$object = parse_url($object, PHP_URL_PATH);
 
-					if ($count < $active['match'] || $active['match']) {
-						$active = ['key' => $key, 'match' => $count];
-					}
-					break;
-				case 'option':
-					if ($item['active']) {
-						$active = ['key' => $key, 'match' => true];
-					}
-					break;
+			if ($options['match'] === 'loose') {
+				$requireMatch = self::PARTIAL_MATCH;
+			} else { // strict
+				$requireMatch = self::COMPLETE_MATCH;
+			}
+			$match = $this->_matchContain($subject, $object);
+
+			if ($match >= $requireMatch || ($match > $active['match'] && $active['match'])) {
+				$active = ['key' => $key, 'match' => $match];
+				// Never break continue to find best match.
 			}
 		}
 		unset($item);
