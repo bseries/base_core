@@ -124,7 +124,6 @@ class Nav extends \lithium\template\Helper {
 			if ($item['exclude']) {
 				continue;
 			}
-
 			$subject = $this->_context->url($item['url']);
 			$object = $this->_context->request()->url;
 
@@ -144,10 +143,10 @@ class Nav extends \lithium\template\Helper {
 				}
 				continue;
 			}
-			$subject = parse_url($subject, PHP_URL_PATH);
-			$object = parse_url($object, PHP_URL_PATH);
-
 			if ($options['match'] === 'loose') {
+				$subject = parse_url($subject, PHP_URL_PATH);
+				$object = parse_url($object, PHP_URL_PATH);
+
 				$requireMatch = self::PARTIAL_MATCH;
 			} else { // strict
 				$requireMatch = self::COMPLETE_MATCH;
