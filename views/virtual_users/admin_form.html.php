@@ -54,6 +54,11 @@ $this->set([
 					'label' => $t('Timezone'),
 					'list' => $timezones
 				]) ?>
+				<?= $this->form->field('country', [
+					'type' => 'select',
+					'label' => $t('Country'),
+					'list' => $countries
+				]) ?>
 			</section>
 		</div>
 		<div class="grid-row">

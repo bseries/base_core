@@ -20,6 +20,7 @@ use li3_flash_message\extensions\storage\FlashMessage;
 use base_core\models\VirtualUsers;
 
 use base_address\models\Addresses;
+use base_address\models\Countries;
 use billing_core\models\Invoices;
 use base_core\models\Currencies;
 
@@ -43,6 +44,11 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 			'de' => 'Deutsch',
 			'en' => 'English'
 		];
+		if (class_exists('\base_address\models\Countries')) {
+			$countries = Countries::find('list');
+		} else {
+			$countries = array_combine($list = explode(' ', PROJECT_COUNTRIES), $list);
+		}
 
 		if ($item) {
 			if (Libraries::get('base_address')) {
@@ -65,6 +71,7 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 		return compact(
 			'roles',
 			'timezones',
+			'countries',
 			'locales',
 
 			// Optional

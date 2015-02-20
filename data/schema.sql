@@ -45,6 +45,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+ALTER TABLE `users` ADD `country` CHAR(2)  NULL  DEFAULT NULL  AFTER `timezone`;
 
 # Export von Tabelle virtual_users
 # ------------------------------------------------------------
@@ -70,6 +71,7 @@ CREATE TABLE `virtual_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+ALTER TABLE `virtual_users` ADD `country` CHAR(2)  NULL  DEFAULT NULL   AFTER `timezone`;
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

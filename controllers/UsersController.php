@@ -23,6 +23,7 @@ use base_core\models\Users;
 use base_core\extensions\cms\Settings;
 
 use base_address\models\Addresses;
+use base_address\models\Countries;
 use billing_core\models\Invoices;
 use base_core\models\Currencies;
 
@@ -95,6 +96,11 @@ class UsersController extends \base_core\controllers\BaseController {
 			'de' => 'Deutsch',
 			'en' => 'English'
 		];
+		if (class_exists('\base_address\models\Countries')) {
+			$countries = Countries::find('list');
+		} else {
+			$countries = array_combine($list = explode(' ', PROJECT_COUNTRIES), $list);
+		}
 
 		if ($item) {
 			if (Libraries::get('base_address')) {
@@ -117,6 +123,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		return compact(
 			'roles',
 			'timezones',
+			'countries',
 			'locales',
 
 			// Optional
