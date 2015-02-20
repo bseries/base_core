@@ -27,7 +27,7 @@ class Currencies extends \base_core\models\Base {
 
 	public static function find($type, array $options = []) {
 		$options += ['locale' => Environment::get('locale')];
-		$available = Settings::read('availableCurrencies');
+		$available = explode(' ', PROJECT_CURRENCIES);
 
 		$cacheKey = 'currencies_' . md5(serialize([
 			$available,

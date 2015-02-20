@@ -55,8 +55,4 @@ Settings::register('user.number', [
 ]);
 Settings::register('user.sendActivationMail', false);
 
-Settings::register('availableCurrencies', [
-	'EUR', 'USD'
-]);
-
 ?>
