@@ -56,6 +56,8 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		return $config;
 	}
 
+	// Will assign a new reference number only if the entity doesn't already exist and
+	// a number wasn't manually provided.
 	protected static function _filters($model, $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
 			$field = $behavior->config('field');
