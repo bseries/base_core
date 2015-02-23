@@ -112,6 +112,7 @@ $bootstrapFormal = function($name, $path) {
 	}
 
 	// Configuration deprecations.
+	// @deprecated
 	if ($name !== 'base_core' && file_exists($path . "/config/bootstrap.php")) {
 		trigger_error(
 			"Found deprecated bootstrap file in `{$name}`.",
