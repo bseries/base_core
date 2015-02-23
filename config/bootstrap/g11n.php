@@ -26,6 +26,7 @@ use lithium\net\http\Media;
 use lithium\action\Dispatcher as ActionDispatcher;
 use lithium\console\Dispatcher as ConsoleDispatcher;
 use lithium\security\Auth;
+use li3_mailer\net\mail\Media as MailMedia;
 
 /**
  * Dates
@@ -244,6 +245,11 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * @see lithiumm\net\http\Media
  */
 Media::applyFilter('_handle', function($self, $params, $chain) {
+	$params['handler'] += ['outputFilters' => []];
+	$params['handler']['outputFilters'] += Message::aliases();
+	return $chain->next($self, $params, $chain);
+});
+MailMedia::applyFilter('_handle', function($self, $params, $chain) {
 	$params['handler'] += ['outputFilters' => []];
 	$params['handler']['outputFilters'] += Message::aliases();
 	return $chain->next($self, $params, $chain);
