@@ -73,7 +73,7 @@ $setLocale = function($self, $params, $chain) {
 	if (PHP_SAPI !== 'cli' && ($user = Auth::check('default'))) {
 		$timezone = $user['timezone'];
 	} else {
-		$timezone = Environment::get('timezone') ?: 'UTC';
+		$timezone = Environment::get('timezone') ?: PROJECT_TIMEZONE;
 	}
 	Environment::set(true, compact('timezone'));
 
@@ -84,6 +84,7 @@ $setLocale = function($self, $params, $chain) {
 			));
 		}
 		if ($locale = $params['request']->locale()) {
+			// Locale was in available locales.
 			Environment::set(true, ['locale' => $locale]);
 		}
 	} catch (\Exception $e) {
