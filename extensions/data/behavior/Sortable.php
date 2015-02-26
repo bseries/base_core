@@ -14,6 +14,8 @@ namespace base_core\extensions\data\behavior;
 
 use Exception;
 use lithium\util\Set;
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 
 /**
  * Allows for storing a sequential weight value with your entities. And
@@ -43,7 +45,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 		'descend' => true
 	];
 
-	protected static function _filters($model, $behavior) {
+	protected static function _filters($model, Behavior $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
 			if (!$params['entity']->exists()) {
 				$cluster = static::_cluster(
@@ -58,7 +60,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 		});
 	}
 
-	protected static function _highestWeight($model, $behavior, $cluster = []) {
+	protected static function _highestWeight($model, Behavior $behavior, array $cluster = []) {
 		$field = $behavior->config('field');
 		$fieldEscaped = $model::connection()->name($field);
 
@@ -89,7 +91,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 	 * @param array $ids
 	 * @return boolean
 	 */
-	public static function weightSequence($model, $behavior, $ids) {
+	public static function weightSequence($model, Behavior $behavior, array $ids) {
 		if ($behavior->config('descend')) {
 			$ids = array_reverse($ids);
 		}
@@ -113,7 +115,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 	 * @param array $data Data that already contains (parts of) cluster fields.
 	 * @return array Cluster fields with values for $id usable as conditions.
 	 */
-	protected static function _cluster($model, $behavior, $id = null, $forceFind = false, array $data = []) {
+	protected static function _cluster($model, Behavior $behavior, $id = null, $forceFind = false, array $data = []) {
 		$missing = [];
 		$conditions = [];
 
@@ -147,7 +149,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 	 * Opens a gap, sets weight of entity, filling the gap, then ensuring the gap
 	 * is closed correctly.
 	 */
-	protected static function _moveBelow($model, $behavior, $id, $belowId, $cluster = []) {
+	protected static function _moveBelow($model, Behavior $behavior, $id, $belowId, array $cluster = []) {
 		$weights = [];
 		$results = $model::find('all', [
 			'conditions' => ['id' => [$id, $belowId]],
@@ -179,7 +181,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 		return static::_closeGap($model, $behavior, $weights[$id], $cluster);
 	}
 
-	protected static function _openGap($model, $behavior, $atWeight, $cluster = []) {
+	protected static function _openGap($model, Behavior $behavior, $atWeight, array $cluster = []) {
 		$field = $behavior->config('field');
 		$fieldEscaped = $model::connection()->name($field);
 
@@ -203,7 +205,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 		return $result;
 	}
 
-	protected static function _closeGap($model, $behavior, $atWeight, $cluster = []) {
+	protected static function _closeGap($model, Behavior $behavior, $atWeight, array $cluster = []) {
 		$field = $behavior->config('field');
 		$fieldEscaped = $model::connection()->name($field);
 

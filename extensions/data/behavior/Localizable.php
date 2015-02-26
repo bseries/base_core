@@ -13,8 +13,10 @@
 namespace base_core\extensions\data\behavior;
 
 use Exception;
-use lithium\core\Environment;
 use NumberFormatter;
+use lithium\core\Environment;
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 
 class Localizable extends \li3_behaviors\data\model\Behavior {
 
@@ -22,7 +24,7 @@ class Localizable extends \li3_behaviors\data\model\Behavior {
 		'fields' => [],
 	];
 
-	protected static function _filters($model, $behavior) {
+	protected static function _filters($model, Behavior $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
 			$params['options'] += ['localize' => true];
 

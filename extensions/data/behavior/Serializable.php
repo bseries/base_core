@@ -14,6 +14,8 @@ namespace base_core\extensions\data\behavior;
 
 use Exception;
 use lithium\util\Set;
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 
 class Serializable extends \li3_behaviors\data\model\Behavior {
 
@@ -21,7 +23,7 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 		'fields' => []
 	];
 
-	protected static function _config($model, $behavior, $config, $defaults) {
+	protected static function _config($model, Behavior $behavior, array $config, array $defaults) {
 		$config += $defaults;
 		$config['fields'] = Set::normalize($config['fields']);
 
@@ -33,7 +35,7 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 		return $config;
 	}
 
-	protected static function _filters($model, $behavior) {
+	protected static function _filters($model, Behavior $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
 			foreach ($behavior->config('fields') as $field => $type) {
 				if (!isset($params['data'][$field])) {

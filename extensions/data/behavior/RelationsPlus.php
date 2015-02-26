@@ -12,11 +12,12 @@
 
 namespace base_core\extensions\data\behavior;
 
-use lithium\util\Inflector;
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 
 class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 
-	protected static function _methods($model, $behavior) {
+	protected static function _methods($model, Behavior $behavior) {
 		$methods = [];
 
 		$object = $model::invokeMethod('_object');
@@ -41,22 +42,8 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		}
 		return $results;
 	}
-	public function order($entity, array $query = []) {
-		if ($query) {
-			trigger_error('Carts::order with query has been deprecated.', E_USER_DEPRECATED);
-		}
-		if ($entity->order && !$query) {
-			return $entity->order;
-		}
-		return Orders::find('first', [
-			'conditions' => [
-				'ecommerce_cart_id' => $entity->id
-			]
-		] + $query);
-	}
 
-
-	protected static function _methodsForHasOne($key, $relations) {
+	protected static function _methodsForHasOne($key, array $relations) {
 		$methods = [];
 
 		foreach ($relations as $name => $relation) {
@@ -79,7 +66,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		return $methods;
 	}
 
-	protected static function _methodsForHasMany($key, $relations) {
+	protected static function _methodsForHasMany($key, array $relations) {
 		$methods = [];
 
 		foreach ($relations as $name => $relation) {
@@ -102,7 +89,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		return $methods;
 	}
 
-	protected static function _methodsForBelongsTo($key, $relations) {
+	protected static function _methodsForBelongsTo($key, array $relations) {
 		$methods = [];
 
 		foreach ($relations as $name => $relation) {

@@ -12,13 +12,15 @@
 
 namespace base_core\extensions\data\behavior;
 
+use li3_behaviors\data\model\Behavior;
+
 class StatusChange extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
 		'field' => 'status'
 	];
 
-	protected static function _filters($model, $behavior) {
+	protected static function _filters($model, Behavior $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
 			$field = $behavior->config('field');
 			$to = null;

@@ -13,6 +13,8 @@
 namespace base_core\extensions\data\behavior;
 
 use Exception;
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 
 // Continuous, sequential, unique.
 // Cannot mixed different style numbers in a column.
@@ -44,7 +46,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		'models' => []
 	];
 
-	protected static function _config($model, $behavior, $config, $defaults) {
+	protected static function _config($model, Behavior $behavior, array $config, array $defaults) {
 		$config += $defaults;
 
 		if (!$config['models']) {
@@ -58,7 +60,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 	// Will assign a new reference number only if the entity doesn't already exist and
 	// a number wasn't manually provided.
-	protected static function _filters($model, $behavior) {
+	protected static function _filters($model, Behavior $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
 			$field = $behavior->config('field');
 
@@ -74,7 +76,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		});
 	}
 
-	protected static function _nextReferenceNumber($model, $behavior, $entity) {
+	protected static function _nextReferenceNumber($model, Behavior $behavior, Entity $entity) {
 		$numbers = [];
 		$useSourceSort = $behavior->config('useSourceSort');
 
@@ -114,7 +116,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		return $generator($entity, $extractor($entity, array_pop($numbers)) + 1);
 	}
 
-	protected static function _sorter($model, $behavior) {
+	protected static function _sorter($model, Behavior $behavior) {
 		$config = $behavior->config('sort');
 
 		return function($a, $b) use ($config) {
@@ -141,7 +143,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		};
 	}
 
-	protected static function _extractor($model, $behavior) {
+	protected static function _extractor($model, Behavior $behavior) {
 		$config = $behavior->config('extract');
 
 		if (is_callable($config)) {
@@ -158,7 +160,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		};
 	}
 
-	protected static function _generator($model, $behavior) {
+	protected static function _generator($model, Behavior $behavior) {
 		$config = $behavior->config('generate');
 
 		if (is_callable($config)) {

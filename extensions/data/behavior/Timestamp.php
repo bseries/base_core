@@ -12,7 +12,8 @@
 
 namespace base_core\extensions\data\behavior;
 
-// use \Exception;
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 
 class Timestamp extends \li3_behaviors\data\model\Behavior {
 
@@ -20,7 +21,7 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 		'fields' => ['created' => 'created', 'modified' => 'modified']
 	];
 
-	protected static function _filters($model, $behavior) {
+	protected static function _filters($model, Behavior $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
 			if (isset($params['options']['whitelist'])) {
 				foreach ($behavior->config('fields') as $field) {
@@ -33,7 +34,7 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 		});
 	}
 
-	protected static function _timestamp($behavior, $entity, $data) {
+	protected static function _timestamp(Behavior $behavior, Entity $entity, array $data) {
 		$now = date('Y-m-d H:i:s');
 		$fields = $behavior->config('fields');
 
@@ -47,7 +48,7 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 		return $data;
 	}
 
-	public static function touchTimestamp($model, $behavior, $id, $field) {
+	public static function touchTimestamp($model, Behavior $behavior, $id, $field) {
 		return $model::update(
 			[$field => date('Y-m-d H:i:s')],
 			['id' => $id]
