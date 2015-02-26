@@ -18,11 +18,13 @@ use lithium\security\Auth;
 use li3_flash_message\extensions\storage\FlashMessage;
 
 use base_core\models\VirtualUsers;
-
 use base_address\models\Addresses;
-use base_address\models\Countries;
 use billing_core\models\Invoices;
-use base_core\models\Currencies;
+
+use base_core\models\Locales;
+use base_core\models\Timezones;
+use billing_core\models\Currencies;
+use base_address\models\Countries;
 
 class VirtualUsersController extends \base_core\controllers\BaseController {
 
@@ -36,14 +38,9 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 		extract(Message::aliases());
 
 		$roles = VirtualUsers::enum('role');
-		$timezones = [
-			'Europe/Berlin' => 'Europe/Berlin',
-			'UTC' => 'UTC'
-		];
-		$locales = [
-			'de' => 'Deutsch',
-			'en' => 'English'
-		];
+		$timezones = Timezones::find('list');
+		$locales = Locales::find('list');
+
 		if (class_exists('\base_address\models\Countries')) {
 			$countries = Countries::find('list');
 		} else {

@@ -1,0 +1,97 @@
+<?php
+/**
+ * Base Core
+ *
+ * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
+ *
+ * This software is proprietary and confidential. Redistribution
+ * not permitted. Unless required by applicable law or agreed to
+ * in writing, software distributed on an "AS IS" BASIS, WITHOUT-
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ */
+
+namespace base_core\models;
+
+use Exception;
+use Collator;
+use lithium\g11n\Catalog;
+use lithium\util\Collection;
+use lithium\core\Environment;
+use lithium\storage\Cache;
+
+class G11nBase extends \base_core\models\Base {
+
+	protected $_meta = [
+		'connection' => false
+	];
+
+	public static function find($type, array $options = []) {
+		$options += [
+			'translate' => static::_translate(),
+			'available' => static::_available()
+		];
+
+		if (!$data = Cache::read('default', $cacheKey = static::_cacheKey())) {
+			$data = static::_data();
+
+			Cache::write('default', $cacheKey, $data, Cache::PERSIST);
+		}
+
+		if ($type == 'all') {
+			return static::_formatAll($data);
+		} elseif ($type == 'list') {
+			return static::_formatList($data, 'id', 'name', $options['translate']);
+		} elseif ($type == 'first') {
+			return static::_formatFirst($data, $options['conditions']['id']);
+		}
+		throw new Exception("Invalid find type `{$type}` for g11n data.");
+	}
+
+	protected static function _translate() {
+		return Environment::get('locale');
+	}
+
+	protected static function _available() {
+		throw new Exception('Not implemented, must override in subclass.');
+	}
+
+	protected static function _data(array $options) {
+		throw new Exception('Not implemented, must override in subclass.');
+	}
+
+	protected static function _cacheKey(array $options) {
+		$prefix = strtolower(array_pop(explode('\\', get_called_class())));
+		return $prefix . '_' . md5(serialize($options));
+	}
+
+	protected function _formatAll(array $data) {
+		foreach ($data as &$item) {
+			$item = static::create($item);
+		}
+		return new Collection(['data' => $data]);
+	}
+
+	protected function _formatFirst(array $data, $id) {
+		if (!isset($data[$id])) {
+			throw new Exception("No item with id `{$id}` in g11n data found.");
+		}
+		return static::create($data[$id]);
+	}
+
+	protected function _formatList(array $data, $key, $value, $translate = null) {
+		$list = [];
+
+		foreach ($data as $item) {
+			$list[$item['id']] = $item['name'];
+		}
+		if ($translate) {
+			$collator = new Collator($translate);
+			$collator->asort($list);
+		} else {
+			asort($list);
+		}
+		return $list;
+	}
+}
+
+?>
