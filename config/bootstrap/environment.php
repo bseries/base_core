@@ -28,10 +28,12 @@ Environment::is(function() use ($map) {
 // Trigger detector and even init unknown envs.
 Environment::set([]);
 
-$config = ['locale' => PROJECT_LOCALE, 'locales' => explode(' ', PROJECT_LOCALES)];
+$config = [
+	'locale' => PROJECT_LOCALE,
+];
 Environment::set('development', $config);
 Environment::set('staging', $config);
 Environment::set('production', $config);
-Environment::set('test', ['locale' => 'en', 'locales' => ['en' => 'English']]);
+Environment::set('test', ['locale' => 'en']);
 
 ?>
