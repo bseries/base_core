@@ -24,7 +24,7 @@ class Locales extends \base_core\models\G11nBase {
 		$data = [];
 
 		if ($options['translate']) {
-			$results = Catalog::read(true, 'language', $options['tranlate']);
+			$results = Catalog::read(true, 'language', $options['translate']);
 		}
 		foreach ($options['available'] as $available) {
 			if (!$options['translate']) {

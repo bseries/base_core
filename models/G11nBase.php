@@ -31,8 +31,8 @@ class G11nBase extends \base_core\models\Base {
 			'available' => static::_available()
 		];
 
-		if (!$data = Cache::read('default', $cacheKey = static::_cacheKey())) {
-			$data = static::_data();
+		if (!$data = Cache::read('default', $cacheKey = static::_cacheKey($options))) {
+			$data = static::_data($options);
 
 			Cache::write('default', $cacheKey, $data, Cache::PERSIST);
 		}
@@ -60,25 +60,27 @@ class G11nBase extends \base_core\models\Base {
 	}
 
 	protected static function _cacheKey(array $options) {
-		$prefix = strtolower(array_pop(explode('\\', get_called_class())));
+		$prefix = explode('\\', get_called_class());
+		$prefix = strtolower(array_pop($prefix));
+
 		return $prefix . '_' . md5(serialize($options));
 	}
 
-	protected function _formatAll(array $data) {
+	protected static function _formatAll(array $data) {
 		foreach ($data as &$item) {
 			$item = static::create($item);
 		}
 		return new Collection(['data' => $data]);
 	}
 
-	protected function _formatFirst(array $data, $id) {
+	protected static function _formatFirst(array $data, $id) {
 		if (!isset($data[$id])) {
 			throw new Exception("No item with id `{$id}` in g11n data found.");
 		}
 		return static::create($data[$id]);
 	}
 
-	protected function _formatList(array $data, $key, $value, $translate = null) {
+	protected static function _formatList(array $data, $key, $value, $translate = null) {
 		$list = [];
 
 		foreach ($data as $item) {
