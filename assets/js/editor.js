@@ -133,10 +133,11 @@ function($, wysihtml5, MediaExplorerModal) {
           $('link[href*=css]:eq(1)').attr('href').replace(/(admin)/, 'iframe')
         ]
       });
+      // There is no way to disable the creation of this "helper" field
+      // inside wysi. However it messes with nested arrays in our forms.
+      // Especially when using i18n.
+      $('input[name=_wysihtml5_mode]').remove();
 
-      // instance.on('load', function() {
-      //  _this.elements.main.trigger('editor:loaded');
-      // });
       return instance;
     };
 
