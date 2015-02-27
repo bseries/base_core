@@ -39,8 +39,10 @@ trait AdminAddTrait {
 				FlashMessage::write($t('Failed to save.'), ['level' => 'error']);
 			}
 		}
+		$isTranslated = $model::hasBehavior('Translatable');
+
 		$this->_render['template'] = 'admin_form';
-		return compact('item') + $this->_selects($item);
+		return compact('item', 'isTranslated') + $this->_selects($item);
 	}
 }
 
