@@ -10,20 +10,19 @@ extract([
 
 // Data structure.
 $item += [
-	'type' => null,
 	'name' => null,
-	'street_address' => null,
+	'address_line_1' => null,
 	'postal_code' => null,
-	'city' => null,
+	'locality' => null,
+	'dependent_locality' => null,
 	'country' => null,
 	'phone' => null,
 	'email' => null,
-	'website' => null,
-	'district' => null
+	'website' => null
 ];
 
 ?>
-<?php if ($item['type'] == 'organization'): ?>
+<?php if (!empty($item['organization'])): ?>
 	<article class="contact" itemscope itemtype="http://data-vocabulary.org/Organization">
 <?php else: ?>
 	<article class="contact" itemscope itemtype="http://data-vocabulary.org/Person">
@@ -39,14 +38,14 @@ $item += [
 		<?php endif ?>
 		<br/>
 		<div itemprop="address" itemtype="http://data-vocabulary.org/Address" itemscope>
-			<span class="street-address" itemprop="street-address"><?= $item['street_address'] ?></span><br>
+			<span class="address-line" itemprop="street-address"><?= $item['address_line_1'] ?></span><br>
 			<span class="postal-code" itemprop="postal-code"><?= $item['postal_code']?></span>
-			<span class="city" itemprop="locality"><?= $item['city'] ?></span><br>
-			<?php if ($item['district']): ?>
-				<span class="district"><?= $item['district'] ?></span>
+			<span class="locality" itemprop="locality"><?= $item['locality'] ?></span><br>
+			<?php if ($item['dependent_localityt']): ?>
+				<span class="dependent-locality"><?= $item['dependent_locality'] ?></span>
 			<?php endif ?>
 			<?php if ($item['country']): ?>
-				<span itemprop="country-name" class="country"><?= $item['country'] ?></span>
+				<span itemprop="country" class="country"><?= $item['country'] ?></span>
 			<?php endif ?>
 		</div>
 	</p>

@@ -20,27 +20,25 @@ Settings::register('site.title');
 Settings::register('security.cookieSecret', 'alsFDDT§$sdfs');
 
 Settings::register('contact.default', [
-	'name' => 'Acme Inc.',
-	'type' => 'organization',
-	'email' => 'mail@example.com',
-	'phone' => '+49 (0) 12 345 678',
+	'organization' => 'Acme Inc.',
 	'postal_code' => '12345',
-	'street_address' => 'Boulevard of Dreams 23',
-	'city' => 'Las Vegas',
-	'country' => 'USA'
+	'address_line_1' => 'Boulevard of Dreams 23',
+	'locality' => 'Las Vegas',
+	'country' => 'USA',
+	'email' => 'mail@example.com',
+	'phone' => '+49 (0) 12 345 678'
 ]);
 
 Settings::register('contact.exec', [
-	'name' => 'Atelier Disko',
-	'type' => 'organization',
+	'organization' => 'Atelier Disko',
+	'address_line_1' => 'Budapester Straße 49',
+	'locality' => 'Hamburg',
+	'postal_code' => 'D-20359',
+	'country' => 'Germany',
+	'dependent_locality' => 'St. Pauli',
+	'website' => 'http://atelierdisko.de',
 	'email' => 'info@atelierdisko.de',
 	'phone' => null,
-	'website' => 'http://atelierdisko.de',
-	'postal_code' => 'D-20359',
-	'street_address' => 'Budapester Straße 49',
-	'city' => 'Hamburg',
-	'country' => 'Germany',
-	'district' => 'St. Pauli'
 ]);
 
 Settings::register('service.googleAnalytics.default.account');
