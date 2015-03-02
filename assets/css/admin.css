@@ -561,6 +561,7 @@ form label {
 }
 form label + textarea,
 form label + input,
+form .compound-users select,
 form label + select {
   margin-top: 5px;
 }
