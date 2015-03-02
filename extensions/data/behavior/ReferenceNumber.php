@@ -76,7 +76,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		});
 	}
 
-	protected static function _nextReferenceNumber($model, Behavior $behavior, Entity $entity) {
+	protected static function _nextReferenceNumber($model, Behavior $behavior, array $entity) {
 		$numbers = [];
 		$useSourceSort = $behavior->config('useSourceSort');
 

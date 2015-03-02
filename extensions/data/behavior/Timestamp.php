@@ -28,7 +28,9 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 					$params['options']['whitelist'][] = $field;
 				}
 			}
-			$params['data'] = static::_timestamp($behavior, $params['entity'], $params['data']);
+			$params['data'] = static::_timestamp(
+				$behavior, $params['entity'], (array) $params['data']
+			);
 
 			return $chain->next($self, $params, $chain);
 		});
