@@ -53,19 +53,19 @@ class Users extends \base_core\models\Base {
 		);
 
 		$model->validates['password'] = [
-			[
+			'notEmpty' => [
 				'notEmpty',
 				'on' => ['create', 'passwordChange', 'passwordInit'],
 				'message' => $t('This field cannot be empty.')
 			],
 		];
 		$model->validates['password_repeat'] = [
-			[
+			'notEmpty' => [
 				'notEmpty',
 				'on' => ['create'],
 				'message' => $t('This field cannot be empty.')
 			],
-			[
+			'repeat' => [
 				'passwordRepeat',
 				'on' => ['create', 'passwordChange', 'passwordInit'],
 				'message' => $t('The passwords are not identical.')
@@ -76,7 +76,7 @@ class Users extends \base_core\models\Base {
 		});
 
 		$model->validates['name'] = [
-			[
+			'notEmpty' => [
 				'notEmpty',
 				'on' => ['create', 'update'],
 				'last' => true,
@@ -84,19 +84,19 @@ class Users extends \base_core\models\Base {
 			]
 		];
 		$model->validates['email'] = [
-			[
+			'notEmpty' => [
 				'notEmpty',
 				'on' => ['create', 'update'],
 				'last' => true,
 				'message' => $t('This field cannot be empty.')
 			],
-			[
+			'email' => [
 				'email',
 				'deep' => true,
 				'on' => ['create', 'update'],
 				'message' => $t('Invalid e–mail.')
 			],
-			[
+			'isUnique' => [
 				'isUnique',
 				'on' => ['create', 'update'],
 				'message' => $t('The e–mail is already in use.')
