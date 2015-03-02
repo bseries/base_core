@@ -65,6 +65,9 @@ date_default_timezone_set('UTC');
  * @see lithiumm\core\Environment
  */
 $setLocale = function($self, $params, $chain) {
+	$request =& $params['request'];
+
+	// Timezone
 	if (PHP_SAPI !== 'cli' && ($user = Auth::check('default'))) {
 		$timezone = $user['timezone'];
 	} else {
@@ -72,19 +75,29 @@ $setLocale = function($self, $params, $chain) {
 	}
 	Environment::set(true, compact('timezone'));
 
-	try {
-		if (!$params['request']->locale()) {
-			$params['request']->locale(Locale::preferred(
-				$params['request'], explode(' ', PROJECT_LOCALES)
-			));
+	// Locale
+	if (!empty($request->locale)) { // Explitic locale overrides anything.
+		$locale = $request->locale;
+	} elseif (!empty($request->language)) { // Locale may also be composed.
+		$locale = $request->language;
+
+		if (!empty($request->country)) {
+			$locale .= '_' . $request->country;
 		}
-		if ($locale = $params['request']->locale()) {
-			// Locale was in available locales.
-			Environment::set(true, ['locale' => $locale]);
+	} else { // Autodetect locale.
+		try {
+			$locale = Locale::preferred($request, explode(' ', PROJECT_LOCALES));
+		} catch (\Exception $e) {
+			// Locale was in available locales or could not be parsed.
+			$locale = PROJECT_LOCALE;
 		}
-	} catch (\Exception $e) {
-		// Cannot parse locale. Will continue to use default effective locale.
 	}
+	// For translation, we're working with just the language part.
+	$locale = Locale::decompose($locale)['language'];
+
+	Environment::set(true, ['locale' => $locale]);
+	$request->locale($locale); // For BC, not used elsewhere.
+
 	return $chain->next($self, $params, $chain);
 };
 ActionDispatcher::applyFilter('_callable', $setLocale);
