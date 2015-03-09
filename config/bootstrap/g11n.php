@@ -88,10 +88,14 @@ $setLocale = function($self, $params, $chain) {
 		try {
 			$locale = Locale::preferred($request, explode(' ', PROJECT_LOCALES));
 		} catch (\Exception $e) {
+			$locale = null;
+		}
+		if (!$locale) {
 			// Locale was in available locales or could not be parsed.
 			$locale = PROJECT_LOCALE;
 		}
 	}
+
 	// For translation, we're working with just the language part.
 	$locale = Locale::decompose($locale)['language'];
 
