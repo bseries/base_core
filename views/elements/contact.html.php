@@ -41,7 +41,7 @@ $item += [
 			<span class="address-line" itemprop="street-address"><?= $item['address_line_1'] ?></span><br>
 			<span class="postal-code" itemprop="postal-code"><?= $item['postal_code']?></span>
 			<span class="locality" itemprop="locality"><?= $item['locality'] ?></span><br>
-			<?php if ($item['dependent_localityt']): ?>
+			<?php if ($item['dependent_locality']): ?>
 				<span class="dependent-locality"><?= $item['dependent_locality'] ?></span>
 			<?php endif ?>
 			<?php if ($item['country']): ?>
