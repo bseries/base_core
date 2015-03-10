@@ -845,7 +845,6 @@ button.large,
 [data-wysihtml5-command-value="h2"] {
 	font-size: 19px;
 	text-transform: uppercase;
-	line-height: 1;
 }
 [data-wysihtml5-command-value="h3"] {
 	font-size: 16px;
