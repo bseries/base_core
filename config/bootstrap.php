@@ -11,6 +11,19 @@
  */
 
 //
+// The `BOOT_ADMIN` constant allows us to apply some optimization and not
+// load certain parts of the framework when we're navigating through the
+// we app part.
+//
+if (PHP_SAPI === 'cli') {
+	define('BOOT_ADMIN', true);
+} elseif (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/admin') !== false) {
+	define('BOOT_ADMIN', true);
+} else {
+	define('BOOT_ADMIN', false);
+}
+
+//
 // This bootstrap file boots the application as well as any libraries, plugins or modules.
 //
 // ## Environment
@@ -89,6 +102,14 @@ $bootstrapFormal = function($name, $path) {
 			'contents',
 			'misc'
 		];
+		if (!BOOT_ADMIN) {
+			// Keep order when unsetting.
+			$available = array_diff($available, [
+				'routes',
+				'jobs',
+				'widgets'
+			]);
+		}
 	} else {
 		// Load app configuration last, so it can overwrite module default configuration and
 		// isn't overwritten by anything else.
