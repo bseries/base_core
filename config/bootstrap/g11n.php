@@ -133,15 +133,20 @@ Catalog::config([
 	'runtime' => [
 		'adapter' => 'Memory'
 	],
-	'app' => [
-	 	'adapter' => 'Gettext',
-	 	'path' => PROJECT_PATH . '/app/resources/g11n/po'
-	 ],
 	'lithium' => [
 		'adapter' => 'Php',
 		'path' => PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/g11n/resources/php'
 	]
 ] + Catalog::config());
+
+if (INSIDE_ADMIN !== true) {
+	Catalog::config([
+		'app' => [
+			'adapter' => 'Gettext',
+			'path' => PROJECT_PATH . '/app/resources/g11n/po'
+		 ],
+	] + Catalog::config());
+}
 
 /**
  * Multibyte Strings
