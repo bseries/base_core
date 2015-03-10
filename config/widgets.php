@@ -15,7 +15,9 @@ use base_core\extensions\cms\Widgets;
 use base_core\models\Users;
 use base_core\models\VirtualUsers;
 
-extract(Message::aliases());
+$t = function($message, array $options = []) {
+	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
+};
 
 Widgets::register('support', function() use ($t) {
 	return [

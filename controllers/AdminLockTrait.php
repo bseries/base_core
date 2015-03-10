@@ -35,10 +35,14 @@ trait AdminLockTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully locked.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully locked.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to lock.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to lock.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];
@@ -67,10 +71,14 @@ trait AdminLockTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully unlocked.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully unlocked.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to unlock.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to unlock.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];

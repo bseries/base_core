@@ -30,10 +30,14 @@ trait AdminUpdateStatusTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully updated status.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully updated status.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to update status.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to update status.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];

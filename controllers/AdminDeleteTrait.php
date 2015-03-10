@@ -27,10 +27,14 @@ trait AdminDeleteTrait {
 
 		if ($item->delete()) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully deleted.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully deleted.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to delete.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to delete.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];

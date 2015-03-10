@@ -45,7 +45,9 @@ class Users extends \base_core\models\Base {
 	];
 
 	public static function init() {
-		extract(Message::aliases());
+		$t = function($message, array $options = []) {
+			return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
+		};
 		$model = static::_object();
 
 		static::behavior('base_core\extensions\data\behavior\ReferenceNumber')->config(

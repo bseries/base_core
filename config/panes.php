@@ -13,7 +13,9 @@
 use base_core\extensions\cms\Panes;
 use lithium\g11n\Message;
 
-extract(Message::aliases());
+$t = function($message, array $options = []) {
+	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
+};
 
 Panes::register('dashboard', [
 	'title' => $t('Dashboard'),

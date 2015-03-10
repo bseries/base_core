@@ -48,10 +48,14 @@ class UsersController extends \base_core\controllers\BaseController {
 			$events = ['create', 'passwordInit'];
 
 			if ($item->save($this->request->data, compact('events'))) {
-				FlashMessage::write($t('Successfully saved.'), ['level' => 'success']);
+				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
+					'level' => 'success'
+				]);
 				return $this->redirect(['action' => 'index', 'library' => 'base_core']);
 			} else {
-				FlashMessage::write($t('Failed to save.'), ['level' => 'error']);
+				FlashMessage::write($t('Failed to save.', ['scope' => 'base_core']), [
+					'level' => 'error'
+				]);
 			}
 		}
 		$this->_render['template'] = 'admin_form';
@@ -77,10 +81,14 @@ class UsersController extends \base_core\controllers\BaseController {
 			}
 
 			if ($item->save($this->request->data)) {
-				FlashMessage::write($t('Successfully saved.'), ['level' => 'success']);
+				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
+					'level' => 'success'
+				]);
 				return $this->redirect(['action' => 'index', 'library' => 'base_core']);
 			} else {
-				FlashMessage::write($t('Failed to save.'), ['level' => 'error']);
+				FlashMessage::write($t('Failed to save.', ['scope' => 'base_core']), [
+					'level' => 'error'
+				]);
 			}
 		}
 		$this->_render['template'] = 'admin_form';
@@ -103,7 +111,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		if ($item) {
 			if (Libraries::get('base_address')) {
 				$addresses = [
-					null => '-- ' . $t('no address') . ' --'
+					null => '-- ' . $t('no address', ['scope' => 'base_core']) . ' --'
 				];
 				$addresses += Addresses::find('list', [
 					'conditions' => [
@@ -140,9 +148,13 @@ class UsersController extends \base_core\controllers\BaseController {
 		$item->role = $this->request->role;
 
 		if ($item->save(null, ['validate' => false, 'whitelist' => ['role']])) {
-			FlashMessage::write($t("Assigned role `{$item->role}`."), ['level' => 'success']);
+			FlashMessage::write($t("Assigned role `{:role}`.", ['scope' => 'base_core', 'role' => $item->role]), [
+				'level' => 'success'
+			]);
 		} else {
-			FlashMessage::write($t("Failed to assign role `{$item->role}`."), ['level' => 'error']);
+			FlashMessage::write($t("Failed to assign role `{:role}`.", ['scope' => 'base_core', 'role' => $item->role]), [
+				'level' => 'error'
+			]);
 		}
 		$this->redirect($this->request->referer());
 	}
@@ -161,13 +173,17 @@ class UsersController extends \base_core\controllers\BaseController {
 			if (Auth::check('default', $this->request)) {
 				$message = "Authenticated user with email `{$this->request->data['email']}`.";
 				Logger::write('debug', $message);
-				FlashMessage::write($t('Authenticated.'), ['level' => 'success']);
+				FlashMessage::write($t('Authenticated.', ['scope' => 'base_core']), [
+					'level' => 'success'
+				]);
 
 				return $this->redirect('/admin');
 			}
 			$message = "Failed authentication for user with email `{$this->request->data['email']}`.";
 			Logger::write('debug', $message);
-			FlashMessage::write($t('Failed to authenticate.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to authenticate.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 
 			return $this->redirect($this->request->referer());
 		}
@@ -178,7 +194,9 @@ class UsersController extends \base_core\controllers\BaseController {
 
 		Auth::clear('default');
 
-		FlashMessage::write($t('Successfully logged out.'), ['level' => 'success']);
+		FlashMessage::write($t('Successfully logged out.', ['scope' => 'base_core']), [
+			'level' => 'success'
+		]);
 		return $this->redirect('/admin/session');
 	}
 
@@ -198,7 +216,7 @@ class UsersController extends \base_core\controllers\BaseController {
 			$result = $result && Mailer::deliver('user_activated', [
 				'library' => 'billing_core',
 				'to' => $item->email,
-				'subject' => $t('Your account has been activated.'),
+				'subject' => $t('Your account has been activated.', ['scope' => 'base_core']),
 				'data' => [
 					'user' => $item
 				]
@@ -208,10 +226,14 @@ class UsersController extends \base_core\controllers\BaseController {
 			$model::pdo()->commit();
 
 			Logger::write('debug', "Activated user `{$item->email}`.");
-			FlashMessage::write($t('Activated.'), ['level' => 'success']);
+			FlashMessage::write($t('Activated.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to activate.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to activate.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 		}
 		return $this->redirect($this->request->referer());
 	}
@@ -233,7 +255,9 @@ class UsersController extends \base_core\controllers\BaseController {
 		unset($new['original']['password']);
 
 		Auth::set('default', $new);
-		FlashMessage::write($t('Became user `{:name}`.', $new), ['level' => 'success']);
+		FlashMessage::write($t('Became user `{:name}`.', ['scope' => 'base_core', 'name' => $new->name]), [
+			'level' => 'success'
+		]);
 
 		return $this->redirect($this->request->referer());
 	}
@@ -244,7 +268,9 @@ class UsersController extends \base_core\controllers\BaseController {
 		$auth = Auth::check('default');
 
 		Auth::set('default', $auth['original']);
-		FlashMessage::write($t('Became user `{:name}` again.', $auth['original']), ['level' => 'success']);
+		FlashMessage::write($t('Became user `{:name}` again.', ['scope' => 'base_core', 'name' => $auth['original']['name']]), [
+			'level' => 'success'
+		]);
 
 		return $this->redirect($this->request->referer());
 	}

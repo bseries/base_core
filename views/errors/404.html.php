@@ -1,6 +1,11 @@
 <?php
 
 use lithium\core\Environment;
+use lithium\g11n\Message;
+
+$t = function($message, array $options = []) {
+	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
+};
 
 $searchEngines = [
 	'bing', 'google', 'yahoo', 'altavista',

@@ -7,6 +7,11 @@ use lithium\util\Inflector;
 use base_core\extensions\cms\Panes;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
+use lithium\g11n\Message;
+
+$t = function($message, array $options = []) {
+	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
+};
 
 $site = Settings::read('site');
 $locale = Environment::get('locale');

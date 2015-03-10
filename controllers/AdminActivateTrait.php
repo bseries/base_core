@@ -31,10 +31,14 @@ trait AdminActivateTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Activated.'), ['level' => 'success']);
+			FlashMessage::write($t('Activated.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to activate.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to activate.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];
@@ -59,10 +63,14 @@ trait AdminActivateTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Deactivated.'), ['level' => 'success']);
+			FlashMessage::write($t('Deactivated.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to deactivate.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to deactivate.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];

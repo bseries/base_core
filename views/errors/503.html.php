@@ -1,3 +1,12 @@
+<?php
+
+use lithium\g11n\Message;
+
+$t = function($message, array $options = []) {
+	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
+};
+
+?>
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
 	<h1 class="alpha">
 		<span class="code"><?= $this->_response->status['code'] ?></span>

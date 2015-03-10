@@ -26,10 +26,14 @@ trait AdminOrderTrait {
 		$ids = $this->request->data['ids'];
 		if ($model::weightSequence($ids)) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully updated order.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully updated order.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to update order.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to update order.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 		}
 		return $this->render(['head' => true]);
 	}

@@ -31,10 +31,14 @@ trait AdminPromoteTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully promoted.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully promoted.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to promote.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to promote.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];
@@ -59,10 +63,14 @@ trait AdminPromoteTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully unpromoted.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully unpromoted.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to unpromote.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to unpromote.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];

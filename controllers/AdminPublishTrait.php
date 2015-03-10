@@ -31,10 +31,14 @@ trait AdminPublishTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully published.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully published.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to publish.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to publish.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 		$url = ['action' => 'index', 'library' => $this->_library];
@@ -59,10 +63,14 @@ trait AdminPublishTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
-			FlashMessage::write($t('Successfully unpublished.'), ['level' => 'success']);
+			FlashMessage::write($t('Successfully unpublished.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
 		} else {
 			$model::pdo()->rollback();
-			FlashMessage::write($t('Failed to unpublish.'), ['level' => 'error']);
+			FlashMessage::write($t('Failed to unpublish.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 			return $this->redirect($this->request->referer());
 		}
 

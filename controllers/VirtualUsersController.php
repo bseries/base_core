@@ -50,7 +50,7 @@ class VirtualUsersController extends \base_core\controllers\BaseController {
 		if ($item) {
 			if (Libraries::get('base_address')) {
 				$addresses = [
-					null => '-- ' . $t('no address') . ' --'
+					null => '-- ' . $t('no address', ['scope' => 'base_core']) . ' --'
 				];
 				$addresses += Addresses::find('list', [
 					'conditions' => [
