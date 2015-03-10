@@ -50,9 +50,8 @@ class VirtualUsers extends \base_core\models\Base {
 	}
 
 	public static function init() {
-		$t = function($message, array $options = []) {
-			return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
-		};
+		extract(Message::aliases());
+
 		$model = static::_object();
 
 		static::behavior('base_core\extensions\data\behavior\ReferenceNumber')->config(
@@ -63,14 +62,14 @@ class VirtualUsers extends \base_core\models\Base {
 			[
 				'notEmpty',
 				'on' => ['addEmail'],
-				'message' => $t('This field cannot be empty.'),
+				'message' => $t('This field cannot be empty.', ['scope' => 'base_core']),
 				'last' => true
 			],
 			[
 				'email',
 				'on' => ['addEmail'],
 				'deep' => true,
-				'message' => $t('Invalid e–mail.')
+				'message' => $t('Invalid e–mail.', ['scope' => 'base_core'])
 			]
 		];
 

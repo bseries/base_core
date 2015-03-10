@@ -3,7 +3,7 @@
 use lithium\g11n\Message;
 
 $t = function($message, array $options = []) {
-	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
+	return Message::translate($message, $options + ['scope' => 'base_core', 'default' => $message]);
 };
 
 ?>

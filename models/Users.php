@@ -45,9 +45,8 @@ class Users extends \base_core\models\Base {
 	];
 
 	public static function init() {
-		$t = function($message, array $options = []) {
-			return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
-		};
+		extract(Message::aliases());
+
 		$model = static::_object();
 
 		static::behavior('base_core\extensions\data\behavior\ReferenceNumber')->config(
@@ -58,19 +57,19 @@ class Users extends \base_core\models\Base {
 			'notEmpty' => [
 				'notEmpty',
 				'on' => ['create', 'passwordChange', 'passwordInit'],
-				'message' => $t('This field cannot be empty.')
+				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 		];
 		$model->validates['password_repeat'] = [
 			'notEmpty' => [
 				'notEmpty',
 				'on' => ['create'],
-				'message' => $t('This field cannot be empty.')
+				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 			'repeat' => [
 				'passwordRepeat',
 				'on' => ['create', 'passwordChange', 'passwordInit'],
-				'message' => $t('The passwords are not identical.')
+				'message' => $t('The passwords are not identical.', ['scope' => 'base_core'])
 			]
 		];
 		Validator::add('passwordRepeat', function($value, $format, $options) {
@@ -82,7 +81,7 @@ class Users extends \base_core\models\Base {
 				'notEmpty',
 				'on' => ['create', 'update'],
 				'last' => true,
-				'message' => $t('This field cannot be empty.')
+				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			]
 		];
 		$model->validates['email'] = [
@@ -90,18 +89,18 @@ class Users extends \base_core\models\Base {
 				'notEmpty',
 				'on' => ['create', 'update'],
 				'last' => true,
-				'message' => $t('This field cannot be empty.')
+				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 			'email' => [
 				'email',
 				'deep' => true,
 				'on' => ['create', 'update'],
-				'message' => $t('Invalid e–mail.')
+				'message' => $t('Invalid e–mail.', ['scope' => 'base_core'])
 			],
 			'isUnique' => [
 				'isUnique',
 				'on' => ['create', 'update'],
-				'message' => $t('The e–mail is already in use.')
+				'message' => $t('The e–mail is already in use.', ['scope' => 'base_core'])
 			]
 		];
 		Validator::add('isUnique', function($value, $format, $options) {
