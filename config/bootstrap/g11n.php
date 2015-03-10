@@ -147,6 +147,7 @@ if (INSIDE_ADMIN !== true) {
 		 ],
 	] + Catalog::config());
 }
+// Catalogs of modules are boostrapped elsewhere.
 
 /**
  * Multibyte Strings
