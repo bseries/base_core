@@ -13,30 +13,28 @@
 use base_core\extensions\cms\Panes;
 use lithium\g11n\Message;
 
-$t = function($message, array $options = []) {
-	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
-};
+extract(Message::aliases());
 
 Panes::register('dashboard', [
-	'title' => $t('Dashboard'),
+	'title' => $t('Dashboard', ['scope' => 'base_core']),
 	'url' => ['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'base_core'],
 	'actions' => false,
 	'weight' => 0
 ]);
 Panes::register('access', [
-	'title' => $t('Access'),
+	'title' => $t('Access', ['scope' => 'base_core']),
 	'weight' => 80
 ]);
 Panes::register('external', [
-	'title' => $t('External'),
+	'title' => $t('External', ['scope' => 'base_core']),
 	'weight' => 85
 ]);
 Panes::register('authoring', [
-	'title' => $t('Authoring'),
+	'title' => $t('Authoring', ['scope' => 'base_core']),
 	'weight' => 10
 ]);
 Panes::register('viewSite', [
-	'title' => $t('Site'),
+	'title' => $t('Site', ['scope' => 'base_core']),
 	'weight' => 95,
 	'url' => '/',
 	'actions' => false
@@ -44,18 +42,18 @@ Panes::register('viewSite', [
 
 $base = ['controller' => 'users', 'action' => 'index', 'library' => 'base_core', 'admin' => true];
 Panes::register('access.users', [
-	'title' => $t('Users'),
+	'title' => $t('Users', ['scope' => 'base_core']),
 	'url' => $base,
 	'weight' => 0
 ]);
 Panes::register('access.virtualUsers', [
-	'title' => $t('Virtual Users'),
+	'title' => $t('Virtual Users', ['scope' => 'base_core']),
 	'url' => ['controller' => 'VirtualUsers'] + $base,
 	'weight' => 1
 ]);
 
 Panes::register('external.support', [
-	'title' => $t('Contact Support'),
+	'title' => $t('Contact Support', ['scope' => 'base_core']),
 	'url' => ['controller' => 'Pages', 'action' => 'support', 'library' => 'base_core'],
 	'weight' => 0
 ]);

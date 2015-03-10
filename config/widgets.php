@@ -15,13 +15,11 @@ use base_core\extensions\cms\Widgets;
 use base_core\models\Users;
 use base_core\models\VirtualUsers;
 
-$t = function($message, array $options = []) {
-	return Message::translate($id, $options + ['scope' => 'base_core', 'default' => $message]);
-};
+extract(Message::aliases());
 
 Widgets::register('support', function() use ($t) {
 	return [
-		'title' => $t('Contact Support'),
+		'title' => $t('Contact Support', ['scope' => 'base_core']),
 		'url' => [
 			'controller' => 'Pages', 'action' => 'support',
 			'library' => 'base_core', 'admin' => true
@@ -42,12 +40,12 @@ Widgets::register('users', function() use ($t) {
 	]);
 
 	return [
-		'title' => $t('Users'),
+		'title' => $t('Users', ['scope' => 'base_core']),
 		'url' => [
 			'controller' => 'Users', 'library' => 'base_core', 'admin' => true, 'action' => 'index'
 		],
 		'data' => [
-			$t('Total') => $total
+			$t('Total', ['scope' => 'base_core']) => $total
 		]
 	];
 }, [
