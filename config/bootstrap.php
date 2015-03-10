@@ -11,16 +11,18 @@
  */
 
 //
-// The `BOOT_ADMIN` constant allows us to apply some optimization and not
+// The `INSIDE_ADMIN` constant allows us to apply some optimization and not
 // load certain parts of the framework when we're navigating through the
 // we app part.
 //
+// Note: As this is a three-way switch strict comparison is needed.
+//
 if (PHP_SAPI === 'cli') {
-	define('BOOT_ADMIN', true);
+	define('INSIDE_ADMIN', null);
 } elseif (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/admin') !== false) {
-	define('BOOT_ADMIN', true);
+	define('INSIDE_ADMIN', true);
 } else {
-	define('BOOT_ADMIN', false);
+	define('INSIDE_ADMIN', false);
 }
 
 //
@@ -100,14 +102,17 @@ $bootstrapFormal = function($name, $path) {
 			'panes',
 			'widgets',
 			'contents',
+			'g11n',
 			'misc'
 		];
-		if (!BOOT_ADMIN) {
+		if (INSIDE_ADMIN === false) {
 			// Keep order when unsetting.
 			$available = array_diff($available, [
 				'routes',
 				'jobs',
-				'widgets'
+				'panes',
+				'widgets',
+				'g11n'
 			]);
 		}
 	} else {
