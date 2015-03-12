@@ -216,7 +216,10 @@ class UsersController extends \base_core\controllers\BaseController {
 			$result = $result && Mailer::deliver('user_activated', [
 				'library' => 'billing_core',
 				'to' => $item->email,
-				'subject' => $t('Your account has been activated.', ['scope' => 'base_core']),
+				'subject' => $t('Your account has been activated.', [
+					'locale' => $item->locale,
+					'scope' => 'base_core'
+				]),
 				'data' => [
 					'user' => $item
 				]
