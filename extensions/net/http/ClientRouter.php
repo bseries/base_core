@@ -12,6 +12,8 @@
 
 namespace base_core\extensions\net\http;
 
+use Exception;
+
 class ClientRouter extends \lithium\core\StaticObject {
 
 	protected static $_routes = [];
@@ -22,15 +24,12 @@ class ClientRouter extends \lithium\core\StaticObject {
 
 	public static function get($name = null) {
 		if (!$name) {
-			$results = [];
-
-			foreach (static::$_routes as $name => $params) {
-			}
 			return static::$_routes;
 		}
 		if (isset(static::$_routes[$name])) {
 			return static::$_routes[$name];
 		}
+		throw new Exception("No client route provided with name `{$name}`.");
 	}
 }
 
