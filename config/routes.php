@@ -73,6 +73,8 @@ ClientRouter::provide('widgets:view', [
 // Error routes for showcasing and developing error pages. Normally those aren't
 // viewed directly. Commonly an exception inside the app will be handled and
 // then the error controller be called.
+//
+// FIXME Move into app.
 Router::connect('/403', [
 	'controller' => 'Errors', 'action' => 'fourohthree', 'library' => 'base_core'
 ]);
