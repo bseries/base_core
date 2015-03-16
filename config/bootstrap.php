@@ -243,7 +243,9 @@ require 'bootstrap/mail.php';
 
 // ------------------------------------------------------------------------------------------------
 
-require PROJECT_PATH . '/app/config/routes.php';
+if (INSIDE_ADMIN === false) {
+	require PROJECT_PATH . '/app/config/routes.php';
+}
 
 // ------------------------------------------------------------------------------------------------
 
