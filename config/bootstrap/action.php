@@ -74,7 +74,10 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 			} elseif (empty($request->params['admin']) && !empty($ps['admin'])) {
 				continue;
 			}
-			$params['data']['routes'][$name] = Router::match($ps, $request);
+			// In client router context no params should be persisted.
+			$clientRequest = clone $request;
+			$clientRequest->persist = [];
+			$params['data']['routes'][$name] = Router::match($ps, $clientRequest);
 		}
 	}
 	return $chain->next($self, $params, $chain);

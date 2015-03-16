@@ -100,14 +100,14 @@ Router::connect("/admin/api/{$library}/{$controller}:{:id:([\w\d\-]+|__ID__)}", 
 	'action' => 'view',
 	'admin' => true,
 	'api' => true
-], compact('modifiers', 'formatters', 'persist'));
+], compact('modifiers', 'formatters', 'persist') + ['defaults' => ['type' => 'json']]);
 
 // Generic API single action/add route.
 // /admin/api/base-media/media/transfer
 Router::connect("/admin/api/{$library}/{$controller}/{$action}", [
 	'admin' => true,
 	'api' => true
-], compact('modifiers', 'formatters', 'persist'));
+], compact('modifiers', 'formatters', 'persist') + ['defaults' => ['type' => 'json']]);
 
 // Generic API index route.
 // /admin/api/base-media/media
@@ -115,7 +115,7 @@ Router::connect("/admin/api/{$library}/{$controller}", [
 	'action' => 'index',
 	'admin' => true,
 	'api' => true
-], compact('modifiers', 'formatters', 'persist'));
+], compact('modifiers', 'formatters', 'persist') + ['defaults' => ['type' => 'json']]);
 
 
 // Generic index route.
