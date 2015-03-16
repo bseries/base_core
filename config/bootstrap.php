@@ -207,6 +207,12 @@ Libraries::add('app', [
 	'bootstrap' => false
 ]);
 
+// Make base_core libraries available in app bootstrap files
+// (i.e. ClientRouter in app's routes.php).
+Libraries::add('base_core', [
+	'bootstrap' => false
+]);
+
 // Make lithium understand our environment management.
 require 'bootstrap/environment.php';
 
