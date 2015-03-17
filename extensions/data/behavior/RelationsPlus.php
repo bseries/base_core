@@ -23,7 +23,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		$object = $model::invokeMethod('_object');
 		$key = $model::key();
 
-		if (isset($object->hasObe)) {
+		if (isset($object->hasOne)) {
 			$methods += static::_methodsForHasOne($key, $object->hasOne);
 		}
 		if (isset($object->hasMany)) {
