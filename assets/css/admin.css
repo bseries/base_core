@@ -760,6 +760,7 @@ a.button {
 button.save, .button.save {
   color: white;
   background-color: var(--color-ci-green);
+  margin-left: -4px; /* fix when aligned in form with buttons next to it. */
 }
 button.delete,
 .button.delete {
