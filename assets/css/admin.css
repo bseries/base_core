@@ -1554,6 +1554,22 @@ td .minor {
   display: none;
 }
 
+/* Index Table: Filtering
+-------------------------------------------------------------- */
+thead .actions > div {
+  margin-bottom: -1px;
+}
+.table-search {
+  width: 140px;
+  height: 22px;
+  background-color: white;
+  transition: width .25s;
+    margin-bottom: -2px;
+}
+.table-search:focus {
+  width: 90%;
+}
+
 /* Index Table: Sorting
 -------------------------------------------------------------- */
 .table-sort:hover {

@@ -9,8 +9,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-define(['jquery', 'router', 'thingsLoaded', 'nprogress', 'qtip'],
-function($, Router, ThingsLoaded, Progress) {
+define(['jquery', 'router', 'thingsLoaded', 'nprogress', 'underscore', 'qtip'],
+function($, Router, ThingsLoaded, Progress, _) {
 
     return function IndexTable($element) {
       var _this = this;
@@ -25,28 +25,40 @@ function($, Router, ThingsLoaded, Progress) {
 
       this.currentFilter = null;
 
+      this.currentPage = 1;
+
       // Holds the API of qtip for current tooltips.
       this.imagesTooltips = null;
 
       this._initSorting = function() {
         _this.$element.on('click', 'thead .table-sort', function(ev) {
-            var $th = $(this);
-            var direction = $th.hasClass('desc') ? 'asc' : 'desc';
+          var $th = $(this);
+          var direction = $th.hasClass('desc') ? 'asc' : 'desc';
 
-            _this.$element.find('thead .table-sort').removeClass('desc asc');
-            $th.addClass(direction);
+          _this.$element.find('thead .table-sort').removeClass('desc asc');
+          $th.addClass(direction);
 
-            _this._request();
+          _this._updateCurrent();
+          _this._request();
+        });
+      };
+
+      this._initPaging = function() {
+        _this.$element.on('click', '.nav-paging a', function(ev) {
+          ev.preventDefault();
+
+          var $el = $(this);
+
+          _this.$element.find('.nav-paging a').removeClass('active');
+          $el.addClass('active');
+
+          _this._updateCurrent();
+          _this._request();
         });
       };
 
       this._initFiltering = function() {
-        _this.$element.find('.table-search').on('keyup', function(ev) {
-          // set page to 1 so that next request
-          // will bring us to the first page but
-          // keep pagination working.
-
-          _this.endpoint = _this.endpoint.replace(/page\:\d+/, 'page:1');
+        _this.$element.find('.table-search').on('keyup', _.debounce(function(ev) {
 
           var skip = [
             9, /* tab */
@@ -66,8 +78,15 @@ function($, Router, ThingsLoaded, Progress) {
           if (ev.keyCode == 27) { /* ESC */
             $(this).val('');
           }
+          _this._updateCurrent();
+
+          // set page to 1 so that next request
+          // will bring us to the first page but
+          // keep pagination working.
+          _this.currentPage = 1;
+
           _this._request();
-        });
+        }, 300));
       };
 
       // Enlarge images when hovering over them in a table.
@@ -117,18 +136,29 @@ function($, Router, ThingsLoaded, Progress) {
       };
 
       this._updateCurrent = function() {
-        var $active = _this.$element.find('thead .table-sort').filter('.asc,.desc');
+        var $active;
 
+        $active = _this.$element.find('thead .table-sort').filter('.asc,.desc');
         _this.currentOrderField = $active.data('sort');
         _this.currentOrderDirection =  $active.hasClass('desc') ? 'asc' : 'desc';
-        _this.currentFilter = _this.$element.find('.table-search').val();
+
+        $active = _this.$element.find('.table-search');
+        _this.currentFilter = $active.val();
+
+        $active = _this.$element.find('.nav-paging .active');
+        if ($active.length) {
+          var match = $active.attr('href').match(/page:(\d)/);
+          _this.currentPage = match ? match[1] : 1;
+        } else {
+          _this.currentPage = 1;
+        }
       };
 
       this._request = function() {
-        _this._updateCurrent();
         Progress.start();
 
         var url = _this.endpoint
+          .replace('__PAGE__', _this.currentPage)
           .replace('__ORDER_FIELD__', _this.currentOrderField)
           .replace('__ORDER_DIRECTION__', _this.currentOrderDirection)
           .replace('__FILTER__', _this.currentFilter);
@@ -137,7 +167,9 @@ function($, Router, ThingsLoaded, Progress) {
           .done(function(html) {
             _this._destroyImages();
 
-            _this.$element.find('tbody').replaceWith(
+            // tbody nav may disappear in certain results.
+            _this.$element.find('tbody').remove();
+            _this.$element.find('thead').after(
               $(html).find('.use-index-table tbody')
             );
 
@@ -146,9 +178,6 @@ function($, Router, ThingsLoaded, Progress) {
             _this.$element.find('table').after(
               $(html).find('.use-index-table .nav-paging')
             );
-
-            // Update endpoint so we keep order when paging.
-            // _this.endpoint = $(html).find('.use-index-table').data('endpoint');
 
             history.pushState(null,null, url);
             _this._initImages();
@@ -166,6 +195,7 @@ function($, Router, ThingsLoaded, Progress) {
 
       this._initSorting();
       this._initFiltering();
+      this._initPaging();
       this._initImages();
     };
 });
