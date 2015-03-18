@@ -12,7 +12,7 @@
 define(['jquery', 'router', 'thingsLoaded', 'nprogress', 'underscore', 'qtip'],
 function($, Router, ThingsLoaded, Progress, _) {
 
-    return function IndexTable($element) {
+    return function RichIndex($element) {
       var _this = this;
 
       this.$element = $element;
@@ -170,13 +170,13 @@ function($, Router, ThingsLoaded, Progress, _) {
             // tbody nav may disappear in certain results.
             _this.$element.find('tbody').remove();
             _this.$element.find('thead').after(
-              $(html).find('.use-index-table tbody')
+              $(html).find('.use-rich-index tbody')
             );
 
             // paging nav may disappear in certain results.
             _this.$element.find('.nav-paging').remove();
             _this.$element.find('table').after(
-              $(html).find('.use-index-table .nav-paging')
+              $(html).find('.use-rich-index .nav-paging')
             );
 
             history.pushState(null,null, url);

@@ -44,7 +44,7 @@ requirejs.config({
     'scrollTo': 'base-core/js/scrollTo',
     'qtip': 'base-core/js/qtip',
     'thingsLoaded': 'base-core/js/thingsLoaded',
-    'indexTable': 'base-core/js/indexTable',
+    'richIndex': 'base-core/js/richIndex',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',

@@ -65,10 +65,10 @@ require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
   //
   // Table sorting/filtering
   //
-  var $table = $('.use-index-table');
-  if ($table.length) {
-    require(['indexTable'], function(IndexTable) {
-      var table = new IndexTable($table);
+  var $richIndex = $('.use-rich-index');
+  if ($richIndex.length) {
+    require(['richIndex'], function(RichIndex) {
+      new IndexTable($richIndex);
     });
   }
 
