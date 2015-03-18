@@ -111,8 +111,7 @@ $bootstrapFormal = function($name, $path) {
 				'routes',
 				'jobs',
 				'panes',
-				'widgets',
-				'g11n'
+				'widgets'
 			]);
 		}
 	} else {
