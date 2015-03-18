@@ -68,7 +68,7 @@ require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
   var $richIndex = $('.use-rich-index');
   if ($richIndex.length) {
     require(['richIndex'], function(RichIndex) {
-      new IndexTable($richIndex);
+      new RichIndex($richIndex);
     });
   }
 
