@@ -33,7 +33,7 @@ Settings::register('contact.exec', [
 	'organization' => 'Atelier Disko',
 	'address_line_1' => 'Budapester Straße 49',
 	'locality' => 'Hamburg',
-	'postal_code' => 'D-20359',
+	'postal_code' => '20359',
 	'country' => 'Germany',
 	'dependent_locality' => 'St. Pauli',
 	'website' => 'http://atelierdisko.de',
