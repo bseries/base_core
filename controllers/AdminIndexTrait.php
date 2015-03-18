@@ -12,6 +12,7 @@
 
 namespace base_core\controllers;
 
+use lithium\util\Set;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
 
@@ -23,8 +24,8 @@ trait AdminIndexTrait {
 		$with = [];
 		$order = [];
 
-		// Handle sorting. We support sorting by one
-		// dimension at a time only.
+		// Normalize order field and direction.
+		// We support sorting by one dimension at a time only.
 		if ($this->request->orderField) {
 			$orderField = str_replace('-', '_', $this->request->orderField);
 		} else {
@@ -35,13 +36,20 @@ trait AdminIndexTrait {
 		} else {
 			$orderFields = [$orderField];
 		}
-
 		if ($this->request->orderDirection) {
 			$orderDirection = strtoupper($this->request->orderDirection);
 		} else {
 			$orderDirection = 'DESC';
 		}
+		$q = $this->request->filter;
 
+		if (in_array('user', $orderFields)) {
+			// Support virtual users and users as a single user alias.
+			$with[] = 'VirtualUser';
+			$order['VirtualUser'] = $orderDirection;
+		}
+
+		// Build query contraints.
 		foreach ($orderFields as $orderField) {
 			if (preg_match('/^(.*)\./', $orderField, $matches)) {
 				// Enable relations if we're ordering by a relation's field.
@@ -49,12 +57,9 @@ trait AdminIndexTrait {
 			}
 			$order[$orderField] = $orderDirection;
 		}
-		if (in_array('user', $orderFields)) {
-			// Support virtual users and users as a single user alias.
-			$with[] = 'VirtualUser';
-			$order['VirtualUser'] = $orderDirection;
+		if ($model::hasBehavior('Searchable')) {
+			$conditions = Set::merge($conditions, $model::searchConditions($q));
 		}
-
 
 		// Handle pagination.
 		Paginator::setDefaultItemCountPerPage($perPage = 25);

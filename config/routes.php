@@ -135,6 +135,7 @@ $template  = "/admin/{$library}/{$controller}";
 $template .= "/page:{:page:(\d+|__PAGE__)}";
 $template .= ",order:{:orderField:([\w\-\.\|]+|__ORDER_FIELD__)}";
 $template .= "--{:orderDirection:(desc|asc|__ORDER_DIRECTION__)}";
+$template .= ",filter:{:filter:(.*|__FILTER__)}";
 Router::connect($template, [
 	'action' => 'index',
 	'admin' => true
