@@ -30,6 +30,13 @@ class VirtualUsers extends \base_core\models\Base {
 				'base_core\models\Users',
 				'base_core\models\VirtualUsers'
 			]
+		],
+		'base_core\extensions\data\behavior\Searchable' => [
+			'fields' => [
+				'number',
+				'name',
+				'email'
+			]
 		]
 	];
 
