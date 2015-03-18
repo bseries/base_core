@@ -15,6 +15,7 @@ namespace base_core\extensions\data\behavior;
 use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
 
+// Nested relation keys may contain array data when saving.
 class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 
 	protected static function _methods($model, Behavior $behavior) {
@@ -55,7 +56,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				$force = $query['force'];
 				unset($query['force']);
 
-				if (!$query && !$force && $entity->{$lower}) {
+				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
 				$query['conditions'][$relation['key']] = $entity->{$key};
@@ -78,7 +79,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				$force = $query['force'];
 				unset($query['force']);
 
-				if (!$query && !$force && $entity->{$lower}) {
+				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
 				$query['conditions'][$relation['key']] = $entity->{$key};
@@ -101,7 +102,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				$force = $query['force'];
 				unset($query['force']);
 
-				if (!$query && !$force && $entity->{$lower}) {
+				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
 				$query['conditions'][$key] = $entity->{$relation['key']};
