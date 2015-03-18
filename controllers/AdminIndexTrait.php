@@ -57,10 +57,12 @@ trait AdminIndexTrait {
 			}
 			$order[$orderField] = $orderDirection;
 		}
+
+		// Hack to ensure model is initialized and its behaviors, too.
+		$model::meta();
 		if ($model::hasBehavior('Searchable')) {
 			$conditions = Set::merge($conditions, $model::searchConditions($q));
 		}
-
 		// Handle pagination.
 		Paginator::setDefaultItemCountPerPage($perPage = 25);
 		Paginator::setDefaultScrollingStyle('Sliding');
