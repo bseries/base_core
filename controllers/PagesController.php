@@ -22,8 +22,6 @@ class PagesController extends \base_core\controllers\BaseController {
 		});
 		return compact('widgets');
 	}
-
-	public function admin_support() {}
 }
 
 ?>

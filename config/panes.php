@@ -52,10 +52,4 @@ Panes::register('access.virtualUsers', [
 	'weight' => 1
 ]);
 
-Panes::register('external.support', [
-	'title' => $t('Contact Support', ['scope' => 'base_core']),
-	'url' => ['controller' => 'Pages', 'action' => 'support', 'library' => 'base_core'],
-	'weight' => 0
-]);
-
 ?>
