@@ -1071,7 +1071,7 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 var(--space-v-tighter);
-  /* table-layout: fixed; */
+  table-layout: fixed;
 }
 td {
 	vertical-align: middle;
@@ -1129,21 +1129,26 @@ table .actions {
   padding-top: 0;
   padding-right: 0;
   text-align: right;
-  min-width: 70px;
+  width: 270px;
 }
 
 table .flag {
-  width: 60px;
+  width: 75px;
   text-align: center;
 }
-table .date {
-  max-width: none;
-  width: 150px;
+table td.date {
+  width: 100px;
 }
-
+table td.id {
+  width: 100px;
+}
+table td.status {
+  width: 120px;
+}
 table td.media {
   line-height: 0;
   padding-top: 0;
+  width: 100px;
 }
 table td.media img {
   cursor: pointer;
@@ -1156,11 +1161,7 @@ table td .avatar {
   height: 40px;
 }
 
-
-table .emphasize {
-  max-width: 240px;
-}
-tbody .emphasize {
+tbody td.emphasize {
   color: black;
 }
 form [name*=status],
