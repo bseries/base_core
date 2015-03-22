@@ -20,10 +20,7 @@ extract(Message::aliases());
 Widgets::register('support', function() use ($t) {
 	return [
 		'title' => $t('Contact Support', ['scope' => 'base_core']),
-		'url' => [
-			'controller' => 'Pages', 'action' => 'support',
-			'library' => 'base_core', 'admin' => true
-		]
+		'url' => 'http://atelierdisko.de/contact'
 	];
 }, [
 	'type' => Widgets::TYPE_QUICKDIAL,
