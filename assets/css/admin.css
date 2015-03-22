@@ -418,6 +418,7 @@ footer.main {
 }
 .tab-h.active {
   bottom: 0;
+  z-index: 10;
   background-color: var(--color-gray-neutral);
   color: var(--color-dim-black);
 }
