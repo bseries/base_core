@@ -33,7 +33,23 @@ function($, Router, ThingsLoaded, Progress, _) {
       this._initSorting = function() {
         _this.$element.on('click', 'thead .table-sort', function(ev) {
           var $th = $(this);
-          var direction = $th.hasClass('desc') ? 'asc' : 'desc';
+          var direction;
+
+          if ($th.hasClass('desc')) {
+            direction = 'asc';
+          } else if ($th.hasClass('asc')) {
+            direction = 'desc';
+          } else {
+            // Set defaults when clicking on a currently
+            // not sorted col. Sort dates and flags desc and others
+            // asc. So that newest come first and with flags
+            // enabled come first by default.
+            if ($th.hasClass('date') || $th.hasClass('flag')) {
+              direction = 'desc';
+            } else {
+              direction = 'asc';
+            }
+          }
 
           _this.$element.find('thead .table-sort').removeClass('desc asc');
           $th.addClass(direction);
@@ -140,7 +156,7 @@ function($, Router, ThingsLoaded, Progress, _) {
 
         $active = _this.$element.find('thead .table-sort').filter('.asc,.desc');
         _this.currentOrderField = $active.data('sort');
-        _this.currentOrderDirection =  $active.hasClass('desc') ? 'asc' : 'desc';
+        _this.currentOrderDirection =  $active.hasClass('desc') ? 'desc' : 'asc';
 
         $active = _this.$element.find('.table-search');
         _this.currentFilter = $active.val();

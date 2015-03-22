@@ -1578,10 +1578,10 @@ thead .actions > div {
   color: var(--color-dim-black);
 }
 .table-sort.asc:after {
-  content: "⌄";
+  content: "⌃";
 }
 .table-sort.desc:after {
-  content: "⌃";
+  content: "⌄";
 }
 
 /* Index Table: Pagination/Paging

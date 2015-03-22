@@ -25,6 +25,9 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 	public static function searchConditions($model, Behavior $behavior, $q) {
 		$conditions = [];
 
+		if (preg_match('/^\s*$/', $q)) {
+			return $conditions;
+		}
 		foreach ($behavior->config('fields') as $field) {
 			$conditions['OR'][$field] = ['LIKE' => '%' . $q . '%'];
 		}
