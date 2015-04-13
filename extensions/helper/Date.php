@@ -20,6 +20,9 @@ use Exception;
 class Date extends \lithium\template\Helper {
 
 	public function format($value, $type, array $options = []) {
+		if (!$value) {
+			return null;
+		}
 		$options += [
 			'locale' => null,
 			'timezone' => null
