@@ -103,19 +103,15 @@ FlashMessage::clear();
 		<div id="modal-overlay" class="hide"></div>
 
 		<div id="container">
-			<header class="main">
-				<?=$this->view()->render(['element' => 'header'], compact('authedUser'), [
-					'library' => 'app'
-				]) ?>
-			</header>
+			<?=$this->view()->render(['element' => 'header'], compact('authedUser'), [
+				'library' => 'app'
+			]) ?>
 			<div id="content">
 				<?php echo $this->content() ?>
 			</div>
 		</div>
-		<footer class="main">
-			<?=$this->view()->render(['element' => 'footer'], compact('authedUser'), [
-				'library' => 'app'
-			]) ?>
-		</footer>
+		<?=$this->view()->render(['element' => 'footer'], compact('authedUser'), [
+			'library' => 'app'
+		]) ?>
 	</body>
 </html>
