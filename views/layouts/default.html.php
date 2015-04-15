@@ -88,8 +88,6 @@ FlashMessage::clear();
 		}
 	?>
 	<body class="<?= implode(' ', $classes) ?>">
-		<div id="fb-root"></div>
-
 		<div
 			id="messages"
 			<?php if ($flash): ?>
