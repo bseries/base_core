@@ -57,6 +57,8 @@ class Date extends \lithium\template\Helper {
 			return $formatter->format($date);
 		} elseif ($type == 'w3c') {
 			return $date->format(DateTime::W3C);
+		} else {
+			return $date->format($type);
 		}
 		throw new Exception("Invalid date format type `{$type}`.");
 	}
