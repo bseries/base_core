@@ -17,7 +17,7 @@ $internalReferal = false;
 $searchReferal = false;
 $searchTerms = null;
 
-if (strpos($referer, 'owndomainNAME') !== false) {
+if (strpos($referer, PROJECT_DOMAIN) !== false) {
 	$internalReferal = true;
 } else {
 	foreach ($searchEngines as $searchEngine) {
@@ -66,9 +66,9 @@ if ($internalReferal) {
 			<li><?= $t('The administrator of this site has been notified and will fix the link as soon as possible.') ?></li>
 			<li>
 				<?php echo $t(
-					'Go back to the previous page which sent you here <strong>{:url}</strong>.'),
+					'Go back to the previous page which sent you here <strong>{:url}</strong>.',
 					['url' => $this->html->link($referer)]
-				?>
+				) ?>
 			</li>
 		<? elseif ($searchReferal): ?>
 		<? elseif ($referer): ?>
