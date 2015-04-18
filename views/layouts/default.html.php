@@ -96,12 +96,6 @@ FlashMessage::clear();
 			<?php endif ?>
 		></div>
 
-		<div id="modal" class="hide">
-			<div class="controls"><div class="close">╳</div></div>
-			<div class="content"></div>
-		</div>
-		<div id="modal-overlay" class="hide"></div>
-
 		<div id="container">
 			<?=$this->view()->render(['element' => 'header'], compact('authedUser'), [
 				'library' => 'app'
