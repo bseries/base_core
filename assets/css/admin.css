@@ -1563,10 +1563,10 @@ thead .actions > div {
 }
 .table-search {
   width: 140px;
-  height: 22px;
+  height: 24px;
   background-color: white;
   transition: width .25s;
-    margin-bottom: -2px;
+  margin-bottom: -2px;
 }
 .table-search:focus {
   width: 90%;
