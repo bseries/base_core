@@ -20,13 +20,13 @@ Settings::register('site.title');
 Settings::register('security.cookieSecret', 'alsFDDT§$sdfs');
 
 Settings::register('contact.default', [
-	'organization' => 'Acme Inc.',
-	'postal_code' => '12345',
-	'address_line_1' => 'Boulevard of Dreams 23',
-	'locality' => 'Las Vegas',
-	'country' => 'USA',
-	'email' => 'mail@example.com',
-	'phone' => '+49 (0) 12 345 678'
+	// 'organization' => 'Acme Inc.',
+	// 'postal_code' => '12345',
+	// 'address_line_1' => 'Boulevard of Dreams 23',
+	// 'locality' => 'Las Vegas',
+	// 'country' => 'USA',
+	// 'email' => 'mail@example.com',
+	// 'phone' => '+49 (0) 12 345 678'
 ]);
 
 Settings::register('contact.exec', [
