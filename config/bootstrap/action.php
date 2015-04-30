@@ -163,8 +163,8 @@ if (PROJECT_FEATURE_DEVICE_DETECTION) {
 			return $ua;
 		}
 		$ua = [
-			// 'isMobile' => $detect->isMobile(),
-			// 'isTablet' => $detect->isTablet(),
+			'isMobile' => $detect->isMobile(),
+			'isTablet' => $detect->isTablet(),
 			// 'mobileGrade' => $detect->mobileGrade(),
 			'isIos' => $detect->isiOS()
 		];
