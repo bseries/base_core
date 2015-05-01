@@ -19,7 +19,7 @@ FlashMessage::clear();
 	<head>
 		<?php echo $this->html->charset() ?>
 		<title>
-			<?php if ($this->_request->action === 'home'): ?>
+			<?php if (in_array($this->_request->action, ['home', 'front'])): ?>
 				<?php echo $this->title() ?>
 			<?php else: ?>
 				<?php echo ($title = $this->title()) ? "{$title} – " : null ?><?= $site['title'] ?>
