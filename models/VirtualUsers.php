@@ -66,20 +66,21 @@ class VirtualUsers extends \base_core\models\Base {
 		);
 
 		$model->validates['email'] = [
-			[
+			'notEmpty' => [
 				'notEmpty',
+				// 'on' => ['create', 'update'],
 				'on' => ['addEmail'],
-				'message' => $t('This field cannot be empty.', ['scope' => 'base_core']),
-				'last' => true
+				'last' => true,
+				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
-			[
+			'email' => [
 				'email',
-				'on' => ['addEmail'],
 				'deep' => true,
+				// 'on' => ['create', 'update'],
+				'on' => ['addEmail'],
 				'message' => $t('Invalid e–mail.', ['scope' => 'base_core'])
 			]
 		];
-
 	}
 
 	public function isVirtual() {
