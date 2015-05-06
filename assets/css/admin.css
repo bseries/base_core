@@ -1085,6 +1085,15 @@ td {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.use-nested table {
+  table-layout: auto;
+}
+.use-nested .actions {
+  width: 120px;
+}
+table .finance--f {
+ width: 120px;
+}
 
 td:last-child {
   max-width: inherit;
