@@ -19,6 +19,7 @@ use lithium\storage\Session;
 use lithium\data\Connections;
 use lithium\data\source\Database;
 use lithium\net\http\Router;
+use lithium\analysis\Logger;
 
 if (PROJECT_FEATURE_MEMCACHED) {
 	if (!Memcache::enabled()) {
@@ -95,6 +96,7 @@ if (PROJECT_FEATURE_FPC) {
 		$skip = $skip || strpos($request->url, '/admin') === 0;
 
 		if ($skip) {
+			Logger::debug("FPC skipped URL `{$request->url}`.");
 			return $response;
 		}
 
@@ -102,6 +104,7 @@ if (PROJECT_FEATURE_FPC) {
 		$backup = ini_get('memcached.compression_threshold');
 		ini_set('memcached.compression_threshold', 10000000);
 
+		Logger::debug("FPC caching URL `{$request->url}` und key `{$cacheKey}`.");
 		Cache::write('default', $cacheKey, $response->body(), '+1 hour');
 
 		ini_set('memcached.compression_threshold', $backup);
