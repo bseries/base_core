@@ -22,13 +22,24 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 		'fields' => []
 	];
 
-	public static function searchConditions($model, Behavior $behavior, $q) {
-		$conditions = [];
-
+	public static function searchQuery($model, Behavior $behavior, $q, array $query = []) {
+		$query += [
+			'conditions' => [],
+			'with' => []
+		];
 		if (preg_match('/^\s*$/', $q)) {
-			return $conditions;
+			return $query;
 		}
+
 		foreach ($behavior->config('fields') as $field) {
+			// Enable relations if we're searching by a relation's field.
+			if (preg_match('/^(.*)\./', $field, $matches)) {
+				$query['with'][] = $matches[1];
+			} else {
+				// Fully qualify to prevent ambigous columns.
+				$field = basename(str_replace('\\', '/', $model)) . '.' . $field;
+			}
+
 			switch ($model::schema($field)['type']) {
 				case 'date':
 				case 'datetime':
@@ -47,7 +58,7 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 						}
 						$month = ltrim($month, '0');
 
-						$conditions['OR'][] = [
+						$query['conditions']['OR'][] = [
 							'AND' => [
 								'YEAR(' . $field . ')' => $year,
 								'MONTH(' . $field . ')' => $month
@@ -56,15 +67,16 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 					} else {
 						// Cast to object to skip database formatters, forcing
 						// string to be converted to (invalid) date.
-						$conditions['OR'][] = (object) ('(' . $field . ' LIKE \'%' . $q . '%\')');
+						$query['conditions']['OR'][] = (object) ('(' . $field . ' LIKE \'%' . $q . '%\')');
 					}
 					break;
 				default:
-					$conditions['OR'][$field] = ['LIKE' => '%' . $q . '%'];
+					$query['conditions']['OR'][$field] = ['LIKE' => '%' . $q . '%'];
 				break;
 			}
 		}
-		return $conditions;
+		$query['with'] = array_unique($query['with']);
+		return $query;
 	}
 }
 

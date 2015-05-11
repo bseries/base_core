@@ -20,10 +20,57 @@ trait AdminIndexTrait {
 
 	public function admin_index() {
 		$model = $this->_model;
-		$conditions = [];
-		$with = [];
-		$order = [];
+		$model::meta(); // Hack to ensure model is initialized and its behaviors, too.
 
+		$query = [
+			'conditions' => [],
+			'with' => [],
+			'order' => [],
+			'page' => $this->request->page ?: 1,
+			'limit' => 25
+		];
+
+		if ($model::hasBehavior('Searchable')) {
+			$query = $model::searchQuery($this->request->filter, $query);
+		} else {
+			$message  = "Associated model `{$model}` ";
+			$message .= "doesn't have the Searchable behavior attached.";
+			trigger_error($message, E_USER_NOTICE);
+		}
+
+		$query = $this->_order($query);
+
+		$data = $model::find('all', $query);
+		$paginator = $this->_paginator($query);
+
+		return compact('data', 'paginator') + $this->_selects();
+	}
+
+	// Handle pagination.
+	protected function _paginator($query) {
+		$model = $this->_model;
+
+		$itemsPerPage = $query['limit'];
+		$page = $query['page'];
+
+		Paginator::setDefaultItemCountPerPage($itemsPerPage);
+		Paginator::setDefaultScrollingStyle('Sliding');
+
+		unset($query['page']);
+		unset($query['limit']);
+		unset($query['order']); // Optimize.
+		$count = $model::find('count', $query);
+
+		$paginator = new Paginator(new ArrayAdapter(
+			range(1, $count)
+		));
+		$paginator->setCurrentPageNumber($page);
+		$paginator->setCacheEnabled(false);
+
+		return $paginator;
+	}
+
+	protected function _order($query) {
 		// Normalize order field and direction.
 		// We support sorting by one dimension at a time only.
 		if ($this->request->orderField) {
@@ -36,53 +83,29 @@ trait AdminIndexTrait {
 		} else {
 			$orderFields = [$orderField];
 		}
+
+		// Figure out the order direction.
 		if ($this->request->orderDirection) {
 			$orderDirection = strtoupper($this->request->orderDirection);
 		} else {
 			$orderDirection = 'DESC';
 		}
-		$q = $this->request->filter;
 
-		if (in_array('user', $orderFields)) {
-			// Support virtual users and users as a single user alias.
-			$with[] = 'VirtualUser';
-			$order['VirtualUser'] = $orderDirection;
-		}
-
-		// Build query contraints.
 		foreach ($orderFields as $orderField) {
-			if (preg_match('/^(.*)\./', $orderField, $matches)) {
-				// Enable relations if we're ordering by a relation's field.
-				$with[] = $matches[1];
+			// Support virtual users and users as a single user alias.
+			if (preg_match('/^User\.(.*)/i', $orderField, $matches)) {
+				$query['order']['VirtualUser.' . $matches[1]] = $orderDirection;
+				$query['with'][] = 'VirtualUser';
 			}
-			$order[$orderField] = $orderDirection;
+
+			// Enable relations if we're ordering by a relation's field.
+			if (preg_match('/^(.*)\./', $orderField, $matches)) {
+				$query['with'][] = $matches[1];
+			}
+			$query['order'][$orderField] = $orderDirection;
 		}
-
-		// Hack to ensure model is initialized and its behaviors, too.
-		$model::meta();
-		if ($model::hasBehavior('Searchable')) {
-			$conditions = Set::merge($conditions, $model::searchConditions($q));
-		}
-		// Handle pagination.
-		Paginator::setDefaultItemCountPerPage($perPage = 25);
-		Paginator::setDefaultScrollingStyle('Sliding');
-
-		$count = $model::find('count', compact('conditions', 'with'));
-
-		$paginator = new Paginator(new ArrayAdapter(
-			range(1, $count)
-		));
-		$paginator->setCurrentPageNumber($page = $this->request->page ?: 1);
-		$paginator->setCacheEnabled(false);
-
-		$data = $model::find('all', [
-			'conditions' => $conditions,
-			'page' => $page,
-			'limit' => $perPage,
-			'order' => $order,
-			'with' => array_unique($with)
-		]);
-		return compact('data', 'paginator', 'order') + $this->_selects();
+		$query['with'] = array_unique($query['with']);
+		return $query;
 	}
 }
 
