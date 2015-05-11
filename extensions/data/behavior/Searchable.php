@@ -31,6 +31,7 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 		foreach ($behavior->config('fields') as $field) {
 			switch ($model::schema($field)['type']) {
 				case 'date':
+				case 'datetime':
 					// Might have partial dates
 					// Also dates need to be converted into default format.
 					$field = $model::connection()->name($field);
