@@ -29,7 +29,39 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 			return $conditions;
 		}
 		foreach ($behavior->config('fields') as $field) {
-			$conditions['OR'][$field] = ['LIKE' => '%' . $q . '%'];
+			switch ($model::schema($field)['type']) {
+				case 'date':
+					// Might have partial dates
+					// Also dates need to be converted into default format.
+					$field = $model::connection()->name($field);
+
+					// (0)MM.(YY)YY
+					if (preg_match('/^([0-9]+)\.([0-9]+)$/', $q, $matches)) {
+						$month = $matches[1];
+						$year = $matches[2];
+
+						// Fix two digit year.
+						if (strlen($year) === 2) {
+							$year = '20' . $year;
+						}
+						$month = ltrim($month, '0');
+
+						$conditions['OR'][] = [
+							'AND' => [
+								'YEAR(' . $field . ')' => $year,
+								'MONTH(' . $field . ')' => $month
+							]
+						];
+					} else {
+						// Cast to object to skip database formatters, forcing
+						// string to be converted to (invalid) date.
+						$conditions['OR'][] = (object) ('(' . $field . ' LIKE \'%' . $q . '%\')');
+					}
+					break;
+				default:
+					$conditions['OR'][$field] = ['LIKE' => '%' . $q . '%'];
+				break;
+			}
 		}
 		return $conditions;
 	}
