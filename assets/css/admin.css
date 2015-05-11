@@ -1158,19 +1158,20 @@ table .flag:first-child {
   padding-left: 15px;
 }
 
+table td.money,
 table td.number,
 table td.date,
 table td.id {
   width: 100px;
 }
-table td.user,
-table td.status {
-  width: 120px;
-}
 table td.media {
   line-height: 0;
   padding-top: 0;
   width: 100px;
+}
+table td.user,
+table td.status {
+  width: 120px;
 }
 table td.name {
   width: 180px;
@@ -1185,13 +1186,16 @@ table td .avatar {
   width: 40px;
   height: 40px;
 }
-
+table td.money {
+  text-align: right;
+}
 tbody td.emphasize {
   color: black;
 }
 form [name*=status],
 tbody .status {
   font-weight: bold;
+  color: blue;
 }
 
 /* Nested Positions/Items in Forms */
