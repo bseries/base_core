@@ -32,10 +32,6 @@ trait AdminIndexTrait {
 
 		if ($model::hasBehavior('Searchable')) {
 			$query = $model::searchQuery($this->request->filter, $query);
-		} else {
-			$message  = "Associated model `{$model}` ";
-			$message .= "doesn't have the Searchable behavior attached.";
-			trigger_error($message, E_USER_NOTICE);
 		}
 
 		$query = $this->_order($query);
