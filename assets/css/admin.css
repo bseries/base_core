@@ -1532,6 +1532,7 @@ td .minor {
   height: 60%;
   border: 8px solid transparent;
   position: relative;
+  overflow: auto;
 }
 .media-explorer.dragged-over .queue {
   border-color: blue;
