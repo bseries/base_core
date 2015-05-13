@@ -1356,6 +1356,7 @@ td .minor {
 
 .media-explorer .available {
   transition: background 1s;
+  overflow: auto;
 }
 .media-explorer .available .items {
   padding: 50px 0 0 40px;
