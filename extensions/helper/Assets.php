@@ -77,7 +77,7 @@ class Assets extends \lithium\template\Helper {
 	}
 
 	public function base($scheme = null) {
-		$scheme = $scheme ?: $this->_context->request()->is('ssl') ? 'https' : 'http';
+		$scheme = $scheme ?: ($this->_context->request()->is('ssl') ? 'https' : 'http');
 		return AssetsModel::base($scheme);
 	}
 
