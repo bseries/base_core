@@ -97,14 +97,14 @@ FlashMessage::clear();
 		></div>
 
 		<div id="container">
-			<?=$this->view()->render(['element' => 'header'], compact('authedUser'), [
+			<?=$this->view()->render(['element' => 'header'], compact('authedUser', 'nav'), [
 				'library' => 'app'
 			]) ?>
 			<div id="content">
 				<?php echo $this->content() ?>
 			</div>
 		</div>
-		<?=$this->view()->render(['element' => 'footer'], compact('authedUser'), [
+		<?=$this->view()->render(['element' => 'footer'], compact('authedUser', 'nav'), [
 			'library' => 'app'
 		]) ?>
 	</body>
