@@ -19,30 +19,34 @@ function($, wysihtml5, MediaExplorerModal) {
     };
 
     this.rules = {
+      // Classes are prefix with rt (richtext)
+      // to make them separatly stylable.
       classes: {
-        'big': 1,
-        'small': 1,
-        'beta': 1,
-        'gamma': 1
+        'rt__big': 1,
+        'rt__small': 1,
+        'rt__h--beta': 1,
+        'rt__h--gamma': 1,
+        'rt__aside': 1
       },
       tags: {
+        "aside":  { "set_class": "rt__aside" },
         span: {},
         "big": {
             "rename_tag": "span",
-            "set_class": "big"
+            "set_class": "rt__big"
         },
         "small": {
             "rename_tag": "span",
-            "set_class": "small"
+            "set_class": "rt__small"
         },
         h2: {
-          "set_class": "h-beta",
+          "set_class": "rt__h--beta",
           "check_attributes": {
             "class": "class"
           }
         },
         h3: {
-          "set_class": "h-gamma",
+          "set_class": "rt__h--gamma",
           "check_attributes": {
             "class": "class"
           }
@@ -57,7 +61,6 @@ function($, wysihtml5, MediaExplorerModal) {
         dd: {},
         hr: {},
         blockquote: {},
-        aside: {},
         strong: { rename_tag: "b" }, // User intends to style visually not semantically.
         b:      {},
         i:      {},
@@ -130,7 +133,8 @@ function($, wysihtml5, MediaExplorerModal) {
         bodyClassName: null,
         composerClassName: 'composer',
         stylesheets: [
-          // skip reset stylesheet
+          // Load our iframe.css based  off the admin.css path. Overly qualidied
+          // to prevent using the reset.css sheet here (which comes first).
           $('link[href*=css]:eq(1)').attr('href').replace(/(admin)/, 'iframe')
         ]
       });
@@ -153,7 +157,7 @@ function($, wysihtml5, MediaExplorerModal) {
          '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="small" class="plugin-size button">' + _('small') + '</a>' +
          '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" class="plugin-quote button">' + _('„quote“') + '</a>' +
          '<a data-wysihtml5-command="insertHTML" data-wysihtml5-command-value="<hr/>" class="plugin-line button">―</a>' +
-         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
+         '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
          '<a data-wysihtml5-command="insertUnorderedList" class="plugin-list button">' + _('list') + '</a>' +
          '<a data-wysihtml5-command="createLink" class="plugin-link button">' + _('link') + '</a>' +
          '<a data-wysihtml5-command="undo" class="plugin-history button">' + _('undo') + '</a>' +

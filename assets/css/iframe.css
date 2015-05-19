@@ -51,3 +51,34 @@ body {
   height: 1px;
   width: 100%;
 }
+
+.composer aside,
+.rt__aside {
+  font-size: 12px;
+}
+.composer aside:before,
+.rt__aside:before {
+  opacity: .7;
+  content: "(marginal) ";
+}
+
+.composer h2,
+.rt__h--beta {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: .5em;
+}
+.composer h3,
+.rt__h--gamma {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: .5em;
+}
+.composer small,
+.rt__small {
+  font-size: 12px;
+}
+.composer big,
+.rt__big {
+  font-size: 20px;
+}
