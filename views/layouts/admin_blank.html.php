@@ -57,11 +57,6 @@ $page += [
 		?>
 		<?php echo $this->assets->script($scripts) ?>
 		<?php echo $this->scripts() ?>
-		<?php if (Settings::read('googleAnalytics.default')): ?>
-			<?=$this->view()->render(['element' => 'ga'], [], [
-				'library' => 'base_core'
-			]) ?>
-		<?php endif ?>
 	</head>
 	<?php
 		$classes = ['layout-admin', 'layout-admin-blank'];

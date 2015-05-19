@@ -43,7 +43,7 @@ $locale = Environment::get('locale');
 		?>
 		<?php echo $this->assets->script($scripts) ?>
 		<?php echo $this->scripts() ?>
-		<?php if (Settings::read('googleAnalytics.default')): ?>
+		<?php if (Settings::read('googleAnalytics.default.propertyId') && !PROJECT_DEBUG): ?>
 			<?=$this->view()->render(['element' => 'ga'], [], [
 				'library' => 'base_core'
 			]) ?>
