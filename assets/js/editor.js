@@ -57,6 +57,7 @@ function($, wysihtml5, MediaExplorerModal) {
         dd: {},
         hr: {},
         blockquote: {},
+        aside: {},
         strong: { rename_tag: "b" }, // User intends to style visually not semantically.
         b:      {},
         i:      {},
@@ -152,6 +153,7 @@ function($, wysihtml5, MediaExplorerModal) {
          '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="small" class="plugin-size button">' + _('small') + '</a>' +
          '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" class="plugin-quote button">' + _('„quote“') + '</a>' +
          '<a data-wysihtml5-command="insertHTML" data-wysihtml5-command-value="<hr/>" class="plugin-line button">―</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
          '<a data-wysihtml5-command="insertUnorderedList" class="plugin-list button">' + _('list') + '</a>' +
          '<a data-wysihtml5-command="createLink" class="plugin-link button">' + _('link') + '</a>' +
          '<a data-wysihtml5-command="undo" class="plugin-history button">' + _('undo') + '</a>' +
