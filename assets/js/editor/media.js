@@ -13,6 +13,9 @@ define([
 ], function(
   $, wysihtml5, MediaExplorerModal, Router
 ) {
+
+  // This works in tandem with the Editor helper,
+  // which enables dynamic image version replacement.
   return function EditorMedia() {
 
     var _this = this;
@@ -55,11 +58,10 @@ define([
           "check_attributes": {
             "width": "numbers",
             "height": "numbers",
-            "title": "title",
             "class": "class",
             "alt": "alt",
             "src": "src",
-            "data-media-id": "data-media-id"
+            "data-media-id": "numbers"
           }
         }
       };
@@ -76,13 +78,10 @@ define([
             var insert = function(data) {
               image = doc.createElement('IMG');
 
-              // FIXME Allow controlling version.
-
-              image.setAttribute('src', data.versions.fix10.url);
+              image.setAttribute('src', data.versions.fix2admin.url);
               image.setAttribute('alt', 'image');
               image.setAttribute('title', data.title);
               image.setAttribute('data-media-id', data.id);
-              image.setAttribute('data-media-version', 'fix10');
 
               composer.selection.insertNode(image);
             };
