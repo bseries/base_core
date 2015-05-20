@@ -59,11 +59,11 @@ class Nav extends \lithium\template\Helper {
 			$url = $title;
 		}
 		$default = [
-			'id' => null,
-			'class' => null,
 			'escape' => true,
 			'exclude' => false, // When `true` will not try to match this item.
 			'active' => null,
+			'id' => null,
+			'class' => null,
 			'title' => null,
 			'rel' => null,
 			'target' => null,
@@ -71,6 +71,10 @@ class Nav extends \lithium\template\Helper {
 		];
 		$options = array_merge($default, $options);
 		$this->_items[$section][] = [
+			'escape' => $options['escape'],
+			'exclude' => $options['exclude'],
+			'active' => $options['active'],
+			'nested' => $options['nested'],
 			'link' => [
 				'rel' => $options['rel'],
 				'target' => $options['target']
@@ -79,11 +83,7 @@ class Nav extends \lithium\template\Helper {
 			'url' => $url,
 			'id' => $options['id'],
 			'class' => $options['class'],
-			'escape' => $options['escape'],
-			'exclude' => $options['exclude'],
-			'active' => $options['active'],
-			'_title' => $options['title'], // This obviously is a hack :)
-			'nested' => $options['nested']
+			'_title' => $options['title'] // This obviously is a hack :)
 		];
 	}
 
