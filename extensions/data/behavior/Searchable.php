@@ -35,9 +35,6 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 			// Enable relations if we're searching by a relation's field.
 			if (preg_match('/^(.*)\./', $field, $matches)) {
 				$query['with'][] = $matches[1];
-			} else {
-				// Fully qualify to prevent ambigous columns.
-				$field = basename(str_replace('\\', '/', $model)) . '.' . $field;
 			}
 
 			switch ($model::schema($field)['type']) {
@@ -45,6 +42,7 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 				case 'datetime':
 					// Might have partial dates
 					// Also dates need to be converted into default format.
+					$field = static::_qualifyField($model, $behavior, $field);
 					$field = $model::connection()->name($field);
 
 					// (0)MM.(YY)YY
@@ -71,12 +69,22 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 					}
 					break;
 				default:
+					$field = static::_qualifyField($model, $behavior, $field);
+
 					$query['conditions']['OR'][$field] = ['LIKE' => '%' . $q . '%'];
 				break;
 			}
 		}
 		$query['with'] = array_unique($query['with']);
 		return $query;
+	}
+
+	// Fully qualify to prevent ambigous columns.
+	protected static function _qualifyField($model, $behavior, $field) {
+		if (preg_match('/^(.*)\./', $field, $matches)) {
+			return $field;
+		}
+		return basename(str_replace('\\', '/', $model)) . '.' . $field;
 	}
 }
 
