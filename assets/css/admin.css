@@ -57,7 +57,7 @@ body {
 
   word-spacing: -.02em;
 
-  text-rendering: optimizeLegibility;
+  /* text-rendering: optimizeLegibility; */
   font-feature-settings: "frac" 1, "kern" 1, "liga" 1, "dlig" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
