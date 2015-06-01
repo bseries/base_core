@@ -258,7 +258,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		unset($new['original']['password']);
 
 		Auth::set('default', $new);
-		FlashMessage::write($t('Became user `{:name}`.', ['scope' => 'base_core', 'name' => $new->name]), [
+		FlashMessage::write($t('Became user `{:name}`.', ['scope' => 'base_core', 'name' => $new['name']]), [
 			'level' => 'success'
 		]);
 
