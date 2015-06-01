@@ -134,8 +134,7 @@ if (!isset($meta)) {
 							]) ?>
 							<?php if (isset($authedUser->original)): ?>
 								<span class="name-original">
-									(<?= $t('actually') ?>
-									<?= $authedUser->original['name'] ?>)
+									(<?= $t('actually') ?>&nbsp;<?= $authedUser->original['name'] ?>)
 								</span>
 							<?php endif ?>
 						</div>

@@ -57,6 +57,7 @@ body {
 
   word-spacing: -.02em;
 
+  /* Prevent chrome bug. */
   /* text-rendering: optimizeLegibility; */
   font-feature-settings: "frac" 1, "kern" 1, "liga" 1, "dlig" 1;
   -webkit-font-smoothing: antialiased;
@@ -335,6 +336,9 @@ footer.main {
 }
 .nav-top .welcome .name {
   font-weight: bold;
+}
+.nav-top .welcome .name-original {
+  margin-left: 10px;
 }
 .nav-top [href*=logout] {
   color: white;
