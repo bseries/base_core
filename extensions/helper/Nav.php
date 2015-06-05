@@ -95,7 +95,7 @@ class Nav extends \lithium\template\Helper {
 	 *              - `'match'` _string_: Allows you to pick a matching algorithm
 	 *                for this section. The algorithm determines which item will
 	 *                be set active. Possible values are `'strict'`, `'loose'`, `'diff'`
-	 *                and `'option'`. Defaults to `'option'`.
+	 *                and `'option'`. Defaults to `'option'`. Use `false` to disable matching.
 	 * @param array $items
 	 * @return string HTML
 	 */
@@ -148,14 +148,16 @@ class Nav extends \lithium\template\Helper {
 				$object = parse_url($object, PHP_URL_PATH);
 
 				$requireMatch = self::PARTIAL_MATCH;
-			} else { // strict
+			} elseif ($options['match']) { // strict
 				$requireMatch = self::COMPLETE_MATCH;
 			}
-			$match = $this->_matchContain($subject, $object);
+			if ($options['match']) {
+				$match = $this->_matchContain($subject, $object);
 
-			if ($match >= $requireMatch || ($match > $active['match'] && $active['match'])) {
-				$active = ['key' => $key, 'match' => $match];
-				// Never break continue to find best match.
+				if ($match >= $requireMatch || ($match > $active['match'] && $active['match'])) {
+					$active = ['key' => $key, 'match' => $match];
+					// Never break continue to find best match.
+				}
 			}
 		}
 		unset($item);
