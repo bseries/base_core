@@ -884,14 +884,10 @@ button.large,
   margin-top: 3.75em;
 }
 
-.body textarea, /* deprecated */
-.body .wysihtml5-sandbox, /* deprecated */
 .editor-size--beta textarea,
 .editor-size--beta .wysihtml5-sandbox {
   min-height: 50em;
 }
-.teaser textarea, /* deprecated */
-.teaser .wysihtml5-sandbox, /* deprecated */
 .editor-size--gamma textarea,
 .editor-size--gamma .wysihtml5-sandbox {
   min-height: 10em;
