@@ -14,7 +14,7 @@ namespace base_core\controllers;
 
 use lithium\net\http\Router;
 use base_core\extensions\cms\Widgets;
-use jsend\Response as JSendResponse;
+use AD\jsend\Response as JSendResponse;
 use lithium\analysis\Logger;
 
 class WidgetsController extends \base_core\controllers\BaseController {

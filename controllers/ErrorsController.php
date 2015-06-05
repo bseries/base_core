@@ -12,7 +12,7 @@
 
 namespace base_core\controllers;
 
-use jsend\Response as JSendResponse;
+use AD\jsend\Response as JSendResponse;
 
 class ErrorsController extends \base_core\controllers\BaseController {
 
