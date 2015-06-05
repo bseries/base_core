@@ -165,35 +165,35 @@ define('LITHIUM_LIBRARY_PATH', PROJECT_PATH . '/app/libraries');
 //
 
 // Preload some classes always used to increase performance.
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Object.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/StaticObject.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/Collection.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/collection/Filters.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/Inflector.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/util/String.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Adaptable.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Environment.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/Message.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Message.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Media.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Request.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Response.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Route.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/net/http/Router.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Controller.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Dispatcher.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Request.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/action/Response.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/View.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/view/Renderer.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/view/Compiler.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/template/view/adapter/File.php';
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/storage/Cache.php';
+require PROJECT_PATH . '/app/libraries/lithium/core/Object.php';
+require PROJECT_PATH . '/app/libraries/lithium/core/StaticObject.php';
+require PROJECT_PATH . '/app/libraries/lithium/util/Collection.php';
+require PROJECT_PATH . '/app/libraries/lithium/util/collection/Filters.php';
+require PROJECT_PATH . '/app/libraries/lithium/util/Inflector.php';
+require PROJECT_PATH . '/app/libraries/lithium/util/String.php';
+require PROJECT_PATH . '/app/libraries/lithium/core/Adaptable.php';
+require PROJECT_PATH . '/app/libraries/lithium/core/Environment.php';
+require PROJECT_PATH . '/app/libraries/lithium/net/Message.php';
+require PROJECT_PATH . '/app/libraries/lithium/net/http/Message.php';
+require PROJECT_PATH . '/app/libraries/lithium/net/http/Media.php';
+require PROJECT_PATH . '/app/libraries/lithium/net/http/Request.php';
+require PROJECT_PATH . '/app/libraries/lithium/net/http/Response.php';
+require PROJECT_PATH . '/app/libraries/lithium/net/http/Route.php';
+require PROJECT_PATH . '/app/libraries/lithium/net/http/Router.php';
+require PROJECT_PATH . '/app/libraries/lithium/action/Controller.php';
+require PROJECT_PATH . '/app/libraries/lithium/action/Dispatcher.php';
+require PROJECT_PATH . '/app/libraries/lithium/action/Request.php';
+require PROJECT_PATH . '/app/libraries/lithium/action/Response.php';
+require PROJECT_PATH . '/app/libraries/lithium/template/View.php';
+require PROJECT_PATH . '/app/libraries/lithium/template/view/Renderer.php';
+require PROJECT_PATH . '/app/libraries/lithium/template/view/Compiler.php';
+require PROJECT_PATH . '/app/libraries/lithium/template/view/adapter/File.php';
+require PROJECT_PATH . '/app/libraries/lithium/storage/Cache.php';
 
 // Make lithium's autoloader class available and initialize composer's autoloader. Composer's
 // autoloader is by default aware of all its libraries through a statically generated file.
 // Lithium's autoloader must be told of them via `Libaries::add()`.
-require PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/core/Libraries.php';
+require PROJECT_PATH . '/app/libraries/lithium/core/Libraries.php';
 require PROJECT_PATH . '/app/libraries/autoload.php';
 
 use lithium\core\Libraries;
