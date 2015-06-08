@@ -135,7 +135,7 @@ Catalog::config([
 	],
 	'lithium' => [
 		'adapter' => 'Php',
-		'path' => PROJECT_PATH . '/app/libraries/unionofrad/lithium/lithium/g11n/resources/php'
+		'path' => PROJECT_PATH . '/app/libraries/lithium/g11n/resources/php'
 	]
 ] + Catalog::config());
 
