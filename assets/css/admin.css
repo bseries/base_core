@@ -1654,7 +1654,9 @@ thead .actions > div {
 }
 
 .widget {
-  break-inside: avoid;
+  page-break-inside: avoid; /* FF */
+  -webkit-column-break-inside: avoid; /* webkit */
+  break-inside: avoid-column; /* standard */
 
   float: left;
   background-color: var(--color-gray-darkest);
