@@ -45,6 +45,7 @@ class Localizable extends \li3_behaviors\data\model\Behavior {
 
 	protected static function _normalize($value, $type) {
 		switch ($type) {
+			case 'number':
 			case 'decimal':
 				$formatter = new NumberFormatter(static::_locale(), NumberFormatter::DECIMAL);
 				return $value = $formatter->parse($value);
