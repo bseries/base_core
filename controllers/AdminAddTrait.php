@@ -12,6 +12,7 @@
 
 namespace base_core\controllers;
 
+use lithium\security\Auth;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
 
@@ -19,11 +20,14 @@ trait AdminAddTrait {
 
 	public function admin_add() {
 		extract(Message::aliases());
+		$user = Auth::check('default');
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$item = $model::create();
+		$item = $model::create([
+			'user_id' => $user['id']
+		]);
 
 		$redirectUrl = $this->_redirectUrl($item) + [
 			'action' => 'index', 'library' => $this->_library
