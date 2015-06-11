@@ -585,6 +585,8 @@ form select[multiple] {
   height: 240px;
 }
 textarea {
+  padding-top: 10px;
+  padding-bottom: 10px;
   height: 160px;
   line-height: var(--line-height-normal);
 }
