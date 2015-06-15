@@ -28,7 +28,7 @@ trait AdminActivateTrait {
 
 		$item = $model::find($this->request->id);
 
-		if ($user['role'] !== 'admin' && !$item->isOwner($user)) {
+		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin' && !$item->isOwner($user)) {
 			throw new AccessDeniedException();
 		}
 
@@ -62,7 +62,7 @@ trait AdminActivateTrait {
 
 		$item = $model::find($this->request->id);
 
-		if ($user['role'] !== 'admin' && !$item->isOwner($user)) {
+		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin' && !$item->isOwner($user)) {
 			throw new AccessDeniedException();
 		}
 

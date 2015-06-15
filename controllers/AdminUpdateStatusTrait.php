@@ -28,7 +28,7 @@ trait AdminUpdateStatusTrait {
 
 		$item = $model::first($this->request->id);
 
-		if ($user['role'] !== 'admin' && !$item->isOwner($user)) {
+		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin' && !$item->isOwner($user)) {
 			throw new AccessDeniedException();
 		}
 

@@ -27,7 +27,7 @@ trait AdminOrderTrait {
 
 		$ids = $this->request->data['ids'];
 
-		if ($user['role'] !== 'admin') {
+		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin') {
 			foreach ($ids as $id) {
 				if (!$model::find($id)->isOwner($user)) {
 					throw new AccessDeniedException();

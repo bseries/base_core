@@ -81,6 +81,10 @@ Access::adapter('admin')->add('role', function($user, $request, $options) use ($
 		return true;
 	}
 
+	if (!isset($roles[$user['role']])) {
+		return false;
+	}
+
 	// Allow all users access to the admin panel that have the `'panel'` right.
 	if (in_array('panel', $roles[$user['role']])) {
 		return true;

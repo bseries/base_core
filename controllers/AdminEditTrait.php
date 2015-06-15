@@ -27,13 +27,22 @@ trait AdminEditTrait {
 		$model::pdo()->beginTransaction();
 
 		$item = $model::find($this->request->id);
+		$whitelist = null;
 
-		if ($user['role'] !== 'admin' && !$item->isOwner($user)) {
-			throw new AccessDeniedException();
+		if ($model::hasBehavior('Ownable')) {
+			if ($user['role'] !== 'admin') {
+				if (!$item->isOwner($user))	{
+					throw new AccessDeniedException();
+				}
+				// Prevent saving user data, only admins can do that.
+				$whitelist = array_diff(array_keys($model::schema()->fields()), [
+					'user_id', 'virtual_user_id'
+				]);
+			}
 		}
 
 		if ($this->request->data) {
-			if ($item->save($this->request->data)) {
+			if ($item->save($this->request->data, compact('whitelist'))) {
 				$model::pdo()->commit();
 
 				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [

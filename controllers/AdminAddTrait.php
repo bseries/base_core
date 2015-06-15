@@ -25,12 +25,15 @@ trait AdminAddTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$item = $model::create([
-			// Set owner to current user.
-			'user_id' => $user['id']
-		]);
+		$item = $model::create();
 
 		if ($this->request->data) {
+			if ($model::hasBehavior('Ownable')) {
+				// Set owner to current user.
+				$this->request->data['user_id'] = $user['id'];
+
+				// Note: Explictly allow saving user_id on ADD here.
+			}
 			if ($item->save($this->request->data)) {
 				$model::pdo()->commit();
 
