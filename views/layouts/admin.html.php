@@ -132,9 +132,12 @@ if (!isset($meta)) {
 							<?php echo $t('Moin {:name}!', [
 								'name' => '<span class="name">' . strtok($authedUser->name, ' ') . '</span>'
 							]) ?>
+							<span class="role">
+								(<?= $authedUser->role ?>)
+							</span>
 							<?php if (isset($authedUser->original)): ?>
 								<span class="name-original">
-									(<?= $t('actually') ?>&nbsp;<?= $authedUser->original['name'] ?>)
+									(<?= $t('actually') ?>&nbsp;<?= strtok($authedUser->original['name'], ' ') ?>)
 								</span>
 							<?php endif ?>
 						</div>
