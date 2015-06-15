@@ -32,7 +32,7 @@ class Gate {
 		$options += [
 			'user' => true
 		];
-		$role = static::_user($options['user'], 'role');
+		$role = static::user($options['user'], 'role');
 
 		if (!isset(static::$_roles[$role])) {
 			return false;
@@ -46,7 +46,7 @@ class Gate {
 	}
 
 	// Provide true for user to check current one.
-	protected static function _user($user, $field = null) {
+	public static function user($user, $field = null) {
 		if ($user === true) {
 			$user = Auth::check('default');
 		} elseif (is_object($user)) {
@@ -74,7 +74,7 @@ class Gate {
 		$options += [
 			'user' => true
 		];
-		$id = static::_user($options['user'], 'id');
+		$id = static::user($options['user'], 'id');
 
 		return $entity->user_id == $id; // Entity might have numerics as strings.
 	}

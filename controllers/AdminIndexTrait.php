@@ -33,7 +33,7 @@ trait AdminIndexTrait {
 
 		// Show only owner's records, if not admin.
 		if ($model::hasBehavior('Ownable') && !Gate::check('users')) {
-			$query['conditions']['user_id'] = $user['id'];
+			$query['conditions']['user_id'] = Gate::user(true, 'id');
 		}
 
 		if ($model::hasBehavior('Searchable')) {
