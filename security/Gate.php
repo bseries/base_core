@@ -12,7 +12,9 @@
 
 namespace base_core\security;
 
+use Exception;
 use lithium\security\Auth;
+use base_core\models\Users;
 
 class Gate {
 
@@ -26,25 +28,11 @@ class Gate {
 		return static::$_roles;
 	}
 
-	// Provide true for user to check current one.
 	public static function check($right, array $options = []) {
 		$options += [
-			'user' => true,
-			'require' => false
+			'user' => true
 		];
-		if ($options['user'] === true) {
-			$user = Auth::check('default');
-		} else {
-			$user = $options['user'];
-		}
-
-		if (is_object($user)) {
-			$role = $user->role;
-		} elseif (is_array($user)) {
-			$role = $user['role'];
-		} else {
-			return false;
-		}
+		$role = static::_user($options['user'], 'role');
 
 		if (!isset(static::$_roles[$role])) {
 			return false;
@@ -57,6 +45,39 @@ class Gate {
 		return true;
 	}
 
+	// Provide true for user to check current one.
+	protected static function _user($user, $field = null) {
+		if ($user === true) {
+			$user = Auth::check('default');
+		} elseif (is_object($user)) {
+			$user = $user->data();
+		} elseif (is_numeric($user)) {
+			$user = Users::find('first', [
+				'conditions' => ['id' => $user]
+			])->data();
+		} elseif (is_array($user)) {
+			$user = $user;
+		} else {
+			throw new Exception('Invalid value for $user.');
+		}
+
+		if (!$field) {
+			return $user;
+		}
+		if (!isset($user[$field])) {
+			throw new Exception("No field `{$field}` on \$user.");
+		}
+		return $user[$field];
+	}
+
+	public static function owned($entity, array $options = []) {
+		$options += [
+			'user' => true
+		];
+		$id = static::_user($options['user'], 'id');
+
+		return $entity->user_id == $id; // Entity might have numerics as strings.
+	}
 }
 
 ?>

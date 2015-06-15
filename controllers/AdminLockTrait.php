@@ -12,7 +12,7 @@
 
 namespace base_core\controllers;
 
-use lithium\security\Auth;
+use base_core\security\Gate;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
 use li3_access\security\AccessDeniedException;
@@ -21,14 +21,13 @@ trait AdminLockTrait {
 
 	public function admin_lock() {
 		extract(Message::aliases());
-		$user = Auth::check('default');
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
 		$item = $model::first($this->request->id);
 
-		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin' && !$item->isOwner($user)) {
+		if ($model::hasBehavior('Ownable') && !Gate::check('users') && !Gate::owned($item)) {
 			throw new AccessDeniedException();
 		}
 
@@ -59,14 +58,13 @@ trait AdminLockTrait {
 
 	public function admin_unlock() {
 		extract(Message::aliases());
-		$user = Auth::check('default');
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
 		$item = $model::first($this->request->id);
 
-		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin' && !$item->isOwner($user)) {
+		if ($model::hasBehavior('Ownable') && !Gate::check('users') && !Gate::owned($item)) {
 			throw new AccessDeniedException();
 		}
 

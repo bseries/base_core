@@ -12,7 +12,7 @@
 
 namespace base_core\controllers;
 
-use lithium\security\Auth;
+use base_core\security\Gate;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
 use li3_access\security\AccessDeniedException;
@@ -21,7 +21,6 @@ trait AdminEditTrait {
 
 	public function admin_edit() {
 		extract(Message::aliases());
-		$user = Auth::check('default');
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
@@ -30,8 +29,8 @@ trait AdminEditTrait {
 		$whitelist = null;
 
 		if ($model::hasBehavior('Ownable')) {
-			if ($user['role'] !== 'admin') {
-				if (!$item->isOwner($user))	{
+			if (!Gate::check('users')) {
+				if (!Gate::owned($item)) {
 					throw new AccessDeniedException();
 				}
 				// Prevent saving user data, only admins can do that.

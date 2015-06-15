@@ -12,19 +12,18 @@
 
 namespace base_core\controllers;
 
-use lithium\security\Auth;
+use base_core\security\Gate;
 
 trait AdminIndexOrderedTrait {
 
 	public function admin_index() {
 		$model = $this->_model;
-		$user = Auth::check('default');
 
 		$query = [
 			'order' => ['order' => 'DESC']
 		];
 
-		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin') {
+		if ($model::hasBehavior('Ownable') && !Gate::check('users') && !Gate::owned($item)) {
 			$conditions['user_id'] = $user['id'];
 		}
 

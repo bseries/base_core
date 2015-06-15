@@ -12,7 +12,7 @@
 
 namespace base_core\controllers;
 
-use lithium\security\Auth;
+use base_core\security\Gate;
 use lithium\util\Set;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
@@ -20,8 +20,6 @@ use Zend\Paginator\Adapter\ArrayAdapter;
 trait AdminIndexTrait {
 
 	public function admin_index() {
-		$user = Auth::check('default');
-
 		$model = $this->_model;
 		$model::meta(); // Hack to ensure model is initialized and its behaviors, too.
 
@@ -34,7 +32,7 @@ trait AdminIndexTrait {
 		];
 
 		// Show only owner's records, if not admin.
-		if ($model::hasBehavior('Ownable') && $user['role'] !== 'admin') {
+		if ($model::hasBehavior('Ownable') && !Gate::check('users')) {
 			$query['conditions']['user_id'] = $user['id'];
 		}
 
