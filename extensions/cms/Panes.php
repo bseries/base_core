@@ -77,6 +77,8 @@ class Panes extends \lithium\core\StaticObject {
 					// FIXME Move into register.
 					$current = reset($item['panes']);
 					$item['url'] = $current['url'];
+				} else {
+					continue;
 				}
 			}
 			$results[] = $item;

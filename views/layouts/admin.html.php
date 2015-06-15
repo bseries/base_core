@@ -110,7 +110,10 @@ if (!isset($meta)) {
 		<div id="container">
 			<header class="main">
 				<h1 class="t-super-alpha">
-					<?= $this->html->link($site['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core', 'admin' => true]) ?>
+					<?= $this->html->link($site['title'], [
+						'controller' => 'pages', 'action' => 'home',
+						'library' => 'base_core', 'admin' => true
+					]) ?>
 				</h1>
 				<h2 class="t-super-alpha rich-page-title">
 					<?php if ($page['type'] != 'standalone'): ?>
@@ -149,9 +152,15 @@ if (!isset($meta)) {
 							</time>
 						</div>
 
-						<?= $this->html->link($t('Logout'), ['controller' => 'users', 'action' => 'logout', 'library' => 'base_core', 'admin' => true]) ?>
+						<?= $this->html->link($t('Logout'), [
+							'controller' => 'users', 'action' => 'logout',
+							'library' => 'base_core', 'admin' => true
+						]) ?>
 						<?php if (isset($authedUser->original)): ?>
-							<?= $this->html->link($t('Debecome'), ['controller' => 'users', 'action' => 'debecome', 'library' => 'base_core', 'admin' => true]) ?>
+							<?= $this->html->link($t('Debecome'), [
+								'controller' => 'users', 'action' => 'debecome', 'library' => 'base_core',
+								'admin' => true
+							]) ?>
 						<?php endif ?>
 					<?php endif ?>
 				</div>

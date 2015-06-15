@@ -14,33 +14,16 @@ use lithium\security\Auth;
 use lithium\action\Dispatcher;
 use li3_access\security\Access;
 use li3_access\security\AccessDeniedException;
-use base_core\models\Users;
+use base_core\security\Gate;
 
-//
 // Role/Level and Rights Definitions
 //
 // @link http://stackoverflow.com/questions/1193309/common-cms-roles-and-access-levels
-$roles = [
-	'admin' => [
-		'panel',
-		'become'
-	],
-	'member' => [
-		'panel'
-	],
-	'user' => [
-
-	],
-	'customer' => [
-
-	],
-	'merchant' => [
-
-	]
-];
-foreach ($roles as $role => $rights) {
-	Users::$enum['roles'][] = $role;
-}
+Gate::registerRole('admin', ['panel', 'users']);
+Gate::registerRole('member', ['panel']);
+Gate::registerRole('user');
+Gate::registerRole('customer');
+Gate::registerRole('merchant');
 
 //
 // Basic Access Configuration
@@ -72,7 +55,7 @@ $rules->add('any', function($user, $entity, $options) {
 //
 // Setup access for admin panel.
 //
-Access::adapter('admin')->add('role', function($user, $request, $options) use ($roles) {
+Access::adapter('admin')->add('role', function($user, $request, $options) {
 	// Protect all resources below admin exception session, login, logout.
 	if (strpos($request->url, '/admin') === false) {
 		return true;
@@ -80,21 +63,22 @@ Access::adapter('admin')->add('role', function($user, $request, $options) use ($
 	if (preg_match('#^/admin/(session|login|logout)$#', $request->url)) {
 		return true;
 	}
+	$rights = ['panel'];
 
-	if (!isset($roles[$user['role']])) {
-		return false;
+	if (preg_match('#^/admin/base-core/users#', $request->url)) {
+		$rights[] = 'users';
 	}
 
 	// Allow all users access to the admin panel that have the `'panel'` right.
-	if (in_array('panel', $roles[$user['role']])) {
+	if (Gate::check($rights, compact('user'))) {
 		return true;
 	}
 
 	// Users which have the `'become'` right might have become another user,
 	// use the original role to check if access is OK.
 	if (isset($user['original']['role'])) {
-		if (in_array('become', $roles[$user['role']])) { // First check if become is/was OK.
-			if (in_array('panel', $roles[$user['original']['role']])) { // Then check original role for access.
+		if (Gate::check('become', compact('user'))) { // First check if become is/was OK.
+			if (Gate::check($rights, ['user' => $user['original']])) { // Then check original role for access.
 				return true;
 			}
 		}

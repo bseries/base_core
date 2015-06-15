@@ -10,6 +10,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
+use base_core\security\Gate;
 use base_core\extensions\cms\Panes;
 use lithium\g11n\Message;
 
@@ -20,10 +21,6 @@ Panes::register('dashboard', [
 	'url' => ['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'base_core'],
 	'actions' => false,
 	'weight' => 0
-]);
-Panes::register('access', [
-	'title' => $t('Access', ['scope' => 'base_core']),
-	'weight' => 80
 ]);
 Panes::register('external', [
 	'title' => $t('External', ['scope' => 'base_core']),
@@ -40,16 +37,23 @@ Panes::register('viewSite', [
 	'actions' => false
 ]);
 
-$base = ['controller' => 'users', 'action' => 'index', 'library' => 'base_core', 'admin' => true];
-Panes::register('access.users', [
-	'title' => $t('Users', ['scope' => 'base_core']),
-	'url' => $base,
-	'weight' => 0
-]);
-Panes::register('access.virtualUsers', [
-	'title' => $t('Virtual Users', ['scope' => 'base_core']),
-	'url' => ['controller' => 'VirtualUsers'] + $base,
-	'weight' => 1
-]);
+if (Gate::check('users')) {
+	Panes::register('access', [
+		'title' => $t('Access', ['scope' => 'base_core']),
+		'weight' => 80
+	]);
+
+	$base = ['controller' => 'users', 'action' => 'index', 'library' => 'base_core', 'admin' => true];
+	Panes::register('access.users', [
+		'title' => $t('Users', ['scope' => 'base_core']),
+		'url' => $base,
+		'weight' => 0
+	]);
+	Panes::register('access.virtualUsers', [
+		'title' => $t('Virtual Users', ['scope' => 'base_core']),
+		'url' => ['controller' => 'VirtualUsers'] + $base,
+		'weight' => 1
+	]);
+}
 
 ?>

@@ -12,6 +12,7 @@
 
 namespace base_core\models;
 
+use Exception;
 use RuntimeException;
 use lithium\core\Libraries;
 use lithium\util\Validator;
@@ -20,6 +21,7 @@ use lithium\g11n\Message;
 
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
+use base_core\security\Gate;
 
 use base_address\models\Addresses;
 
@@ -51,6 +53,8 @@ class Users extends \base_core\models\Base {
 		extract(Message::aliases());
 
 		$model = static::_object();
+
+		static::$enum['roles'] = array_keys(Gate::roles());
 
 		static::behavior('base_core\extensions\data\behavior\ReferenceNumber')->config(
 			Settings::read('user.number')
