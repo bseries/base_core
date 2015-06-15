@@ -12,14 +12,25 @@
 
 namespace base_core\controllers;
 
+use lithium\security\Auth;
+
 trait AdminIndexOrderedTrait {
 
 	public function admin_index() {
+		$user = Auth::check('default');
+
 		$model = $this->_model;
 
-		$data = $model::find('all', [
+		$query = [
 			'order' => ['order' => 'DESC']
-		]);
+		];
+
+		// Show only owner's records, if not admin.
+		if ($model::hasField('user_id') && $user['role'] !== 'admin') {
+			$query['conditions']['user_id'] = $user['id'];
+		}
+
+		$data = $model::find('all', $query);
 		return compact('data') + $this->_selects();
 	}
 }

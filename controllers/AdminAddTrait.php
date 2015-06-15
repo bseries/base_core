@@ -26,6 +26,7 @@ trait AdminAddTrait {
 		$model::pdo()->beginTransaction();
 
 		$item = $model::create([
+			// Set owner to current user.
 			'user_id' => $user['id']
 		]);
 
@@ -36,12 +37,14 @@ trait AdminAddTrait {
 		if ($this->request->data) {
 			if ($item->save($this->request->data)) {
 				$model::pdo()->commit();
+
 				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
 					'level' => 'success'
 				]);
 				return $this->redirect($redirectUrl);
 			} else {
 				$model::pdo()->rollback();
+
 				FlashMessage::write($t('Failed to save.', ['scope' => 'base_core']), [
 					'level' => 'error'
 				]);
