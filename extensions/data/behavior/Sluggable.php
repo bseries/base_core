@@ -1,6 +1,6 @@
 <?php
 /**
- * Base Core
+ * Base
  *
  * Copyright (c) 2013 Atelier Disko - All rights reserved.
  *
@@ -10,15 +10,15 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace base_core\models;
+namespace base_core\extensions\data\behavior;
 
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 use lithium\util\Inflector;
 
-trigger_error('SlugTrait is deprecated in favor of Sluggable behavior.', E_USER_DEPRECATED);
+class Sluggable extends \li3_behaviors\data\model\Behavior {
 
-trait SlugTrait {
-
-	public function slug($entity) {
+	public function slug($model, Behavior $behavior, Entity $entity) {
 		if (!$entity->title && !$entity->name) {
 			return;
 		}
