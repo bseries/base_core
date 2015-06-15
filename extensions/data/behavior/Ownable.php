@@ -1,6 +1,6 @@
 <?php
 /**
- * Base Core
+ * Base
  *
  * Copyright (c) 2013 Atelier Disko - All rights reserved.
  *
@@ -10,16 +10,16 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-namespace base_core\models;
+namespace base_core\extensions\data\behavior;
 
+use lithium\data\Entity;
+use li3_behaviors\data\model\Behavior;
 use base_core\models\Users;
 use base_core\models\VirtualUsers;
 
-trigger_error('UserTrait is deprecated in favor of Ownable behavior.', E_USER_DEPRECATED);
+class Ownable extends \li3_behaviors\data\model\Behavior {
 
-trait UserTrait {
-
-	public function user($entity) {
+	public function user($model, Behavior $behavior, Entity $entity) {
 		if ($entity->user_id) {
 			return Users::find('first', [
 				'conditions' => [
