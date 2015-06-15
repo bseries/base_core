@@ -48,6 +48,7 @@ trigger_error('AggregationTrait is deprecated in favor of Aggregated behavior.',
  * option which defaults to 10 items per page. Pages are *not*
  * zero based.
  *
+ * @deprecated
  * @link http://php.net/uasort
  */
 trait AggregationTrait {

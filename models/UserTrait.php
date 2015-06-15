@@ -17,6 +17,7 @@ use base_core\models\VirtualUsers;
 
 trigger_error('UserTrait is deprecated in favor of Ownable behavior.', E_USER_DEPRECATED);
 
+// @deprecated
 trait UserTrait {
 
 	public function user($entity) {
