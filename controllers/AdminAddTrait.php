@@ -30,10 +30,6 @@ trait AdminAddTrait {
 			'user_id' => $user['id']
 		]);
 
-		$redirectUrl = $this->_redirectUrl($item) + [
-			'action' => 'index', 'library' => $this->_library
-		];
-
 		if ($this->request->data) {
 			if ($item->save($this->request->data)) {
 				$model::pdo()->commit();
@@ -41,7 +37,7 @@ trait AdminAddTrait {
 				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
 					'level' => 'success'
 				]);
-				return $this->redirect($redirectUrl);
+				return $this->redirect(['action' => 'index', 'library' => $this->_library]);
 			} else {
 				$model::pdo()->rollback();
 
