@@ -12,18 +12,25 @@
 
 namespace base_core\controllers;
 
+use lithium\security\Auth;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
+use li3_access\security\AccessDeniedException;
 
 trait AdminActivateTrait {
 
 	public function admin_activate() {
 		extract(Message::aliases());
+		$user = Auth::check('default');
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
 		$item = $model::find($this->request->id);
+
+		if ($user['role'] !== 'admin' && !$item->isOwner($user)) {
+			throw new AccessDeniedException();
+		}
 
 		$result = $item->save(
 			['is_active' => true],
@@ -51,11 +58,16 @@ trait AdminActivateTrait {
 
 	public function admin_deactivate() {
 		extract(Message::aliases());
+		$user = Auth::check('default');
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
 		$item = $model::find($this->request->id);
+
+		if ($user['role'] !== 'admin' && !$item->isOwner($user)) {
+			throw new AccessDeniedException();
+		}
 
 		$result = $item->save(
 			['is_active' => false],

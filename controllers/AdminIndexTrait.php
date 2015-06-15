@@ -25,7 +25,6 @@ trait AdminIndexTrait {
 		$model = $this->_model;
 		$model::meta(); // Hack to ensure model is initialized and its behaviors, too.
 
-
 		$query = [
 			'conditions' => [],
 			'with' => [],
@@ -35,7 +34,7 @@ trait AdminIndexTrait {
 		];
 
 		// Show only owner's records, if not admin.
-		if ($model::hasField('user_id') && $user['role'] !== 'admin') {
+		if ($user['role'] !== 'admin') {
 			$query['conditions']['user_id'] = $user['id'];
 		}
 

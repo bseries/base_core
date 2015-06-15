@@ -12,6 +12,7 @@
 
 namespace base_core\extensions\data\behavior;
 
+use Exception;
 use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
 use base_core\models\Users;
@@ -32,6 +33,26 @@ class Ownable extends \li3_behaviors\data\model\Behavior {
 				'id' => $entity->virtual_user_id
 			]
 		]);
+	}
+
+	// $user can be either an instance of Entity or an array containing the `'id'` field or
+	// just the id.
+	public function isOwner($model, Behavior $behavior, Entity $entity, $user) {
+		$id = null;
+
+		if ($user instanceof Entity) {
+			$id = $user->id;
+		} elseif (is_array($user)) {
+			$id = $user['id'];
+		} elseif (is_numeric($user)) {
+			$id = $user;
+		} else {
+			throw new Exception('Invalid value for $user.');
+		}
+		if (!$id) {
+			throw new Exception('Could not extract user ID for owner check.');
+		}
+		return $entity->user_id == $id; // Entity might have numerics as strings.
 	}
 }
 
