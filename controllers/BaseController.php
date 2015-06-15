@@ -57,15 +57,6 @@ class BaseController extends \lithium\action\Controller {
 		return [];
 	}
 
-	/**
-	 * Url used after i.e. edit or add.
-	 *
-	 * @return array
-	 */
-	protected function _redirectUrl($item = null) {
-		return [];
-	}
-
 	/* Downloading */
 
 	protected function _renderSendfile($file) {

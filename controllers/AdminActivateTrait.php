@@ -38,22 +38,19 @@ trait AdminActivateTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
+
 			FlashMessage::write($t('Activated.', ['scope' => 'base_core']), [
 				'level' => 'success'
 			]);
 		} else {
 			$model::pdo()->rollback();
+
 			FlashMessage::write($t('Failed to activate.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
 			return $this->redirect($this->request->referer());
 		}
-		$url = ['action' => 'index', 'library' => $this->_library];
-
-		if ($redirectUrl = $this->_redirectUrl($item)) {
-			$url = $redirectUrl + $url;
-		}
-		return $this->redirect($url);
+		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
 	}
 
 	public function admin_deactivate() {
@@ -75,22 +72,19 @@ trait AdminActivateTrait {
 		);
 		if ($result) {
 			$model::pdo()->commit();
+
 			FlashMessage::write($t('Deactivated.', ['scope' => 'base_core']), [
 				'level' => 'success'
 			]);
 		} else {
 			$model::pdo()->rollback();
+
 			FlashMessage::write($t('Failed to deactivate.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
 			return $this->redirect($this->request->referer());
 		}
-		$url = ['action' => 'index', 'library' => $this->_library];
-
-		if ($redirectUrl = $this->_redirectUrl($item)) {
-			$url = $redirectUrl + $url;
-		}
-		return $this->redirect($url);
+		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
 	}
 }
 

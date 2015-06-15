@@ -48,12 +48,7 @@ trait AdminPromoteTrait {
 			]);
 			return $this->redirect($this->request->referer());
 		}
-		$url = ['action' => 'index', 'library' => $this->_library];
-
-		if ($redirectUrl = $this->_redirectUrl($item)) {
-			$url = $redirectUrl + $url;
-		}
-		return $this->redirect($url);
+		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
 	}
 
 	public function admin_unpromote() {
@@ -85,12 +80,7 @@ trait AdminPromoteTrait {
 			]);
 			return $this->redirect($this->request->referer());
 		}
-		$url = ['action' => 'index', 'library' => $this->_library];
-
-		if ($redirectUrl = $this->_redirectUrl($item)) {
-			$url = $redirectUrl + $url;
-		}
-		return $this->redirect($url);
+		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
 	}
 }
 
