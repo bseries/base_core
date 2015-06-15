@@ -61,6 +61,10 @@ class Gate {
 			throw new Exception('Invalid value for $user.');
 		}
 
+		if (!$user) {
+			return false;
+		}
+
 		if (!$field) {
 			return $user;
 		}
