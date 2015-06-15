@@ -16,6 +16,7 @@ use base_core\security\Gate;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
 use li3_access\security\AccessDeniedException;
+use base_core\models\Users;
 
 trait AdminEditTrait {
 
@@ -57,9 +58,10 @@ trait AdminEditTrait {
 			}
 		}
 		$isTranslated = $model::hasBehavior('Translatable');
+		$users = Users::find('list', ['order' => 'name']);
 
 		$this->_render['template'] = 'admin_form';
-		return compact('item', 'isTranslated') + $this->_selects($item);
+		return compact('item', 'isTranslated', 'users') + $this->_selects($item);
 	}
 }
 

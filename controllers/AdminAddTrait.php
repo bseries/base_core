@@ -15,6 +15,7 @@ namespace base_core\controllers;
 use lithium\security\Auth;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
+use base_core\models\Users;
 
 trait AdminAddTrait {
 
@@ -25,7 +26,9 @@ trait AdminAddTrait {
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
-		$item = $model::create();
+		$item = $model::create([
+			'user_id' => $user['id']
+		]);
 
 		if ($this->request->data) {
 			if ($model::hasBehavior('Ownable')) {
@@ -50,9 +53,10 @@ trait AdminAddTrait {
 			}
 		}
 		$isTranslated = $model::hasBehavior('Translatable');
+		$users = Users::find('list', ['order' => 'name']);
 
 		$this->_render['template'] = 'admin_form';
-		return compact('item', 'isTranslated') + $this->_selects($item);
+		return compact('item', 'isTranslated', 'users') + $this->_selects($item);
 	}
 }
 
