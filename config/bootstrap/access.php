@@ -14,7 +14,37 @@ use lithium\security\Auth;
 use lithium\action\Dispatcher;
 use li3_access\security\Access;
 use li3_access\security\AccessDeniedException;
+use base_core\models\Users;
 
+//
+// Role/Level and Rights Definitions
+//
+// @link http://stackoverflow.com/questions/1193309/common-cms-roles-and-access-levels
+$roles = [
+	'admin' => [
+		'panel',
+		'become'
+	],
+	'member' => [
+		'panel'
+	],
+	'user' => [
+
+	],
+	'customer' => [
+
+	],
+	'merchant' => [
+
+	]
+];
+foreach ($roles as $role => $rights) {
+	Users::$enum['roles'][] = $role;
+}
+
+//
+// Basic Access Configuration
+//
 Access::config([
 	'app' => [
 		'adapter' => 'Rules'
@@ -40,22 +70,30 @@ $rules->add('any', function($user, $entity, $options) {
 });
 
 //
-// Setup access for admin.
-// Restrict admin access to users from role admin.
+// Setup access for admin panel.
 //
-Access::adapter('admin')->add('role', function($user, $request, $options) {
-	// Which resources to protect. Restrict only certain URLs all others pass.
+Access::adapter('admin')->add('role', function($user, $request, $options) use ($roles) {
+	// Protect all resources below admin exception session, login, logout.
 	if (strpos($request->url, '/admin') === false) {
 		return true;
 	}
 	if (preg_match('#^/admin/(session|login|logout)$#', $request->url)) {
 		return true;
 	}
-	if ($user['role'] === 'admin') {
+
+	// Allow all users access to the admin panel that have the `'panel'` right.
+	if (in_array('panel', $roles[$user['role']])) {
 		return true;
 	}
-	if (isset($user['original']['role']) && $user['original']['role'] === 'admin') {
-		return true;
+
+	// Users which have the `'become'` right might have become another user,
+	// use the original role to check if access is OK.
+	if (isset($user['original']['role'])) {
+		if (in_array('become', $roles[$user['role']])) { // First check if become is/was OK.
+			if (in_array('panel', $roles[$user['original']['role']])) { // Then check original role for access.
+				return true;
+			}
+		}
 	}
 	return false;
 });

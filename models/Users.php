@@ -44,17 +44,7 @@ class Users extends \base_core\models\Base {
 	];
 
 	public static $enum = [
-		// @link http://stackoverflow.com/questions/1193309/common-cms-roles-and-access-levels
-		'role' => [
-			// have admin panel access
-			'admin',      // has access to everything
-			'member',     // has access to only his/her content
-
-			// front site access only
-			'user',
-			'customer',    // ecommerce only
-			'merchant'    // ecommerce only
-		]
+		'role' => [] // Dynamicall added to in bootstrap/access.php
 	];
 
 	public static function init() {
