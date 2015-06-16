@@ -207,6 +207,13 @@ h1,h2,h3,h4 {
   margin: 0;
 }
 
+h1,h2,h3,h4,
+/* Consider these kind of headlines too. */
+table thead,
+.tab-h {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 .h-super-alpha,
 .h-alpha,
 .h-beta,
@@ -259,11 +266,6 @@ h1 .count:after {
   content: ")";
 }
 
-/* Consider these kind of headlines too. */
-table thead,
-.tab-h {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
 
 /* Hyperlinks
 ---------------------------------------------------------------- */
