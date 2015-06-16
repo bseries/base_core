@@ -277,18 +277,21 @@ a {
 
 /* Header
 ---------------------------------------------------------------- */
-header.main h1,
-header.main h2 {
+.header--main__site,
+.header--main__rpt {
   margin: 0;
 }
-header.main h1 a {
-  color: white;
-  text-decoration: none;
+.header--main__site {
+  font-weight: 500;
+  margin-bottom: 4px;
 }
-header.main h2 {
+.header--main__site a {
   color: white;
 }
-header.main {
+.header--main__rpt {
+  color: white;
+}
+.header--main {
   margin-bottom: 4em;
 }
 
@@ -519,13 +522,14 @@ footer.main {
 /* Rich Titles
 ---------------------------------------------------------------- */
 .rich-page-title .action {
+  font-weight: 400;
   text-transform: capitalize;
 }
 .rich-page-title .object {
-  font-weight: normal;
+  font-weight: 300;
 }
 .rich-page-title .title {
-  font-weight: normal;
+  font-weight: 400;
   margin-right: 10px;
   text-overflow: ellipsis;
   max-width: 300px;

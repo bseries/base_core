@@ -108,14 +108,14 @@ if (!isset($meta)) {
 		<div id="modal-overlay" class="hide"></div>
 
 		<div id="container">
-			<header class="main">
-				<h1 class="h-super-alpha">
+			<header class="header--main">
+				<h1 class="h-super-alpha header--main__site">
 					<?= $this->html->link($site['title'], [
 						'controller' => 'pages', 'action' => 'home',
 						'library' => 'base_core', 'admin' => true
 					]) ?>
 				</h1>
-				<h2 class="h-super-alpha rich-page-title">
+				<h2 class="h-super-alpha header--main__rpt rich-page-title">
 					<?php if ($page['type'] != 'standalone'): ?>
 						<span class="action"><?= $page['action'] ?></span>
 					<?php endif ?>

@@ -82,11 +82,11 @@ $page += [
 		<div id="modal-overlay" class="hide"></div>
 
 		<div id="container">
-			<header class="main rich-page-title">
-				<h1 class="t-super-alpha">
+			<header class="header--main rich-page-title">
+				<h1 class="h-super-alpha header--main__site">
 					<?= $this->html->link($site['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core']) ?>
 				</h1>
-				<h2 class="t-super-alpha object">
+				<h2 class="h-super-alpha object header--main__rpt">
 					<?= $page['object'] ?>
 				</h2>
 			</header>
