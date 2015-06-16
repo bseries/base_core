@@ -259,6 +259,12 @@ h1 .count:after {
   content: ")";
 }
 
+/* Consider these kind of headlines too. */
+table thead,
+.tab-h {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 /* Hyperlinks
 ---------------------------------------------------------------- */
 a {
@@ -268,6 +274,10 @@ a {
 
 /* Header
 ---------------------------------------------------------------- */
+header.main h1,
+header.main h2 {
+  margin: 0;
+}
 header.main h1 a {
   color: white;
   text-decoration: none;
