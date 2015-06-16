@@ -15,6 +15,7 @@
   --color-dim-black: #1b1b1b;
 
   --color-ad-blue:   #0e26fc;
+  --color-ad-dim-blue:   #0303CB;
   --color-ad-yellow: #ffd200;
 
   --color-ci-blue:   #0e26fc;
@@ -68,7 +69,7 @@ body {
   line-height: var(--line-height-normal);
 
   color: var(--color-dim-black);
-  background-color: var(--color-ad-blue);
+  background-color: var(--color-ad-dim-blue);
 
   padding: var(--space-v-tight) var(--space-h-tight);
 
@@ -490,7 +491,7 @@ footer.main {
   /* Hack to spread content over much space as possible. */
   position: relative;
   z-index: 1;
-  border-left: 100px solid var(--color-ad-blue);
+  border-left: 100px solid var(--color-ad-dim-blue);
   margin-left: -100px;
   width: 100%;
 
