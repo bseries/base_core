@@ -22,8 +22,6 @@ use base_core\security\Gate;
 Gate::registerRole('admin', ['panel', 'users']);
 Gate::registerRole('member', ['panel']);
 Gate::registerRole('user');
-Gate::registerRole('customer');
-Gate::registerRole('merchant');
 
 //
 // Basic Access Configuration
