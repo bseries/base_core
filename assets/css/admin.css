@@ -436,7 +436,7 @@ footer.main {
 }
 .tab-h.active {
   z-index: 10;
-  bottom: 0;
+  bottom: -2px; /* overlay border on content */
   background-color: var(--color-gray-neutral);
   color: var(--color-dim-black);
 }
@@ -498,6 +498,8 @@ footer.main {
   float: left;
   min-height: 70em;
   background: var(--color-gray-neutral);
+
+  border-top: 2px solid white;
 }
 
 .layout-admin-blank #content {
