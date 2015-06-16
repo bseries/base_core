@@ -548,7 +548,10 @@ footer.main {
   font-size: 15px;
   color: white;
   border: 1px solid white;
-  padding: 6px 10px 4px 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 30px;
+  line-height: 28px;
   display: inline-block;
   position: relative;
   top: -5px;
@@ -592,7 +595,7 @@ form label + textarea,
 form label + input,
 form .compound-users select,
 form label + select {
-  margin-top: 5px;
+  margin-top: 2px;
 }
 
 form select,
@@ -700,7 +703,7 @@ select {
   text-indent: 0.01px;
   text-overflow: ellipsis;
   line-height: 1.5;
-/*  padding: .5em 40px .3em .5em !important; */
+  padding-left: 6px;
 }
 select:not([multiple]) {
   background: white url("../ico/field_arrow_down.png?v=__PROJECT_VERSION_BUILD__") no-repeat right 8px center;
