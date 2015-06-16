@@ -55,5 +55,6 @@ Settings::register('user.number', [
 Settings::register('user.sendActivationMail', false);
 
 Settings::register('user.useBecome', false);
+Settings::register('user.useVirtualUsers', false);
 
 ?>

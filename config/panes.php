@@ -12,6 +12,7 @@
 
 use base_core\security\Gate;
 use base_core\extensions\cms\Panes;
+use base_core\extensions\cms\Settings;
 use lithium\g11n\Message;
 
 extract(Message::aliases());
@@ -49,11 +50,13 @@ if (Gate::check('users')) {
 		'url' => $base,
 		'weight' => 0
 	]);
-	Panes::register('access.virtualUsers', [
-		'title' => $t('Virtual Users', ['scope' => 'base_core']),
-		'url' => ['controller' => 'VirtualUsers'] + $base,
-		'weight' => 1
-	]);
+	if (Settings::read('user.useVirtualUsers')) {
+		Panes::register('access.virtualUsers', [
+			'title' => $t('Virtual Users', ['scope' => 'base_core']),
+			'url' => ['controller' => 'VirtualUsers'] + $base,
+			'weight' => 1
+		]);
+	}
 }
 
 ?>
