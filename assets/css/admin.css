@@ -1160,6 +1160,9 @@ table .flag:first-child {
   padding-left: 15px;
 }
 
+table td {
+  width: 200px;
+}
 table td.money,
 table td.number,
 table td.date,
