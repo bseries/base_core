@@ -528,7 +528,9 @@ footer.main {
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
-  margin-bottom: -.33em; /* Bring it inline again. */
+
+  /* See https://bugzilla.mozilla.org/show_bug.cgi?id=737757#c1 */
+  vertical-align: top;
 }
 .richt-page-title .object {
   text-transform: capitalize;
