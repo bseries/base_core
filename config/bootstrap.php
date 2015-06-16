@@ -121,7 +121,6 @@ $bootstrapFormal = function($name, $path) {
 			// App routes have already been loaded.
 			'settings',
 			'media',
-			'access',
 			'switchboard',
 			'base',
 			'contents',
@@ -137,6 +136,14 @@ $bootstrapFormal = function($name, $path) {
 	}
 
 	// Configuration deprecations.
+
+	// @deprecated
+	if ($name === 'app' && file_exists($path . "/config/access.php")) {
+		trigger_error(
+			"Found deprecated bootstrap file in `{$name}`.",
+			E_USER_DEPRECATED
+		);
+	}
 
 	// @deprecated
 	if ($name !== 'base_core' && file_exists($path . "/config/bootstrap.php")) {

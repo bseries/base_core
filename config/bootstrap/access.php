@@ -27,9 +27,6 @@ Gate::registerRole('user');
 // Basic Access Configuration
 //
 Access::config([
-	'app' => [
-		'adapter' => 'Rules'
-	],
 	'admin' => [
 		'adapter' => 'Rules'
 	],
@@ -53,7 +50,7 @@ $rules->add('any', function($user, $entity, $options) {
 //
 // Setup access for admin panel.
 //
-Access::adapter('admin')->add('role', function($user, $request, $options) {
+Access::adapter('panel')->add('role', function($user, $request, $options) {
 	// Protect all resources below admin exception session, login, logout.
 	if (strpos($request->url, '/admin') === false) {
 		return true;
@@ -88,22 +85,9 @@ Access::adapter('admin')->add('role', function($user, $request, $options) {
 // Actually run the checks on each and every request.
 //
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	$allNewlyDefinedRules = function($name) {
-		$current = array_keys(Access::adapter($name)->get());
-		$builtin = ['allowAll', 'denyAll', 'allowAnyUser', 'allowIp'];
-
-		return array_diff($current, $builtin);
-	};
-
-	if (strpos($params['request']->url, '/admin') === 0) {
-		$access = Access::check('admin', Auth::check('default'), $params['request'], [
-			'rules' => $allNewlyDefinedRules('admin')
-		]);
-	} else {
-		$access = Access::check('app', Auth::check('default'), $params['request'], [
-			'rules' => $allNewlyDefinedRules('app')
-		]);
-	}
+	$access = Access::check('admin', Auth::check('default'), $params['request'], [
+		'rules' => ['panel']
+	]);
 
 	// Caution: $access is empty when access is _granted_.
 	if ($access) {
