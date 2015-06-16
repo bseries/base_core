@@ -58,7 +58,7 @@ $nickRgb = function($nick) {
 				<?php if ($useRent = Libraries::get('ecommerce_rent')): ?>
 					<td data-sort="can-rent" class="flag table-sort"><?= $t('Rent?') ?>
 				<?php endif ?>
-				<td>
+				<td class="media">
 				<?php if ($useBilling): ?>
 					<td data-sort="number" class="number table-sort"><?= $t('Number') ?>
 				<?php endif ?>
