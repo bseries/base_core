@@ -99,10 +99,10 @@ $bootstrapFormal = function($name, $path) {
 			'settings',
 			'media',
 			'jobs',
+			'g11n',
 			'panes',
 			'widgets',
 			'contents',
-			'g11n',
 			'misc'
 		];
 		if (INSIDE_ADMIN === false) {
