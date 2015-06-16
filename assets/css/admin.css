@@ -482,8 +482,8 @@ footer.main {
 
 .top-actions {
   text-align: right;
-  margin-top: -60px;
-  margin-bottom: 60px;
+  margin-top: -82px; /* align over top border */
+  margin-bottom: 56px; /* algin with left nav blocks */
 }
 
 /* Content
