@@ -16,13 +16,21 @@ use Exception;
 use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
 use base_core\models\Users;
+use base_core\models\VirtualUsers;
 
-class Ownable extends \li3_behaviors\data\model\Behavior {
+class User extends \li3_behaviors\data\model\Behavior {
 
-	public function owner($model, Behavior $behavior, Entity $entity) {
-		return Users::find('first', [
+	public function user($model, Behavior $behavior, Entity $entity) {
+		if ($entity->user_id) {
+			return Users::find('first', [
+				'conditions' => [
+					'id' => $entity->user_id
+				]
+			]);
+		}
+		return VirtualUsers::find('first', [
 			'conditions' => [
-				'id' => $entity->owner_id
+				'id' => $entity->virtual_user_id
 			]
 		]);
 	}
