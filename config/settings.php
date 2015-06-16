@@ -51,6 +51,9 @@ Settings::register('user.number', [
 	'extract' => '/[0-9]{4}-([0-9]{4})/',
 	'generate' => '%Y-%%04.d'
 ]);
+
 Settings::register('user.sendActivationMail', false);
+
+Settings::register('user.useBecome', false);
 
 ?>

@@ -113,7 +113,7 @@ $nickRgb = function($nick) {
 					<?php else: ?>
 						<?= $this->html->link($t('activate'), ['id' => $item->id, 'action' => 'activate', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php endif ?>
-					<?php if ($authedUser->id != $item->id): ?>
+					<?php if (Settings::read('user.useBecome') && $authedUser->id != $item->id): ?>
 						<?= $this->html->link($t('become'), ['id' => $item->id, 'action' => 'become', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php endif ?>
 					<?= $this->html->link($t('open'), ['id' => $item->id, 'action' => 'edit', 'library' => 'base_core'], ['class' => 'button']) ?>
