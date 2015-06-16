@@ -428,13 +428,14 @@ footer.main {
   transition: bottom .025s linear;
 }
 .tab-h:not(.active):hover {
+  z-index: 9; /* below the active one */
   bottom: 0;
   color: var(--color-ad-blue);
   background-color: white;
 }
 .tab-h.active {
-  bottom: 0;
   z-index: 10;
+  bottom: 0;
   background-color: var(--color-gray-neutral);
   color: var(--color-dim-black);
 }
