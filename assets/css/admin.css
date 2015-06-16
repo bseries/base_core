@@ -507,7 +507,7 @@ footer.main {
 
 .layout-admin-blank #content {
   min-height: 0;
-  padding-top: 60px;
+  padding-top: 50px;
   margin-left: 0;
   border-left: 0;
 }
@@ -802,6 +802,7 @@ button.delete,
   background-color: var(--color-ci-red);
 }
 button.login, .button.login {
+  margin-top: 20px;
   width: 100%;
   color: white;
   background-color: var(--color-dim-black);
