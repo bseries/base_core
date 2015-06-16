@@ -80,7 +80,7 @@ class Gate {
 		];
 		$id = static::user($options['user'], 'id');
 
-		return $entity->user_id == $id; // Entity might have numerics as strings.
+		return $entity->owner_id == $id; // Entity might have numerics as strings.
 	}
 }
 

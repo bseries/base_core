@@ -34,7 +34,7 @@ trait AdminAddTrait {
 		if ($this->request->data) {
 			if ($model::hasBehavior('Ownable')) {
 				// Set owner to current user.
-				$this->request->data['user_id'] = $user['id'];
+				$this->request->data['owner_id'] = $user['id'];
 
 				// Note: Explictly allow saving user_id on ADD here.
 			}

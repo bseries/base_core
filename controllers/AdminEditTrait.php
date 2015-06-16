@@ -36,7 +36,7 @@ trait AdminEditTrait {
 				}
 				// Prevent saving user data, only admins can do that.
 				$whitelist = array_diff(array_keys($model::schema()->fields()), [
-					'user_id', 'virtual_user_id'
+					'owner_id'
 				]);
 			}
 		}

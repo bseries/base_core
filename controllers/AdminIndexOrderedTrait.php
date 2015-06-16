@@ -24,7 +24,7 @@ trait AdminIndexOrderedTrait {
 		];
 
 		if ($model::hasBehavior('Ownable') && !Gate::check('users') && !Gate::owned($item)) {
-			$conditions['user_id'] = $user['id'];
+			$conditions['owner_id'] = $user['id'];
 		}
 
 		$data = $model::find('all', $query);
