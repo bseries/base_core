@@ -13,6 +13,7 @@
 namespace base_core\controllers;
 
 use lithium\security\Auth;
+use base_core\security\Gate;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
 use base_core\models\Users;
@@ -54,9 +55,10 @@ trait AdminAddTrait {
 		}
 		$isTranslated = $model::hasBehavior('Translatable');
 		$users = Users::find('list', ['order' => 'name']);
+		$useOwner = Gate::check('users');
 
 		$this->_render['template'] = 'admin_form';
-		return compact('item', 'isTranslated', 'users') + $this->_selects($item);
+		return compact('item', 'isTranslated', 'users', 'useOwner') + $this->_selects($item);
 	}
 }
 

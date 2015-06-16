@@ -59,9 +59,10 @@ trait AdminEditTrait {
 		}
 		$isTranslated = $model::hasBehavior('Translatable');
 		$users = Users::find('list', ['order' => 'name']);
+		$useOwner = Gate::check('users');
 
 		$this->_render['template'] = 'admin_form';
-		return compact('item', 'isTranslated', 'users') + $this->_selects($item);
+		return compact('item', 'isTranslated', 'users', 'useOwner') + $this->_selects($item);
 	}
 }
 

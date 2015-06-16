@@ -44,8 +44,9 @@ trait AdminIndexTrait {
 
 		$data = $model::find('all', $query);
 		$paginator = $this->_paginator($query);
+		$useOwner = Gate::check('users');
 
-		return compact('data', 'paginator') + $this->_selects();
+		return compact('data', 'paginator', 'useOwner') + $this->_selects();
 	}
 
 	// Handle pagination.

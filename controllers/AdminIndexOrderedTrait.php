@@ -28,7 +28,9 @@ trait AdminIndexOrderedTrait {
 		}
 
 		$data = $model::find('all', $query);
-		return compact('data') + $this->_selects();
+		$useOwner = Gate::check('users');
+
+		return compact('data', 'useOwner') + $this->_selects();
 	}
 }
 
