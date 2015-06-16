@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: base_core 1.0\n"
 "Report-Msgid-Bugs-To: info@atelierdisko.de\n"
-"POT-Creation-Date: 2015-03-10 15:32+0100\n"
+"POT-Creation-Date: 2015-06-16 14:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,137 +17,137 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/panes.php:21 views/pages/admin_home.html.php:12
+#: config/panes.php:20 views/pages/admin_home.html.php:12
 msgid "Dashboard"
 msgstr ""
 
-#: config/panes.php:27
-msgid "Access"
-msgstr ""
-
-#: config/panes.php:31
+#: config/panes.php:26
 msgid "External"
 msgstr ""
 
-#: config/panes.php:35
+#: config/panes.php:30
 msgid "Authoring"
 msgstr ""
 
-#: config/panes.php:39
+#: config/panes.php:34
 msgid "Site"
 msgstr ""
 
-#: config/panes.php:47 config/widgets.php:45
+#: config/panes.php:42
+msgid "Access"
+msgstr ""
+
+#: config/panes.php:48 config/widgets.php:42
 msgid "Users"
 msgstr ""
 
-#: config/panes.php:52
+#: config/panes.php:53
 msgid "Virtual Users"
 msgstr ""
 
-#: config/panes.php:58 config/widgets.php:24
+#: config/widgets.php:23
 msgid "Contact Support"
 msgstr ""
 
-#: config/widgets.php:50
+#: config/widgets.php:47
 msgid "Total"
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:34 controllers/UsersController.php:229
+#: controllers/AdminActivateTrait.php:41 controllers/UsersController.php:232
 msgid "Activated."
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:39 controllers/UsersController.php:234
+#: controllers/AdminActivateTrait.php:47 controllers/UsersController.php:237
 msgid "Failed to activate."
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:66
+#: controllers/AdminActivateTrait.php:74
 msgid "Deactivated."
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:71
+#: controllers/AdminActivateTrait.php:80
 msgid "Failed to deactivate."
 msgstr ""
 
-#: controllers/AdminAddTrait.php:35 controllers/AdminEditTrait.php:35
+#: controllers/AdminAddTrait.php:44 controllers/AdminEditTrait.php:48
 #: controllers/UsersController.php:51 controllers/UsersController.php:84
 msgid "Successfully saved."
 msgstr ""
 
-#: controllers/AdminAddTrait.php:41 controllers/AdminEditTrait.php:41
+#: controllers/AdminAddTrait.php:51 controllers/AdminEditTrait.php:55
 #: controllers/UsersController.php:56 controllers/UsersController.php:89
 msgid "Failed to save."
 msgstr ""
 
-#: controllers/AdminDeleteTrait.php:30
+#: controllers/AdminDeleteTrait.php:37
 msgid "Successfully deleted."
 msgstr ""
 
-#: controllers/AdminDeleteTrait.php:35
+#: controllers/AdminDeleteTrait.php:43
 msgid "Failed to delete."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:38
+#: controllers/AdminLockTrait.php:45
 msgid "Successfully locked."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:43
+#: controllers/AdminLockTrait.php:51
 msgid "Failed to lock."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:74
+#: controllers/AdminLockTrait.php:82
 msgid "Successfully unlocked."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:79
+#: controllers/AdminLockTrait.php:88
 msgid "Failed to unlock."
 msgstr ""
 
-#: controllers/AdminOrderTrait.php:29
+#: controllers/AdminOrderTrait.php:40
 msgid "Successfully updated order."
 msgstr ""
 
-#: controllers/AdminOrderTrait.php:34
+#: controllers/AdminOrderTrait.php:46
 msgid "Failed to update order."
 msgstr ""
 
-#: controllers/AdminPromoteTrait.php:34
+#: controllers/AdminPromoteTrait.php:40
 msgid "Successfully promoted."
 msgstr ""
 
-#: controllers/AdminPromoteTrait.php:39
+#: controllers/AdminPromoteTrait.php:45
 msgid "Failed to promote."
 msgstr ""
 
-#: controllers/AdminPromoteTrait.php:66
+#: controllers/AdminPromoteTrait.php:71
 msgid "Successfully unpromoted."
 msgstr ""
 
-#: controllers/AdminPromoteTrait.php:71
+#: controllers/AdminPromoteTrait.php:76
 msgid "Failed to unpromote."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:34
+#: controllers/AdminPublishTrait.php:41
 msgid "Successfully published."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:39
+#: controllers/AdminPublishTrait.php:47
 msgid "Failed to publish."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:66
+#: controllers/AdminPublishTrait.php:74
 msgid "Successfully unpublished."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:71
+#: controllers/AdminPublishTrait.php:80
 msgid "Failed to unpublish."
 msgstr ""
 
-#: controllers/AdminUpdateStatusTrait.php:33
+#: controllers/AdminUpdateStatusTrait.php:42
 msgid "Successfully updated status."
 msgstr ""
 
-#: controllers/AdminUpdateStatusTrait.php:38
+#: controllers/AdminUpdateStatusTrait.php:48
 msgid "Failed to update status."
 msgstr ""
 
@@ -180,41 +180,29 @@ msgstr ""
 msgid "Your account has been activated."
 msgstr ""
 
-#: controllers/UsersController.php:258
+#: controllers/UsersController.php:261
 msgid "Became user `{:name}`."
 msgstr ""
 
-#: controllers/UsersController.php:271
+#: controllers/UsersController.php:274
 msgid "Became user `{:name}` again."
 msgstr ""
 
-#: models/Users.php:61 models/Users.php:68 models/Users.php:85
-#: models/Users.php:93 models/VirtualUsers.php:66
+#: models/Users.php:67 models/Users.php:74 models/Users.php:91
+#: models/Users.php:99 models/VirtualUsers.php:74
 msgid "This field cannot be empty."
 msgstr ""
 
-#: models/Users.php:73
+#: models/Users.php:79
 msgid "The passwords are not identical."
 msgstr ""
 
-#: models/Users.php:99 models/VirtualUsers.php:73
+#: models/Users.php:105 models/VirtualUsers.php:81
 msgid "Invalid e–mail."
 msgstr ""
 
-#: models/Users.php:104
+#: models/Users.php:110
 msgid "The e–mail is already in use."
-msgstr ""
-
-#: views/elements/contact.html.php:54
-msgid "Phone"
-msgstr ""
-
-#: views/elements/contact.html.php:59
-msgid "E–Mail"
-msgstr ""
-
-#: views/elements/contact.html.php:64
-msgid "Website"
 msgstr ""
 
 #: views/errors/403.html.php:13
@@ -349,24 +337,20 @@ msgstr ""
 msgid "untitled"
 msgstr ""
 
-#: views/layouts/admin.html.php:132
+#: views/layouts/admin.html.php:135
 msgid "Moin {:name}!"
 msgstr ""
 
-#: views/layouts/admin.html.php:137
+#: views/layouts/admin.html.php:143
 msgid "actually"
 msgstr ""
 
-#: views/layouts/admin.html.php:150
+#: views/layouts/admin.html.php:155
 msgid "Logout"
 msgstr ""
 
-#: views/layouts/admin.html.php:152
+#: views/layouts/admin.html.php:160
 msgid "Debecome"
-msgstr ""
-
-#: views/pages/admin_support.html.php:13
-msgid "Support"
 msgstr ""
 
 #: views/users/admin_form.html.php:14
@@ -388,15 +372,15 @@ msgstr ""
 msgid "deactivated"
 msgstr ""
 
-#: views/users/admin_form.html.php:29 views/users/admin_index.html.php:64
+#: views/users/admin_form.html.php:29 views/users/admin_index.html.php:65
 #: views/virtual_users/admin_form.html.php:29
-#: views/virtual_users/admin_index.html.php:56
+#: views/virtual_users/admin_index.html.php:57
 msgid "Name"
 msgstr ""
 
-#: views/users/admin_form.html.php:33 views/users/admin_index.html.php:62
+#: views/users/admin_form.html.php:33 views/users/admin_index.html.php:63
 #: views/virtual_users/admin_form.html.php:33
-#: views/virtual_users/admin_index.html.php:54
+#: views/virtual_users/admin_index.html.php:55
 msgid "Number"
 msgstr ""
 
@@ -439,9 +423,9 @@ msgstr ""
 msgid "Keep empty to leave password unchanged."
 msgstr ""
 
-#: views/users/admin_form.html.php:81 views/users/admin_index.html.php:68
+#: views/users/admin_form.html.php:81 views/users/admin_index.html.php:69
 #: views/virtual_users/admin_form.html.php:76
-#: views/virtual_users/admin_index.html.php:60
+#: views/virtual_users/admin_index.html.php:61
 msgid "Role"
 msgstr ""
 
@@ -494,15 +478,15 @@ msgstr ""
 msgid "can rent"
 msgstr ""
 
-#: views/users/admin_form.html.php:160 views/users/admin_index.html.php:104
+#: views/users/admin_form.html.php:160 views/users/admin_index.html.php:112
 #: views/virtual_users/admin_form.html.php:139
-#: views/virtual_users/admin_index.html.php:92
+#: views/virtual_users/admin_index.html.php:100
 msgid "deactivate"
 msgstr ""
 
-#: views/users/admin_form.html.php:162 views/users/admin_index.html.php:106
+#: views/users/admin_form.html.php:162 views/users/admin_index.html.php:114
 #: views/virtual_users/admin_form.html.php:141
-#: views/virtual_users/admin_index.html.php:94
+#: views/virtual_users/admin_index.html.php:102
 msgid "activate"
 msgstr ""
 
@@ -515,64 +499,77 @@ msgstr ""
 msgid "users"
 msgstr ""
 
-#: views/users/admin_index.html.php:39
+#: views/users/admin_index.html.php:40
 msgid "new user"
 msgstr ""
 
-#: views/users/admin_index.html.php:44
+#: views/users/admin_index.html.php:45
 msgid "The user will be notified by e-mail when her account is activated."
 msgstr ""
 
-#: views/users/admin_index.html.php:46
+#: views/users/admin_index.html.php:47
 msgid ""
 "You can temporarily use the identity of a user by clicking on the `become` "
 "button in the row of that user."
 msgstr ""
 
-#: views/users/admin_index.html.php:52
-#: views/virtual_users/admin_index.html.php:48
+#: views/users/admin_index.html.php:53
+#: views/virtual_users/admin_index.html.php:49
 msgid "Active?"
 msgstr ""
 
-#: views/users/admin_index.html.php:53
+#: views/users/admin_index.html.php:54
 msgid "Notified?"
 msgstr ""
 
-#: views/users/admin_index.html.php:55
-#: views/virtual_users/admin_index.html.php:50
+#: views/users/admin_index.html.php:56
+#: views/virtual_users/admin_index.html.php:51
 msgid "Auto inv.?"
 msgstr ""
 
-#: views/users/admin_index.html.php:58
+#: views/users/admin_index.html.php:59
 msgid "Rent?"
 msgstr ""
 
-#: views/users/admin_index.html.php:66
-#: views/virtual_users/admin_index.html.php:58
+#: views/users/admin_index.html.php:67
+#: views/virtual_users/admin_index.html.php:59
 msgid "Email"
 msgstr ""
 
-#: views/users/admin_index.html.php:69
-#: views/virtual_users/admin_index.html.php:61
+#: views/users/admin_index.html.php:70
+#: views/virtual_users/admin_index.html.php:62
 msgid "Modified"
 msgstr ""
 
-#: views/users/admin_index.html.php:102
-#: views/virtual_users/admin_index.html.php:90
+#: views/users/admin_index.html.php:75
+#: views/virtual_users/admin_index.html.php:67
+msgid "Filter"
+msgstr ""
+
+#: views/users/admin_index.html.php:110
+#: views/virtual_users/admin_index.html.php:98
 msgid "delete"
 msgstr ""
 
-#: views/users/admin_index.html.php:109
+#: views/users/admin_index.html.php:117
 msgid "become"
 msgstr ""
 
-#: views/users/admin_index.html.php:111
-#: views/virtual_users/admin_index.html.php:96
+#: views/users/admin_index.html.php:119
+#: views/virtual_users/admin_index.html.php:104
 msgid "open"
 msgstr ""
 
 #: views/users/admin_session.html.php:12 views/users/admin_session.html.php:22
 msgid "Login"
+msgstr ""
+
+#: views/users/admin_session.html.php:20
+msgid "E–Mail"
+msgstr ""
+
+#: views/users/admin_session.html.php:21
+msgid "Password"
 msgstr ""
 
 #: views/virtual_users/admin_form.html.php:15
@@ -587,11 +584,11 @@ msgstr ""
 msgid "virtual users"
 msgstr ""
 
-#: views/virtual_users/admin_index.html.php:38
+#: views/virtual_users/admin_index.html.php:39
 msgid "new virtual user"
 msgstr ""
 
-#: views/virtual_users/admin_index.html.php:42
+#: views/virtual_users/admin_index.html.php:43
 msgid ""
 "Virtual users are users which you want to track and associated with other "
 "items (i.e. an order), These users didn't sign up directly but may have been "
