@@ -36,7 +36,7 @@ $nickRgb = function($nick) {
 >
 
 	<div class="top-actions">
-		<?= $this->html->link($t('new virtual user'), ['action' => 'add', 'library' => 'base_core'], ['class' => 'button add']) ?>
+		<?= $this->html->link($t('virtual user'), ['action' => 'add', 'library' => 'base_core'], ['class' => 'button add']) ?>
 	</div>
 
 	<div class="help">

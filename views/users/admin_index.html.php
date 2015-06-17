@@ -37,7 +37,7 @@ $nickRgb = function($nick) {
 >
 
 	<div class="top-actions">
-		<?= $this->html->link($t('new user'), ['action' => 'add'], ['class' => 'button add']) ?>
+		<?= $this->html->link($t('user'), ['action' => 'add'], ['class' => 'button add']) ?>
 	</div>
 
 	<div class="help">
