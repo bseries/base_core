@@ -15,7 +15,8 @@ $this->set([
 		'object' => $t('user')
 	],
 	'meta' => [
-		'is_active' => $item->is_active ? $t('activated') : $t('deactivated')
+		'is_active' => $item->is_active ? $t('activated') : $t('deactivated'),
+		'is_locked' => $item->is_locked ? $t('locked') : null
 	]
 ]);
 
@@ -156,11 +157,18 @@ $this->set([
 		<?php endif ?>
 		<div class="bottom-actions">
 			<?php if ($item->exists()): ?>
-				<?php if ($item->is_active): ?>
-					<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'base_core'], ['class' => 'button large']) ?>
-				<?php else: ?>
-					<?= $this->html->link($t('activate'), ['id' => $item->id, 'action' => 'activate', 'library' => 'base_core'], ['class' => 'button large']) ?>
-				<?php endif ?>
+				<?= $this->html->link($item->is_active ? $t('deactivate') : $t('activate'), [
+					'id' => $item->id,
+					'action' => $item->is_active ? 'deactivate' : 'activate'
+				], [
+					'class' => 'button large'
+				]) ?>
+				<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
+					'id' => $item->id,
+					'action' => $item->is_locked ? 'unlock' : 'lock'
+				], [
+					'class' => 'button large'
+				]) ?>
 			<?php endif ?>
 			<?= $this->form->button($t('save'), ['type' => 'submit', 'class' => 'large save']) ?>
 		</div>

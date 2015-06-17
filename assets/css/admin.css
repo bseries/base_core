@@ -810,8 +810,11 @@ button.login, .button.login {
   color: white;
   background-color: var(--color-dim-black);
 }
-.button.add:before {
-  content: "+ "
+.button.add {
+  background-image: url(../ico/material/content/ic_add_24px.svg);
+  background-repeat: no-repeat;
+  background-position: 8px 8px;
+  padding-left: 35px;
 }
 
 button,
@@ -820,7 +823,7 @@ button,
   text-transform: capitalize;
   height: 40px;
   min-width: 40px;
-  line-height: 44px;
+  line-height: 43px;
   padding: 0 15px;
   text-align: center;
   display: inline-block;
@@ -828,11 +831,11 @@ button,
   border: none;
   background: var(--color-gray-dark);
   vertical-algin: top;
-  transition: background .25s;
+  transition: background-color .25s;
 }
 button:hover,
 .button:hover {
-  background: white;
+  background-color: white;
   color: var(--color-dim-black);
 }
 button.small,
@@ -1125,21 +1128,16 @@ td {
   width: 120px;
 }
 table .finance--f {
- width: 120px;
+  width: 120px;
 }
 
 td:last-child {
   max-width: inherit;
 }
-
 thead {
   color: white;
   background: var(--color-ad-blue);
 }
-tfoot td {
-  font-weight: bold;
-}
-
 thead td {
   padding-top: 2px;
   line-height: 38px;
@@ -1150,6 +1148,11 @@ tbody td {
   background: white;
   transition: background .05s;
 }
+tfoot td {
+  font-weight: bold;
+}
+
+/* Row Highligh on Hover Effect */
 tbody tr:hover td {
   background: var(--color-ad-yellow);
 }
@@ -1182,8 +1185,14 @@ table .flag {
   padding-right: 5px;
   text-align: center;
 }
+tbody .flag {
+  color: var(--color-gray-darkest);
+}
 table .flag:first-child {
   padding-left: 15px;
+}
+table .flag .material-icons {
+  vertical-align: middle;
 }
 
 table td {

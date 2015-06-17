@@ -50,13 +50,14 @@ $nickRgb = function($nick) {
 	<table>
 		<thead>
 			<tr>
-				<td data-sort="is-active" class="flag table-sort"><?= $t('Active?') ?>
-				<td data-sort="is-notified" class="flag table-sort"><?= $t('Notified?') ?>
+				<td data-sort="is-active" class="flag table-sort"><?= $t('active?') ?>
+				<td data-sort="is-locked" class="flag table-sort is-locked "><?= $t('locked?') ?>
+				<td data-sort="is-notified" class="flag table-sort"><?= $t('notified?') ?>
 				<?php if ($useBilling = Libraries::get('billing_core')): ?>
-					<td data-sort="is-auto-invoiced" class="flag table-sort"><?= $t('Auto inv.?') ?>
+					<td data-sort="is-auto-invoiced" class="flag table-sort"><?= $t('auto inv.?') ?>
 				<?php endif ?>
 				<?php if ($useRent = Libraries::get('ecommerce_rent')): ?>
-					<td data-sort="can-rent" class="flag table-sort"><?= $t('Rent?') ?>
+					<td data-sort="can-rent" class="flag table-sort"><?= $t('rent?') ?>
 				<?php endif ?>
 				<td class="media">
 				<?php if ($useBilling): ?>
@@ -80,8 +81,9 @@ $nickRgb = function($nick) {
 		<tbody class="list">
 			<?php foreach ($data as $item): ?>
 			<tr>
-				<td class="flag"><?= $item->is_active ? '✓ ' : '×' ?>
-				<td class="flag"><?= $item->is_notified ? '✓ ' : '×' ?>
+				<td class="flag"><i class="material-icons"><?= ($item->is_active ? 'done' : '') ?></i>
+				<td class="flag"><i class="material-icons"><?= ($item->is_locked ? 'lock ' : '') ?></i>
+				<td class="flag"><i class="material-icons"><?= ($item->is_notified ? 'done' : '') ?></i>
 				<?php if ($useBilling): ?>
 					<td class="flag"><?= $item->is_auto_invoiced ? '✓ ' : '×' ?>
 				<?php endif ?>

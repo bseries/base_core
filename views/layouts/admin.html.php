@@ -66,7 +66,16 @@ if (!isset($meta)) {
 			'/base-core/css/reset',
 			'/base-core/css/admin'
 		]) ?>
-		<link href='https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+		<link
+			href='https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic'
+			rel='stylesheet'
+			type='text/css'
+		>
+		<link
+			href='https://fonts.googleapis.com/icon?family=Material+Icons'
+			rel='stylesheet'
+			type='text/css'
+		>
 		<?php echo $this->styles() ?>
 		<?=$this->view()->render(
 			['element' => 'define_app'],
@@ -126,6 +135,7 @@ if (!isset($meta)) {
 						</span>
 					<?php endif ?>
 					<?php foreach ($meta as $name => $value): ?>
+						<?php if ($value === null) continue ?>
 						<span class="meta"><?= $value ?></span>
 					<?php endforeach ?>
 				</h2>

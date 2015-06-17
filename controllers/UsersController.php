@@ -35,6 +35,7 @@ class UsersController extends \base_core\controllers\BaseController {
 	use \base_core\controllers\AdminIndexTrait;
 	use \base_core\controllers\AdminDeleteTrait;
 	use \base_core\controllers\AdminActivateTrait;
+	use \base_core\controllers\AdminLockTrait;
 
 	public function admin_add() {
 		extract(Message::aliases());
