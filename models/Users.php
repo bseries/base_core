@@ -164,6 +164,14 @@ class Users extends \base_core\models\Base {
 		return $password;
 	}
 
+	public static function generateToken($length = 16) {
+		$result = String::random(max($length * 2), 32); // At least 2x the length randomness, or 32.
+		$result = String::hash($random); // Use strong hashing algo implictly by default.
+		$result = substr($result, 0, $length); // Limit to length.
+
+		return $result;
+	}
+
 	// Force to use blowfish with 10 iterations.
 	// This leads to hashed-password length of 60 characters.
 	public static function hashPassword($plaintext, $hash = null) {
@@ -172,6 +180,59 @@ class Users extends \base_core\models\Base {
 
 	public static function checkPassword($plaintext, $hash) {
 		return Password::check($plaintext, $hash);
+	}
+
+	// Performs password reset process and returns the
+	// reset token which should be mailed to the user.
+	// On success returns [$token, $user].
+	public static function resetPasswordRequest($email, array $constraints = []) {
+		if (empty($email)) {
+			throw new Exception('$email is empty');
+		}
+		$item = static::find('first', [
+			'conditions' => [
+				'email' => $email
+			] + $contraints
+		]);
+		if (!$item) {
+			return [false, null];
+		}
+		$result = $item->save([
+			'token' => static::generateToken()
+		], [
+			'whitelist' => ['token'],
+			'validate' => false
+		]);
+		if (!$result) {
+			throw new Exception('Failed to save token.');
+		}
+		return [$item->token, $item];
+	}
+
+	// On success returns [$passwordNewPlaintext, $user].
+	public static function resetPasswordAccept($email, $token, $passwordNewPlaintext, array $constraints = []) {
+		if (empty($email) || empty($token) || empty($passwordNewPlaintext)) {
+			throw new Exception('$email, $token and/or $passwordNewPlaintext is/are empty');
+		}
+		$item = static::find('first', [
+			'conditions' => [
+				'email' => $email,
+				'token' => $token
+			] + $contraints
+		]);
+		if (!$item) {
+			return [false, null];
+		}
+		$result = $item->save([
+			'token' => static::generateToken()
+		], [
+			'whitelist' => ['token'],
+			'validate' => false
+		]);
+		if (!$result) {
+			throw new Exception('Failed to save token.');
+		}
+		return [$item->token, $item];
 	}
 
 	// Will always return a address object, even if none is
