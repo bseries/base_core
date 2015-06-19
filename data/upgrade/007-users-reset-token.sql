@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `token` VARCHAR(250)  NULL  DEFAULT NULL  AFTER `password`;
