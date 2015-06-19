@@ -41,7 +41,7 @@ Access::config([
 //
 $rules = Access::adapter('entity');
 $rules->add('user.role:admin', function($user, $entity, $options) {
-	return $user && $user->role == 'admin';
+	return $user && $user['role'] === 'admin';
 });
 $rules->add('any', function($user, $entity, $options) {
 	return true;

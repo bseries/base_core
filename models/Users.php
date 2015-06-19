@@ -46,7 +46,7 @@ class Users extends \base_core\models\Base {
 	];
 
 	public static $enum = [
-		'role' => [] // Dynamicall added to in bootstrap/access.php
+		'role' => [] // Dynamicall added from Gate, in Users::init().
 	];
 
 	public static function init() {
@@ -54,7 +54,7 @@ class Users extends \base_core\models\Base {
 
 		$model = static::_object();
 
-		static::$enum['roles'] = array_keys(Gate::roles());
+		static::$enum['role'] = array_keys(Gate::roles());
 
 		static::behavior('base_core\extensions\data\behavior\ReferenceNumber')->config(
 			Settings::read('user.number')
