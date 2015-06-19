@@ -19,6 +19,7 @@ use lithium\util\Validator;
 use lithium\util\String;
 use lithium\security\Password;
 use lithium\g11n\Message;
+use lithium\analysis\Logger;
 
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
@@ -201,10 +202,12 @@ class Users extends \base_core\models\Base {
 
 	// Performs password reset process and returns the
 	// reset token which should be mailed to the user.
-	// On success returns [$token, $user].
 	//
 	// https://www.owasp.org/index.php/Forgot_Password_Cheat_Sheet
 	public static function resetPasswordRequest(array $conditions) {
+		$message = 'Receiving password reset request...' ;
+		Logger::debug($message);
+
 		$conditions += [
 			'email' => null,
 			'answer' => null
@@ -223,24 +226,44 @@ class Users extends \base_core\models\Base {
 		}
 		unset($value);
 
-		if (!$item = static::find('first', $conditions)) {
+		$item = static::find('first', [
+			'conditions' => $conditions,
+			'fields' => ['id']
+		]);
+		if (!$item) {
+			$message  = 'Password reset request failed! ';
+			$message .= 'With: ' . var_export($conditions, true);
+			Logger::debug($message);
+
 			return false;
 		}
 		$result = $item->save([
 			'token' => static::generateToken(),
 			'is_locked' => true // Lock user account as per OWASP
 		], [
-			'whitelist' => ['token'],
+			'whitelist' => ['token', 'is_locked'],
 			'validate' => false
 		]);
 		if (!$result) {
-			throw new Exception('Failed to save token.');
+			throw new Exception('Failed to save.');
 		}
-		return $item;
+		$message  = 'Password reset request succeeded; ';
+		$message .= "generated token `{$item->token}` and locked user `{$item->id}`. ";
+		$message .= 'With: ' . var_export($conditions, true);
+		Logger::debug($message);
+
+		// Limit the set of returned data, so that when used in email templates
+		// one isn't tempted to use secret fields.
+		return static::find('first', [
+			'conditions' => ['id' => $item->id],
+			'fields' => ['id', 'name', 'email', 'token', 'locale']
+		]);
 	}
 
-	// On success returns [$passwordNewPlaintext, $user].
 	public static function resetPasswordAccept($passwordNewPlaintext, array $conditions) {
+		$message = 'Receiving password reset accceptance...' ;
+		Logger::debug($message);
+
 		if (empty($passwordNewPlaintext)) {
 			throw new Exception('$passwordNewPlaintext is empty.');
 		}
@@ -253,7 +276,16 @@ class Users extends \base_core\models\Base {
 				throw new Exception("Constraint `{$key}` is empty.");
 			}
 		}
-		if (!$item = static::find('first', $conditions)) {
+
+		$item = static::find('first', [
+			'conditions' => $conditions,
+			'fields' => ['id']
+		]);
+		if (!$item) {
+			$message  = 'Password reset acceptance failed! ';
+			$message .= 'With: ' . var_export($conditions, true);
+			Logger::debug($message);
+
 			return false;
 		}
 		$result = $item->save([
@@ -261,13 +293,23 @@ class Users extends \base_core\models\Base {
 			'is_locked' => false, // Reactivate account.
 			'password' => static::hashPassword($passwordNewPlaintext),
 		], [
-			'whitelist' => ['token'],
+			'whitelist' => ['token', 'is_locked', 'password'],
 			'validate' => false
 		]);
 		if (!$result) {
 			throw new Exception('Failed to accept password request.');
 		}
-		return $item;
+		$message  = 'Password reset accepted; ';
+		$message .= "generated new password, reset token and unlocked user `{$item->id}`. ";
+		$message .= 'With: ' . var_export($conditions, true);
+		Logger::debug($message);
+
+		// Limit the set of returned data, so that when used in email templates
+		// one isn't tempted to use secret fields.
+		return static::find('first', [
+			'conditions' => ['id' => $item->id],
+			'fields' => ['id', 'name', 'email', 'locale']
+		]);
 	}
 
 	// Will always return a address object, even if none is
