@@ -16,6 +16,7 @@ use Exception;
 use RuntimeException;
 use lithium\core\Libraries;
 use lithium\util\Validator;
+use lithium\util\String;
 use lithium\security\Password;
 use lithium\g11n\Message;
 
@@ -70,18 +71,26 @@ class Users extends \base_core\models\Base {
 		$model->validates['password_repeat'] = [
 			'notEmpty' => [
 				'notEmpty',
-				'on' => ['create'],
+				'on' => ['passwordInit', 'passwordChange'],
 				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 			'repeat' => [
 				'passwordRepeat',
-				'on' => ['create', 'passwordChange', 'passwordInit'],
+				'on' => ['passwordChange', 'passwordInit'],
 				'message' => $t('The passwords are not identical.', ['scope' => 'base_core'])
 			]
 		];
 		Validator::add('passwordRepeat', function($value, $format, $options) {
 			return Password::check($value, $options['values']['password']);
 		});
+
+		$model->validates['answer'] = [
+			'notEmpty' => [
+				'notEmpty',
+				'on' => ['answerInit'],
+				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
+			],
+		];
 
 		$model->validates['name'] = [
 			'notEmpty' => [
@@ -182,23 +191,44 @@ class Users extends \base_core\models\Base {
 		return Password::check($plaintext, $hash);
 	}
 
+	public static function hashAnswer($answer) {
+		return String::hash($answer, ['type' => 'sha512']);
+	}
+
+	public static function checkAnswer($answer, $hash) {
+		return String::hash($answer, ['type' => 'sha512']) === $hash;
+	}
+
 	// Performs password reset process and returns the
 	// reset token which should be mailed to the user.
 	// On success returns [$token, $user].
-	public static function resetPasswordRequest($email, array $constraints = []) {
-		if (empty($email)) {
-			throw new Exception('$email is empty');
+	//
+	// https://www.owasp.org/index.php/Forgot_Password_Cheat_Sheet
+	public static function resetPasswordRequest(array $conditions) {
+		$conditions += [
+			'email' => null,
+			'answer' => null
+		];
+		foreach ($conditions as $key => &$value) {
+			// Prevent searching for empty values and getting more results
+			// then intented. Also prevent human error.
+			if (empty($value)) {
+				throw new Exception("Constraint `{$key}` is empty.");
+			}
+			// The answer key is hashed in order to not leak information about the password.
+			// Users might give a hint to their actual password.
+			if ($key === 'answer') {
+				$value = static::hashAnswer($value);
+			}
 		}
-		$item = static::find('first', [
-			'conditions' => [
-				'email' => $email
-			] + $contraints
-		]);
-		if (!$item) {
-			return [false, null];
+		unset($value);
+
+		if (!$item = static::find('first', $conditions)) {
+			return false;
 		}
 		$result = $item->save([
-			'token' => static::generateToken()
+			'token' => static::generateToken(),
+			'is_locked' => true // Lock user account as per OWASP
 		], [
 			'whitelist' => ['token'],
 			'validate' => false
@@ -206,33 +236,38 @@ class Users extends \base_core\models\Base {
 		if (!$result) {
 			throw new Exception('Failed to save token.');
 		}
-		return [$item->token, $item];
+		return $item;
 	}
 
 	// On success returns [$passwordNewPlaintext, $user].
-	public static function resetPasswordAccept($email, $token, $passwordNewPlaintext, array $constraints = []) {
-		if (empty($email) || empty($token) || empty($passwordNewPlaintext)) {
-			throw new Exception('$email, $token and/or $passwordNewPlaintext is/are empty');
+	public static function resetPasswordAccept($passwordNewPlaintext, array $conditions) {
+		if (empty($passwordNewPlaintext)) {
+			throw new Exception('$passwordNewPlaintext is empty.');
 		}
-		$item = static::find('first', [
-			'conditions' => [
-				'email' => $email,
-				'token' => $token
-			] + $contraints
-		]);
-		if (!$item) {
-			return [false, null];
+		$conditions += [
+			'email' => null,
+			'token' => null
+		];
+		foreach ($conditions as $key => $value) {
+			if (empty($value)) {
+				throw new Exception("Constraint `{$key}` is empty.");
+			}
+		}
+		if (!$item = static::find('first', $conditions)) {
+			return false;
 		}
 		$result = $item->save([
-			'token' => static::generateToken()
+			'token' => null, // Reset token to null.
+			'is_locked' => false, // Reactivate account.
+			'password' => static::hashPassword($passwordNewPlaintext),
 		], [
 			'whitelist' => ['token'],
 			'validate' => false
 		]);
 		if (!$result) {
-			throw new Exception('Failed to save token.');
+			throw new Exception('Failed to accept password request.');
 		}
-		return [$item->token, $item];
+		return $item;
 	}
 
 	// Will always return a address object, even if none is

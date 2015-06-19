@@ -69,12 +69,29 @@ $this->set([
 		</div>
 		<div class="grid-row">
 			<h1 class="h-beta"><?= $t('Security') ?></h1>
+
 			<div class="grid-column-left">
-				<?=$this->form->field('password', ['type' => 'password', 'label' => 'Neues Passwort', 'autocomplete' => 'off']) ?>
+				<?=$this->form->field('password', [
+					'type' => 'password',
+					'label' => $t('New password'),
+					'autocomplete' => 'off'
+				]) ?>
 				<div class="help">
 					<?= $t('Keep empty to leave password unchanged.') ?>
 				</div>
-				<?=$this->form->field('password_repeat', ['type' => 'password', 'label' => 'Neues Passwort (wiederholen)', 'autocomplete' => 'off']) ?>
+				<?=$this->form->field('answer', [
+					'type' => 'password',
+					'label' => $t('New security answer'),
+					'autocomplete' => 'off'
+				]) ?>
+				<div class="help">
+					<?= $t('Keep empty to leave answer unchanged.') ?>
+				</div>
+				<?=$this->form->field('token', [
+					'type' => 'text',
+					'label' => $t('Security token'),
+					'disabled' => true
+				]) ?>
 			</div>
 			<div class="grid-column-right">
 				<?= $this->form->field('role', [

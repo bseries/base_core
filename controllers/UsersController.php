@@ -48,6 +48,14 @@ class UsersController extends \base_core\controllers\BaseController {
 			);
 			$events = ['create', 'passwordInit'];
 
+			if (!empty($this->request->data['answer'])) {
+				$events[] = 'answerInit';
+
+				$this->request->data['answer'] = Users::hashAnswer(
+					$this->request->data['answer']
+				);
+			}
+
 			if ($item->save($this->request->data, compact('events'))) {
 				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
 					'level' => 'success'
@@ -69,16 +77,23 @@ class UsersController extends \base_core\controllers\BaseController {
 		$item = Users::find($this->request->id);
 
 		if ($this->request->data) {
-			$events = ['create'];
+			$events = ['update'];
 
 			if ($this->request->data['password']) {
-				$events[] = 'passwordChange';
+				$events[] = 'passwordInit';
 
 				$this->request->data['password'] = Users::hashPassword(
 					$this->request->data['password']
 				);
 			} else {
 				unset($this->request->data['password']);
+			}
+			if ($this->request->data['answer']) {
+				$this->request->data['answer'] = Users::hashAnswer(
+					$this->request->data['answer']
+				);
+			} else {
+				unset($this->request->data['answer']);
 			}
 
 			if ($item->save($this->request->data)) {
