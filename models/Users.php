@@ -143,7 +143,7 @@ class Users extends \base_core\models\Base {
 	}
 
 	// Generates a random (pronounceable) plaintext password.
-	public static function generatePassword($length = 8, $alphabet = 0) {
+	public static function generatePassword($length = 12, $alphabet = 0) {
 		// Alphabets in descending order of complexity.
 		$alphabets = [
 			// The most simple set without any special characters.
