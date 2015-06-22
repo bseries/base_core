@@ -210,7 +210,9 @@ class Users extends \base_core\models\Base {
 
 		$conditions += [
 			'email' => null,
-			'answer' => null
+			'answer' => null,
+			'is_active' => true,
+			'is_locked' => false
 		];
 		foreach ($conditions as $key => &$value) {
 			// Prevent searching for empty values and getting more results
@@ -269,7 +271,9 @@ class Users extends \base_core\models\Base {
 		}
 		$conditions += [
 			'email' => null,
-			'token' => null
+			'token' => null,
+			'is_active' => true,
+			'is_locked' => true
 		];
 		foreach ($conditions as $key => $value) {
 			if (empty($value)) {
