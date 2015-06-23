@@ -19,7 +19,11 @@ Auth::config([
 		'adapter' => 'Form',
 		'model' => 'Users',
 		'fields' => ['email', 'password'],
-		'scope' => ['is_active' => true],
+		'scope' => [
+			'password' => ['!=' => ''],
+			'is_active' => true,
+			'is_locked' => false
+		],
 		'session' => [
 			'name' => 'cookie'
 		]
