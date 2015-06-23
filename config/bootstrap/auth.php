@@ -20,6 +20,7 @@ Auth::config([
 		'model' => 'Users',
 		'fields' => ['email', 'password'],
 		'scope' => [
+			'email' => ['!=' => ''],
 			'password' => ['!=' => ''],
 			'is_active' => true,
 			'is_locked' => false
