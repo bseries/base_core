@@ -96,13 +96,6 @@ $page += [
 			</div>
 			</div>
 		</div>
-		<footer class="main">
-			<div class="nav-bottom">
-				<?php // Do not disclose software version and type ?>
-				<div class="copyright">
-					© <?= date('Y') ?> <?= $this->html->link('Atelier Disko', 'http://atelierdisko.de', ['target' => 'new']) ?>
-				</div>
-			</div>
-		</footer>
+		<?php // Do not disclose software version and type and who did this. ?>
 	</body>
 </html>
