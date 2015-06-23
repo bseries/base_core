@@ -44,7 +44,9 @@ $nickRgb = function($nick) {
 		<?php if (Settings::read('user.sendActivationMail')): ?>
 			<?= $t('The user will be notified by e-mail when her account is activated.') ?>
 		<?php endif ?>
-		<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>
+		<?php if (Settings::read('user.useBecome')): ?>
+			<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>
+		<?php endif ?>
 	</div>
 
 	<table>
