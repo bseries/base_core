@@ -25,7 +25,10 @@ class Date extends \lithium\template\Helper {
 		}
 		$options += [
 			'locale' => null,
-			'timezone' => null
+			'timezone' => null,
+			// Wraps in time HTML element when `true` or array with attributes
+			// for the element.
+			'wrap' => false
 		];
 		$locale = $options['locale'] ?: $this->_locale();
 		$timezone = $options['timezone'] ?: $this->_timezone();
@@ -54,13 +57,22 @@ class Date extends \lithium\template\Helper {
 				$types[$type][1],
 				$timezone
 			);
-			return $formatter->format($date);
+			$result = $formatter->format($date);
 		} elseif ($type == 'w3c') {
-			return $date->format(DateTime::W3C);
+			$result = $date->format(DateTime::W3C);
 		} else {
-			return $date->format($type);
+			$result = $date->format($type);
 		}
-		throw new Exception("Invalid date format type `{$type}`.");
+
+		if ($options['wrap']) {
+			return sprintf(
+				'<time datetime="%s"%s>%s</time>',
+				$this->format($value, 'w3c'),
+				(isset($options['wrap']['class']) ? " class=\"{$options['wrap']['class']}\"" : null),
+				$result
+			);
+		}
+		return $result;
 	}
 
 	protected function _locale() {
