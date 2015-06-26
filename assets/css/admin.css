@@ -810,11 +810,17 @@ button.login, .button.login {
   color: white;
   background-color: var(--color-dim-black);
 }
-.button.add {
-  background-image: url(../ico/material/content/ic_add_24px.svg);
+.button.add,
+.button.refresh {
   background-repeat: no-repeat;
   background-position: 8px 8px;
   padding-left: 35px;
+}
+.button.add {
+  background-image: url(../ico/material/content/ic_add_24px.svg);
+}
+.button.refresh {
+  background-image: url(../ico/material/action/ic_cached_24px.svg);
 }
 
 button,
