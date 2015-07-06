@@ -27,7 +27,7 @@ class Settings extends \lithium\core\StaticObject {
 
 		if (is_array(($current)) && is_numeric(key($current))) {
 			// Prevent merging list like settings.
-			static::$_data = array_merge(
+			static::$_data = array_replace_recursive(
 				static::$_data,
 				Set::expand([$name => $data])
 			);
