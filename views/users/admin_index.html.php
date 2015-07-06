@@ -40,14 +40,16 @@ $nickRgb = function($nick) {
 		<?= $this->html->link($t('user'), ['action' => 'add'], ['class' => 'button add']) ?>
 	</div>
 
-	<div class="help">
 		<?php if (Settings::read('user.sendActivationMail')): ?>
+		<div class="help">
 			<?= $t('The user will be notified by e-mail when her account is activated.') ?>
+		</div>
 		<?php endif ?>
 		<?php if (Settings::read('user.useBecome')): ?>
+		<div class="help">
 			<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>
+		</div>
 		<?php endif ?>
-	</div>
 
 	<table>
 		<thead>
