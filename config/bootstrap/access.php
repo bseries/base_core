@@ -53,6 +53,9 @@ $rules->add('any', function($user, $entity, $options) {
 // Setup access for admin panel.
 //
 Access::adapter('admin')->add('panel', function($user, $request, $options) {
+	if (!$user) {
+		return false;
+	}
 	// Protect all resources below admin exception session, login, logout.
 	if (strpos($request->url, '/admin') === false) {
 		return true;
