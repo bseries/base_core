@@ -10,6 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
+namespace base_core\config;
+
 use lithium\g11n\Message;
 use base_core\security\Gate;
 use base_core\extensions\cms\Widgets;

@@ -10,6 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
+namespace base_core\config;
+
 use lithium\net\http\Router;
 use base_core\extensions\net\http\ClientRouter;
 use lithium\util\Inflector;

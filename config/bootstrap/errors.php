@@ -10,6 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
+namespace base_core\config\bootstrap;
+
 use lithium\core\ErrorHandler;
 use lithium\core\Libraries;
 use lithium\analysis\Logger;
