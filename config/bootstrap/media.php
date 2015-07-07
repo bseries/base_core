@@ -10,6 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
+namespace base_core\config\bootstrap;
+
 use lithium\util\Collection;
 use lithium\net\http\Media as HttpMedia;
 use li3_mailer\net\mail\Media as MailerMedia;

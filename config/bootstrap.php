@@ -10,6 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
+namespace base_core\config;
+
 //
 // The `INSIDE_ADMIN` constant allows us to apply some optimization and not
 // load certain parts of the framework when we're navigating through the
