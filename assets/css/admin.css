@@ -1458,6 +1458,12 @@ td .minor {
   border: 8px solid transparent;
   vertical-align: middle;
 }
+.media-explorer .available .item .preview--dummy {
+  display: inline-block;
+  height: 225px;
+  width: 200px;
+  background: var(--color-gray-dark);
+}
 
 .media-explorer .available .item .meta {
   /* margin-top: 10px; */
