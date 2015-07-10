@@ -1092,6 +1092,9 @@ form .help {
   display: inline-block;
   text-align: right;
 }
+.media-attachment .media-item.no-visual {
+  background-color: var(--color-blue);
+}
 
 .remove-item {
   background: white;
@@ -1458,7 +1461,7 @@ td .minor {
   border: 8px solid transparent;
   vertical-align: middle;
 }
-.media-explorer .available .item .preview--dummy {
+.media-explorer .available .item.no-visual .preview {
   display: inline-block;
   height: 225px;
   width: 200px;
