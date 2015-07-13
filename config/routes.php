@@ -65,7 +65,6 @@ Router::connect('/admin/{:action:session|login|logout}', [
 	'admin' => true
 ], compact('modifiers', 'persist'));
 
-
 ClientRouter::provide('widgets:view', [
 	'controller' => 'widgets', 'library' => 'base_core',
 	'action' => 'view', 'admin' => true, 'api' => true,

@@ -12,11 +12,11 @@
 
 namespace base_core\extensions\cms;
 
-use lithium\util\Set;
-use lithium\analysis\Logger;
 use Cz\Dependency as Resolver;
 use Exception;
 use RuntimeException;
+use lithium\analysis\Logger;
+use lithium\util\Set;
 
 class Jobs extends \lithium\core\StaticObject {
 
@@ -44,8 +44,7 @@ class Jobs extends \lithium\core\StaticObject {
 
 	public static function runName($name) {
 		if (!PROJECT_FEATURE_SCHEDULED_JOBS) {
-			Logger::debug("Scheduled jobs disabled! Tried running `{$name}`.");
-			return;
+			throw new Exception("Scheduled jobs disabled! Tried running `{$name}`.");
 		}
 		foreach (static::$_recurring as $frequency => $data) {
 			if (!isset($data[$name])) {
@@ -81,7 +80,7 @@ class Jobs extends \lithium\core\StaticObject {
 
 	public static function runFrequency($frequency) {
 		if (!PROJECT_FEATURE_SCHEDULED_JOBS) {
-			return;
+			throw new Exception("Scheduled jobs disabled! Tried running frequency `{$frequency}`.");
 		}
 		if (!static::$_recurring[$frequency]) {
 			Logger::write('debug', "No jobs to run for frequency `{$frequency}`.");
