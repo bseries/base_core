@@ -187,19 +187,26 @@ class UsersController extends \base_core\controllers\BaseController {
 
 		if ($this->request->data) {
 			if (Auth::check('default', $this->request)) {
-				$message = "Authenticated user with email `{$this->request->data['email']}`.";
+				$message  = "Security: Authenticated user ";
+				$message .= "with email `{$this->request->data['email']}`.";
 				Logger::write('debug', $message);
+
 				FlashMessage::write($t('Authenticated.', ['scope' => 'base_core']), [
 					'level' => 'success'
 				]);
-
 				return $this->redirect('/admin');
 			}
-			$message = "Failed authentication for user with email `{$this->request->data['email']}`.";
+			$message  = "Security: Failed authentication for user ";
+			$message .= "with email `{$this->request->data['email']}`. Delaying response.";
 			Logger::write('debug', $message);
+
 			FlashMessage::write($t('Failed to authenticate.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
+
+			// Naive implementation to conunterfeit brute forcing credentials.
+			// FIXME Implement advanced throttling with rate-limiter on token bucket basis.
+			sleep(2);
 
 			return $this->redirect($this->request->referer());
 		}
