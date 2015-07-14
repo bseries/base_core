@@ -28,15 +28,19 @@ trait AdminAddTrait {
 		$model::pdo()->beginTransaction();
 
 		$item = $model::create([
-			'user_id' => $user['id']
+			// Will not be saved without error when there is no such field.
+			'owner_id' => $user['id']
 		]);
 
 		if ($this->request->data) {
 			if ($model::hasBehavior('Ownable')) {
-				// Set owner to current user.
-				$this->request->data['owner_id'] = $user['id'];
+				// Force current user if the current user doesn't have
+				// the perms to change users.
 
-				// Note: Explictly allow saving user_id on ADD here.
+				if (!Gate::check('users')) {
+					$this->request->data['owner_id'] = $user['id'];
+				}
+				// Note: Explictly allow saving owner_id on ADD here.
 			}
 			if ($item->save($this->request->data)) {
 				$model::pdo()->commit();
@@ -54,8 +58,9 @@ trait AdminAddTrait {
 			}
 		}
 		$isTranslated = $model::hasBehavior('Translatable');
-		$users = Users::find('list', ['order' => 'name']);
 		$useOwner = Gate::check('users');
+
+		$users = Users::find('list', ['order' => 'name']);
 
 		$this->_render['template'] = 'admin_form';
 		return compact('item', 'isTranslated', 'users', 'useOwner') + $this->_selects($item);
