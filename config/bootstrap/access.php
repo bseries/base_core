@@ -64,17 +64,21 @@ Access::add('admin', 'users', [
 Access::add('admin', 'api.jobs', [
 	'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
 	'rule' => function($user) {
-		return Gate::check(['api'], [
-			'user' => $user ?: Auth::check('token')
-		]);
+		if (!$user = $user ?: Auth::check('token')) {
+			return fase;
+		}
+		return Gate::check(['api'], compact('user'));
 	},
 	'message' => 'Admin API access not permitted.'
 ]);
 
 // All other admin routes are protected fully.
-Access::add('admin', '*', [
-	'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
+Access::add('admin', 'admin', [
+	'resource' => '#^/admin#',
 	'rule' => function($user) {
+		if (!$user) {
+			return false;
+		}
 		// Users which have the `'become'` right might have become another user,
 		// use the original role to check if access is OK.
 		if (isset($user['original']['role']) && Gate::check('become')) {
@@ -83,6 +87,11 @@ Access::add('admin', '*', [
 		return Gate::check(['panel'], compact('user'));
 	},
 	'message' => 'Admin panel access not permitted.'
+]);
+
+Access::add('admin', 'fallthrough', [
+	'resource' => '*',
+	'rule' => true
 ]);
 
 //
@@ -101,15 +110,12 @@ Access::add('entity', 'any', function($user, $entity) {
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$url = $params['request']->url;
 
-	if (stripos($url, '/admin') === false) {
-		return $chain->next($self, $params, $chain);
-	}
-	if (Access::check('admin', Auth::check('default'), $params)) {
-		Logger::debug("Security: Access denied for `{$url}` with: " . var_export($access, true));
+	if (!Access::check('admin', Auth::check('default'), $params)) {
+		$errors = Access::errors('admin');
 
-		throw new AccessDeniedException(
-			reset(Access::errors('admin'))['message']
-		);
+		Logger::debug("Security: Access denied for `{$url}` with: " . var_export($errors, true));
+
+		throw new AccessDeniedException(reset($errors)['message']);
 	}
 	return $chain->next($self, $params, $chain);
 });
