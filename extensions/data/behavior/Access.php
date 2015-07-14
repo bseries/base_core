@@ -17,12 +17,13 @@ use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
 use li3_access\security\Access as SecurityAccess;
 
+// TODO Check if access field is searialized!
 class Access extends \li3_behaviors\data\model\Behavior {
 
 	public function hasAccess($model, Behavior $behavior, Entity $entity, $user) {
 		return SecurityAccess::check('entity', $user, ['request' => $entity], [
 			'rules' => $entity->access
-		]) === [];
+		]);
 	}
 }
 
