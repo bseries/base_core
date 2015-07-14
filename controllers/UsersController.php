@@ -206,7 +206,8 @@ class UsersController extends \base_core\controllers\BaseController {
 
 			// Naive implementation to conunterfeit brute forcing credentials.
 			// FIXME Implement advanced throttling with rate-limiter on token bucket basis.
-			sleep(2);
+			// 5s as per https://www.owasp.org/index.php/Guide_to_Authentication
+			sleep(5);
 
 			return $this->redirect($this->request->referer());
 		}
