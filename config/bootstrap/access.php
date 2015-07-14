@@ -22,9 +22,9 @@ use lithium\analysis\Logger;
 // Role/Level and Rights Definitions
 //
 // @link http://stackoverflow.com/questions/1193309/common-cms-roles-and-access-levels
-Gate::registerRole('admin', ['panel', 'users', 'api']);
-Gate::registerRole('member', ['panel', 'api']);
-Gate::registerRole('technical', ['api']);
+Gate::registerRole('admin', ['panel', 'users', 'api.jobs']);
+Gate::registerRole('member', ['panel']);
+Gate::registerRole('technical', ['api.jobs']);
 Gate::registerRole('user');
 
 //
@@ -61,16 +61,18 @@ Access::add('admin', 'users', [
 
 // Scheduled jobs API routes have more lax requirements on what
 // auth method can be used.
-Access::add('admin', 'api.jobs', [
-	'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
-	'rule' => function($user) {
-		if (!$user = $user ?: Auth::check('token')) {
-			return fase;
-		}
-		return Gate::check(['api'], compact('user'));
-	},
-	'message' => 'Admin API access not permitted.'
-]);
+if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
+	Access::add('admin', 'api.jobs', [
+		'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
+		'rule' => function($user) {
+			if (!$user = $user ?: Auth::check('token')) {
+				return false;
+			}
+			return Gate::check(['api.jobs'], compact('user'));
+		},
+		'message' => 'Admin Job API access not permitted.'
+	]);
+}
 
 // All other admin routes are protected fully.
 Access::add('admin', 'admin', [
