@@ -61,6 +61,7 @@ Access::add('admin', 'users', [
 
 // Scheduled jobs API routes have more lax requirements on what
 // auth method can be used.
+/*
 if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
 	Access::add('admin', 'api.jobs', [
 		'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
@@ -73,6 +74,7 @@ if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
 		'message' => 'Admin Job API access not permitted.'
 	]);
 }
+*/
 
 // All other admin routes are protected fully.
 Access::add('admin', 'admin', [
