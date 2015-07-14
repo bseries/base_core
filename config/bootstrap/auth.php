@@ -15,6 +15,9 @@ namespace base_core\config\bootstrap;
 use lithium\security\Auth;
 use base_core\models\Users;
 use lithium\storage\Session;
+use lithium\security\validation\FormSignature;
+
+FormSignature::config(array('secret' => hash('sha512', __DIR__)));
 
 Auth::config([
 	'default' => [

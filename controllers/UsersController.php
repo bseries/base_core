@@ -29,6 +29,7 @@ use base_core\models\Locales;
 use base_core\models\Timezones;
 use billing_core\models\Currencies;
 use base_address\models\Countries;
+use lithium\security\validation\FormSignature;
 
 class UsersController extends \base_core\controllers\BaseController {
 
@@ -186,7 +187,11 @@ class UsersController extends \base_core\controllers\BaseController {
 		extract(Message::aliases());
 
 		if ($this->request->data) {
-			if (Auth::check('default', $this->request)) {
+			if (!FormSignature::check($this->request)) {
+				FlashMessage::write($t('Failed to authenticate. Please retry request.', ['scope' => 'base_core']), [
+					'level' => 'error'
+				]);
+			} elseif (Auth::check('default', $this->request)) {
 				$message  = "Security: Authenticated user ";
 				$message .= "with email `{$this->request->data['email']}`.";
 				Logger::write('debug', $message);
@@ -195,14 +200,16 @@ class UsersController extends \base_core\controllers\BaseController {
 					'level' => 'success'
 				]);
 				return $this->redirect('/admin');
+			} else {
+				FlashMessage::write($t('Failed to authenticate.', ['scope' => 'base_core']), [
+					'level' => 'error'
+				]);
 			}
+
 			$message  = "Security: Failed authentication for user ";
 			$message .= "with email `{$this->request->data['email']}`. Delaying response.";
 			Logger::write('debug', $message);
 
-			FlashMessage::write($t('Failed to authenticate.', ['scope' => 'base_core']), [
-				'level' => 'error'
-			]);
 
 			// Naive implementation to conunterfeit brute forcing credentials.
 			// FIXME Implement advanced throttling with rate-limiter on token bucket basis.
