@@ -31,18 +31,6 @@ Auth::config([
 		'session' => [
 			'name' => 'cookie'
 		]
-	],
-	'token' => [
-		'adapter' => 'Form',
-		'model' => 'Users',
-		'fields' => ['id', 'token'],
-		'scope' => [
-			'role' => 'technical',
-			'is_active' => true,
-			'is_locked' => false
-		],
-		'writeSession' => false,
-		'checkSession' => false,
 	]
 ]);
 

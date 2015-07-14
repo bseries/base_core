@@ -65,7 +65,7 @@ if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
 	Access::add('admin', 'api.jobs', [
 		'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
 		'rule' => function($user) {
-			if (!$user = $user ?: Auth::check('token')) {
+			if (!($user = $user ?: Auth::check('token'))) {
 				return false;
 			}
 			return Gate::check(['api.jobs'], compact('user'));
@@ -109,12 +109,11 @@ Access::add('entity', 'any', function($user, $entity) {
 //
 // Actually run the checks on each and every request.
 //
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
+Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 	$url = $params['request']->url;
 
 	if (!Access::check('admin', Auth::check('default'), $params)) {
 		$errors = Access::errors('admin');
-
 		Logger::debug("Security: Access denied for `{$url}` with: " . var_export($errors, true));
 
 		throw new AccessDeniedException(reset($errors)['message']);
