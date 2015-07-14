@@ -17,6 +17,7 @@ use lithium\action\Dispatcher;
 use li3_access\security\Access;
 use li3_access\security\AccessDeniedException;
 use base_core\security\Gate;
+use lithium\analysis\Logger;
 
 // Role/Level and Rights Definitions
 //
@@ -96,7 +97,10 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 
 	// Caution: $access is empty when access is _granted_.
 	if ($access) {
-		throw new AccessDeniedException('FORBIDDEN');
+		$url = $params['request']->url;
+		Logger::debug("Security: Access denied for `{$url}` with: " . var_export($access, true));
+
+		throw new AccessDeniedException($access['message']);
 	}
 	return $chain->next($self, $params, $chain);
 });
