@@ -21,9 +21,12 @@ use li3_access\security\Access as SecurityAccess;
 class Access extends \li3_behaviors\data\model\Behavior {
 
 	public function hasAccess($model, Behavior $behavior, Entity $entity, $user) {
-		return SecurityAccess::check('entity', $user, ['request' => $entity], [
-			'rules' => $entity->access
-		]);
+		return SecurityAccess::check(
+			'entity',
+			$user,
+			$entity,
+			$entity->access
+		);
 	}
 }
 
