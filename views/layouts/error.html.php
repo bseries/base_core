@@ -16,12 +16,6 @@ $locale = Environment::get('locale');
 		<link rel="icon" href="<?= $this->assets->url('/app/ico/app.png') ?>">
 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<!--[if lt IE 9]>>
-			<script src="<?= $this->assets->url('/base-core/js/compat/html5shiv.js') ?>"></script>
-		<![endif]-->
-		<!--[if lt IE 10]>
-			<link rel="stylesheet" type="text/css" href="<?= $this->assets->url('/app/css/compat/ie9.css') ?>">
-		<![endif]-->
 
 		<?php echo $this->assets->style([
 			'/base-core/css/reset',

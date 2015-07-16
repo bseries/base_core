@@ -31,12 +31,6 @@ FlashMessage::clear();
 		<?php endif ?>
 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<!--[if lt IE 9]>>
-			<script src="<?= $this->assets->url('/app/js/compat/html5shiv.js') ?>"></script>
-		<![endif]-->
-		<!--[if lt IE 10]>
-			<link rel="stylesheet" type="text/css" href="<?= $this->assets->url('/app/css/compat/ie9.css') ?>">
-		<![endif]-->
 
 		<?php echo $this->assets->style([
 			'/app/css/reset',
