@@ -23,12 +23,14 @@ trait AdminIndexOrderedTrait {
 			'order' => ['order' => 'DESC']
 		];
 
-		if ($model::hasBehavior('Ownable') && !Gate::check('users') && !Gate::owned($item)) {
-			$conditions['owner_id'] = $user['id'];
+		if ($model::hasBehavior('Ownable')) {
+			if (Settings::read('security.checkOwner') && !Gate::checkRight('owner')) {
+				$conditions['owner_id'] = Gate::user(true, 'id');
+			}
 		}
 
 		$data = $model::find('all', $query);
-		$useOwner = Gate::check('users');
+		$useOwner = Settings::read('security.checkOwner') && Gate::checkRight('owner');
 
 		return compact('data', 'useOwner') + $this->_selects();
 	}

@@ -12,10 +12,10 @@
 
 namespace base_core\controllers;
 
+use Zend\Paginator\Adapter\ArrayAdapter;
+use Zend\Paginator\Paginator;
 use base_core\security\Gate;
 use lithium\util\Set;
-use Zend\Paginator\Paginator;
-use Zend\Paginator\Adapter\ArrayAdapter;
 
 trait AdminIndexTrait {
 
@@ -32,7 +32,7 @@ trait AdminIndexTrait {
 		];
 
 		// Show only owner's records, if not admin.
-		if ($model::hasBehavior('Ownable') && !Gate::check('users')) {
+		if ($model::hasBehavior('Ownable') && !Gate::checkRight('owner')) {
 			$query['conditions']['owner_id'] = Gate::user(true, 'id');
 		}
 
@@ -44,7 +44,8 @@ trait AdminIndexTrait {
 
 		$data = $model::find('all', $query);
 		$paginator = $this->_paginator($query);
-		$useOwner = Gate::check('users');
+
+		$useOwner = Settings::read('security.useOwner') && Gate::checkRight('owner');
 
 		return compact('data', 'paginator', 'useOwner') + $this->_selects();
 	}

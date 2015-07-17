@@ -12,11 +12,10 @@
 
 namespace base_core\controllers;
 
-use base_core\security\Gate;
-use lithium\g11n\Message;
-use li3_flash_message\extensions\storage\FlashMessage;
-use li3_access\security\AccessDeniedException;
 use base_core\models\Users;
+use base_core\security\Gate;
+use li3_flash_message\extensions\storage\FlashMessage;
+use lithium\g11n\Message;
 
 trait AdminEditTrait {
 
@@ -30,8 +29,8 @@ trait AdminEditTrait {
 		$whitelist = null;
 
 		if ($model::hasBehavior('Ownable')) {
-			if (!Gate::check('users')) {
-				if (!Gate::owned($item)) {
+			if (!Gate::checkRight('owner')) {
+				if (Settings::read('security.checkOwner') && !Gate::owned($item)) {
 					throw new AccessDeniedException();
 				}
 				// Prevent saving user data, only admins can do that.
@@ -58,8 +57,15 @@ trait AdminEditTrait {
 			}
 		}
 		$isTranslated = $model::hasBehavior('Translatable');
-		$users = Users::find('list', ['order' => 'name']);
-		$useOwner = Gate::check('users');
+
+		$useOwner = Settings::read('security.checkOwner') && $model::hasBehavior('Ownable');
+		$useOwner = $useOwner && Gate::checkRight('owner');
+		if ($useOwner) {
+			$users = Users::find('list', [
+				'order' => 'name',
+				'conditions' => ['is_active' => true]
+			]);
+		}
 
 		$this->_render['template'] = 'admin_form';
 		return compact('item', 'isTranslated', 'users', 'useOwner') + $this->_selects($item);

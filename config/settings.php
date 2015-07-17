@@ -21,6 +21,13 @@ Settings::register('site.title');
 // there the alphabet would be too limited for a password style string.
 Settings::register('security.cookieSecret', 'alsFDDT§$sdfs');
 
+// Enable checking of ownership. When enabled everybody
+// else than users with the `'owner'` privilege can only view or
+// edit entities owned by them. When disabled ownership is still
+// assigned **and kept**, but there is no restriction on who can
+// see and edit what also the form elements are never displayed.
+Settings::register('security.checkOwner', false);
+
 Settings::register('contact.default', [
 	// 'organization' => 'Acme Inc.',
 	// 'postal_code' => '12345',

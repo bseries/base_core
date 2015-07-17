@@ -14,7 +14,6 @@ namespace base_core\controllers;
 
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
-use li3_access\security\AccessDeniedException;
 use base_core\security\Gate;
 
 trait AdminActivateTrait {
@@ -27,8 +26,8 @@ trait AdminActivateTrait {
 
 		$item = $model::find($this->request->id);
 
-		if ($model::hasBehavior('Ownable') && !Gate::check('users') && !Gate::owned($item)) {
-			throw new AccessDeniedException();
+		if ($model::hasBehavior('Ownable') && Settings::read('security.checkOwner')) {
+			!Gate::checkRight('owner') && Gate::owned($item, ['require' => true]);
 		}
 
 		$result = $item->save(
@@ -60,8 +59,8 @@ trait AdminActivateTrait {
 
 		$item = $model::find($this->request->id);
 
-		if ($model::hasBehavior('Ownable') && !Gate::check('users') && !Gate::owned($item)) {
-			throw new AccessDeniedException();
+		if ($model::hasBehavior('Ownable') && Settings::read('security.checkOwner')) {
+			!Gate::checkRight('owner') && Gate::owned($item, ['require' => true]);
 		}
 
 		$result = $item->save(

@@ -13,29 +13,44 @@
 namespace base_core\security;
 
 use Exception;
-use lithium\security\Auth;
+use OutOfBoundsException;
 use base_core\models\Users;
+use li3_access\security\AccessDeniedException;
+use lithium\security\Auth;
 
 class Gate {
 
+	protected static $_rights = [];
+
 	protected static $_roles = [];
+
+	public static function registerRight($name) {
+		static::$_roles[$name] = true;
+	}
 
 	public static function registerRole($name, array $rights = []) {
 		static::$_roles[$name] = $rights;
+	}
+
+	public static function rights() {
+		return static::$_roles;
 	}
 
 	public static function roles() {
 		return static::$_roles;
 	}
 
-	public static function check($right, array $options = []) {
+	public static function checkRight($right, array $options = []) {
+		if (!isset(static::$_rights[$right])) {
+			throw new OutOfBoundsException("Unknown or missing right `{$right}`.");
+		}
 		$options += [
 			'user' => true
 		];
 		$role = static::user($options['user'], 'role');
 
 		if (!isset(static::$_roles[$role])) {
-			return false;
+			throw new OutOfBoundsException("Unknown or missing role `{$role}`.");
 		}
 		foreach ((array) $right as $r) {
 			if (!in_array($r, static::$_roles[$role])) {
@@ -76,11 +91,17 @@ class Gate {
 
 	public static function owned($entity, array $options = []) {
 		$options += [
-			'user' => true
+			'user' => true,
+			'require' => true
 		];
 		$id = static::user($options['user'], 'id');
 
-		return $entity->owner_id == $id; // Entity might have numerics as strings.
+		$result = $entity->owner_id == $id; // Entity might have numerics as strings.
+
+		if ($options['require'] && !$result) {
+			throw new AccessDeniedException();
+		}
+		return $result;
 	}
 }
 

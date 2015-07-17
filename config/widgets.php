@@ -31,7 +31,7 @@ Widgets::register('support', function() use ($t) {
 	'weight' => Widgets::WEIGHT_HIGH
 ]);
 
-if (Gate::check('users')) {
+if (Gate::checkRight('users')) {
 	Widgets::register('users', function() use ($t) {
 		$total = Users::find('count') + VirtualUsers::find('count');
 		$deactivated = Users::find('count', [

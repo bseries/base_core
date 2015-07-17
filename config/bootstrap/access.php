@@ -22,9 +22,38 @@ use lithium\analysis\Logger;
 // Role/Level and Rights Definitions
 //
 // @link http://stackoverflow.com/questions/1193309/common-cms-roles-and-access-levels
-Gate::registerRole('admin', ['panel', 'users', 'api.jobs']);
+
+// Allows accessing the admin panel. Further actions
+// may require further rights.
+Gate::registerRight('panel');
+
+// Allows managing users.
+Gate::registerRight('users');
+
+// Allows to become **any** other user (usually only good for admins).
+Gate::registerRight('become');
+
+// Allows changing the ownership of entities.
+Gate::registerRight('owner');
+
+// Allows accessing the Jobs HTTP API to trigger job execution. This
+// right should be assigned to a dedicated technical user. And makes
+// most sense when using HTTP with scheduled jobs.
+Gate::registerRight('api.jobs');
+
+// Admins can do anything and have all rights.
+Gate::registerRole('admin', ['panel', 'users', 'owner', 'api.jobs', 'become']);
+
+// Members have access to the admin panel but i.e.
+// can't manage users and ownership.
 Gate::registerRole('member', ['panel']);
+
+// Technical users can only access the (protected) API but
+// not the admin panel itself.
 Gate::registerRole('technical', ['api.jobs']);
+
+// Normal users are unprivileged users who cannot access
+// anything by default.
 Gate::registerRole('user');
 
 //
@@ -54,7 +83,7 @@ Access::add('admin', 'users.auth', [
 Access::add('admin', 'users', [
 	'resource' => ['admin' => true, 'controller' => 'Users'],
 	'rule' => function($user) {
-		return Gate::check(['panel', 'users'], compact('user'));
+		return Gate::checkRight(['panel', 'users'], compact('user'));
 	},
 	'message' => 'Admin users panel access not permitted.'
 ]);
@@ -69,7 +98,7 @@ if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
 			if (!($user = $user ?: Auth::check('token'))) {
 				return false;
 			}
-			return Gate::check(['api.jobs'], compact('user'));
+			return Gate::checkRight(['api.jobs'], compact('user'));
 		},
 		'message' => 'Admin Job API access not permitted.'
 	]);
@@ -85,10 +114,10 @@ Access::add('admin', 'admin', [
 		}
 		// Users which have the `'become'` right might have become another user,
 		// use the original role to check if access is OK.
-		if (isset($user['original']['role']) && Gate::check('become')) {
+		if (isset($user['original']['role']) && Gate::checkRight('become')) {
 			$user = $user['original'];
 		}
-		return Gate::check(['panel'], compact('user'));
+		return Gate::checkRight(['panel'], compact('user'));
 	},
 	'message' => 'Admin panel access not permitted.'
 ]);

@@ -40,7 +40,7 @@ Panes::register('viewSite', [
 	'actions' => false
 ]);
 
-if (Gate::check('users')) {
+if (Gate::checkRight('users')) {
 	Panes::register('access', [
 		'title' => $t('Access', ['scope' => 'base_core']),
 		'weight' => 80

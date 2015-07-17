@@ -12,24 +12,22 @@
 
 namespace base_core\controllers;
 
-use lithium\security\Auth;
-use base_core\security\Gate;
-use lithium\g11n\Message;
-use li3_flash_message\extensions\storage\FlashMessage;
 use base_core\models\Users;
+use base_core\security\Gate;
+use li3_flash_message\extensions\storage\FlashMessage;
+use lithium\g11n\Message;
 
 trait AdminAddTrait {
 
 	public function admin_add() {
 		extract(Message::aliases());
-		$user = Auth::check('default');
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
 
 		$item = $model::create([
 			// Will not be saved without error when there is no such field.
-			'owner_id' => $user['id']
+			'owner_id' => Gate::user(true, 'id')
 		]);
 
 		if ($this->request->data) {
@@ -37,8 +35,8 @@ trait AdminAddTrait {
 				// Force current user if the current user doesn't have
 				// the perms to change users.
 
-				if (!Gate::check('users')) {
-					$this->request->data['owner_id'] = $user['id'];
+				if (!Gate::checkRight('owner')) {
+					$this->request->data['owner_id'] = Gate::user(true, 'id');
 				}
 				// Note: Explictly allow saving owner_id on ADD here.
 			}
@@ -58,9 +56,15 @@ trait AdminAddTrait {
 			}
 		}
 		$isTranslated = $model::hasBehavior('Translatable');
-		$useOwner = Gate::check('users');
 
-		$users = Users::find('list', ['order' => 'name']);
+		$useOwner = Settings::read('security.checkOwner') && $model::hasBehavior('Ownable');
+		$useOwner = $useOwner && Gate::checkRight('owner');
+		if ($useOwner) {
+			$users = Users::find('list', [
+				'order' => 'name',
+				'conditions' => ['is_active' => true]
+			]);
+		}
 
 		$this->_render['template'] = 'admin_form';
 		return compact('item', 'isTranslated', 'users', 'useOwner') + $this->_selects($item);

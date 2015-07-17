@@ -13,8 +13,8 @@
 namespace base_core\controllers;
 
 use base_core\security\Gate;
-use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
+use lithium\g11n\Message;
 
 trait AdminOrderTrait {
 
@@ -26,10 +26,10 @@ trait AdminOrderTrait {
 
 		$ids = $this->request->data['ids'];
 
-		if ($model::hasBehavior('Ownable') && !Gate::check('users')) {
-			foreach ($ids as $id) {
-				if (!Gate::owned($model::find($id))) {
-					throw new AccessDeniedException();
+		if ($model::hasBehavior('Ownable') && Settings::read('security.checkOwner')) {
+			if (!Gate::checkRight('owner')) {
+				foreach ($ids as $id) {
+					Gate::owned($model::find($id), ['require' => true]);
 				}
 			}
 		}
