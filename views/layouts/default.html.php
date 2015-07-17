@@ -52,7 +52,7 @@ FlashMessage::clear();
 		?>
 		<?php echo $this->assets->script($scripts) ?>
 		<?php echo $this->scripts() ?>
-		<?php if (Settings::read('service.googleAnalytics.default.propertyId') && !PROJECT_DEBUG): ?>
+		<?php if (Settings::read('service.googleAnalytics.default.account') && !PROJECT_DEBUG): ?>
 			<?=$this->view()->render(['element' => 'ga'], [], [
 				'library' => 'base_core'
 			]) ?>
