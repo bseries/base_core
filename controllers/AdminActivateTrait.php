@@ -12,9 +12,10 @@
 
 namespace base_core\controllers;
 
-use lithium\g11n\Message;
-use li3_flash_message\extensions\storage\FlashMessage;
+use base_core\extensions\cms\Settings;
 use base_core\security\Gate;
+use li3_flash_message\extensions\storage\FlashMessage;
+use lithium\g11n\Message;
 
 trait AdminActivateTrait {
 

@@ -12,6 +12,7 @@
 
 namespace base_core\controllers;
 
+use base_core\extensions\cms\Settings;
 use base_core\security\Gate;
 
 trait AdminIndexOrderedTrait {

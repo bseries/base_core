@@ -14,6 +14,7 @@ namespace base_core\controllers;
 
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
+use base_core\extensions\cms\Settings;
 use base_core\security\Gate;
 use lithium\util\Set;
 
