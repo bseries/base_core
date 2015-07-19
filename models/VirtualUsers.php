@@ -23,7 +23,7 @@ use base_address\models\Addresses;
 
 class VirtualUsers extends \base_core\models\Base {
 
-	protected static $_actsAs = [
+	public $actsAs = [
 		'base_core\extensions\data\behavior\Sluggable',
 		'base_core\extensions\data\behavior\Timestamp',
 		'base_core\extensions\data\behavior\ReferenceNumber' => [
