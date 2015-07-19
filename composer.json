@@ -14,7 +14,7 @@
         "php": ">=5.5.0",
         "mobiledetect/mobiledetectlib": "2.*@stable",
         "davidpersson/temporary": "1.0.*@stable",
-        "davidpersson/li3_behaviors": "2.0.0-beta",
+        "davidpersson/li3_behaviors": "2.0.x-dev",
         "atelierdisko/li3_access": "2.0.x-dev",
         "unionofrad/li3_cldr": "1.0.x-dev",
         "unionofrad/li3_lldr": "1.0.*@beta",
