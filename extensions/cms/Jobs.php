@@ -115,6 +115,7 @@ class Jobs extends \lithium\core\StaticObject {
 			static::_run(static::read($name));
 		}
 		Logger::write('debug', "Finished running all jobs with frequency `{$frequency}`.");
+		return true;
 	}
 }
 
