@@ -12,12 +12,12 @@
 
 namespace base_core\config\bootstrap;
 
+use Exception;
 use lithium\storage\Session;
-use lithium\core\Environment;
 
-// Use a pseudo number generator seeded with project
-// name to generate cookie secret. Simple md5'ing wont work as
-// there the alphabet would be too limited for a password style string.
+if (strlen(PROJECT_SECRET_BASE) < 20) {
+	throw new Exception('PROJECT_SECRET_BASE is less than 20 chars.');
+}
 $secret = substr(PROJECT_SECRET_BASE, 0, 20);
 
 Session::config([

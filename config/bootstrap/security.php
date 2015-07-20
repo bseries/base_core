@@ -12,7 +12,12 @@
 
 namespace base_core\config\bootstrap;
 
+use Exception;
 use lithium\security\validation\FormSignature;
+
+if (strlen(PROJECT_SECRET_BASE) < 20) {
+	throw new Exception('PROJECT_SECRET_BASE is less than 20 chars.');
+}
 
 FormSignature::config([
 	'secret' => hash('sha512', PROJECT_SECRET_BASE)
