@@ -15,7 +15,7 @@ namespace base_core\config\bootstrap;
 use lithium\security\validation\FormSignature;
 
 FormSignature::config([
-	'secret' => sha512(PROJECT_SECRET_BASE)
+	'secret' => hash('sha512', PROJECT_SECRET_BASE)
 ]);
 
 ?>
