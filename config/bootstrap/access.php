@@ -144,11 +144,14 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 			'writeSession' => false,
 			'checkSession' => false
 		]);
-		if (!$auth) {
+		if ($auth) {
+			$message  = "Security: Authenticated using token for `{$url}` with query: ";
+			$message .= var_export($params['request']->query, true);
+		} else {
 			$message  = "Security: Failed to auth using token for `{$url}` with query: ";
 			$message .= var_export($params['request']->query, true);
-			Logger::debug($message);
 		}
+		Logger::debug($message);
 	} else {
 		$auth = Auth::check('default');
 	}
