@@ -27,16 +27,16 @@ class Uuid extends \li3_behaviors\data\model\Behavior {
 			if (isset($params['options']['whitelist'])) {
 				$params['options']['whitelist'][] = $behavior->config('field');
 			}
-			$params['data'] = static::_uuid($behavior, $params['entity'], $params['data']);
+			if (!$entity->exists()) {
+				$params['data'] = static::_uuid($behavior, $params['entity'], $params['data']);
+			}
 
 			return $chain->next($self, $params, $chain);
 		});
 	}
 
 	protected static function _uuid(Behavior $behavior, Entity $entity, array $data) {
-		$field = $behavior->config('field');
-
-		if (!$entity->exists() && $field) {
+		if ($field = $behavior->config('field')) {
 			$data[$field] = String::uuid();
 		}
 		return $data;
