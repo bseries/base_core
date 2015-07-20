@@ -25,7 +25,7 @@ class Gate {
 	protected static $_roles = [];
 
 	public static function registerRight($name) {
-		static::$_roles[$name] = true;
+		static::$_rights[$name] = true;
 	}
 
 	public static function registerRole($name, array $rights = []) {
