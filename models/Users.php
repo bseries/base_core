@@ -32,6 +32,7 @@ class Users extends \base_core\models\Base {
 	protected $_actsAs = [
 		'base_core\extensions\data\behavior\Sluggable',
 		'base_core\extensions\data\behavior\Timestamp',
+		'base_core\extensions\data\behavior\Uuid',
 		'base_core\extensions\data\behavior\ReferenceNumber' => [
 			'models' => [
 				'base_core\models\Users',

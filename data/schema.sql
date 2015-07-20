@@ -1,6 +1,7 @@
 -- Create syntax for TABLE 'users'
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(36) NOT NULL DEFAULT '',
   `number` varchar(100) NOT NULL DEFAULT '',
   `session_key` varchar(250) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
@@ -22,11 +23,12 @@ CREATE TABLE `users` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `number` (`number`),
   KEY `session_key` (`session_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Create syntax for TABLE 'virtual_users'
 CREATE TABLE `virtual_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(36) NOT NULL DEFAULT '',
   `number` varchar(100) DEFAULT NULL,
   `session_key` varchar(250) NOT NULL DEFAULT '',
   `name` varchar(255) DEFAULT '',
