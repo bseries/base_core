@@ -28,6 +28,9 @@ Auth::config([
 		'session' => [
 			'name' => 'cookie'
 		]
+	],
+	'token' => [
+		'adapter' => 'Token'
 	]
 ]);
 

@@ -86,7 +86,7 @@ class Users extends \base_core\models\Base {
 			return Password::check($value, $options['values']['password']);
 		});
 
-		$model->validates['answer'] = [
+		$model->validates['reset_answer'] = [
 			'notEmpty' => [
 				'notEmpty',
 				'on' => ['answerInit'],
@@ -211,7 +211,7 @@ class Users extends \base_core\models\Base {
 
 		$conditions += [
 			'email' => null,
-			'answer' => null,
+			'reset_answer' => null,
 			'is_active' => true,
 			'is_locked' => false
 		];
@@ -223,7 +223,7 @@ class Users extends \base_core\models\Base {
 			}
 			// The answer key is hashed in order to not leak information about the password.
 			// Users might give a hint to their actual password.
-			if ($key === 'answer') {
+			if ($key === 'reset_answer') {
 				$value = static::hashAnswer($value);
 			}
 		}
@@ -241,17 +241,17 @@ class Users extends \base_core\models\Base {
 			return false;
 		}
 		$result = $item->save([
-			'token' => static::generateToken(),
+			'reset_token' => static::generateToken(),
 			'is_locked' => true // Lock user account as per OWASP
 		], [
-			'whitelist' => ['token', 'is_locked'],
+			'whitelist' => ['reset_token', 'is_locked'],
 			'validate' => false
 		]);
 		if (!$result) {
 			throw new Exception('Failed to save.');
 		}
 		$message  = 'Password reset request succeeded; ';
-		$message .= "generated token `{$item->token}` and locked user `{$item->id}`. ";
+		$message .= "generated reset token `{$item->reset_token}` and locked user `{$item->id}`. ";
 		$message .= 'With: ' . var_export($conditions, true);
 		Logger::debug($message);
 
@@ -259,7 +259,7 @@ class Users extends \base_core\models\Base {
 		// one isn't tempted to use secret fields.
 		return static::find('first', [
 			'conditions' => ['id' => $item->id],
-			'fields' => ['id', 'name', 'email', 'token', 'locale']
+			'fields' => ['id', 'name', 'email', 'reset_token', 'locale']
 		]);
 	}
 
@@ -272,7 +272,7 @@ class Users extends \base_core\models\Base {
 		}
 		$conditions += [
 			'email' => null,
-			'token' => null,
+			'reset_token' => null,
 			'is_active' => true,
 			'is_locked' => true
 		];
@@ -294,11 +294,11 @@ class Users extends \base_core\models\Base {
 			return false;
 		}
 		$result = $item->save([
-			'token' => null, // Reset token to null.
+			'reset_token' => null, // Reset token to null.
 			'is_locked' => false, // Reactivate account.
 			'password' => static::hashPassword($passwordNewPlaintext),
 		], [
-			'whitelist' => ['token', 'is_locked', 'password'],
+			'whitelist' => ['reset_token', 'is_locked', 'password'],
 			'validate' => false
 		]);
 		if (!$result) {

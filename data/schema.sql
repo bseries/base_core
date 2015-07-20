@@ -1,29 +1,4 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4096
-#
-# http://www.sequelpro.com/
-# http://code.google.com/p/sequel-pro/
-#
-# Host: localhost (MySQL 10.0.10-MariaDB-log)
-# Datenbank: rainmap
-# Erstellungsdauer: 2014-06-03 15:26:45 +0000
-# ************************************************************
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-# Export von Tabelle users
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `users`;
-
+-- Create syntax for TABLE 'users'
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `number` varchar(100) NOT NULL DEFAULT '',
@@ -31,10 +6,15 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(64) NOT NULL,
+  `auth_token` varchar(250) DEFAULT NULL,
+  `reset_answer` varchar(250) DEFAULT NULL,
+  `reset_token` varchar(250) DEFAULT NULL,
   `role` varchar(30) NOT NULL DEFAULT 'user',
   `is_active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `is_locked` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `locale` varchar(5) DEFAULT 'de',
   `timezone` varchar(100) NOT NULL DEFAULT 'UTC',
+  `country` char(2) DEFAULT NULL,
   `is_notified` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
@@ -42,16 +22,9 @@ CREATE TABLE `users` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `number` (`number`),
   KEY `session_key` (`session_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-
-ALTER TABLE `users` ADD `country` CHAR(2)  NULL  DEFAULT NULL  AFTER `timezone`;
-
-# Export von Tabelle virtual_users
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `virtual_users`;
-
+-- Create syntax for TABLE 'virtual_users'
 CREATE TABLE `virtual_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `number` varchar(100) DEFAULT NULL,
@@ -62,6 +35,7 @@ CREATE TABLE `virtual_users` (
   `is_active` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `locale` varchar(5) DEFAULT 'de',
   `timezone` varchar(100) NOT NULL DEFAULT 'UTC',
+  `country` char(2) DEFAULT NULL,
   `is_notified` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
@@ -69,14 +43,3 @@ CREATE TABLE `virtual_users` (
   UNIQUE KEY `number` (`number`),
   KEY `session_key` (`session_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-ALTER TABLE `virtual_users` ADD `country` CHAR(2)  NULL  DEFAULT NULL   AFTER `timezone`;
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
