@@ -47,7 +47,7 @@ class Users extends \lithium\console\Command {
 				'uuid' => String::uuid()
 			], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
 		}
-		foreach (ViurtalUsersModel::find('all') as $user) {
+		foreach (VirtualUsersModel::find('all') as $user) {
 			$user->save([
 				'uuid' => String::uuid()
 			], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
