@@ -28,6 +28,10 @@ Settings::register('security.cookieSecret', 'alsFDDT§$sdfs');
 // see and edit what also the form elements are never displayed.
 Settings::register('security.checkOwner', false);
 
+Settings::register('user.sendActivationMail', false);
+Settings::register('user.useBecome', false);
+Settings::register('user.useVirtualUsers', false);
+
 Settings::register('contact.default', [
 	// 'organization' => 'Acme Inc.',
 	// 'postal_code' => '12345',
@@ -50,20 +54,18 @@ Settings::register('contact.exec', [
 	'phone' => null,
 ]);
 
-Settings::register('service.googleAnalytics.default.account');
-Settings::register('service.googleAnalytics.default.domain');
-Settings::register('service.googleAnalytics.default.propertyId');
-Settings::register('service.googleAnalytics.default.useUniversalAnalytics', false);
+// Google Analytics
+Settings::register('service.googleAnalytics.default', [
+	'account' => null,
+	'domain' => null,
+	'useUniversalAnalytics' => false
+]);
 
+// How to generate user reference numbers.
 Settings::register('user.number', [
 	'sort' => '/([0-9]{4}-[0-9]{4})/',
 	'extract' => '/[0-9]{4}-([0-9]{4})/',
 	'generate' => '%Y-%%04.d'
 ]);
-
-Settings::register('user.sendActivationMail', false);
-
-Settings::register('user.useBecome', false);
-Settings::register('user.useVirtualUsers', false);
 
 ?>
