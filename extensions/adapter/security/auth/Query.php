@@ -51,12 +51,15 @@ class Query extends \lithium\core\Object {
 		$conditions = $this->_scope;
 
 		foreach ($this->_fields as $field) {
-			if (!isset($data[$field])) {
+			if (empty($data[$field])) {
 				return false;
 			}
 			$conditions[$field] = $data[$field];
 		}
-		return $model::find('first', compact('conditions') + $options);
+		if (!$result = $model::find('first', compact('conditions') + $options)) {
+			return false;
+		}
+		return $result->data();
 	}
 
 	public function set($data, array $options = array()) {

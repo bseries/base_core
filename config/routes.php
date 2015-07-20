@@ -94,6 +94,15 @@ Router::connect("/admin/api/{$library}/{$controller}", [
 	'api' => true
 ], compact('modifiers', 'formatters', 'persist') + ['defaults' => ['type' => 'json']]);
 
+if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
+	Router::connect("/admin/api/base-core/jobs/run/{:frequency:(high|medium|low)}", [
+		'library' => 'base_core',
+		'controller' => 'Jobs',
+		'action' => 'run',
+		'admin' => true,
+		'api' => true
+	], compact('modifiers', 'formatters', 'persist') + ['defaults' => ['type' => 'json']]);
+}
 
 // Generic index route.
 // /admin/ecommerce-core/orders

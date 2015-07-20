@@ -83,7 +83,7 @@ Access::add('admin', 'users.auth', [
 Access::add('admin', 'users', [
 	'resource' => ['admin' => true, 'controller' => 'Users'],
 	'rule' => function($user) {
-		return Gate::checkRight(['panel', 'users'], compact('user'));
+		return $user && Gate::checkRight(['panel', 'users'], compact('user'));
 	},
 	'message' => 'Admin users panel access not permitted.'
 ]);
@@ -94,10 +94,7 @@ if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
 	Access::add('admin', 'api.jobs', [
 		'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
 		'rule' => function($user) {
-			if (!($user = $user ?: Auth::check('token'))) {
-				return false;
-			}
-			return Gate::checkRight('api.jobs', compact('user'));
+			return $user && Gate::checkRight('api.jobs', compact('user'));
 		},
 		'message' => 'Admin Job API access not permitted.'
 	]);
@@ -141,7 +138,12 @@ Access::add('entity', 'any', function($user, $entity) {
 Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 	$url = $params['request']->url;
 
-	if (!Access::check('admin', Auth::check('default'), $params)) {
+	// Try to login via token. Precheck to prevent overhead.
+	if (isset($params['request']->query['auth_token'])) {
+		Auth::check('token', $params['request']);
+	}
+
+	if (!Access::check('admin', Auth::check('default') ?: Auth::check('token'), $params)) {
 		$errors = Access::errors('admin');
 		Logger::debug("Security: Access denied for `{$url}` with: " . var_export($errors, true));
 
