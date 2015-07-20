@@ -30,7 +30,14 @@ Auth::config([
 		]
 	],
 	'token' => [
-		'adapter' => 'Token'
+		'adapter' => 'Query',
+		'model' => 'Users',
+		'fields' => ['number', 'auth_token'],
+		'scope' => [
+			'is_active' => true,
+			'is_locked' => false,
+			'role' => 'technical'
+		]
 	]
 ]);
 
