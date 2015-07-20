@@ -140,10 +140,20 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 
 	// Try to login via token. Precheck to prevent overhead.
 	if (isset($params['request']->query['auth_token'])) {
-		Auth::check('token', $params['request']);
+		$auth = Auth::check('token', $params['request'], [
+			'writeSession' => false,
+			'checkSession' => false
+		]);
+		if (!$auth) {
+			$message  = "Security: Failed to auth using token for `{$url}` with query: ";
+			$message .= var_export($params['request']->query, true);
+			Logger::debug($message);
+		}
+	} else {
+		$auth = Auth::check('default');
 	}
 
-	if (!Access::check('admin', Auth::check('default') ?: Auth::check('token'), $params)) {
+	if (!Access::check('admin', $auth, $params)) {
 		$errors = Access::errors('admin');
 		Logger::debug("Security: Access denied for `{$url}` with: " . var_export($errors, true));
 
