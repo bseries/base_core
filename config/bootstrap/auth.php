@@ -32,7 +32,7 @@ Auth::config([
 	'token' => [
 		'adapter' => 'Query',
 		'model' => 'Users',
-		'fields' => ['number', 'auth_token'],
+		'fields' => ['uuid', 'auth_token'],
 		'scope' => [
 			'is_active' => true,
 			'is_locked' => false,
