@@ -15,6 +15,11 @@ namespace base_core\config\bootstrap;
 use lithium\storage\Session;
 use lithium\core\Environment;
 
+// Use a pseudo number generator seeded with project
+// name to generate cookie secret. Simple md5'ing wont work as
+// there the alphabet would be too limited for a password style string.
+$secret = substr(PROJECT_SECRET_BASE, 0, 20);
+
 Session::config([
 	'default' => [
 		'adapter' => 'Php',
@@ -25,8 +30,8 @@ Session::config([
 		'adapter' => 'Cookie',
 		'name' => PROJECT_NAME . '_cookie',
 		'strategies' => [
-			// 'Hmac' => ['secret' => Environment::get('security.cookieSecret')],
-			'Encrypt' => ['secret' => Environment::get('security.cookieSecret')],
+			// 'Hmac' => ['secret' => $secret],
+			'Encrypt' => ['secret' => $secret],
 		]
 	]
 ]);

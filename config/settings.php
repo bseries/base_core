@@ -16,11 +16,6 @@ use base_core\extensions\cms\Settings;
 
 Settings::register('site.title');
 
-// FIXME Use a pseudo number generator seeded with project
-// name to generate cookie secret. Simple md5'ing wont work as
-// there the alphabet would be too limited for a password style string.
-Settings::register('security.cookieSecret', 'alsFDDT§$sdfs');
-
 // Enable checking of ownership. When enabled everybody
 // else than users with the `'owner'` privilege can only view or
 // edit entities owned by them. When disabled ownership is still

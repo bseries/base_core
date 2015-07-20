@@ -254,6 +254,7 @@ require 'bootstrap/media.php';
 if (PHP_SAPI === 'cli') {
 	require 'bootstrap/console.php';
 }
+require 'bootstrap/security.php';
 require 'bootstrap/auth.php';
 require 'bootstrap/access.php';
 require 'bootstrap/mail.php';
