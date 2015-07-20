@@ -41,18 +41,21 @@ class Gate {
 	}
 
 	public static function checkRight($right, array $options = []) {
-		if (!isset(static::$_rights[$right])) {
-			throw new OutOfBoundsException("Unknown or missing right `{$right}`.");
-		}
 		$options += [
 			'user' => true
 		];
 		$role = static::user($options['user'], 'role');
 
+		if (!$role) {
+			return false;
+		}
 		if (!isset(static::$_roles[$role])) {
-			throw new OutOfBoundsException("Unknown or missing role `{$role}`.");
+			throw new OutOfBoundsException("Unknown role `{$role}`.");
 		}
 		foreach ((array) $right as $r) {
+			if (!isset(static::$_rights[$r])) {
+				throw new OutOfBoundsException("Unknown or missing right `{$right}`.");
+			}
 			if (!in_array($r, static::$_roles[$role])) {
 				return false;
 			}
