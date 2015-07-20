@@ -114,11 +114,12 @@ $nickRgb = function($nick) {
 					</time>
 				<td class="actions">
 					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button delete']) ?>
-					<?php if ($item->is_active): ?>
-						<?= $this->html->link($t('deactivate'), ['id' => $item->id, 'action' => 'deactivate', 'library' => 'base_core'], ['class' => 'button']) ?>
-					<?php else: ?>
-						<?= $this->html->link($t('activate'), ['id' => $item->id, 'action' => 'activate', 'library' => 'base_core'], ['class' => 'button']) ?>
-					<?php endif ?>
+					<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
+						'id' => $item->id, 'action' => $item->is_locked ? 'unlock' : 'lock'
+					], ['class' => 'button']) ?>
+					<?= $this->html->link($item->is_active ? $t('deactivate') : $t('activate'), [
+						'id' => $item->id, 'action' => $item->is_active ? 'deactivate' : 'activate'
+					], ['class' => 'button']) ?>
 					<?php if (Settings::read('user.useBecome') && $authedUser->id != $item->id): ?>
 						<?= $this->html->link($t('become'), ['id' => $item->id, 'action' => 'become', 'library' => 'base_core'], ['class' => 'button']) ?>
 					<?php endif ?>
