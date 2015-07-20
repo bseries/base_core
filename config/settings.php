@@ -14,7 +14,7 @@ namespace base_core\config;
 
 use base_core\extensions\cms\Settings;
 
-Settings::register('site.title');
+Settings::register('site.title', 'Application');
 
 // Enable checking of ownership. When enabled everybody
 // else than users with the `'owner'` privilege can only view or
