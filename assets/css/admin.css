@@ -114,7 +114,7 @@ pre, code, .fixed {
 
 /* Clearfix
 ---------------------------------------------------------------- */
-.cleafix:before,
+.clearfix:before,
 .clearfix:after {
     content: " ";
     display: table;
@@ -873,15 +873,14 @@ button.large,
 
 [data-wysihtml5-dialog] input {
 	width: 200px;
-	margin: 0 10px 0 0;
+    position: relative;
+    top: -1px;
 }
 [data-wysihtml5-dialog] {
-	display: block;
-	float: left;
+	display: inline-block;
 }
 [data-wysihtml5-command] {
-	display: block;
-	float: left;
+	display: inline-block;
 	text-align: center;
 }
 [data-wysihtml5-command="bold"] {
@@ -907,12 +906,12 @@ button.large,
 }
 
 .editor .toolbar {
-  height: 3em;
+  min-height: 3em;
   margin-top: .5em;
-  margin-bottom: .5em;
 }
-.editor .toolbar a {
+.editor .toolbar .button {
   margin-right: 10px;
+  margin-bottom: .5em;
 }
 
 .use-editor textarea,
