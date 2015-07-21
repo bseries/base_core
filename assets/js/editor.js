@@ -166,7 +166,6 @@ function($, wysihtml5, MediaExplorerModal) {
          '<div data-wysihtml5-dialog="createLink" style="display: none;">' +
            '<input data-wysihtml5-dialog-field="href" type="url" value="http://" />' +
            '<a data-wysihtml5-dialog-action="save" class="button save">' + _('OK') + '</a>' +
-           '<a data-wysihtml5-dialog-action="cancel" class="button cancel">' + _('cancel') + '</a>' +
          '</div>' +
        '</div>');
 
