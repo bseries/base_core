@@ -28,6 +28,13 @@ $this->set([
 		<div class="grid-row">
 			<section class="grid-column-left">
 				<?= $this->form->field('name', ['type' => 'text', 'label' => $t('Name'), 'class' => 'use-for-title']) ?>
+
+				<?= $this->form->field('uuid', [
+					'type' => 'text',
+					'label' => $t('UUID'),
+					'disabled' => true
+				]) ?>
+
 				<?php if ($useBilling = Libraries::get('billing_core')): ?>
 					<?= $this->form->field('number', [
 						'type' => 'text',
@@ -79,18 +86,21 @@ $this->set([
 				<div class="help">
 					<?= $t('Keep empty to leave password unchanged.') ?>
 				</div>
-				<?=$this->form->field('answer', [
+				<?=$this->form->field('auth_token', [
+					'type' => 'text',
+					'label' => $t('Authentication token')
+				]) ?>
+				<?=$this->form->field('reset_answer', [
 					'type' => 'password',
-					'label' => $t('New security answer'),
+					'label' => $t('New reset answer'),
 					'autocomplete' => 'off'
 				]) ?>
 				<div class="help">
 					<?= $t('Keep empty to leave answer unchanged.') ?>
 				</div>
-				<?=$this->form->field('token', [
+				<?=$this->form->field('reset_token', [
 					'type' => 'text',
-					'label' => $t('Security token'),
-					'disabled' => true
+					'label' => $t('Reset token')
 				]) ?>
 			</div>
 			<div class="grid-column-right">

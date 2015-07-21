@@ -142,8 +142,6 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				$result += $_model::find('count');
 			}
 			return $result;
-		} elseif ($type == 'pages') {
-			return floor($model::find('count', $options) / $options['perPage']);
 		}
 	}
 

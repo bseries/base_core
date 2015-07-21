@@ -13,6 +13,8 @@
 namespace base_core\extensions\command;
 
 use base_core\models\Users as UsersModel;
+use base_core\models\VirtualUsers as VirtualUsersModel;
+use lithium\util\String;
 
 class Users extends \lithium\console\Command {
 
@@ -36,6 +38,19 @@ class Users extends \lithium\console\Command {
 			$this->out('email: '. $data['email']);
 			$this->out('password: '. $cleartextPassword);
 			$this->out('role: '. $data['role']);
+		}
+	}
+
+	public function migrateUuid() {
+		foreach (UsersModel::find('all') as $user) {
+			$user->save([
+				'uuid' => String::uuid()
+			], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
+		}
+		foreach (VirtualUsersModel::find('all') as $user) {
+			$user->save([
+				'uuid' => String::uuid()
+			], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
 		}
 	}
 }

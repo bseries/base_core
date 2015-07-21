@@ -27,6 +27,13 @@ $this->set([
 		<div class="grid-row">
 			<section class="grid-column-left">
 				<?= $this->form->field('name', ['type' => 'text', 'label' => $t('Name'), 'class' => 'use-for-title']) ?>
+
+				<?= $this->form->field('uuid', [
+					'type' => 'text',
+					'label' => $t('UUID'),
+					'disabled' => true
+				]) ?>
+
 				<?php if ($useBilling = Libraries::get('billing_core')): ?>
 					<?= $this->form->field('number', [
 						'type' => 'text',

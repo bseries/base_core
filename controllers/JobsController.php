@@ -28,13 +28,8 @@ class JobsController extends \base_core\controllers\BaseController {
 		}
 		$response = new JSendResponse();
 
-		if ($this->request->frequency) {
-			$result = Jobs::runFrequency($this->request->frequency);
-		} elseif ($this->request->name) {
-			$result = Jobs::runName($this->request->name);
-		} else {
-			$result = false;
-		}
+		$result = Jobs::runFrequency($this->request->frequency);
+
 		if ($result) {
 			$response->success();
 		} else {

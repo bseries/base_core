@@ -49,11 +49,11 @@ class UsersController extends \base_core\controllers\BaseController {
 			);
 			$events = ['create', 'passwordInit'];
 
-			if (!empty($this->request->data['answer'])) {
+			if (!empty($this->request->data['reset_answer'])) {
 				$events[] = 'answerInit';
 
-				$this->request->data['answer'] = Users::hashAnswer(
-					$this->request->data['answer']
+				$this->request->data['reset_answer'] = Users::hashAnswer(
+					$this->request->data['reset_answer']
 				);
 			}
 
@@ -80,21 +80,23 @@ class UsersController extends \base_core\controllers\BaseController {
 		if ($this->request->data) {
 			$events = ['update'];
 
-			if ($this->request->data['password']) {
-				$events[] = 'passwordInit';
-
-				$this->request->data['password'] = Users::hashPassword(
-					$this->request->data['password']
-				);
-			} else {
-				unset($this->request->data['password']);
-			}
-			if ($this->request->data['answer']) {
-				$this->request->data['answer'] = Users::hashAnswer(
-					$this->request->data['answer']
-				);
-			} else {
-				unset($this->request->data['answer']);
+			$protectedFields = [
+				'password' => function(array $data) {
+					return Users::hashPassword($data['password']);
+				},
+				'reset_answer' => function(array $data) {
+					return Users::hashAnswer($data['reset_answer']);
+				}
+			];
+			foreach ($protectedFields as $field => $value) {
+				if ($this->request->data[$field]) {
+					if ($field === 'password') {
+						$events[] = 'passwordInit';
+					}
+					$this->request->data[$field] = $value($this->request->data);
+				} else {
+					unset($this->request->data[$field]);
+				}
 			}
 
 			if ($item->save($this->request->data)) {
