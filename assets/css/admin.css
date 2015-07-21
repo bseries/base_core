@@ -1741,6 +1741,9 @@ thead .actions > div {
   font-size: var(--font-size-alpha);
   color: var(--color-dim-black);
 }
+.widget .title {
+  text-transform: capitalize;
+}
 .widget.positive h1,
 .widget.negative h1 {
   color: white;
