@@ -54,6 +54,8 @@ body {
 
 .wysihtml5-editor aside,
 .rt__aside {
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 10px;
   background: #F2F2F2;
   font-size: 12px;
