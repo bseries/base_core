@@ -838,11 +838,19 @@ button.large,
 
 [data-wysihtml5-dialog] input {
 	width: 200px;
-	margin: 0 10px 0 0;
+    margin: 0;
+    position: relative;
+    top: -1px;
 }
 [data-wysihtml5-dialog] {
 	display: block;
 	float: left;
+}
+[data-wysihtml5-dialog] > .button {
+  margin-left: 0;
+}
+[data-wysihtml5-dialog] > .button + .button {
+  margin-left: -10px;
 }
 [data-wysihtml5-command] {
 	display: block;

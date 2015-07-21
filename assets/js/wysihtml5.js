@@ -472,8 +472,8 @@ wysihtml5.polyfills(window, document);
 (function(factory, root) {
     if (typeof define == "function" && define.amd) {
         // AMD. Register as an anonymous module.
-        window.rangy = factory();
-        define('rangy',factory);
+        // define(factory);
+        root.rangy = factory();
     } else if (typeof module != "undefined" && typeof exports == "object") {
         // Node/CommonJS style
         module.exports = factory();
@@ -4321,8 +4321,8 @@ wysihtml5.polyfills(window, document);
 (function(factory, root) {
     if (typeof define == "function" && define.amd) {
         // AMD. Register as an anonymous module with a dependency on Rangy.
-        factory(window.rangy);
-        define(["rangy"], factory);
+        // define(["./rangy-core"], factory);
+        factory(root.rangy);
     } else if (typeof module != "undefined" && typeof exports == "object") {
         // Node/CommonJS style
         module.exports = factory( require("rangy") );

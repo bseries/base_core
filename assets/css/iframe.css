@@ -35,50 +35,52 @@ body {
 
 /* Editor
 -------------------------------------------------------------- */
-.composer {
+.wysihtml5-editor {
     font-weight: normal;
 	padding: .5em;
 	padding-right: 10px; /* Distance to scroll bar. */
 }
-.composer:focus {
+.wysihtml5-editor:focus {
     background: white;
     color: black;
 }
 
-.composer .page-break {
+.wysihtml5-editor .page-break {
   margin: 2em auto;
   border-top: 1px dotted #111;
   height: 1px;
   width: 100%;
 }
 
-.composer aside,
+.wysihtml5-editor aside,
 .rt__aside {
+  padding: 10px;
+  background: #F2F2F2;
   font-size: 12px;
 }
-.composer aside:before,
+.wysihtml5-editor aside:before,
 .rt__aside:before {
   opacity: .7;
   content: "(marginal) ";
 }
 
-.composer h2,
+.wysihtml5-editor h2,
 .rt__h--beta {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: .5em;
 }
-.composer h3,
+.wysihtml5-editor h3,
 .rt__h--gamma {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: .5em;
 }
-.composer small,
+.wysihtml5-editor small,
 .rt__small {
   font-size: 12px;
 }
-.composer big,
+.wysihtml5-editor big,
 .rt__big {
   font-size: 20px;
 }

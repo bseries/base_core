@@ -8,7 +8,7 @@
  * in writing, software distributed on an "AS IS" BASIS, WITHOUT-
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-define(['jquery', 'wysihtml5', 'mediaExplorerModal'],
+define(['jquery', 'wysihtml5', 'mediaExplorerModal', 'domready!'],
 function($, wysihtml5, MediaExplorerModal) {
   return function Editor() {
     var _this = this;
@@ -125,13 +125,16 @@ function($, wysihtml5, MediaExplorerModal) {
     };
 
     this.attachEditor = function() {
-      instance = new wysihtml5.Editor(_this.id, {
+      new wysihtml5.Editor(_this.id, {
         toolbar: _this.id + "Toolbar",
-        style: false,
         parserRules: _this.rules,
-        autoLink: false,
+        autoLink: true,
+        // No bloat.
+        style: false,
+        handleTables: false,
         bodyClassName: null,
-        composerClassName: 'composer',
+        // Use <p> when hitting enter and <br> for shift+enter.
+        useLineBreaks: false,
         stylesheets: [
           // Load our iframe.css based  off the admin.css path. Overly qualidied
           // to prevent using the reset.css sheet here (which comes first).
@@ -142,8 +145,6 @@ function($, wysihtml5, MediaExplorerModal) {
       // inside wysi. However it messes with nested arrays in our forms.
       // Especially when using i18n.
       $('input[name=_wysihtml5_mode]').remove();
-
-      return instance;
     };
 
     this.renderToolbar = function() {
@@ -157,14 +158,15 @@ function($, wysihtml5, MediaExplorerModal) {
          '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="small" class="plugin-size button">' + _('small') + '</a>' +
          '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" class="plugin-quote button">' + _('„quote“') + '</a>' +
          '<a data-wysihtml5-command="insertHTML" data-wysihtml5-command-value="<hr/>" class="plugin-line button">―</a>' +
-         '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
          '<a data-wysihtml5-command="insertUnorderedList" class="plugin-list button">' + _('list') + '</a>' +
          '<a data-wysihtml5-command="createLink" class="plugin-link button">' + _('link') + '</a>' +
          '<a data-wysihtml5-command="undo" class="plugin-history button">' + _('undo') + '</a>' +
          '<a data-wysihtml5-command="redo" class="plugin-history button">' + _('redo') + '</a>' +
          '<div data-wysihtml5-dialog="createLink" style="display: none;">' +
-           '<input data-wysihtml5-dialog-field="href" value="http://" class="text" />' +
-           '<a data-wysihtml5-dialog-action="save" class="button">' + _('OK') + '</a><a data-wysihtml5-dialog-action="cancel" class="button">' + _('cancel') + '</a>' +
+           '<input data-wysihtml5-dialog-field="href" type="url" value="http://" />' +
+           '<a data-wysihtml5-dialog-action="save" class="button save">' + _('OK') + '</a>' +
+           '<a data-wysihtml5-dialog-action="cancel" class="button cancel">' + _('cancel') + '</a>' +
          '</div>' +
        '</div>');
 
@@ -179,7 +181,8 @@ function($, wysihtml5, MediaExplorerModal) {
         }
       });
 
-      html.find('a').not(builtin.join()).remove();
+      // Prevent removing nested a's (i.e. dialog buttons).
+      html.find('> a').not(builtin.join()).remove();
 
       $.each(external, function(k, plugin) {
           html.append(plugin.toolbar());
