@@ -1175,7 +1175,7 @@ tbody td:not(.flag):not(.actions), tfoot td {
 table td {
   max-width: 150px;
 }
-.use-nested table td {
+.use-nested td {
   width: 200px;
   max-width: none;
 }
