@@ -153,18 +153,20 @@ $bootstrapFormal = function($name, $path) {
 
 	// Configuration deprecations.
 	// @deprecated
-	if ($name === 'app') {
-		$deprecated = [
-			'access',
-			'cms'
-		];
-	} else {
-		$deprecated = [
-			'bootstrap',
-			'g11n'
-		];
-	}
-	foreach ($deprecated as $file) {
+	$deprecated = [
+		'access' => 'app',
+		'cms' => 'app',
+		'bootstrap' => function($name) { return $name !== 'base_core'; },
+		'g11n' => '*'
+	];
+	foreach ($deprecated as $file => $check) {
+		if (is_callable($check)) {
+			if (!$check($name)) {
+				continue;
+			}
+		} elseif ($check !== '*' && $check !== $name) {
+			continue;
+		}
 		if (file_exists($path . "/config/{$file}.php")) {
 			trigger_error(
 				"Found deprecated config file `{$file}` in `{$name}`.",
