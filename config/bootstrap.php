@@ -138,29 +138,24 @@ $bootstrapFormal = function($name, $path) {
 	}
 
 	// Configuration deprecations.
-
 	// @deprecated
-	if ($name === 'app' && file_exists($path . "/config/access.php")) {
-		trigger_error(
-			"Found deprecated bootstrap file in `{$name}`.",
-			E_USER_DEPRECATED
-		);
+	if ($name === 'app') {
+		$deprecated = [
+			'access',
+			'cms'
+		];
+	} else {
+		$deprecated = [
+			'bootstrap'
+		];
 	}
-
-	// @deprecated
-	if ($name !== 'base_core' && file_exists($path . "/config/bootstrap.php")) {
-		trigger_error(
-			"Found deprecated bootstrap file in `{$name}`.",
-			E_USER_DEPRECATED
-		);
-	}
-
-	// @deprecated
-	if ($name === 'app' && file_exists($path . "/config/cms.php")) {
-		trigger_error(
-			"Found deprecated cms config file in `{$name}`.",
-			E_USER_DEPRECATED
-		);
+	foreach ($deprecated as $file) {
+		if (file_exists($path . "/config/{$file}.php")) {
+			trigger_error(
+				"Found deprecated config file `{$file}` in `{$name}`.",
+				E_USER_DEPRECATED
+			);
+		}
 	}
 };
 
