@@ -1271,15 +1271,6 @@ table .button.add-nested:hover {
   background-color: var(--color-green);
 }
 
-/* Sub-Items in Index */
-table .sub-item td:first-child {
-  border-left: 30px solid var(--color-gray-dark);
-}
-
-table .more-content {
-  display: none;
-}
-
 td .minor {
   color: var(--color-gray-darker);
 }
