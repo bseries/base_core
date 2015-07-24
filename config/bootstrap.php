@@ -287,7 +287,7 @@ if (INSIDE_ADMIN === false) {
 $moduleTypes = [ // This array also defines the primary order in which modules are loaded.
 	'base' => 'Bento', // base modules must come first.
 	'cms' => 'Bureau',
-	'billing' => 'Billing',
+	'billing' => 'Banque',
 	'ecommerce' => 'Boutique'
 ];
 

@@ -208,7 +208,7 @@ if (!isset($meta)) {
 		<footer class="main">
 			<div class="nav-bottom">
 				<div>
-				<?php foreach (['ecommerce' => 'AD Boutique', 'billing' => 'AD Billing', 'cms' => 'AD Bureau', 'base' => 'AD Bento'] as $prefix => $title): ?>
+				<?php foreach (['ecommerce' => 'AD Boutique', 'billing' => 'AD Banque', 'cms' => 'AD Bureau', 'base' => 'AD Bento'] as $prefix => $title): ?>
 					<?php if (defined($constant = strtoupper($prefix) . '_CORE_VERSION')): ?>
 						<?= $title ?> <?= constant($constant) ?>
 						<?php break ?>
