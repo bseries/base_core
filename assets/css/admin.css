@@ -753,11 +753,14 @@ input[type="checkbox"]:checked ~ label:after {
   margin-left: 28px;
 }
 
-button[disabled],
+button[disabled] {
+  background: var(--color-gray-dark);
+}
 select[disabled],
 textarea[disabled],
 input[disabled] {
-  background: var(--color-gray-dark);
+  background: transparent;
+  border-color: transparent;
 }
 
 input:invalid {
@@ -771,6 +774,10 @@ textarea[name*="address"] {
 
 input.title {
   font-weight: bold;
+}
+.input--numeric,
+.input--money {
+  text-align: right;
 }
 
 .bottom-actions {
@@ -1144,6 +1151,7 @@ thead td {
   padding-top: 2px;
   line-height: 38px;
 }
+tfoot td,
 tbody td {
   padding-top: 2px;
   line-height: 36px; /* Tune to actual 40px height */
@@ -1152,6 +1160,9 @@ tbody td {
 }
 tfoot td {
   font-weight: bold;
+}
+tfoot .totals td {
+  text-align: right;
 }
 
 /* Row Highlight on Hover Effect */
@@ -1204,6 +1215,7 @@ table .quantity--f {
 table .currency--f,
 table .price-amount--f,
 table .price-type--f,
+table .money--f,
 table td.money,
 table td.number,
 table td.date,
@@ -1235,6 +1247,8 @@ table td.media img {
   height: 40px;
   vertical-align: middle;
 }
+table .numeric--f,
+table .money--f,
 table td.money {
   text-align: right;
 }
@@ -1253,12 +1267,11 @@ table .actions {
   padding-top: 0;
   padding-right: 0;
   text-align: right;
-  width: 360px;
+  width: 370px;
 }
 .use-nested table .actions {
   width: 120px;
 }
-
 
 /* Nested Positions/Items in Forms */
 table.nested-items-alpha td {
@@ -1270,7 +1283,7 @@ table .nested-add-action  {
   text-align: center;
 }
 table .button.add-nested {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
   width: 48px;
   height: 48px;
