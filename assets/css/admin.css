@@ -1256,19 +1256,19 @@ table.nested-items-alpha td {
 table .nested-add-action  {
   text-align: center;
 }
-table button.add-nested {
-  width: 50px;
-  height: 50px;
+table .button.add-nested {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
   color: transparent;
-  background: transparent url(../ico/add_plus_sprite.png) no-repeat;
-  background-size: auto 50px;
-  transition: none;
+  overflow: hidden;
+  background: white url(../ico/material/content/ic_add_48px.svg) no-repeat;
+  filter: invert(100); /* for the icon */
 }
-table button.add-nested:hover {
-  color: transparent;
-  background: transparent url(../ico/add_plus_sprite.png) no-repeat;
-  background-position: -50px 0;
-  background-size: auto 50px;
+table .button.add-nested:hover {
+  filter: none;
+  color: transparent; /* .button override */
+  background-color: var(--color-ci-green);
 }
 
 /* Sub-Items in Index */
