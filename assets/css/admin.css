@@ -1188,25 +1188,23 @@ table .actions {
   width: 340px;
 }
 
-/* More space for flags. */
+
+table td {
+  width: 200px;
+}
 table .flag {
+  /* More space and different styling for flags. */
   width: 60px;
   padding-left: 5px;
   padding-right: 5px;
   text-align: center;
 }
-tbody .flag {
-  color: var(--color-gray-darkest);
-}
 table .flag:first-child {
   padding-left: 15px;
 }
 table .flag .material-icons {
+  color: var(--color-gray-darkest);
   vertical-align: middle;
-}
-
-table td {
-  width: 200px;
 }
 table td.money,
 table td.number,
