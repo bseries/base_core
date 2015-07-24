@@ -12,16 +12,14 @@
 
 :root {
   /* Colors */
+  --color-blue: #0e26fc;
+  --color-dim-blue: #0303CB;
+  --color-yellow: #ffd200;
+  --color-green: #7AC943;
+  --color-red: #FF1D25;
+
   --color-dim-black: #1b1b1b;
 
-  --color-ad-blue:   #0e26fc;
-  --color-ad-dim-blue:   #0303CB;
-  --color-ad-yellow: #ffd200;
-
-  --color-ci-blue:   #0e26fc;
-  --color-ci-yellow: #FCEE21;
-  --color-ci-green:   #7AC943;
-  --color-ci-red:     #FF1D25;
   --color-gray-bright: #f5f5f6;
   --color-gray-neutral: #F2F2F2;
   --color-gray-dark: #E6E6E6;
@@ -69,7 +67,7 @@ body {
   line-height: var(--line-height-normal);
 
   color: var(--color-dim-black);
-  background-color: var(--color-ad-dim-blue);
+  background-color: var(--color-dim-blue);
 
   padding: var(--space-v-tight) var(--space-h-tight);
 
@@ -358,7 +356,7 @@ footer.main {
 }
 .nav-top [href*=logout] {
   color: white;
-  background-color: var(--color-ci-red);
+  background-color: var(--color-red);
 }
 .tabs-v {
   font-size: var(--font-size-gamma);
@@ -371,7 +369,7 @@ footer.main {
   width: 100px;
   float: left;
 
-  background-color: var(--color-ad-blue);
+  background-color: var(--color-blue);
 }
 .tab-v {
   display: block;
@@ -434,7 +432,7 @@ footer.main {
 .tab-h:not(.active):hover {
   z-index: 9; /* below the active one */
   bottom: 0;
-  color: var(--color-ad-blue);
+  color: var(--color-blue);
   background-color: white;
 }
 .tab-h.active {
@@ -473,7 +471,7 @@ footer.main {
   border-right: solid 20px transparent;
 }
 .blocktab-h:not(.active):hover {
-  color: var(--color-ad-blue);
+  color: var(--color-blue);
   background-color: white;
 }
 .blocktab-h.active {
@@ -494,7 +492,7 @@ footer.main {
   /* Hack to spread content over much space as possible. */
   position: relative;
   z-index: 1;
-  border-left: 100px solid var(--color-ad-dim-blue);
+  border-left: 100px solid var(--color-dim-blue);
   margin-left: -100px;
   width: 100%;
 
@@ -583,7 +581,7 @@ textarea {
 select:focus,
 textarea:focus,
 input:focus {
-  border-color: var(--color-ad-blue);
+  border-color: var(--color-blue);
   outline: none; /* Disable auto glow for webkit. */
 }
 form label {
@@ -732,7 +730,7 @@ input[type="checkbox"] ~ label:after {
   bottom: 0;
   content: ' ';
   width: 55px;
-  background-color: var(--color-ci-red);
+  background-color: var(--color-red);
   border-radius: 20px;
   transition: all 100ms ease-in;
 }
@@ -745,7 +743,7 @@ input[type="checkbox"]:empty ~ label:after {
   border-radius: 15px;
 }
 input[type="checkbox"]:checked ~ label:before {
-  background-color: var(--color-ci-green);
+  background-color: var(--color-green);
 }
 input[type="checkbox"]:checked ~ label:after {
   margin-left: 28px;
@@ -760,7 +758,7 @@ input[disabled] {
 
 input:invalid {
   box-shadow: none;
-  border-color: var(--color-ci-red);
+  border-color: var(--color-red);
 }
 
 textarea[name*="address"] {
@@ -782,7 +780,7 @@ input.title {
 }
 
 form .error {
-  color: var(--color-ci-red);
+  color: var(--color-red);
   margin-left: 4px;
   margin-top: -.5em;
   margin-bottom: 1em;
@@ -796,13 +794,13 @@ a.button {
 
 button.save, .button.save {
   color: white;
-  background-color: var(--color-ci-green);
+  background-color: var(--color-green);
   margin-left: -4px; /* fix when aligned in form with buttons next to it. */
 }
 button.delete,
 .button.delete {
   color: white;
-  background-color: var(--color-ci-red);
+  background-color: var(--color-red);
 }
 button.login, .button.login {
   margin-top: 20px;
@@ -981,7 +979,7 @@ button.large,
 }
 
 #nprogress .bar {
-  background: var(--color-ci-red);
+  background: var(--color-red);
 
   position: fixed;
   z-index: 100;
@@ -1092,7 +1090,7 @@ form .help {
   text-align: right;
 }
 .media-attachment .media-item.no-visual {
-  background-color: var(--color-ad-blue);
+  background-color: var(--color-blue);
 }
 
 .remove-item {
@@ -1144,7 +1142,7 @@ td:last-child {
 }
 thead {
   color: white;
-  background: var(--color-ad-blue);
+  background: var(--color-blue);
 }
 thead td {
   padding-top: 2px;
@@ -1162,7 +1160,7 @@ tfoot td {
 
 /* Row Highligh on Hover Effect */
 tbody tr:hover td {
-  background: var(--color-ad-yellow);
+  background: var(--color-yellow);
 }
 tbody .actions .button {
   visibility: hidden;
@@ -1268,7 +1266,7 @@ table .button.add-nested {
 table .button.add-nested:hover {
   filter: none;
   color: transparent; /* .button override */
-  background-color: var(--color-ci-green);
+  background-color: var(--color-green);
 }
 
 /* Sub-Items in Index */
@@ -1299,7 +1297,7 @@ td .minor {
   position: relative;
   display: inline-block;
   transition: .75s all ease-in;
-  background: var(--color-ad-yellow);
+  background: var(--color-yellow);
   padding: 1em;
   right: 20px;
 }
@@ -1308,11 +1306,11 @@ td .minor {
   right: -400px;
 }
 #messages .message.error {
-  background: var(--color-ci-red);
+  background: var(--color-red);
   color: white;
 }
 #messages .message.success {
-  background: var(--color-ci-green);
+  background: var(--color-green);
   color: white;
 }
 
@@ -1378,7 +1376,7 @@ td .minor {
   position: absolute;
   top: 0;
   left: 0;
-  background: var(--color-ad-blue);
+  background: var(--color-blue);
   height: 100%;
   width: 0%;
   z-index: 2;
@@ -1451,7 +1449,7 @@ td .minor {
   display: none;
 }
 .media-explorer .available .item.selected .preview {
-  border-color: var(--color-ad-blue);
+  border-color: var(--color-blue);
 }
 .media-explorer .available .item .preview {
   text-align: center;
@@ -1502,11 +1500,11 @@ td .minor {
 
 .media-explorer .queue .item.status-error .card,
 .media-explorer .queue .item.status-error .preview {
-  border-color: var(--color-ci-red);
+  border-color: var(--color-red);
 }
 .media-explorer .queue .item.status-error .message {
   display: block;
-  color: var(--color-ci-red);
+  color: var(--color-red);
 }
 
 .media-explorer .queue .item .preview {
@@ -1615,7 +1613,7 @@ td .minor {
 }
 .media-explorer .dragging-message {
   background: url(../ico/mex_dragging.png) no-repeat center 50px;
-  color: var(--color-ad-blue);
+  color: var(--color-blue);
   font-weight: bold;
 }
 .media-explorer .drag-message,
@@ -1670,7 +1668,7 @@ thead .actions > div {
 /* Index Table: Pagination/Paging
 ---------------------------------------------------------------- */
 .nav-paging .active {
-  background: var(--color-ci-blue);
+  background: var(--color-blue);
   color: white;
   font-weight: bold;
 }
@@ -1726,10 +1724,10 @@ thead .actions > div {
   background-color: var(--color-gray-darker);
 }
 .widget.positive:not(:hover) {
-  background-color: var(--color-ci-green);
+  background-color: var(--color-green);
 }
 .widget.negative:not(:hover) {
-  background-color: var(--color-ci-red);
+  background-color: var(--color-red);
 }
 .widget.loading {
   min-height: 244px;
@@ -1818,7 +1816,7 @@ thead .actions > div {
   left: -28000px;
   top: -28000px;
   display: none;
-  border: 5px solid var(--color-ci-blue);
+  border: 5px solid var(--color-blue);
   transition: all .5s;
 }
 
