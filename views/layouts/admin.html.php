@@ -1,13 +1,14 @@
 <?php
 
-use lithium\core\Environment;
-use li3_flash_message\extensions\storage\FlashMessage;
-use lithium\security\Auth;
-use lithium\util\Inflector;
 use base_core\extensions\cms\Panes;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
+use li3_flash_message\extensions\storage\FlashMessage;
+use lithium\core\Environment;
+use lithium\core\Libraries;
 use lithium\g11n\Message;
+use lithium\security\Auth;
+use lithium\util\Inflector;
 
 $t = function($message, array $options = []) {
 	return Message::translate($message, $options + ['scope' => 'base_core', 'default' => $message]);
@@ -208,12 +209,23 @@ if (!isset($meta)) {
 		<footer class="main">
 			<div class="nav-bottom">
 				<div>
-				<?php foreach (['ecommerce' => 'AD Boutique', 'billing' => 'AD Banque', 'cms' => 'AD Bureau', 'base' => 'AD Bento'] as $prefix => $title): ?>
-					<?php if (defined($constant = strtoupper($prefix) . '_CORE_VERSION')): ?>
-						<?= $title ?> <?= constant($constant) ?>
-						<?php break ?>
-					<?php endif ?>
-				<?php endforeach ?>
+				<?php
+					$products = [
+						'base' => 'Bento',
+						'cms' => 'Bureau',
+						'billing' => 'Banque',
+						'ecommerce' => 'Boutique',
+					];
+					$version = BASE_CORE_VERSION;
+
+					$loaded = '';
+					foreach (array_reverse($products) as $prefix => $title) {
+						if (Libraries::get("{$prefix}_core")) {
+							$loaded .= !$loaded ? $title : '<span class="ghost">+' . $title . '</span>';
+						}
+					}
+					echo 'AD ' . $loaded . ' ' . BASE_CORE_VERSION;
+				?>
 				</div>
 				<div class="copyright">
 					© 2013&ndash;<?= date('Y') ?> <?= $this->html->link('Atelier Disko', 'http://atelierdisko.de', ['target' => 'new']) ?>
