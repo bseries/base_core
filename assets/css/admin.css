@@ -1173,7 +1173,11 @@ tbody td:not(.flag):not(.actions), tfoot td {
 
 /* Individual cell type styling */
 table td {
+  max-width: 150px;
+}
+.use-nested table td {
   width: 200px;
+  max-width: none;
 }
 table .flag {
   /* More space and different styling for flags. */
@@ -1249,7 +1253,7 @@ table .actions {
   padding-top: 0;
   padding-right: 0;
   text-align: right;
-  width: 340px;
+  width: 360px;
 }
 .use-nested table .actions {
   width: 120px;
