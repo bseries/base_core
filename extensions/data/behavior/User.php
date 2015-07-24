@@ -15,24 +15,27 @@ namespace base_core\extensions\data\behavior;
 use Exception;
 use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
-use base_core\models\Users;
-use base_core\models\VirtualUsers;
 
 class User extends \li3_behaviors\data\model\Behavior {
 
-	public function user($model, Behavior $behavior, Entity $entity) {
-		if ($entity->user_id) {
-			return Users::find('first', [
+	// @param $data array Can be used as an additional source to retrieve *_id from.
+	//        Useful when data was passed to saved but not already saved.
+	public function user($model, Behavior $behavior, Entity $entity, array $data = []) {
+		$map = [
+			'base_core\models\Users' => 'user_id',
+			'base_core\models\VirtualUsers' => 'virtual_user_id'
+		];
+		foreach ($map as $model => $field) {
+			if (!$entity->{$field} && !isset($data[$field])) {
+				continue;
+			}
+			return $model::find('first', [
 				'conditions' => [
-					'id' => $entity->user_id
+					'id' => isset($data[$field]) ? $data[$field] : $entity->{$field}
 				]
 			]);
 		}
-		return VirtualUsers::find('first', [
-			'conditions' => [
-				'id' => $entity->virtual_user_id
-			]
-		]);
+		return false;
 	}
 }
 
