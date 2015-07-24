@@ -23,7 +23,7 @@ use li3_flash_message\extensions\storage\FlashMessage;
 use base_core\models\Users;
 use base_core\extensions\cms\Settings;
 use base_address\models\Addresses;
-use billing_core\models\Invoices;
+use billing_invoice\models\Invoices;
 
 use base_core\models\Locales;
 use base_core\models\Timezones;
@@ -142,6 +142,8 @@ class UsersController extends \base_core\controllers\BaseController {
 
 		if (Libraries::get('billing_core')) {
 			$currencies = Currencies::find('list');
+		}
+		if (Libraries::get('billing_invoice')) {
 			$invoiceFrequencies = Invoices::enum('frequency');
 		}
 

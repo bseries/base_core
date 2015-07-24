@@ -19,8 +19,12 @@ $this->set([
 	]
 ]);
 
+$useBilling = Libraries::get('billing_core');
+$useInvoice = Libraries::get('billing_invoice');
+$useEcommerce = Libraries::get('ecommerce_core');
+
 ?>
-<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
+<article>
 	<?=$this->form->create($item) ?>
 		<?= $this->form->field('id', ['type' => 'hidden']) ?>
 
@@ -34,7 +38,7 @@ $this->set([
 					'disabled' => true
 				]) ?>
 
-				<?php if ($useBilling = Libraries::get('billing_core')): ?>
+				<?php if ($useBilling): ?>
 					<?= $this->form->field('number', [
 						'type' => 'text',
 						'label' => $t('Number')
@@ -110,21 +114,23 @@ $this->set([
 						'autocomplete' => 'off',
 						'label' => $t('VAT Reg. No.')
 					]) ?>
-					<?= $this->form->field('auto_invoice_frequency', [
-						'type' => 'select',
-						'label' => $t('Invoice Frequency'),
-						'list' => $invoiceFrequencies
-					]) ?>
-					<?= $this->form->field('is_auto_invoiced', [
-						'type' => 'checkbox',
-						'label' => $t('auto invoice'),
-						'checked' => (boolean) $item->is_auto_invoiced,
-						'value' => 1
-					]) ?>
+					<?php if ($useInvoice): ?>
+						<?= $this->form->field('auto_invoice_frequency', [
+							'type' => 'select',
+							'label' => $t('Invoice Frequency'),
+							'list' => $invoiceFrequencies
+						]) ?>
+						<?= $this->form->field('is_auto_invoiced', [
+							'type' => 'checkbox',
+							'label' => $t('auto invoice'),
+							'checked' => (boolean) $item->is_auto_invoiced,
+							'value' => 1
+						]) ?>
+					<?php endif ?>
 				</section>
 			</div>
 		<?php endif ?>
-		<?php if ($useEcommerce = Libraries::get('ecommerce_core')): ?>
+		<?php if ($useEcommerce): ?>
 			<div class="grid-row">
 				<h1 class="h-beta"><?= $t('eCommerce') ?></h1>
 

@@ -23,6 +23,10 @@ $nickRgb = function($nick) {
 	return $rgb;
 };
 
+$useBilling = Libraries::get('billing_core');
+$useInvoice = Libraries::get('billing_invoice');
+$useEcommerce = Libraries::get('ecommerce_core');
+
 ?>
 <article
 	class="use-rich-index"
@@ -47,7 +51,7 @@ $nickRgb = function($nick) {
 		<thead>
 			<tr>
 				<td data-sort="is-active" class="flag table-sort"><?= $t('Active?') ?>
-				<?php if ($useBilling = Libraries::get('billing_core')): ?>
+				<?php if ($useInvoice): ?>
 					<td data-sort="is-auto-invoiced" class="flag table-sort"><?= $t('Auto inv.?') ?>
 				<?php endif ?>
 					<td class="media">
@@ -72,9 +76,9 @@ $nickRgb = function($nick) {
 		<tbody class="list">
 			<?php foreach ($data as $item): ?>
 			<tr>
-				<td class="flag"><?= $item->is_active ? '✓ ' : '×' ?>
-				<?php if ($useBilling): ?>
-					<td class="flag"><?= $item->is_auto_invoiced ? '✓ ' : '×' ?>
+				<td class="flag"><i class="material-icons"><?= ($item->is_active ? 'done' : '') ?></i>
+				<?php if ($useInvoice): ?>
+					<td class="flag"><i class="material-icons"><?= ($item->is_auto_invoiced ? 'done' : '') ?></i>
 				<?php endif ?>
 				<td class="media">
 					<div
