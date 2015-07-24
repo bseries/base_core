@@ -96,24 +96,36 @@ $defineFromDotEnvFile = function($file) {
 $bootstrapFormal = function($name, $path) {
 	if ($name !== 'app') {
 		$available = [
-			'version',
-			'routes',
-			'settings',
-			'media',
-			'jobs',
-			'g11n',
-			'panes',
-			'widgets',
-			'contents',
-			'misc'
+			'version' => 'include',
+			'routes' => 'include',
+			'settings' => 'include',
+			'media' => 'include',
+			'jobs' => 'include',
+			'g11n' => function($name, $path) {
+				if (is_dir($path . '/resources/g11n/po')) {
+					\lithium\g11n\Catalog::config([
+						$name => [
+							'adapter' => 'Gettext',
+							'path' => $path . '/resources/g11n/po'
+						 ]
+					] + \lithium\g11n\Catalog::config());
+				}
+			},
+			'panes' => 'include',
+			'widgets' => 'include',
+			'contents' => 'include',
+			'misc' => 'include'
 		];
 		if (INSIDE_ADMIN === false) {
-			// Keep order when unsetting.
-			$available = array_diff($available, [
-				'routes',
-				'jobs',
-				'panes',
-				'widgets'
+			// Don't load certain module configurations when
+			// not inside admin. Keep order when unsetting.
+			$available = array_diff_key($available, [
+				// module g11n must always be loaded as modules may contain
+				// translations for validation messages used by the app.
+				'routes' => null,
+				'jobs' => null,
+				'panes' => null,
+				'widgets' => null
 			]);
 		}
 	} else {
@@ -121,18 +133,20 @@ $bootstrapFormal = function($name, $path) {
 		// isn't overwritten by anything else.
 		$available = [
 			// App routes have already been loaded.
-			'settings',
-			'media',
-			'switchboard',
-			'base',
-			'contents',
-			'billing',
-			'ecommerce'
+			'settings' => 'include',
+			'media' => 'include',
+			'switchboard' => 'include',
+			'base' => 'include',
+			'contents' => 'include',
+			'billing' => 'include',
+			'ecommerce' => 'include'
 		];
 	}
 
-	foreach ($available as $config) {
-		if (file_exists($file = $path . "/config/{$config}.php")) {
+	foreach ($available as $config => $load) {
+		if (is_callable($load)) {
+			$load($name, $path);
+		} elseif ($load === 'include' && file_exists($file = $path . "/config/{$config}.php")) {
 			require_once $file;
 		}
 	}
@@ -146,7 +160,8 @@ $bootstrapFormal = function($name, $path) {
 		];
 	} else {
 		$deprecated = [
-			'bootstrap'
+			'bootstrap',
+			'g11n'
 		];
 	}
 	foreach ($deprecated as $file) {

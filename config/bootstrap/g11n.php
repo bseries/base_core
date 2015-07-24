@@ -140,16 +140,7 @@ Catalog::config([
 		'path' => PROJECT_PATH . '/app/libraries/lithium/g11n/resources/php'
 	]
 ] + Catalog::config());
-
-// if (INSIDE_ADMIN !== true) {
-	Catalog::config([
-		'app' => [
-			'adapter' => 'Gettext',
-			'path' => PROJECT_PATH . '/app/resources/g11n/po'
-		 ],
-	] + Catalog::config());
-// }
-// Catalogs of modules are boostrapped elsewhere.
+// Catalogs of app and  modules are boostrapped elsewhere.
 
 /**
  * Multibyte Strings
