@@ -26,7 +26,7 @@ $useEcommerce = Libraries::get('ecommerce_core');
 $useRent = Libraries::get('ecommerce_rent');
 
 ?>
-<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
+<article>
 	<?=$this->form->create($item) ?>
 		<?= $this->form->field('id', ['type' => 'hidden']) ?>
 

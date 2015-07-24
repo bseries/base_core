@@ -9,7 +9,7 @@ $t = function($message, array $options = []) {
 $duration = $this->_response->headers('Retry-After') / 60;
 
 ?>
-<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
+<article>
 	<h1 class="alpha">
 		<span class="code"><?= $this->_response->status['code'] ?></span>
 		<?= $this->title($t('Maintenance')) ?>
