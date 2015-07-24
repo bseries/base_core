@@ -1120,27 +1120,19 @@ table {
   border-spacing: 0 var(--space-v-tighter);
   table-layout: fixed;
 }
+.use-nested table {
+  table-layout: auto;
+}
 td {
 	vertical-align: middle;
     height: 40px;
     line-height: 40px;
     padding: 0 10px;
 
-    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.use-nested table {
-  table-layout: auto;
-}
-.use-nested .actions {
-  width: 120px;
-}
-table .finance--f {
-  width: 120px;
-}
-
 td:last-child {
   max-width: inherit;
 }
@@ -1162,7 +1154,7 @@ tfoot td {
   font-weight: bold;
 }
 
-/* Row Highligh on Hover Effect */
+/* Row Highlight on Hover Effect */
 tbody tr:hover td {
   background: var(--color-yellow);
 }
@@ -1172,23 +1164,14 @@ tbody .actions .button {
 tbody tr:hover .actions .button {
   visibility: visible;
 }
-
 tbody tr:hover td a {
   color: var(--color-dim-black);
 }
-
 tbody td:not(.flag):not(.actions), tfoot td {
   font-family: var(--font-family-mono);
 }
 
-table .actions {
-  padding-top: 0;
-  padding-right: 0;
-  text-align: right;
-  width: 340px;
-}
-
-
+/* Individual cell type styling */
 table td {
   width: 200px;
 }
@@ -1206,17 +1189,31 @@ table .flag .material-icons {
   color: var(--color-gray-darkest);
   vertical-align: middle;
 }
+table td .avatar {
+  width: 40px;
+  height: 40px;
+}
+table .price-rate--f,
+table .quantity--f {
+  width: 100px;
+}
+table .currency--f,
+table .price-amount--f,
+table .price-type--f,
 table td.money,
 table td.number,
 table td.date,
 table td.id {
   width: 100px;
+  min-width: 100px;
 }
 table td.media {
   line-height: 0;
   padding-top: 0;
   width: 100px;
 }
+table .position-total--f,
+table .finance--f,
 table td.user,
 table td.status {
   width: 120px;
@@ -1225,15 +1222,14 @@ table td.title,
 table td.name {
   width: 180px;
 }
+table .position-description--f {
+  width: 550px;
+}
 table td.media img {
   cursor: pointer;
   max-width: 100%;
   height: 40px;
   vertical-align: middle;
-}
-table td .avatar {
-  width: 40px;
-  height: 40px;
 }
 table td.money {
   text-align: right;
@@ -1241,11 +1237,24 @@ table td.money {
 tbody td.emphasize {
   color: black;
 }
+tbody td .minor {
+  color: var(--color-gray-darker);
+}
 form [name*=status],
 tbody .status {
   font-weight: bold;
   color: blue;
 }
+table .actions {
+  padding-top: 0;
+  padding-right: 0;
+  text-align: right;
+  width: 340px;
+}
+.use-nested table .actions {
+  width: 120px;
+}
+
 
 /* Nested Positions/Items in Forms */
 table.nested-items-alpha td {
@@ -1257,6 +1266,8 @@ table .nested-add-action  {
   text-align: center;
 }
 table .button.add-nested {
+  margin-top: 10px;
+  margin-bottom: 20px;
   width: 48px;
   height: 48px;
   border-radius: 24px;
@@ -1271,9 +1282,6 @@ table .button.add-nested:hover {
   background-color: var(--color-green);
 }
 
-td .minor {
-  color: var(--color-gray-darker);
-}
 
 /* Notifications
 -------------------------------------------------------------- */
