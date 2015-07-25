@@ -124,7 +124,6 @@ $useRent = Libraries::get('ecommerce_rent');
 						<?= $this->date->format($item->modified, 'date') ?>
 					</time>
 				<td class="actions">
-					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button delete']) ?>
 					<?php if (!$item->is_locked || !$item->mustLock()): ?>
 						<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
 							'id' => $item->id, 'action' => $item->is_locked ? 'unlock' : 'lock'

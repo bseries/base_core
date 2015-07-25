@@ -184,21 +184,28 @@ $useRent = Libraries::get('ecommerce_rent');
 			</div>
 		<?php endif ?>
 		<div class="bottom-actions">
-			<?php if ($item->exists()): ?>
-				<?= $this->html->link($item->is_active ? $t('deactivate') : $t('activate'), [
-					'id' => $item->id,
-					'action' => $item->is_active ? 'deactivate' : 'activate'
-				], [
-					'class' => 'button large'
-				]) ?>
-				<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
-					'id' => $item->id,
-					'action' => $item->is_locked ? 'unlock' : 'lock'
-				], [
-					'class' => 'button large'
-				]) ?>
-			<?php endif ?>
-			<?= $this->form->button($t('save'), ['type' => 'submit', 'class' => 'large save']) ?>
+			<div class="bottom-actions__left">
+				<?= $this->html->link($t('delete'), [
+					'action' => 'delete', 'id' => $item->id
+				], ['class' => 'button large delete']) ?>
+			</div>
+			<div class="bottom-actions__right">
+				<?php if ($item->exists()): ?>
+					<?= $this->html->link($item->is_active ? $t('deactivate') : $t('activate'), [
+						'id' => $item->id,
+						'action' => $item->is_active ? 'deactivate' : 'activate'
+					], [
+						'class' => 'button large'
+					]) ?>
+					<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
+						'id' => $item->id,
+						'action' => $item->is_locked ? 'unlock' : 'lock'
+					], [
+						'class' => 'button large'
+					]) ?>
+				<?php endif ?>
+				<?= $this->form->button($t('save'), ['type' => 'submit', 'class' => 'button large save']) ?>
+			</div>
 		</div>
 	<?=$this->form->end() ?>
 </article>

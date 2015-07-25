@@ -782,6 +782,9 @@ input.title {
   padding-left: 45px;
 }
 
+/* Allow bottom actions with and without
+   nested __left __right divs. Default
+   to treat contents as __right when empty. */
 .bottom-actions {
   width: 100%;
   float: left;
@@ -790,6 +793,12 @@ input.title {
   margin-top: 3em;
   padding: 20px 0;
   border-top: 3px solid var(--color-gray-dark);
+}
+.bottom-actions__left {
+  float: left;
+}
+.bottom-actions__right {
+  float: right;
 }
 
 form .error {
