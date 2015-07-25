@@ -482,12 +482,6 @@ footer.main {
   color: var(--color-dim-black);
 }
 
-.top-actions {
-  text-align: right;
-  margin-top: -82px; /* align over top border */
-  margin-bottom: 56px; /* algin with left nav blocks */
-}
-
 /* Content
 ---------------------------------------------------------------- */
 #content {
@@ -504,7 +498,7 @@ footer.main {
   min-height: 70em;
   background: var(--color-gray-neutral);
 
-  border-top: 2px solid white;
+  border-top: 1px solid white;
 }
 
 .layout-admin-blank #content {
@@ -525,15 +519,21 @@ footer.main {
 /* Rich Forms
 ----------------------------------------------------------------
 ---------------------------------------------------------------- */
+.top-actions {
+  text-align: right;
+  margin-top: -81px; /* align over top border */
+  margin-bottom: 56px; /* algin with left nav blocks */
+}
+
+/* By default always hidden. */
 .bottom-actions {
   position: fixed;
   float: left;
   clear: both;
 
   width: 100%;
-  background-color: rgba(14,38,254,.99);
   background-color: rgba(100,100,100,.25);
-  bottom: 0;
+  bottom: -75px;
   right: 0;
   width: calc(100% - 120px);
 
@@ -545,12 +545,25 @@ footer.main {
   padding-bottom: 20px;
 
   text-align: right;
+  transition: bottom .25s, background .15s;
+  cursor: pointer;
+}
+.bottom-actions:hover,
+.bottom-actions.revealed {
+  bottom: 0;
+}
+.bottom-actions.revealed {
+  background-color: rgba(100,100,100,.45);
+}
+.bottom-actions:hover {
+  background-color: rgba(100,100,100,.45);
 }
 
 /* Allow bottom actions with and without
    nested __left __right divs. Default
    to treat contents as __right when empty. */
 .bottom-actions.unstuck {
+  transition: none;
   background: transparent;
   border-top: 3px solid var(--color-gray-dark);
   position: static;
@@ -565,8 +578,6 @@ footer.main {
 .bottom-actions__right {
   float: right;
 }
-
-
 
 /* Rich Titles
 ---------------------------------------------------------------- */

@@ -47,7 +47,6 @@ requirejs.config({
     'richIndex': 'base-core/js/richIndex',
     'richForm': 'base-core/js/richForm',
     'waypoints': 'base-core/js/waypoints',
-    'waypointsSticky': 'base-core/js/waypointsSticky',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',
@@ -84,10 +83,6 @@ requirejs.config({
     'waypoints': {
       deps: ['jquery'],
       exports: 'Waypoint'
-    },
-    'waypointsSticky': {
-      deps: ['jquery', 'waypoints'],
-      exports: 'Waypoint.Sticky'
     },
 
     // Compat

@@ -161,10 +161,14 @@ function($) {
       };
 
       this._initFollowActions = function() {
-        require(['waypoints'], function(Waypoint) {
-          var $el = _this.$element.find('.bottom-actions');
+        var $el = _this.$element.find('.bottom-actions');
 
-          var sticky = new Waypoint({
+        $el.on('click', function() {
+          $el.toggleClass('revealed');
+        });
+
+        require(['waypoints'], function(Waypoint) {
+          new Waypoint({
             element: $('#content')[0],
             handler: function(dir) {
               if (dir === 'down') {
