@@ -132,6 +132,19 @@ class Users extends \base_core\models\Base {
 		});
 	}
 
+	// find('list') will pick this up.
+	public function title($entity) {
+		static $financial = null;
+
+		if ($financial === null) {
+			$financial = (boolean) Libraries::get('billing_core');
+		}
+		if ($financial) {
+			return $entity->name . '/' . $entity->number;
+		}
+		return $entity->name;
+	}
+
 	// Checks if the entity will be treated as if it was locked. I.e. because
 	// the password is expired etc. Might be used to verify if user
 	// has 2FA enabled.
@@ -362,17 +375,6 @@ class Users extends \base_core\models\Base {
 		trigger_error('isVirtual() has been deprecated, all users are real now.', E_USER_DEPRECATED);
 		return false;
 	}
-
-	// @deprecated
-	public function title($entity) {
-		trigger_error('title() has been deprecated.', E_USER_DEPRECATED);
-
-		if (Libraries::get('billing_core')) {
-			return $entity->name . '/' . $entity->number;
-		}
-		return $entity->name;
-	}
-
 }
 
 Users::init();

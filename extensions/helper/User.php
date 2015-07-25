@@ -12,25 +12,13 @@
 
 namespace base_core\extensions\helper;
 
-use lithium\core\Libraries;
-
 class User extends \lithium\template\Helper {
 
-	protected static $_financial = null;
-
 	public function link($item) {
-		if (static::$_financial === null) {
-			static::$_financial = (boolean) Libraries::get('billing_core');
-		}
 		if (!$item) {
 			return '-';
 		}
-		if (static::$_financial) {
-			$title = $item->name . '/' . $item->number;
-		} else {
-			$title = $item->name;
-		}
-		return $this->_context->html->link($title, [
+		return $this->_context->html->link($item->title(), [
 			'library' => 'base_core',
 			'controller' => 'Users', 'action' => 'edit',
 			'id' => $item->id,
