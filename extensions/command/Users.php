@@ -14,6 +14,7 @@ namespace base_core\extensions\command;
 
 use base_core\models\Users as UsersModel;
 use lithium\util\String;
+use lithium\core\Libraries;
 
 class Users extends \lithium\console\Command {
 
@@ -79,6 +80,12 @@ class Users extends \lithium\console\Command {
 					$this->error('Failed to save new user.');
 					continue;
 				}
+				$this->out('Mapped virtual user ' . $v->id . ' -> user ' . $u->id);
+
+				if (!$this->_remapVirtual($v->id, $u->id)) {
+					$this->error('Failed remapping.');
+					continue;
+				}
 				$v->delete();
 			}
 		} catch (\Exception $e) {
@@ -88,6 +95,35 @@ class Users extends \lithium\console\Command {
 		$this->out('- Apply the reset of the db migration.');
 	}
 
+	protected function _remapVirtual($old, $new) {
+		$models = Libraries::locate('models');
+		$results = [];
+
+		foreach ($models as $model) {
+			if (!$model::hasField('virtual_user_id')) {
+				continue;
+			}
+			$results[] = $model;
+		}
+		$models = $results;
+
+		foreach ($models as $model) {
+			$results = $model::find('all', [
+				'conditions' => ['virtual_user_id' => $old]
+			]);
+			foreach ($results as $result) {
+				$r = $result->save([
+					'user_id' => $new,
+					'virtual_user_id' => null
+				], ['whitelist' => ['id', 'user_id', 'virtual_user_id']]);
+
+				if (!$r) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
 }
 
 // @deprecated
