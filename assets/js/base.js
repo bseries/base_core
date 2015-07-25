@@ -45,6 +45,7 @@ requirejs.config({
     'qtip': 'base-core/js/qtip',
     'thingsLoaded': 'base-core/js/thingsLoaded',
     'richIndex': 'base-core/js/richIndex',
+    'richForm': 'base-core/js/richForm',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',
