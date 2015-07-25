@@ -629,6 +629,7 @@ textarea {
 }
 
 /* No spacing for form elements in tables. */
+table textarea,
 table select,
 table input {
   border: 0;
@@ -636,6 +637,10 @@ table input {
   margin-top: -2px;
   height: 41px;
   margin-left: -10px; /* align with padding and use space between cells. */
+}
+table textarea {
+  resize: none;
+  height: 82px; /* 2 rows of textarea */
 }
 
 input[type="checkbox"] {
@@ -778,6 +783,12 @@ input.title {
 .input--numeric,
 .input--money {
   text-align: right;
+}
+.input--tags {
+  background-image: url(../ico/material/action/ic_loyalty_24px.svg);
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  padding-left: 45px;
 }
 
 .bottom-actions {
