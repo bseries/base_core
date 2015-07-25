@@ -37,8 +37,7 @@ Gate::registerRight('become');
 Gate::registerRight('owner');
 
 // Allows accessing the Jobs HTTP API to trigger job execution. This
-// right should be assigned to a dedicated technical user. And makes
-// most sense when using HTTP with scheduled jobs.
+// makes most sense when using HTTP with scheduled jobs.
 Gate::registerRight('api.jobs');
 
 // Admins can do anything and have all rights.
