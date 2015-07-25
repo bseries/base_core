@@ -144,6 +144,29 @@ class Users extends \base_core\models\Base {
 		return false;
 	}
 
+	// Checks if the entity will be treated as if it was locked. I.e. because
+	// the password is expired etc. Might be used to verify if user
+	// has 2FA enabled.
+	public function mustLock($entity) {
+		$fields = [
+			'uuid',
+			'email',
+			'password'
+		];
+		foreach ($fields as $field) {
+			if (empty($entity->{$field})) {
+				return true;
+			}
+		}
+		if ($entity->reset_token) {
+			return true;
+		}
+		if (!$entity->is_active) {
+			return true;
+		}
+		return false;
+	}
+
 	// Generates a random (pronounceable) plaintext password.
 	public static function generatePassword($length = 12, $alphabet = 0) {
 		// Alphabets in descending order of complexity.

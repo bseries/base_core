@@ -91,7 +91,13 @@ $useRent = Libraries::get('ecommerce_rent');
 			<?php foreach ($data as $item): ?>
 			<tr>
 				<td class="flag"><i class="material-icons"><?= ($item->is_active ? 'done' : '') ?></i>
-				<td class="flag"><i class="material-icons"><?= ($item->is_locked ? 'lock ' : '') ?></i>
+				<td class="flag"><i class="material-icons">
+					<?php if (!$item->is_locked && $item->mustLock()): ?>
+						lock_outline
+					<?php else: ?>
+						<?= ($item->is_locked ? 'lock ' : '') ?>
+					<?php endif ?>
+				</i>
 				<td class="flag"><i class="material-icons"><?= ($item->is_notified ? 'done' : '') ?></i>
 				<?php if ($useInvoice): ?>
 					<td class="flag"><i class="material-icons"><?= ($item->is_auto_invoiced ? 'done' : '') ?></i>
@@ -119,9 +125,11 @@ $useRent = Libraries::get('ecommerce_rent');
 					</time>
 				<td class="actions">
 					<?= $this->html->link($t('delete'), ['id' => $item->id, 'action' => 'delete', 'library' => 'base_core'], ['class' => 'button delete']) ?>
-					<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
-						'id' => $item->id, 'action' => $item->is_locked ? 'unlock' : 'lock'
-					], ['class' => 'button']) ?>
+					<?php if (!$item->is_locked || !$item->mustLock()): ?>
+						<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
+							'id' => $item->id, 'action' => $item->is_locked ? 'unlock' : 'lock'
+						], ['class' => 'button']) ?>
+					<?php endif ?>
 					<?= $this->html->link($item->is_active ? $t('deactivate') : $t('activate'), [
 						'id' => $item->id, 'action' => $item->is_active ? 'deactivate' : 'activate'
 					], ['class' => 'button']) ?>
