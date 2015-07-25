@@ -173,7 +173,7 @@ function($) {
                   $el.removeClass('unstuck');
               }
             },
-            offset: '-90%'
+            offset: 'bottom-in-view'
            });
         });
       };
