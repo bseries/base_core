@@ -46,6 +46,8 @@ requirejs.config({
     'thingsLoaded': 'base-core/js/thingsLoaded',
     'richIndex': 'base-core/js/richIndex',
     'richForm': 'base-core/js/richForm',
+    'waypoints': 'base-core/js/waypoints',
+    'waypointsSticky': 'base-core/js/waypointsSticky',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',
@@ -78,6 +80,14 @@ requirejs.config({
     'thingsLoaded': {
       deps: ['jquery'],
       exports: 'ThingsLoaded'
+    },
+    'waypoints': {
+      deps: ['jquery'],
+      exports: 'Waypoint'
+    },
+    'waypointsSticky': {
+      deps: ['jquery', 'waypoints'],
+      exports: 'Waypoint.Sticky'
     },
 
     // Compat

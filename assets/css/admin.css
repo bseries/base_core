@@ -521,6 +521,53 @@ footer.main {
   min-width: 1000px;
 }
 
+
+/* Rich Forms
+----------------------------------------------------------------
+---------------------------------------------------------------- */
+.bottom-actions {
+  position: fixed;
+  float: left;
+  clear: both;
+
+  width: 100%;
+  background-color: rgba(14,38,254,.99);
+  background-color: rgba(100,100,100,.25);
+  bottom: 0;
+  right: 0;
+  width: calc(100% - 120px);
+
+  /* match padding in content area */
+  padding-left: 80px;
+  padding-right: 90px;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  text-align: right;
+}
+
+/* Allow bottom actions with and without
+   nested __left __right divs. Default
+   to treat contents as __right when empty. */
+.bottom-actions.unstuck {
+  background: transparent;
+  border-top: 3px solid var(--color-gray-dark);
+  position: static;
+  margin-top: 3em;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+.bottom-actions__left {
+  float: left;
+}
+.bottom-actions__right {
+  float: right;
+}
+
+
+
 /* Rich Titles
 ---------------------------------------------------------------- */
 .rich-page-title .action {
@@ -780,25 +827,6 @@ input.title {
   background-repeat: no-repeat;
   background-position: 10px center;
   padding-left: 45px;
-}
-
-/* Allow bottom actions with and without
-   nested __left __right divs. Default
-   to treat contents as __right when empty. */
-.bottom-actions {
-  width: 100%;
-  float: left;
-  clear: both;
-  text-align: right;
-  margin-top: 3em;
-  padding: 20px 0;
-  border-top: 3px solid var(--color-gray-dark);
-}
-.bottom-actions__left {
-  float: left;
-}
-.bottom-actions__right {
-  float: right;
 }
 
 form .error {

@@ -161,8 +161,21 @@ function($) {
       };
 
       this._initFollowActions = function() {
+        require(['waypoints'], function(Waypoint) {
+          var $el = _this.$element.find('.bottom-actions');
 
-
+          var sticky = new Waypoint({
+            element: $('#content')[0],
+            handler: function(dir) {
+              if (dir === 'down') {
+                  $el.addClass('unstuck');
+              } else {
+                  $el.removeClass('unstuck');
+              }
+            },
+            offset: '-90%'
+           });
+        });
       };
 
       this._initHelp();
