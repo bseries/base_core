@@ -86,7 +86,7 @@ require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
 
       var key = parseInt(Math.random() * 10000, 10);
 
-      $newNested.find('input,select').each(function() {
+      $newNested.find('input,select,textarea').each(function() {
         $(this).attr('name', $(this).attr('name').replace(/\[new\]/, '[' + key + ']'));
       });
 
