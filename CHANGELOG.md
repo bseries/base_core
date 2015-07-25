@@ -6,16 +6,28 @@
 
 ### Improved
 
-- Users now indicate if they "must lock".
+- New access control framework.
+- Tightened reset password with reset_answer and reset_token.
+- Better Brute force protection using delay on failed login attempts.
+- Removed signature from login page.
+- Material icons.
+- Tag fields can be styled via `input--tags` class.
 
 ### Added
 
-- User accounts can now be locked.
+- User accounts can now be locked and indicate if the "must lock".
+- Automatic g11n bootstrapping.
+- Token authentication via `auth_token` and `uuid`.
 
 ### Changed
 
 ### Backwards Incompatible Changes
 
+- Users now have an `uuid` field it must be populated using 
+  `./li3.php users migrateUuid`.
+
 - New virtual users now have `is_active` defaulting to `false`. Adjust
   your code where you create those users and explicitly create them
   with `is_active` set to `true`.
+
+- Modules must remove config/g11n.php.
