@@ -185,9 +185,11 @@ $useRent = Libraries::get('ecommerce_rent');
 		<?php endif ?>
 		<div class="bottom-actions">
 			<div class="bottom-actions__left">
-				<?= $this->html->link($t('delete'), [
-					'action' => 'delete', 'id' => $item->id
-				], ['class' => 'button large delete']) ?>
+				<?php if ($item->exists()): ?>
+					<?= $this->html->link($t('delete'), [
+						'action' => 'delete', 'id' => $item->id
+					], ['class' => 'button large delete']) ?>
+				<?php endif ?>
 			</div>
 			<div class="bottom-actions__right">
 				<?php if ($item->exists()): ?>

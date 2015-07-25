@@ -687,6 +687,7 @@ table input {
 table textarea {
   resize: none;
   height: 82px; /* 2 rows of textarea */
+  margin-bottom: -9px;
 }
 
 input[type="checkbox"] {
@@ -884,8 +885,7 @@ button,
   color: var(--color-dim-black);
   border: none;
   background: var(--color-gray-dark);
-  vertical-algin: top;
-  transition: background-color .25s;
+  transition: all .1s;
 }
 button:hover,
 .button:hover {
