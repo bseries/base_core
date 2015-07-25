@@ -6,7 +6,11 @@
 
 ### Improved
 
+- Users now indicate if they "must lock".
+
 ### Added
+
+- User accounts can now be locked.
 
 ### Changed
 
