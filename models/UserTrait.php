@@ -15,12 +15,12 @@ namespace base_core\models;
 use base_core\models\Users;
 use base_core\models\VirtualUsers;
 
-trigger_error('UserTrait is deprecated in favor of Ownable behavior.', E_USER_DEPRECATED);
-
 // @deprecated
 trait UserTrait {
 
 	public function user($entity) {
+		trigger_error('UserTrait is deprecated in favor of Ownable behavior.', E_USER_DEPRECATED);
+
 		if ($entity->user_id) {
 			return Users::find('first', [
 				'conditions' => [
