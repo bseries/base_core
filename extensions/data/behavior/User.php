@@ -16,14 +16,16 @@ use Exception;
 use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
 
+// @deprecated
 class User extends \li3_behaviors\data\model\Behavior {
 
 	// @param $data array Can be used as an additional source to retrieve *_id from.
 	//        Useful when data was passed to saved but not already saved.
 	public function user($model, Behavior $behavior, Entity $entity, array $data = []) {
+		trigger_error('The User behavior has been deprecated.', E_USER_DEPRECATED);
+
 		$map = [
-			'base_core\models\Users' => 'user_id',
-			'base_core\models\VirtualUsers' => 'virtual_user_id'
+			'base_core\models\Users' => 'user_id'
 		];
 		foreach ($map as $model => $field) {
 			if (!$entity->{$field} && !isset($data[$field])) {

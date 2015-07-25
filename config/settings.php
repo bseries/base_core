@@ -25,7 +25,6 @@ Settings::register('security.checkOwner', false);
 
 Settings::register('user.sendActivationMail', false);
 Settings::register('user.useBecome', false);
-Settings::register('user.useVirtualUsers', false);
 
 Settings::register('contact.default', [
 	// 'organization' => 'Acme Inc.',

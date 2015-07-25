@@ -46,19 +46,15 @@ if (Gate::checkRight('users')) {
 		'weight' => 80
 	]);
 
-	$base = ['controller' => 'users', 'action' => 'index', 'library' => 'base_core', 'admin' => true];
 	Panes::register('access.users', [
 		'title' => $t('Users', ['scope' => 'base_core']),
-		'url' => $base,
+		'url' => [
+			'library' => 'base_core',
+			'controller' => 'users', 'action' => 'index',
+			'admin' => true
+		],
 		'weight' => 0
 	]);
-	if (Settings::read('user.useVirtualUsers')) {
-		Panes::register('access.virtualUsers', [
-			'title' => $t('Virtual Users', ['scope' => 'base_core']),
-			'url' => ['controller' => 'VirtualUsers'] + $base,
-			'weight' => 1
-		]);
-	}
 }
 
 ?>

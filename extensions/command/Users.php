@@ -13,7 +13,6 @@
 namespace base_core\extensions\command;
 
 use base_core\models\Users as UsersModel;
-use base_core\models\VirtualUsers as VirtualUsersModel;
 use lithium\util\String;
 
 class Users extends \lithium\console\Command {
@@ -41,18 +40,57 @@ class Users extends \lithium\console\Command {
 		}
 	}
 
-	public function migrateUuid() {
+	// @deprecated
+	public function migrate13to14() {
+		$this->out('Migrating users to uuid...');
+
 		foreach (UsersModel::find('all') as $user) {
+			if ($user->uuid) {
+				continue;
+			}
 			$user->save([
 				'uuid' => String::uuid()
 			], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
 		}
-		foreach (VirtualUsersModel::find('all') as $user) {
-			$user->save([
-				'uuid' => String::uuid()
-			], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
+		try {
+			foreach (VirtualUsers::find('all') as $user) {
+				if ($user->uuid) {
+					continue;
+				}
+				$user->save([
+					'uuid' => String::uuid()
+				], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
+			}
+		} catch (\Exception $e) {
+			$this->out('Skipping virtual users! -> ' . $e->getMessage());
 		}
+
+		$this->out('Migrating virtual users to locked users...');
+
+		try {
+			foreach (VirtualUsers::find('all') as $v) {
+				$u = UsersModel::create([
+					'is_locked' => true
+				] + array_diff_key($v->data(), [
+					'id' => null
+				]));
+
+				if (!$u->save(null, ['validate' => false])) {
+					$this->error('Failed to save new user.');
+					continue;
+				}
+				$v->delete();
+			}
+		} catch (\Exception $e) {
+			$this->out('Skipping virtual users! -> ' . $e->getMessage());
+		}
+		$this->out('You must now:');
+		$this->out('- Apply the reset of the db migration.');
 	}
+
 }
+
+// @deprecated
+class VirtualUsers extends \base_core\models\Base {}
 
 ?>

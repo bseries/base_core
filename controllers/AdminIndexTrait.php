@@ -101,12 +101,6 @@ trait AdminIndexTrait {
 		}
 
 		foreach ($orderFields as $orderField) {
-			// Support virtual users and users as a single user alias.
-			if (preg_match('/^User\.(.*)/i', $orderField, $matches)) {
-				$query['order']['VirtualUser.' . $matches[1]] = $orderDirection;
-				$query['with'][] = 'VirtualUser';
-			}
-
 			// Enable relations if we're ordering by a relation's field.
 			if (preg_match('/^(.*)\./', $orderField, $matches)) {
 				$query['with'][] = $matches[1];

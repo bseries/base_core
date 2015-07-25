@@ -35,8 +35,7 @@ class Users extends \base_core\models\Base {
 		'base_core\extensions\data\behavior\Uuid',
 		'base_core\extensions\data\behavior\ReferenceNumber' => [
 			'models' => [
-				'base_core\models\Users',
-				'base_core\models\VirtualUsers'
+				'base_core\models\Users'
 			]
 		],
 		'base_core\extensions\data\behavior\Searchable' => [
@@ -138,10 +137,6 @@ class Users extends \base_core\models\Base {
 			return $entity->name . '/' . $entity->number;
 		}
 		return $entity->name;
-	}
-
-	public function isVirtual() {
-		return false;
 	}
 
 	// Checks if the entity will be treated as if it was locked. I.e. because
@@ -367,6 +362,12 @@ class Users extends \base_core\models\Base {
 				'id' => $entity->{"{$type}_address_id"}
 			]
 		]) ?: Addresses::create();
+	}
+
+	// @deprecated
+	public function isVirtual() {
+		trigger_error('isVirtual() has been deprecated, all users are real now.', E_USER_DEPRECATED);
+		return false;
 	}
 }
 

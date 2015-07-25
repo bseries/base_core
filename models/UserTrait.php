@@ -13,7 +13,6 @@
 namespace base_core\models;
 
 use base_core\models\Users;
-use base_core\models\VirtualUsers;
 
 // @deprecated
 trait UserTrait {
@@ -28,11 +27,7 @@ trait UserTrait {
 				]
 			]);
 		}
-		return VirtualUsers::find('first', [
-			'conditions' => [
-				'id' => $entity->virtual_user_id
-			]
-		]);
+		return false;
 	}
 }
 

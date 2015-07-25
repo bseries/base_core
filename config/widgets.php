@@ -16,7 +16,6 @@ use lithium\g11n\Message;
 use base_core\security\Gate;
 use base_core\extensions\cms\Widgets;
 use base_core\models\Users;
-use base_core\models\VirtualUsers;
 
 extract(Message::aliases());
 
@@ -33,20 +32,15 @@ Widgets::register('support', function() use ($t) {
 
 if (Gate::checkRight('users')) {
 	Widgets::register('users', function() use ($t) {
-		$total = Users::find('count') + VirtualUsers::find('count');
-		$deactivated = Users::find('count', [
-			'conditions' => [
-				'is_active' => false
-			]
-		]);
-
 		return [
 			'title' => $t('Users', ['scope' => 'base_core']),
 			'url' => [
-				'controller' => 'Users', 'library' => 'base_core', 'admin' => true, 'action' => 'index'
+				'library' => 'base_core',
+				'controller' => 'Users', 'action' => 'index',
+				'admin' => true
 			],
 			'data' => [
-				$t('Total', ['scope' => 'base_core']) => $total
+				$t('Total', ['scope' => 'base_core']) => Users::find('count')
 			]
 		];
 	}, [
