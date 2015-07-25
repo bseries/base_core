@@ -140,7 +140,7 @@ class Users extends \base_core\models\Base {
 			$financial = (boolean) Libraries::get('billing_core');
 		}
 		if ($financial) {
-			return $entity->name . '/' . $entity->number;
+			return $entity->number . '/' . $entity->name;
 		}
 		return $entity->name;
 	}
