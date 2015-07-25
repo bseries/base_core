@@ -595,7 +595,6 @@ form label {
 }
 form label + textarea,
 form label + input,
-form .compound-users select,
 form label + select {
   margin-top: 2px;
 }
@@ -691,14 +690,6 @@ form .date-range div:last-of-type {
   margin-top: .5em;
 }
 form .date-range {
-  margin-bottom: 1em;
-}
-
-/* Users compound field. */
-form .compound-users {
-  width: 100%;
-  float: left;
-  clear: both;
   margin-bottom: 1em;
 }
 

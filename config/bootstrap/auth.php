@@ -42,7 +42,6 @@ Auth::config([
 ]);
 
 // Sync session_key for user in database when a session is created.
-// Note only real users get authenticated.
 Auth::applyFilter('set', function($self, $params, $chain) {
 	$result = $chain->next($self, $params, $chain);
 	$key = Session::key('default');
