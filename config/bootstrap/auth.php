@@ -35,8 +35,7 @@ Auth::config([
 		'fields' => ['uuid', 'auth_token'],
 		'scope' => [
 			'is_active' => true,
-			'is_locked' => false,
-			'role' => 'technical'
+			'is_locked' => false
 		]
 	]
 ]);
