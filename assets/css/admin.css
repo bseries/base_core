@@ -530,12 +530,11 @@ footer.main {
   position: fixed;
   float: left;
   clear: both;
-
-  width: 100%;
-  background-color: rgba(100,100,100,.25);
-  bottom: -75px;
+  bottom: -60px;
   right: 0;
   width: calc(100% - 120px);
+
+  background-color: rgba(100,100,100,.25);
 
   /* match padding in content area */
   padding-left: 80px;
@@ -545,10 +544,9 @@ footer.main {
   padding-bottom: 20px;
 
   text-align: right;
-  transition: bottom .25s, background .15s;
+  transition: bottom .3s, background .25s;
   cursor: pointer;
 }
-.bottom-actions:hover,
 .bottom-actions.revealed {
   bottom: 0;
 }
