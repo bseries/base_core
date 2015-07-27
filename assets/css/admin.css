@@ -530,7 +530,7 @@ footer.main {
   position: fixed;
   float: left;
   clear: both;
-  bottom: -60px;
+  bottom: -75px;
   right: 0;
   width: calc(100% - 120px);
 
