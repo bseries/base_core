@@ -135,8 +135,11 @@ $useRent = Libraries::get('ecommerce_rent');
 					]) ?>
 					<?= $this->form->field('vat_reg_no', [
 						'type' => 'text',
-						'autocomplete' => 'off',
 						'label' => $t('VAT Reg. No.')
+					]) ?>
+					<?= $this->form->field('tax_no', [
+						'type' => 'text',
+						'label' => $t('Tax No.')
 					]) ?>
 					<?php if ($useInvoice): ?>
 						<?= $this->form->field('auto_invoice_frequency', [
