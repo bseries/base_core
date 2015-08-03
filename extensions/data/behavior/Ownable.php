@@ -19,6 +19,13 @@ use base_core\models\Users;
 
 class Ownable extends \li3_behaviors\data\model\Behavior {
 
+	protected static function _config($model, Behavior $behavior, array $config, array $defaults) {
+		if (!$model::hasField('owner_id')) {
+			throw new Exception("The field `owner_id` was not found on `{$model}`.");
+		}
+		return parent::_config($model, $behavior, $config, $defaults);
+	}
+
 	public function owner($model, Behavior $behavior, Entity $entity) {
 		return Users::find('first', [
 			'conditions' => [
