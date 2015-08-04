@@ -29,9 +29,7 @@ class Jobs extends \lithium\console\Command {
 				}
 			}
 			$this->out();
-			$name = $this->in('Enter job to run:', [
-				'choices' => $names
-			]);
+			$name = $this->in('Enter job to run:');
 		}
 
 		$this->out("Running job `{:green}{$name}{:end}`... ", false);
