@@ -134,7 +134,10 @@ class UsersController extends \base_core\controllers\BaseController {
 				];
 				$addresses += Addresses::find('list', [
 					'conditions' => [
-						'user_id' => $item->id
+						'OR' => [
+							['user_id' => null],
+							['user_id' => $item->id]
+						]
 					]
 				]);
 			}
