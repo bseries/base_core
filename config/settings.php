@@ -45,7 +45,7 @@ Settings::register('contact.exec', [
 	'dependent_locality' => 'St. Pauli',
 	'website' => 'http://atelierdisko.de',
 	'email' => 'info@atelierdisko.de',
-	'phone' => null,
+	'phone' => null
 ]);
 
 // Google Analytics
