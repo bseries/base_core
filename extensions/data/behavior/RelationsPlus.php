@@ -51,7 +51,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
-				$query += ['force' => false];
+				$query += ['force' => false, 'conditions' => []];
 
 				$force = $query['force'];
 				unset($query['force']);
@@ -59,7 +59,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
-				$query['conditions'][$relation['key']] = $entity->{$key};
+				$query['conditions'] += [$relation['key'] => $entity->{$key}];
 
 				return $relation['to']::find('first', $query);
 			};
@@ -74,7 +74,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
-				$query += ['force' => false];
+				$query += ['force' => false, 'conditions' => []];
 
 				$force = $query['force'];
 				unset($query['force']);
@@ -82,7 +82,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
-				$query['conditions'][$relation['key']] = $entity->{$key};
+				$query['conditions'] += [$relation['key'] => $entity->{$key}];
 
 				return $relation['to']::find('all', $query);
 			};
@@ -97,7 +97,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
-				$query += ['force' => false];
+				$query += ['force' => false, 'conditions' => []];
 
 				$force = $query['force'];
 				unset($query['force']);
@@ -105,7 +105,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
-				$query['conditions'][$key] = $entity->{$relation['key']};
+				$query['conditions'] += [$key => $entity->{$relation['key']}];
 
 				return $relation['to']::find('first', $query);
 			};
