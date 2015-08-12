@@ -1,6 +1,6 @@
 <?php
 /**
- * Base
+ * Base Core
  *
  * Copyright (c) 2013 Atelier Disko - All rights reserved.
  *
