@@ -3,6 +3,8 @@
  *
  * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
  *
+ * Licensed under the AD General Software License v1.
+ *
  * Licensed under the BSD 3-Clause License.
  * http://opensource.org/licenses/bsd-3-clause
  */
