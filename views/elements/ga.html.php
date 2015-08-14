@@ -10,7 +10,7 @@ use base_core\extensions\cms\Settings;
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', '<?php echo Settings::read('service.googleAnalytics.default.account') ?>', '<?php echo Settings::read('service.googleAnalytics.default.domain') ?>');
+  ga('create', '<?php echo Settings::read('service.googleAnalytics.default.account') ?>', 'auto');
   ga('set', 'anonymizeIp', true);
   ga('send', 'pageview');
 
