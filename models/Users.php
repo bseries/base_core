@@ -199,7 +199,10 @@ class Users extends \base_core\models\Base {
 			'conditions' => [
 				'id' => $entity->{"{$type}_address_id"}
 			]
-		]) ?: Addresses::create();
+		]) ?: Addresses::create([
+			'user_id' => $entity->id,
+			'country' => $entity->country
+		]);
 	}
 }
 
