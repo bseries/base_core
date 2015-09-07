@@ -186,6 +186,7 @@ $useRent = Libraries::get('ecommerce_rent');
 				<?php endif ?>
 			</div>
 		<?php endif ?>
+
 		<div class="bottom-actions">
 			<div class="bottom-actions__left">
 				<?php if ($item->exists()): ?>
@@ -196,12 +197,11 @@ $useRent = Libraries::get('ecommerce_rent');
 			</div>
 			<div class="bottom-actions__right">
 				<?php if ($item->exists()): ?>
-					<?= $this->html->link($item->is_active ? $t('deactivate') : $t('activate'), [
-						'id' => $item->id,
-						'action' => $item->is_active ? 'deactivate' : 'activate'
-					], [
-						'class' => 'button large'
-					]) ?>
+					<?= $this->html->link(
+						$item->is_active ? $t('deactivate') : $t('activate'),
+						['id' => $item->id, 'action' => $item->is_active ? 'deactivate' : 'activate'],
+						['class' => 'button large']
+					) ?>
 					<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [
 						'id' => $item->id,
 						'action' => $item->is_locked ? 'unlock' : 'lock'
@@ -209,8 +209,13 @@ $useRent = Libraries::get('ecommerce_rent');
 						'class' => 'button large'
 					]) ?>
 				<?php endif ?>
-				<?= $this->form->button($t('save'), ['type' => 'submit', 'class' => 'button large save']) ?>
+
+				<?= $this->form->button($t('save'), [
+					'type' => 'submit',
+					'class' => 'button large save'
+				]) ?>
 			</div>
 		</div>
+
 	<?=$this->form->end() ?>
 </article>
