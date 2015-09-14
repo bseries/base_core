@@ -17,16 +17,17 @@
 
 namespace base_core\config\bootstrap;
 
-use lithium\storage\Cache;
-use lithium\core\Libraries;
-use lithium\core\Environment;
+use Exception;
 use lithium\action\Dispatcher;
-use lithium\storage\cache\adapter\Memcache;
-use lithium\storage\Session;
+use lithium\analysis\Logger;
+use lithium\core\Environment;
+use lithium\core\Libraries;
 use lithium\data\Connections;
 use lithium\data\source\Database;
 use lithium\net\http\Router;
-use lithium\analysis\Logger;
+use lithium\storage\Cache;
+use lithium\storage\Session;
+use lithium\storage\cache\adapter\Memcache;
 
 if (PROJECT_FEATURE_MEMCACHED) {
 	if (!Memcache::enabled()) {
