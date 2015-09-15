@@ -66,14 +66,9 @@ $page += [
 		}
 	?>
 	<body class="<?= implode(' ', $classes) ?>">
-		<div
-			id="messages"
-			<?php if ($flash): ?>
-				data-flash-message="<?= $flash['message'] ?>"
-				data-flash-level="<?= isset($flash['attrs']['level']) ? $flash['attrs']['level'] : 'neutral' ?>"
-			<?php endif ?>
-		>
-		</div>
+		<?=$this->view()->render(['element' => 'messages'], compact('flash'), [
+			'library' => 'base_core'
+		]) ?>
 
 		<div id="modal" class="hide">
 			<div class="controls"></div>
