@@ -3,15 +3,11 @@
 use lithium\util\Inflector;
 use lithium\core\Libraries;
 use lithium\core\Environment;
-use li3_flash_message\extensions\storage\FlashMessage;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
 
 $site = Settings::read('site');
 $locale = Environment::get('locale');
-
-$flash = FlashMessage::read();
-FlashMessage::clear();
 
 ?>
 <!doctype html>

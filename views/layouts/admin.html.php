@@ -1,7 +1,6 @@
 <?php
 
 use lithium\core\Environment;
-use li3_flash_message\extensions\storage\FlashMessage;
 use lithium\security\Auth;
 use lithium\util\Inflector;
 use base_core\extensions\cms\Panes;
@@ -15,9 +14,6 @@ $t = function($message, array $options = []) {
 
 $site = Settings::read('site');
 $locale = Environment::get('locale');
-
-$flash = FlashMessage::read();
-FlashMessage::clear();
 
 // Remove when every page uses new rich page title.
 if (!isset($page)) {
