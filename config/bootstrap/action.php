@@ -27,6 +27,7 @@ use lithium\security\Auth;
 use Mobile_Detect as MobileDetect;
 use lithium\storage\Cache;
 use lithium\analysis\Logger;
+use li3_flash_message\extensions\storage\FlashMessage;
 
 //
 // Admin routing. Order matters.
@@ -86,6 +87,9 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 			$clientRequest->persist = [];
 			$params['data']['routes'][$name] = Router::match($ps, $clientRequest);
 		}
+
+		$params['data']['flash'] = FlashMessage::read();
+		FlashMessage::clear();
 	}
 	return $chain->next($self, $params, $chain);
 });

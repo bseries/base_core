@@ -17,9 +17,6 @@ $t = function($message, array $options = []) {
 $site = Settings::read('site');
 $locale = Environment::get('locale');
 
-$flash = FlashMessage::read();
-FlashMessage::clear();
-
 // Remove when every page uses new rich page title.
 if (!isset($page)) {
 	$page = [];
