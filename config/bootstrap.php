@@ -159,7 +159,6 @@ $bootstrapFormal = function($name, $path) {
 	// Configuration deprecations.
 	// @deprecated
 	$deprecated = [
-		'access' => 'app',
 		'cms' => 'app',
 		'bootstrap' => function($name) { return $name !== 'base_core'; },
 		'g11n' => '*'
