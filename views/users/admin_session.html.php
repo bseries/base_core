@@ -11,11 +11,11 @@ $this->set([
 		'type' => 'standalone',
 		'object' => $t('Login')
 	],
-	'extraBodyClasses' => ['layout-admin-session']
+	'extraBodyClasses' => ['session']
 ]);
 
 ?>
-<article class="session">
+<article>
 	<?php $this->security->sign() ?>
 	<?=$this->form->create(null, ['url' => 'Users::login']) ?>
 		<?=$this->form->field('email', ['type' => 'email', 'label' => $t('E–Mail')]) ?>

@@ -17,18 +17,20 @@
 
 namespace base_core\config\bootstrap;
 
-use lithium\core\Libraries;
-use lithium\core\Environment;
-use lithium\action\Dispatcher;
-use lithium\net\http\Router;
-use base_core\extensions\net\http\ClientRouter;
-use lithium\net\http\Media;
-use lithium\security\Auth;
-use Mobile_Detect as MobileDetect;
-use lithium\storage\Cache;
-use lithium\analysis\Logger;
-use li3_flash_message\extensions\storage\FlashMessage;
 
+use Mobile_Detect as MobileDetect;
+use base_core\extensions\net\http\ClientRouter;
+use base_core\models\Assets;
+use base_media\models\MediaVersions;
+use li3_flash_message\extensions\storage\FlashMessage;
+use lithium\action\Dispatcher;
+use lithium\analysis\Logger;
+use lithium\core\Environment;
+use lithium\core\Libraries;
+use lithium\net\http\Media;
+use lithium\net\http\Router;
+use lithium\security\Auth;
+use lithium\storage\Cache;
 //
 // Admin routing. Order matters.
 //
@@ -58,6 +60,12 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 // injected into the original template, for elements variables must be passed
 // manually.
 //
+// The following variables are made available to views and layouts:
+// $authedUser    - The current authenticated user as an User entity.
+// $locale        - The current effective locale.
+// $app           - The application definition for use with JavaScript.
+// $flash         - The last message.
+//
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	if ($params['handler']['type'] == 'html') {
 		$request = $params['handler']['request'];
@@ -66,16 +74,25 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 		// Uses application Users model if available.
 		if ($user = Auth::check('default')) {
 			$model = Libraries::locate('models', 'Users');
-			$params['data']['authedUser'] = $model::create($user);
+			$authedUser = $model::create($user);
 		} else {
-			$params['data']['authedUser'] = null;
+			$authedUser = null;
 		}
 
 		// Inject current effective locale as $locale.
-		$params['data']['locale'] = Environment::get('locale');
+		$locale = Environment::get('locale');
 
-		// Inject client routes as $routes.
-		$params['data']['routes'] = [];
+		// Build global application definition for JavaScript.
+		$app = [
+			'assets' => [
+				'base' => Assets::base($request->is('ssl') ? 'https' : 'http')
+			],
+			'media' => [
+				'base' => MediaVersions::base($request->is('ssl') ? 'https' : 'http')
+			],
+			'routes' => []
+		];
+
 		foreach (ClientRouter::get() as $name => $ps) {
 			if (!empty($request->params['admin']) && empty($ps['admin'])) {
 				continue;
@@ -85,11 +102,20 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 			// In client router context no params should be persisted.
 			$clientRequest = clone $request;
 			$clientRequest->persist = [];
-			$params['data']['routes'][$name] = Router::match($ps, $clientRequest);
+			$app['routes'][$name] = Router::match($ps, $clientRequest);
 		}
 
-		$params['data']['flash'] = FlashMessage::read();
+		// Pass and clear last flash message.
+		$flash = FlashMessage::read();
 		FlashMessage::clear();
+
+
+		$params['data'] += compact(
+			'authedUser',
+			'app',
+			'flash',
+			'locale'
+		);
 	}
 	return $chain->next($self, $params, $chain);
 });
@@ -151,7 +177,8 @@ if (PROJECT_MAINTENANCE) {
 }
 
 //
-// Device detection.
+// Device detection. When enabled makes the view variable $device available.
+// Detections are cached when not in debug mode.
 //
 if (PROJECT_FEATURE_DEVICE_DETECTION) {
 	$detectDevice = function($request) {

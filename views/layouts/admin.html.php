@@ -2,12 +2,8 @@
 
 use base_core\extensions\cms\Panes;
 use base_core\extensions\cms\Settings;
-use base_core\models\Assets;
-use li3_flash_message\extensions\storage\FlashMessage;
-use lithium\core\Environment;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
-use lithium\security\Auth;
 use lithium\util\Inflector;
 
 $t = function($message, array $options = []) {
@@ -15,7 +11,6 @@ $t = function($message, array $options = []) {
 };
 
 $site = Settings::read('site');
-$locale = Environment::get('locale');
 
 // Remove when every page uses new rich page title.
 if (!isset($page)) {
@@ -54,32 +49,29 @@ if (!isset($meta)) {
 <!doctype html>
 <html lang="<?= strtolower(str_replace('_', '-', $locale)) ?>">
 	<head>
+		<!-- Basics -->
 		<?php echo $this->html->charset() ?>
-		<title><?php echo ($title = $this->title()) ? "{$title} - " : null ?>Admin – <?= $site['title'] ?></title>
 		<link rel="icon" href="<?= $this->assets->url('/base-core/ico/admin.png') ?>">
 
+		<!-- SEO -->
+		<?php echo $this->seo->title() ?>
+
+		<!-- Compatibility -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
+		<!-- Styles -->
 		<?php echo $this->assets->style([
 			'/base-core/css/reset',
 			'/base-core/css/admin'
 		]) ?>
-		<link
-			href='https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic'
-			rel='stylesheet'
-			type='text/css'
-		>
-		<link
-			href='https://fonts.googleapis.com/icon?family=Material+Icons'
-			rel='stylesheet'
-			type='text/css'
-		>
 		<?php echo $this->styles() ?>
-		<?=$this->view()->render(
-			['element' => 'define_app'],
-			['admin' => true, 'routes' => $routes],
-			['library' => 'base_core']
-		) ?>
+
+		<!-- Global Application Object Definition -->
+		<script>
+			App = <?php echo json_encode($app, JSON_PRETTY_PRINT) ?>
+		</script>
+
+		<!-- Scripts -->
 		<?php
 			$scripts = array_merge(
 				['/base-core/js/require'],
@@ -90,6 +82,8 @@ if (!isset($meta)) {
 		?>
 		<?php echo $this->assets->script($scripts) ?>
 		<?php echo $this->scripts() ?>
+
+		<!-- Dynamically added -->
 	</head>
 	<?php
 		$classes = ['layout-admin'];
