@@ -138,7 +138,7 @@ $bootstrapFormal = function($name, $path) {
 		// isn't overwritten by anything else.
 		$available = [
 			// App routes have already been loaded.
-			'access' => 'include',
+			'access' => 'require',
 			'settings' => 'include',
 			'media' => 'include',
 			'switchboard' => 'include',
@@ -152,8 +152,14 @@ $bootstrapFormal = function($name, $path) {
 	foreach ($available as $config => $load) {
 		if (is_callable($load)) {
 			$load($name, $path);
-		} elseif ($load === 'include' && file_exists($file = $path . "/config/{$config}.php")) {
+			continue;
+		}
+		if (file_exists($file = $path . "/config/{$config}.php")) {
 			require_once $file;
+			continue;
+		}
+		if ($load === 'require') {
+			throw new Exception("Configuration file `{$file}` not found but required.");
 		}
 	}
 
