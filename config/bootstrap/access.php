@@ -17,12 +17,12 @@
 
 namespace base_core\config\bootstrap;
 
-use lithium\security\Auth;
-use lithium\action\Dispatcher;
+use base_core\security\Gate;
 use li3_access\security\Access;
 use li3_access\security\AccessDeniedException;
-use base_core\security\Gate;
+use lithium\action\Dispatcher;
 use lithium\analysis\Logger;
+use lithium\security\Auth;
 
 // Role/Level and Rights Definitions
 //
@@ -61,9 +61,12 @@ Gate::registerRole('technical', ['api.jobs']);
 Gate::registerRole('user');
 
 //
-// Basic Access Configuration
+// Access Realm Configuration
 //
 Access::config([
+	'app' => [
+		'adapter' => 'Resources',
+	],
 	'admin' => [
 		'adapter' => 'Resources',
 	],
@@ -160,12 +163,18 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 		$auth = Auth::check('default');
 	}
 
-	if (!Access::check('admin', $auth, $params)) {
-		$errors = Access::errors('admin');
-		Logger::debug("Security: Access denied for `{$url}` with: " . var_export($errors, true));
+	foreach (['app', 'admin'] as $realm) {
+		if (!Access::check($realm, $auth, $params)) {
+			$errors = Access::errors($realm);
 
-		throw new AccessDeniedException(reset($errors)['message']);
+			$message = "Security: Access denied for realm `{$realm}` and URL `{$url}` with: ";
+			$message .= var_export($errors, true);
+			Logger::debug($message);
+
+			throw new AccessDeniedException(reset($errors)['message']);
+		}
 	}
+
 	return $chain->next($self, $params, $chain);
 });
 

@@ -138,6 +138,7 @@ $bootstrapFormal = function($name, $path) {
 		// isn't overwritten by anything else.
 		$available = [
 			// App routes have already been loaded.
+			'access' => 'include',
 			'settings' => 'include',
 			'media' => 'include',
 			'switchboard' => 'include',
