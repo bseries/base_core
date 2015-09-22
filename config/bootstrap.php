@@ -137,12 +137,11 @@ $bootstrapFormal = function($name, $path) {
 		// Load app configuration last, so it can overwrite module default configuration and
 		// isn't overwritten by anything else.
 		$available = [
-			// App routes have already been loaded.
+			// App routes are loaded outside the formal bootstrap, as they need to come first.
 			'access' => 'require',
 			'settings' => 'include',
 			'media' => 'include',
 			'switchboard' => 'include',
-			'base' => 'include',
 			'contents' => 'include',
 			'billing' => 'include',
 			'ecommerce' => 'include'
@@ -166,6 +165,7 @@ $bootstrapFormal = function($name, $path) {
 	// Configuration deprecations.
 	// @deprecated
 	$deprecated = [
+		'base' => 'app',
 		'cms' => 'app',
 		'bootstrap' => function($name) { return $name !== 'base_core'; },
 		'g11n' => '*'
