@@ -45,17 +45,6 @@ $useRent = Libraries::get('ecommerce_rent');
 		<?= $this->html->link($t('user'), ['action' => 'add'], ['class' => 'button add']) ?>
 	</div>
 
-		<?php if (Settings::read('user.sendActivationMail')): ?>
-		<div class="help">
-			<?= $t('The user will be notified by e-mail when her account is activated.') ?>
-		</div>
-		<?php endif ?>
-		<?php if (Settings::read('user.useBecome')): ?>
-		<div class="help">
-			<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>
-		</div>
-		<?php endif ?>
-
 	<table>
 		<thead>
 			<tr>
@@ -141,4 +130,16 @@ $useRent = Libraries::get('ecommerce_rent');
 	</table>
 
 	<?=$this->view()->render(['element' => 'paging'], compact('paginator'), ['library' => 'base_core']) ?>
+
+	<?php if (Settings::read('user.sendActivationMail')): ?>
+	<div class="bottom-help">
+		<?= $t('The user will be notified by e-mail when her account is activated.') ?>
+	</div>
+	<?php endif ?>
+	<?php if (Settings::read('user.useBecome')): ?>
+	<div class="bottom-help">
+		<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>
+	</div>
+	<?php endif ?>
+
 </article>
