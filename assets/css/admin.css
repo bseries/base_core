@@ -1075,16 +1075,8 @@ button.large,
 .layout-error .try li:before    { content: "➜ "; }
 .layout-error .reason li:before { content: "✖ "; }
 
-/* Help
+/* Status Indicators
 -------------------------------------------------------------- */
-.none-available,
-article > .help {
-  color: var(--color-dim-black);
-  background: white;
-  padding: 20px 30px 15px 30px;
-  margin-bottom: 3.5em;
-}
-
 @keyframes pulse {
   0% {transform: opacity: 0;}
   25% {transform: opacity: .5;}
@@ -1100,23 +1092,36 @@ p.loading {
   margin: 200px 0 0 -30px;
 }
 
-.help {
-  color: var(--color-gray-darker);
+/* Help
+-------------------------------------------------------------- */
+.none-available,
+.bottom-help {
+  color: var(--color-dim-black);
+  background: white;
+  padding: 20px 30px 15px 30px;
 }
-.help + .none-available,
-.help + form,
-.help + table {
+
+/* Used when there are no items in a table, can
+   also be used within a form section. */
+.none-available {
+  display: inline-block;
+}
+
+/* A bubble box displayed on the bottom of a view
+   i.e. below an index table or a form. Placed
+   below to keep top appearance equal between
+   views that have help and those which do not. */
+.bottom-help {
   margin-top: 2em;
 }
+
+/* Small form input help messages. Usually one line.
+   Negative offset to top to keep grid flow to
+   neighboring inputs (left, right). */
 form .help {
   margin: -.5em 4px 1.5em 4px;
   font-size: var(--font-size-epsilon);
-}
-.grid-row > .none-available {
-  margin-bottom: 0;
-}
-.none-available {
-  display: inline-block;
+  color: var(--color-gray-darker);
 }
 
 /* Media Attachment
