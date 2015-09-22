@@ -451,7 +451,7 @@ msgstr "Sicherheit"
 
 #: views/users/admin_form.html.php:88
 msgid "New password"
-msgstr "Neuese Passwort"
+msgstr "Neues Passwort"
 
 #: views/users/admin_form.html.php:92
 msgid "Keep empty to leave password unchanged."
@@ -459,7 +459,7 @@ msgstr "Freilassen, wenn das Passwort nicht geändert werden soll."
 
 #: views/users/admin_form.html.php:96
 msgid "Authentication token"
-msgstr "Authentifizierungs-Token."
+msgstr "Authentifizierungs-Token"
 
 #: views/users/admin_form.html.php:100
 msgid "New reset answer"
