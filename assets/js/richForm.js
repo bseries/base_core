@@ -22,21 +22,6 @@ function($) {
 
       this.$element = $element;
 
-      this._initHelp = function() {
-        _this.$element.find('form .help').each(function() {
-          var $help = $(this);
-          var $input = $help.prev().find('input,textarea,select');
-
-          $input.on('focusin', function() {
-            $help.fadeIn();
-          });
-          $input.on('focusout', function() {
-            $help.fadeOut();
-          });
-          $help.hide();
-        });
-      };
-
       this._initNested = function() {
         _this.$element.find('.use-nested').each(function() {
           var $nested = $(this);
@@ -187,7 +172,6 @@ function($) {
         });
       };
 
-      this._initHelp();
       this._initNested();
       this._initDynamicTitle();
       this._initMediaAttachment();

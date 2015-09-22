@@ -89,18 +89,26 @@ $useRent = Libraries::get('ecommerce_rent');
 					'type' => 'text',
 					'label' => $t('Authentication token')
 				]) ?>
+				<div class="help">
+					<?= $t('Only needed when user will access the API.') ?>
+				</div>
 				<?=$this->form->field('reset_answer', [
 					'type' => 'password',
 					'label' => $t('New reset answer'),
 					'autocomplete' => 'off'
 				]) ?>
 				<div class="help">
+					<?= $t('Required to allow resetting password.') ?>
 					<?= $t('Keep empty to leave answer unchanged.') ?>
 				</div>
 				<?=$this->form->field('reset_token', [
 					'type' => 'text',
 					'label' => $t('Reset token')
 				]) ?>
+				<div class="help">
+					<?= $t('Required to allow resetting password.') ?>
+					<?= $t('Automatically set when user request password reset.') ?>
+				</div>
 			</div>
 			<div class="grid-column-right">
 				<?= $this->form->field('role', [
