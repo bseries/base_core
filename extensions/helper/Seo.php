@@ -28,11 +28,24 @@ class Seo extends \lithium\template\Helper {
 	// Titles will sync with context's title so we keep information about
 	// this type in the usual place. For all other types information is
 	// stored in properties of this helper.
-	public function set($type, $value) {
-		if ($type === 'title') {
-			return $this->_context->title($value);
+	//
+	// Usage:
+	// ```
+	// $this->seo->set('description', 'foobar');
+	// $this->seo->set(['title' => 'foo', 'description' => 'bar']);
+	// ```
+	public function set($type, $value = null) {
+		if (is_array($type)) {
+			foreach ($type as $t => $v) {
+				$this->set($t, $v);
+			}
+			return;
 		}
-		return $this->{"_{$type}"} = $value;
+		if ($type === 'title') {
+			$this->_context->title($value);
+		} else {
+			$this->{"_{$type}"} = $value;
+		}
 	}
 
 	// Returns page title with <title> tag.
