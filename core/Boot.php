@@ -36,7 +36,6 @@ class Boot {
 		foreach (static::$_data as $key => $item) {
 			$sorter->add($key, static::_dependencies($item['needs']));
 		}
-		var_dump($sorter->resolve());die;
 		foreach ($sorter->resolve() as $key) {
 			$unit = static::$_data[$key]['unit'];
 			$unit();

@@ -104,7 +104,7 @@ $bootstrapFormal = function($name, $path) {
 		$available = [
 			'access' => null,
 			'version' => null,
-			'routes' => null,
+			'routes' => ['app.config.routes'],
 			'settings' => null,
 			'media' => null,
 			'jobs' => null,
@@ -125,12 +125,15 @@ $bootstrapFormal = function($name, $path) {
 				'widgets' => null
 			]);
 		}
+		if ($name !== 'base_core') {
+			$available['settings'] = ['*.config.settings'];
+		}
 	} else {
 		// Load app configuration last, so it can overwrite module default configuration and
 		// isn't overwritten by anything else.
 		$available = [
-			// App routes are loaded outside the formal bootstrap, as they need to come first.
 			'access' => null,
+			'routes' => null,
 			'settings' => ['libraries.*.config.settings'],
 			'media' => ['libraries.*.config.media'],
 			'switchboard' => null,
@@ -150,7 +153,6 @@ $bootstrapFormal = function($name, $path) {
 	if ($name !== 'base_core') {
 		$deprecated[] = 'bootstrap';
 	}
-
 	foreach (glob($path . '/config/*.php', GLOB_NOSORT) as $file) {
 		$config = pathinfo($file, PATHINFO_FILENAME);
 
@@ -161,7 +163,7 @@ $bootstrapFormal = function($name, $path) {
 			);
 		}
 		if (!array_key_exists($config, $available)) {
-			return;
+			continue;
 		}
 		\base_core\core\Boot::add(
 			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.' . $config,
@@ -284,12 +286,6 @@ require 'bootstrap/mail.php';
 
 // ------------------------------------------------------------------------------------------------
 
-if (INSIDE_ADMIN === false) {
-	require PROJECT_PATH . '/app/config/routes.php';
-}
-
-// ------------------------------------------------------------------------------------------------
-
 //
 // Loading modules.
 //
@@ -297,21 +293,16 @@ if (INSIDE_ADMIN === false) {
 // Continue loading and bootstrapping modules. Also we load the module types in order. Always
 // load core modules first.
 
-$moduleTypes = [ // This array also defines the primary order in which modules are loaded.
-	'base' => 'Bento', // base modules must come first.
-	'cms' => 'Bureau',
-	'billing' => 'Banque',
-	'ecommerce' => 'Boutique'
-];
-
 $modules = glob(
 	PROJECT_PATH . '/app/libraries/{base,cms,billing,ecommerce}_*',
 	GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
 );
 foreach ($modules as $path) {
-	Libraries::add(basename($path), [
-		'bootstrap' => false
-	]);
+	if (basename($path) !== 'app' && basename($path) !== 'base_core') {
+		Libraries::add(basename($path), [
+			'bootstrap' => false
+		]);
+	}
 	$bootstrapFormal(basename($path), $path);
 }
 
