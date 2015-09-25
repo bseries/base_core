@@ -18,6 +18,7 @@
 namespace base_core\util;
 
 use Exception;
+use SplFixedArray;
 
 class TopologicalSorter {
 
@@ -31,7 +32,8 @@ class TopologicalSorter {
 	}
 
 	public function resolve() {
-		$sorted  = new SplFixedArray(count($this->_data));
+		//		$sorted  = new SplFixedArray(count($this->_data));
+		$sorted = [];
 		$visited = [];
 
 		foreach ($this->_data as $item => $_) {

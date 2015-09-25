@@ -15,7 +15,6 @@
  * License. If not, see http://atelierdisko.de/licenses.
  */
 
-
 namespace base_core\core;
 
 use base_core\util\TopologicalSorter;
@@ -27,27 +26,38 @@ class Boot {
 
 	protected static $_data = array();
 
-	public static function add($unit, array $options = array()) {
-		$options += array(
-			'needs' => array(),
-			'provides' => null
-		);
-		if ($item['provides']) {
-			static::$_data[$item['provides']] = compact('unit') + $options;
-		} else {
-			static::$_data[] = compact('unit') + $options;
-		}
+	public static function add($provides, $needs, $unit) {
+		static::$_data[$provides] = compact('unit', 'needs');
 	}
 
 	public static function run() {
 		$sorter = new TopologicalSorter();
 
 		foreach (static::$_data as $key => $item) {
-			$sorter->add($key, $item['needs']);
+			$sorter->add($key, static::_dependencies($item['needs']));
 		}
+		var_dump($sorter->resolve());die;
 		foreach ($sorter->resolve() as $key) {
-			static::$_data[$key]['unit']();
+			$unit = static::$_data[$key]['unit'];
+			$unit();
 		}
+	}
+
+	protected static function _dependencies($dependencies) {
+		$results = [];
+
+		foreach ((array) $dependencies as $dep) {
+			if (strpos($dep, '*') === false) {
+				$results[] = $dep;
+			} else {
+				foreach (static::$_data as $key => $_) {
+					if (fnmatch($dep, $key)) {
+						$results[] = $key;
+					}
+				}
+			}
+		}
+		return $results;
 	}
 }
 

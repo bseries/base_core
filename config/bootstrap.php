@@ -96,30 +96,45 @@ $defineFromDotEnvFile = function($file) {
 	return $results;
 };
 
+
 // Implements a boostraping function that replaces the common lithium bootstraping for
 // modules and app.
 $bootstrapFormal = function($name, $path) {
+	$conditionalG11nLoader = function(array $library, $name) {
+		if (is_dir($library['path'] . '/resources/g11n/po')) {
+			\lithium\g11n\Catalog::config([
+				$library['name'] => [
+					'adapter' => 'Gettext',
+					'path' => $library['path'] . '/resources/g11n/po'
+				 ]
+			] + \lithium\g11n\Catalog::config());
+		}
+	};
+	$include = function(array $library, $name) {
+		if (file_exists($file = $library['path'] . "/config/{$name}.php")) {
+			require_once $file;
+		}
+	};
+	$require = function(array $library, $name) {
+		if (!file_exists($file = $library['path'] . "/config/{$name}.php")) {
+			throw new Exception("Configuration file `{$file}` not found but required.");
+		}
+		require_once $file;
+	};
+
 	if ($name !== 'app') {
 		$available = [
-			'version' => 'include',
-			'routes' => 'include',
-			'settings' => 'include',
-			'media' => 'include',
-			'jobs' => 'include',
-			'g11n' => function($name, $path) {
-				if (is_dir($path . '/resources/g11n/po')) {
-					\lithium\g11n\Catalog::config([
-						$name => [
-							'adapter' => 'Gettext',
-							'path' => $path . '/resources/g11n/po'
-						 ]
-					] + \lithium\g11n\Catalog::config());
-				}
-			},
-			'panes' => 'include',
-			'widgets' => 'include',
-			'contents' => 'include',
-			'misc' => 'include'
+			'access' => [$include],
+			'version' => [$include],
+			'routes' => [$include],
+			'settings' => [$include],
+			'media' => [$include],
+			'jobs' => [$include],
+			'g11n' => [$conditionalG11nLoader],
+			'panes' => [$include, ['*.config.access', '*.config.g11n']],
+			'widgets' => [$include, '*.config.g11n'],
+			'contents' => [$include],
+			'misc' => [$include]
 		];
 		if (INSIDE_ADMIN === false) {
 			// Don't load certain module configurations when
@@ -138,28 +153,26 @@ $bootstrapFormal = function($name, $path) {
 		// isn't overwritten by anything else.
 		$available = [
 			// App routes are loaded outside the formal bootstrap, as they need to come first.
-			'access' => 'require',
-			'settings' => 'include',
-			'media' => 'include',
-			'switchboard' => 'include',
-			'contents' => 'include',
-			'billing' => 'include',
-			'ecommerce' => 'include'
+			'access' => [$require],
+			'settings' => [$include, 'libraries.*.config.settings'],
+			'media' => [$include, 'libraries.*.config.media'],
+			'switchboard' => [$include],
+			'contents' => [$include, 'libraries.cms_*.config.contents'],
+			'billing' => [$include, 'libraries.billing_*.config.settings'],
+			'ecommerce' => [$include, 'libraries.ecommerce_*.config.settings'],
 		];
 	}
 
-	foreach ($available as $config => $load) {
-		if (is_callable($load)) {
-			$load($name, $path);
-			continue;
-		}
-		if (file_exists($file = $path . "/config/{$config}.php")) {
-			require_once $file;
-			continue;
-		}
-		if ($load === 'require') {
-			throw new Exception("Configuration file `{$file}` not found but required.");
-		}
+	foreach ($available as $config => $loader) {
+		$library = ['path' => $path, 'name' => $name];
+
+		\base_core\core\Boot::add(
+			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.' . $config,
+			isset($loader[1]) ? $loader[1] : null,
+			function () use ($loader, $config, $library) {
+				$loader[0]($library, $config);
+			}
+		);
 	}
 
 	// Configuration deprecations.
@@ -304,27 +317,15 @@ $moduleTypes = [ // This array also defines the primary order in which modules a
 	'ecommerce' => 'Boutique'
 ];
 
-foreach ($moduleTypes as $prefix => $title) {
-	$modules = array_map('basename', glob(
-		PROJECT_PATH . "/app/libraries/{$prefix}_*",
-		GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
-	));
-
-	uasort($modules, function($a, $b) {
-		if (strpos($a, '_core') !== false) {
-			return -1;
-		} elseif (strpos($b, '_core') !== false) {
-			return 1;
-		}
-		return strcmp($a, $b);
-	});
-
-	foreach ($modules as $name) {
-		Libraries::add($name, [
-			'bootstrap' => false
-		]);
-		$bootstrapFormal($name, PROJECT_PATH . '/app/libraries/' . $name);
-	}
+$modules = glob(
+	PROJECT_PATH . '/app/libraries/{base,cms,billing,ecommerce}_*',
+	GLOB_BRACE | GLOB_NOSORT | GLOB_ONLYDIR
+);
+foreach ($modules as $path) {
+	Libraries::add(basename($path), [
+		'bootstrap' => false
+	]);
+	$bootstrapFormal(basename($path), $path);
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -336,5 +337,7 @@ foreach ($moduleTypes as $prefix => $title) {
 $bootstrapFormal('app', PROJECT_PATH . '/app');
 
 // ------------------------------------------------------------------------------------------------
+
+\base_core\core\Boot::run();
 
 ?>
