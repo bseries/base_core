@@ -100,41 +100,18 @@ $defineFromDotEnvFile = function($file) {
 // Implements a boostraping function that replaces the common lithium bootstraping for
 // modules and app.
 $bootstrapFormal = function($name, $path) {
-	$conditionalG11nLoader = function(array $library, $name) {
-		if (is_dir($library['path'] . '/resources/g11n/po')) {
-			\lithium\g11n\Catalog::config([
-				$library['name'] => [
-					'adapter' => 'Gettext',
-					'path' => $library['path'] . '/resources/g11n/po'
-				 ]
-			] + \lithium\g11n\Catalog::config());
-		}
-	};
-	$include = function(array $library, $name) {
-		if (file_exists($file = $library['path'] . "/config/{$name}.php")) {
-			require_once $file;
-		}
-	};
-	$require = function(array $library, $name) {
-		if (!file_exists($file = $library['path'] . "/config/{$name}.php")) {
-			throw new Exception("Configuration file `{$file}` not found but required.");
-		}
-		require_once $file;
-	};
-
 	if ($name !== 'app') {
 		$available = [
-			'access' => [$include],
-			'version' => [$include],
-			'routes' => [$include],
-			'settings' => [$include],
-			'media' => [$include],
-			'jobs' => [$include],
-			'g11n' => [$conditionalG11nLoader],
-			'panes' => [$include, ['*.config.access', '*.config.g11n']],
-			'widgets' => [$include, '*.config.g11n'],
-			'contents' => [$include],
-			'misc' => [$include]
+			'access' => null,
+			'version' => null,
+			'routes' => null,
+			'settings' => null,
+			'media' => null,
+			'jobs' => null,
+			'panes' => ['*.config.access', '*.config.g11n'],
+			'widgets' => ['*.config.g11n'],
+			'contents' => null,
+			'misc' => null
 		];
 		if (INSIDE_ADMIN === false) {
 			// Don't load certain module configurations when
@@ -153,50 +130,60 @@ $bootstrapFormal = function($name, $path) {
 		// isn't overwritten by anything else.
 		$available = [
 			// App routes are loaded outside the formal bootstrap, as they need to come first.
-			'access' => [$require],
-			'settings' => [$include, 'libraries.*.config.settings'],
-			'media' => [$include, 'libraries.*.config.media'],
-			'switchboard' => [$include],
-			'contents' => [$include, 'libraries.cms_*.config.contents'],
-			'billing' => [$include, 'libraries.billing_*.config.settings'],
-			'ecommerce' => [$include, 'libraries.ecommerce_*.config.settings'],
+			'access' => null,
+			'settings' => ['libraries.*.config.settings'],
+			'media' => ['libraries.*.config.media'],
+			'switchboard' => null,
+			'contents' => ['libraries.cms_*.config.contents'],
+			'billing' => ['libraries.billing_*.config.settings'],
+			'ecommerce' => ['libraries.ecommerce_*.config.settings'],
 		];
 	}
 
-	foreach ($available as $config => $loader) {
-		$library = ['path' => $path, 'name' => $name];
-
-		\base_core\core\Boot::add(
-			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.' . $config,
-			isset($loader[1]) ? $loader[1] : null,
-			function () use ($loader, $config, $library) {
-				$loader[0]($library, $config);
-			}
-		);
+	$deprecated = [
+		'g11n'
+	];
+	if ($name === 'app') {
+		$deprecated[] = 'base';
+		$deprecated[] = 'cms';
+	}
+	if ($name !== 'base_core') {
+		$deprecated[] = 'bootstrap';
 	}
 
-	// Configuration deprecations.
-	// @deprecated
-	$deprecated = [
-		'base' => 'app',
-		'cms' => 'app',
-		'bootstrap' => function($name) { return $name !== 'base_core'; },
-		'g11n' => '*'
-	];
-	foreach ($deprecated as $file => $check) {
-		if (is_callable($check)) {
-			if (!$check($name)) {
-				continue;
-			}
-		} elseif ($check !== '*' && $check !== $name) {
-			continue;
-		}
-		if (file_exists($path . "/config/{$file}.php")) {
+	foreach (glob($path . '/config/*.php', GLOB_NOSORT) as $file) {
+		$config = pathinfo($file, PATHINFO_FILENAME);
+
+		if (in_array($config, $deprecated)) {
 			trigger_error(
-				"Found deprecated config file `{$file}` in `{$name}`.",
+				"Found deprecated configuration file `{$file}` in `{$name}`.",
 				E_USER_DEPRECATED
 			);
 		}
+		if (!array_key_exists($config, $available)) {
+			return;
+		}
+		\base_core\core\Boot::add(
+			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.' . $config,
+			$available[$config],
+			function () use ($file) {
+				require_once $file;
+			}
+		);
+	}
+	if (is_dir($path . '/resources/g11n/po')) {
+		\base_core\core\Boot::add(
+			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.g11n',
+			null,
+			function () use ($name, $path) {
+				\lithium\g11n\Catalog::config([
+					$name => [
+						'adapter' => 'Gettext',
+						'path' => $path . '/resources/g11n/po'
+					 ]
+				] + \lithium\g11n\Catalog::config());
+			}
+		);
 	}
 };
 
