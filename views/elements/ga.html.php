@@ -5,7 +5,6 @@
 // Enables a partially undocumented anonymize feature to comply with
 // EU laws. Works for both universal and old tracking.
 
-use Exception;
 use base_core\extensions\cms\Settings;
 
 $name = 'default'; // Hardcoded to use default analytics configuration.
