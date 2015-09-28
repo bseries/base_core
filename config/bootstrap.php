@@ -125,8 +125,10 @@ $bootstrapFormal = function($name, $path) {
 				'widgets' => null
 			]);
 		}
-		if ($name !== 'base_core') {
-			$available['settings'] = ['*.config.settings'];
+		if (strpos($name, 'base_') === false) {
+			// Base module settings must always be loaded first, before
+			// loading other module settings.
+			$available['settings'] = ['libraries.base_*.config.settings'];
 		}
 	} else {
 		// Load app configuration last, so it can overwrite module default configuration and
