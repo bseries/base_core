@@ -28,7 +28,12 @@ Settings::register('site.title', 'Application');
 // see and edit what also the form elements are never displayed.
 Settings::register('security.checkOwner', false);
 
+// When enabled the user will be notified when her account
+// is activated.
 Settings::register('user.sendActivationMail', false);
+
+// Enables the `become` feature. Allows to become another user
+// i.e. to create an order in the name of somebody else.
 Settings::register('user.useBecome', false);
 
 Settings::register('contact.default', [
