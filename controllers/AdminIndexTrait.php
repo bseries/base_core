@@ -85,12 +85,16 @@ trait AdminIndexTrait {
 	}
 
 	protected function _order($query) {
+		$model = $this->_model;
+
 		// Normalize order field and direction.
 		// We support sorting by one dimension at a time only.
 		if ($this->request->orderField) {
 			$orderField = str_replace('-', '_', $this->request->orderField);
-		} else {
+		} elseif ($model::hasField('modified')) {
 			$orderField = 'modified';
+		} else {
+			$orderField = 'id';
 		}
 		if (strpos($orderField, '|') !== false) {
 			$orderFields = explode('|', $orderField);
