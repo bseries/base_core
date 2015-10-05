@@ -1,7 +1,7 @@
 /*!
  * Base Core
  *
- * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
+ * Copyright (c) 2013 Atelier Disko - All rights reserved.
  *
  * Licensed under the AD General Software License v1.
  *
@@ -13,7 +13,6 @@
  * You should have received a copy of the AD General Software
  * License. If not, see http://atelierdisko.de/licenses.
  */
-
 requirejs.config({
   config: {
     text: {
