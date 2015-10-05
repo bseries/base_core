@@ -1,7 +1,7 @@
 /*!
- * Base Core
+ * Router
  *
- * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
+ * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
  * Licensed under the AD General Software License v1.
  *
@@ -25,7 +25,7 @@ define('router', ['jquery'], function($) {
       var template = App.routes[name];
 
       $.each(params || {}, function(k, v) {
-        template = template.replace('__' + k.toUpperCase() + '__', v);
+        template = template.replace('__' + k.toUpperCase().replace(' ', '_') + '__', v);
       });
       dfr.resolve(template);
 
