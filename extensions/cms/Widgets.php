@@ -25,7 +25,6 @@ class Widgets extends \lithium\core\StaticObject {
 	const GROUP_DASHBOARD = 'dashboard';
 
 	const TYPE_COUNTER = 'counter';
-	const TYPE_BIGCOUNTER = 'big-counter';
 	const TYPE_TABLE = 'table';
 	const TYPE_QUICKDIAL = 'quickdial';
 
