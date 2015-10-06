@@ -1308,6 +1308,7 @@ table td.media img {
 }
 table .numeric--f,
 table .money--f,
+table td.number,
 table td.money {
   text-align: right;
 }
