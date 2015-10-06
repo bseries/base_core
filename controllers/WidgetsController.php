@@ -38,7 +38,7 @@ class WidgetsController extends \base_core\controllers\BaseController {
 
 		if (($took = microtime(true) - $start) > 1) {
 			$message = sprintf(
-				"Widget`{$item['name']}` took very long (%4.fs) to render",
+				"Widget `{$item['name']}` took very long (%4.fs) to render",
 				$took
 			);
 			Logger::write('notice', $message);
