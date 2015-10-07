@@ -21,7 +21,7 @@ use base_core\extensions\cms\Settings;
 
 Settings::register('site.title', 'Application');
 
-// Enable checking of ownership. When enabled everybody
+// Enable checking of ownership module wide. When enabled everybody
 // else than users with the `'owner'` privilege can only view or
 // edit entities owned by them. When disabled ownership is still
 // assigned **and kept**, but there is no restriction on who can
@@ -35,6 +35,13 @@ Settings::register('user.sendActivationMail', false);
 // Enables the `become` feature. Allows to become another user
 // i.e. to create an order in the name of somebody else.
 Settings::register('user.useBecome', false);
+
+// How to generate user reference numbers.
+Settings::register('user.number', [
+	'sort' => '/([0-9]{4}-[0-9]{4})/',
+	'extract' => '/[0-9]{4}-([0-9]{4})/',
+	'generate' => '%Y-%%04.d'
+]);
 
 Settings::register('contact.default', [
 	// 'organization' => 'Acme Inc.',
@@ -63,13 +70,6 @@ Settings::register('service.googleAnalytics.default', [
 	'account' => null,
 	'domain' => null,
 	'useUniversalAnalytics' => false
-]);
-
-// How to generate user reference numbers.
-Settings::register('user.number', [
-	'sort' => '/([0-9]{4}-[0-9]{4})/',
-	'extract' => '/[0-9]{4}-([0-9]{4})/',
-	'generate' => '%Y-%%04.d'
 ]);
 
 ?>
