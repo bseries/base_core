@@ -17,6 +17,7 @@
 
 namespace base_core\core;
 
+use Exception;
 use lithium\util\Set;
 use base_core\util\TopologicalSorter;
 
@@ -36,7 +37,7 @@ class Boot {
 		$sorter = new TopologicalSorter();
 
 		foreach (static::$_data as $key => $item) {
-			$sorter->add($key, static::_dependencies($item['needs']));
+			$sorter->add($key, static::_dependencies($key, $item['needs']));
 		}
 		foreach ($sorter->resolve() as $key) {
 			$unit = static::$_data[$key]['unit'];
@@ -44,7 +45,7 @@ class Boot {
 		}
 	}
 
-	protected static function _dependencies(array $dependencies) {
+	protected static function _dependencies($for, array $dependencies) {
 		$results = [];
 
 		foreach ($dependencies as $dep => $type) {
@@ -62,7 +63,7 @@ class Boot {
 				}
 			}
 			if (!$result && $type !== 'optional') {
-				throw new Exception("No provider for `{$dep}` found.");
+				throw new Exception("No provider for `{$dep}` found (wanted by `{$for}`).");
 			}
 			$results = array_merge($results, $result);
 		}
