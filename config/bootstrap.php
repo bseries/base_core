@@ -104,7 +104,7 @@ $bootstrapFormal = function($name, $path) {
 		$available = [
 			'access' => null,
 			'version' => null,
-			'routes' => ['app.config.routes' => 'optional'],
+			'routes' => null,
 			'settings' => null,
 			'media' => null,
 			'jobs' => null,
@@ -117,9 +117,10 @@ $bootstrapFormal = function($name, $path) {
 			// Don't load certain module configurations when
 			// not inside admin. Keep order when unsetting.
 			$available = array_diff_key($available, [
-				// module g11n must always be loaded as modules may contain
-				// translations for validation messages used by the app.
-				'routes' => null,
+				// - Module g11n must always be loaded as modules may contain
+				//   translations for validation messages used by the app.
+				// - Module routes must always be loaded as we may want to
+				//   link back into admin for admin users from the app.
 				'jobs' => null,
 				'panes' => null,
 				'widgets' => null
@@ -141,7 +142,7 @@ $bootstrapFormal = function($name, $path) {
 		// isn't overwritten by anything else.
 		$available = [
 			'access' => null,
-			'routes' => null,
+			'routes' => ['libraries.*.config.routes'],
 			'settings' => ['libraries.*.config.settings'],
 			'media' => ['libraries.*.config.media'],
 			'switchboard' => null,
