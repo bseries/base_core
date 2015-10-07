@@ -17,6 +17,8 @@
 
 namespace base_core\models;
 
+use InvalidArgumentExeption;
+use OutOfBoundsException;
 use lithium\core\Environment;
 use lithium\util\Set;
 
@@ -28,9 +30,34 @@ class Assets extends \base_core\models\Base {
 
 	protected static $_schemes = [];
 
+	// Calculates the base URL from registered schemes.
+	//
+	// $scheme may either be a string, an array of available schemes or
+	// an \lithium\net\http\Request object, to auto negotatiate the best
+	// possible HTTP scheme. Will always prefer HTTPS over HTTP if
+	// available.
 	public static function base($scheme) {
-		$bases = static::$_schemes[$scheme]['base'];
-		return is_array($bases) ? $bases[Environment::get()] : $bases;
+		if (is_object($scheme)) {
+			$available = ['https'];
+
+			if ($scheme->is('ssl')) {
+				$available[] = 'http';
+			}
+		} else {
+			$available = (array) $scheme;
+		}
+		foreach ($available as $s) {
+			if (!isset(static::$_schemes[$s])) {
+				throw new OutOfBoundsException("No registered scheme `{$s}`.");
+			}
+			if (empty(static::$_schemes[$s]['base'])) {
+				continue;
+			}
+			$bases = static::$_schemes[$s]['base'];
+			return is_array($bases) ? $bases[Environment::get()] : $bases;
+		}
+		$message = 'No base found for scheme/s: ' . var_export($scheme, true);
+		throw new InvalidArgumentExcpetion($message);
 	}
 
 	public static function registerScheme($scheme, array $options = []) {

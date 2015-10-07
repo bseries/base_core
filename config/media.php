@@ -23,12 +23,17 @@ use lithium\net\http\Media as HttpMedia;
 Assets::registerScheme('file', [
 	'base' => PROJECT_ASSETS_FILE_BASE
 ]);
-Assets::registerScheme('http', [
-	'base' => PROJECT_ASSETS_HTTP_BASE
-]);
-Assets::registerScheme('https', [
-	'base' => PROJECT_ASSETS_HTTPS_BASE
-]);
+
+if (defined('PROJECT_ASSETS_HTTP_BASE')) {
+	Assets::registerScheme('http', [
+		'base' => PROJECT_ASSETS_HTTP_BASE
+	]);
+}
+if (defined('PROJECT_ASSETS_HTTPS_BASE')) {
+	Assets::registerScheme('https', [
+		'base' => PROJECT_ASSETS_HTTPS_BASE
+	]);
+}
 
 HttpMedia::type('binary', 'application/octet-stream', [
 	'cast' => false,

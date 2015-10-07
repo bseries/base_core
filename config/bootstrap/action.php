@@ -85,10 +85,10 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 		// Build global application definition for JavaScript.
 		$app = [
 			'assets' => [
-				'base' => Assets::base($request->is('ssl') ? 'https' : 'http')
+				'base' => Assets::base($request)
 			],
 			'media' => [
-				'base' => MediaVersions::base($request->is('ssl') ? 'https' : 'http')
+				'base' => MediaVersions::base('https')
 			],
 			'routes' => []
 		];
