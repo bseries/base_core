@@ -190,7 +190,7 @@ class UsersController extends \base_core\controllers\BaseController {
 
 	public function admin_session() {
 		if (Auth::check('default')) {
-			return $this->redirect('/admin');
+			return $this->redirect('Pages::home');
 		}
 		$this->_render['layout'] = 'admin_blank';
 	}
@@ -211,7 +211,7 @@ class UsersController extends \base_core\controllers\BaseController {
 				FlashMessage::write($t('Authenticated.', ['scope' => 'base_core']), [
 					'level' => 'success'
 				]);
-				return $this->redirect('/admin');
+				return $this->redirect('Pages::home');
 			} else {
 				FlashMessage::write($t('Failed to authenticate.', ['scope' => 'base_core']), [
 					'level' => 'error'
@@ -240,7 +240,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		FlashMessage::write($t('Successfully logged out.', ['scope' => 'base_core']), [
 			'level' => 'success'
 		]);
-		return $this->redirect('/admin/session');
+		return $this->redirect('Users::session');
 	}
 
 	// Overridden from trait.

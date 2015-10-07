@@ -17,14 +17,17 @@
 
 namespace base_core\extensions\net\http;
 
+use lithium\net\http\Router;
 use Exception;
 
 class ClientRouter extends \lithium\core\StaticObject {
 
 	protected static $_routes = [];
 
-	public static function provide($name, array $params) {
-		static::$_routes[$name] = $params;
+	public static function provide($name, array $params, array $options = []) {
+		$options += ['scope' => Router::scope()];
+
+		static::$_routes[$name] = compact('params', 'options');
 	}
 
 	public static function get($name = null) {
