@@ -18,6 +18,7 @@
 namespace base_core\controllers;
 
 use Zend\Paginator\Adapter\ArrayAdapter;
+use base_core\models\Sites;
 use Zend\Paginator\Paginator;
 use base_core\extensions\cms\Settings;
 use base_core\security\Gate;
@@ -52,8 +53,11 @@ trait AdminIndexTrait {
 		$paginator = $this->_paginator($query);
 
 		$useOwner = Settings::read('security.checkOwner') && Gate::checkRight('owner');
+		if ($useSites = Settings::read('useSites')) {
+			$sites = Sites::find('list');
+		}
 
-		return compact('data', 'paginator', 'useOwner') + $this->_selects();
+		return compact('data', 'paginator', 'useOwner', 'useSites', 'sites') + $this->_selects();
 	}
 
 	protected function _all($model, $query) {

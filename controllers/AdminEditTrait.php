@@ -18,6 +18,7 @@
 namespace base_core\controllers;
 
 use base_core\extensions\cms\Settings;
+use base_core\models\Sites;
 use base_core\models\Users;
 use base_core\security\Gate;
 use li3_flash_message\extensions\storage\FlashMessage;
@@ -73,8 +74,16 @@ trait AdminEditTrait {
 			]);
 		}
 
+		if ($useSites = Settings::read('useSites')) {
+			$sites = Sites::find('list');
+		}
+
 		$this->_render['template'] = 'admin_form';
-		return compact('item', 'isTranslated', 'users', 'useOwner') + $this->_selects($item);
+		return compact(
+			'item', 'users',
+			'isTranslated', 'useOwner',
+			'useSites', 'sites'
+		) + $this->_selects($item);
 	}
 }
 

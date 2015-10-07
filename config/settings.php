@@ -28,6 +28,11 @@ Settings::register('site.title', 'Application');
 // see and edit what also the form elements are never displayed.
 Settings::register('security.checkOwner', false);
 
+// Enables multi site feature module wide. Allows to
+// place content in different sites hosted by the same
+// app.
+Settings::register('useSites', false);
+
 // When enabled the user will be notified when her account
 // is activated.
 Settings::register('user.sendActivationMail', false);

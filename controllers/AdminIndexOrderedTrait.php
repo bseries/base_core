@@ -18,6 +18,7 @@
 namespace base_core\controllers;
 
 use base_core\extensions\cms\Settings;
+use base_core\models\Sites;
 use base_core\security\Gate;
 
 trait AdminIndexOrderedTrait {
@@ -38,7 +39,11 @@ trait AdminIndexOrderedTrait {
 		$data = $model::find('all', $query);
 		$useOwner = Settings::read('security.checkOwner') && Gate::checkRight('owner');
 
-		return compact('data', 'useOwner') + $this->_selects();
+		if ($useSites = Settings::read('useSites')) {
+			$sites = Sites::find('list');
+		}
+
+		return compact('data', 'useOwner', 'useSites', 'sites') + $this->_selects();
 	}
 }
 
