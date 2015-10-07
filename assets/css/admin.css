@@ -939,7 +939,7 @@ button.large,
 [data-wysihtml5-dialog] input {
 	width: 200px;
     position: relative;
-    top: -1px;
+    top: -2px;
 }
 [data-wysihtml5-dialog] {
 	display: inline-block;
