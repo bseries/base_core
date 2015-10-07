@@ -104,7 +104,7 @@ $bootstrapFormal = function($name, $path) {
 		$available = [
 			'access' => null,
 			'version' => null,
-			'routes' => ['app.config.routes'],
+			'routes' => ['app.config.routes' => 'optional'],
 			'settings' => null,
 			'media' => null,
 			'jobs' => null,

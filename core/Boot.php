@@ -17,6 +17,7 @@
 
 namespace base_core\core;
 
+use lithium\util\Set;
 use base_core\util\TopologicalSorter;
 
 /**
@@ -26,8 +27,9 @@ class Boot {
 
 	protected static $_data = array();
 
+	// $needs may be string or an array
 	public static function add($provides, $needs, $unit) {
-		static::$_data[$provides] = compact('unit', 'needs');
+		static::$_data[$provides] = compact('unit') + ['needs' => Set::normalize($needs) ?: []];
 	}
 
 	public static function run() {
@@ -42,19 +44,27 @@ class Boot {
 		}
 	}
 
-	protected static function _dependencies($dependencies) {
+	protected static function _dependencies(array $dependencies) {
 		$results = [];
 
-		foreach ((array) $dependencies as $dep) {
+		foreach ($dependencies as $dep => $type) {
+			$result = [];
+
 			if (strpos($dep, '*') === false) {
-				$results[] = $dep;
+				if (isset(static::$_data[$dep])) {
+					$result[] = $dep;
+				}
 			} else {
 				foreach (static::$_data as $key => $_) {
 					if (fnmatch($dep, $key)) {
-						$results[] = $key;
+						$result[] = $key;
 					}
 				}
 			}
+			if (!$result && $type !== 'optional') {
+				throw new Exception("No provider for `{$dep}` found.");
+			}
+			$results = array_merge($results, $result);
 		}
 		return $results;
 	}
