@@ -125,6 +125,12 @@ $bootstrapFormal = function($name, $path) {
 				'widgets' => null
 			]);
 		}
+
+		// base_core routes come first then,
+		// TODO _core routes then anything else.
+		if ($name !== 'base_core') {
+			$available['routes'] = ['libraries.base_core.config.routes'];
+		}
 		if (strpos($name, 'base_') === false) {
 			// Base module settings must always be loaded first, before
 			// loading other module settings.
@@ -143,6 +149,12 @@ $bootstrapFormal = function($name, $path) {
 			'billing' => ['libraries.billing_*.config.settings'],
 			'ecommerce' => ['libraries.ecommerce_*.config.settings'],
 		];
+		if (INSIDE_ADMIN === true) {
+			// Do not load app routes when inside admin.
+			$available = array_diff_key($available, [
+				'routes' => null
+			]);
+		}
 	}
 
 	$deprecated = [
