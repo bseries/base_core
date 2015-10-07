@@ -22,7 +22,9 @@ use base_core\extensions\net\http\ClientRouter;
 use lithium\util\Inflector;
 
 Router::attach('admin', [
+	'absolute' => true,
 	'prefix' => 'admin',
+	'host' => PROJECT_DOMAIN,
 	'library' => false
 ]);
 

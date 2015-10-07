@@ -119,7 +119,11 @@ class Panes extends \lithium\core\StaticObject {
 				// Already skip external urls here to make search set smaller.
 				continue;
 			}
-			$map[$key] = Router::match($item['url'], $request);
+			$map[$key] = Router::match($item['url'], $request, [
+				// As we use scopes and those may force all URLs a absolutely routed,
+				// we have to ensure non-absolute URLs so that matching below still works.
+				'absolute' => false
+			]);
 		}
 		uasort($map, function($a, $b) {
 			// Sort by length, longest comes first.
