@@ -57,23 +57,41 @@ class Seo extends \lithium\template\Helper {
 	// For any other pages will append the site's title
 	// as per the `site.title` settings.
 	//
-	public function title($separator = ' – ') {
-		if (!INSIDE_ADMIN && in_array($this->_context->request()->action, ['home', 'front'])) {
-			$result = $this->_context->title();
+	public function title(array $options = []) {
+		$options += [
+			'separator' => ' – ',
+			'standalone' => 'auto',
+			'admin' => 'auto',
+			'site' => Settings::read('site.title') ?: '',
+			'reverse' => true
+		];
+		if ($options['standalone'] === 'auto')  {
+			$options['standalone'] = !INSIDE_ADMIN && in_array(
+				$this->_context->request()->action, ['home', 'front']
+			);
+		}
+		if ($options['admin'] === 'auto')  {
+			$options['admin'] = INSIDE_ADMIN;
+		}
+
+		if ($options['standalone']) {
+			$result = [$this->_context->title()];
 		} else {
-			$site = Settings::read('site');
-
-			if (INSIDE_ADMIN) {
-				$site['title'] = "Admin{$separator}{$site['title']}";
+			if ($options['admin']) {
+				$result[] = 'Admin';
 			}
-
+			if ($options['site']) {
+				$result[] = $options['site'];
+			}
 			if ($title = $this->_context->title()) {
-				$result = "{$title}{$separator}{$site['title']}";
-			} else {
-				$result = $site['title'];
+				$result[] = $title;
 			}
 		}
-		return sprintf('<title>%s</title>', $result);
+
+		if ($options['reverse']) {
+			$result = array_reverse($result);
+		}
+		return sprintf('<title>%s</title>', implode($options['separator'], $result));
 	}
 
 	// Returns the meta description for the page enclosed in tags.
