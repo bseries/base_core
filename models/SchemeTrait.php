@@ -46,6 +46,10 @@ trait SchemeTrait {
 		return static::$_schemes[$scheme][$capability];
 	}
 
+	public static function hasRegisteredScheme($scheme) {
+		return isset(static::$_schemes[$scheme]);
+	}
+
 	public function can($entity, $capability) {
 		$scheme = $entity->scheme();
 

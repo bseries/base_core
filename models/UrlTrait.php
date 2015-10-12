@@ -45,11 +45,23 @@ trait UrlTrait {
 		return implode('/', $path);
 	}
 
-	// Assumes when requesting http, https would be ok, too.
-	// Always returns absolute URLs.
-	public function url($entity, $targetScheme = 'http') {
+	// Assumes when requesting http, https would be ok, too. Always
+	// returns absolute URLs. $targetScheme can either be a string or an
+	// \lithium\net\http\Request object, to auto negotatiate the best HTTP
+	// scheme. This works similar to SchemeTrait's base() method.
+	public function url($entity, $targetScheme = null) {
 		$sourceScheme = parse_url($entity->url, PHP_URL_SCHEME);
 		$sourceUrl    = static::absoluteUrl($entity->url);
+
+		if (is_object($targetScheme) && $targetScheme->is('ssl')) {
+			// Require https for SSL requests. Otherwise page will be
+			// broken.
+			$targetScheme = 'https';
+		} elseif (static::hasRegisteredScheme('https')) {
+			$targetScheme = 'https';
+		} elseif (static::hasRegisteredScheme('http')) {
+			$targetScheme = 'http';
+		}
 
 		if ($targetScheme == $sourceScheme) {
 			return $sourceUrl;
