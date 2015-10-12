@@ -91,7 +91,7 @@ trait SchemeTrait {
 			return is_array($bases) ? $bases[Environment::get()] : $bases;
 		}
 		$message = 'No base found for scheme/s: ' . var_export($scheme, true);
-		throw new InvalidArgumentExcpetion($message);
+		throw new InvalidArgumentException($message);
 	}
 }
 
