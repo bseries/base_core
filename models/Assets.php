@@ -19,7 +19,7 @@ namespace base_core\models;
 
 class Assets extends \base_core\models\Base {
 
-	use base_core\models\SchemeTrait;
+	use \base_core\models\SchemeTrait;
 
 	protected $_meta = [
 		'connection' => false
