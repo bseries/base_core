@@ -71,6 +71,9 @@ $defineFromDotEnvFile = function($file) {
 	while (!feof($fh)) {
 		$line = fgets($fh);
 
+		if ($line['0'] === '#') {
+			continue;
+		}
 		if (!preg_match('/(?:export )?([a-zA-Z_][a-zA-Z0-9_]*)=(.*)/', $line, $matches)) {
 			continue;
 		}
