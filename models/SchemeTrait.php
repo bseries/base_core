@@ -17,7 +17,7 @@
 
 namespace base_core\models;
 
-use InvalidArgumentExeption;
+use InvalidArgumentException;
 use OutOfBoundsException;
 use lithium\core\Environment;
 use lithium\util\Set;
