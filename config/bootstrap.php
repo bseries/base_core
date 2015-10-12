@@ -146,7 +146,9 @@ $bootstrapFormal = function($name, $path) {
 			'settings' => ['libraries.*.config.settings'],
 			'media' => ['libraries.*.config.media'],
 			'switchboard' => null,
-			'contents' => ['libraries.cms_*.config.contents'],
+			// Contents app config is always present but contains commented
+			// code. cms_content may not always be present.
+			'contents' => ['libraries.cms_content.config.contents' => 'optional'],
 			'billing' => ['libraries.billing_*.config.settings'],
 			'ecommerce' => ['libraries.ecommerce_*.config.settings'],
 		];
