@@ -88,7 +88,7 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 				'base' => Assets::base($request)
 			],
 			'media' => [
-				'base' => MediaVersions::base('https')
+				'base' => MediaVersions::base($request)
 			],
 			'routes' => []
 		];
