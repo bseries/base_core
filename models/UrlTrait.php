@@ -64,6 +64,8 @@ trait UrlTrait {
 			} else {
 				throw new Exception("Failed to auto detect target scheme.");
 			}
+		} else {
+			$targetScheme = 'http';
 		}
 		if (!static::hasRegisteredScheme($targetScheme)) {
 			throw new Exception("Target scheme (auto-detected) `{$targetScheme}` not registered.");
