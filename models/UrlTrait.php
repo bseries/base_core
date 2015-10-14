@@ -45,39 +45,44 @@ trait UrlTrait {
 		return implode('/', $path);
 	}
 
-	// Assumes when requesting http, https would be ok, too. Always
-	// returns absolute URLs. $targetScheme can either be a string or an
+	// Assumes when requesting http, https would be ok, too. **Always
+	// returns absolute URLs.** $targetScheme can either be a string or an
 	// \lithium\net\http\Request object, to auto negotatiate the best HTTP
 	// scheme. This works similar to SchemeTrait's base() method.
 	public function url($entity, $targetScheme = null) {
 		$sourceScheme = parse_url($entity->url, PHP_URL_SCHEME);
-		$sourceUrl    = static::absoluteUrl($entity->url);
 
 		if (is_object($targetScheme) && $targetScheme->is('ssl')) {
 			// Require https for SSL requests. Otherwise page will be
 			// broken.
 			$targetScheme = 'https';
-		} elseif (static::hasRegisteredScheme('https')) {
-			$targetScheme = 'https';
-		} elseif (static::hasRegisteredScheme('http')) {
-			$targetScheme = 'http';
+		} elseif (!$targetScheme) {
+			if (static::hasRegisteredScheme('https')) {
+				$targetScheme = 'https';
+			} elseif (static::hasRegisteredScheme('http')) {
+				$targetScheme = 'http';
+			} else {
+				throw new Exception("Failed to auto detect target scheme.");
+			}
+		}
+		if (!static::hasRegisteredScheme($targetScheme)) {
+			throw new Exception("Target scheme (auto-detected) `{$targetScheme}` not registered.");
 		}
 
-		if ($targetScheme == $sourceScheme) {
-			return $sourceUrl;
+		if ($targetScheme === $sourceScheme) {
+			return static::absoluteUrl($entity->url);
 		}
-		if ($targetScheme == 'http' && $sourceScheme == 'https') {
-			return $sourceUrl;
+		if ($targetScheme === 'http' && $sourceScheme === 'https') {
+			// Allow HTTPS for HTTP.
+			return static::absoluteUrl($entity->url);
 		}
 
-		// Fail when URL was originally absolute.
-		if ($entity->url == $sourceUrl) {
-			throw new Exception('Cannot transition absolute URL to different scheme.');
-		}
+		// Just absolute URLs can be transitioned between schemes. Fails when we
+		// can't make the source URL absolute?
 
 		// Transition to new scheme by exchanging base.
 		if (!$sourceBase = static::base($sourceScheme)) {
-			$message  = "Cannot transition URL `{$sourceUrl}` from scheme `{$scheme}`;";
+			$message  = "Cannot transition URL `{$sourceUrl}` from scheme `{$sourceScheme}`;";
 			$message .= " no base found for scheme `{$sourceScheme}`.";
 			throw new Exception($message);
 		}
@@ -86,7 +91,7 @@ trait UrlTrait {
 			$message .= " no base found for scheme `{$targetScheme}`.";
 			throw new Exception($message);
 		}
-		return str_replace($sourceBase, $targetBase, $sourceUrl);
+		return str_replace($sourceBase, $targetBase, static::absoluteUrl($entity->url));
 	}
 
 	// Ensures an URL is absolute.
