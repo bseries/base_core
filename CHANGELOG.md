@@ -12,6 +12,7 @@
 - Removed signature from login page.
 - Material icons.
 - Tag fields can be styled via `input--tags` class.
+- Better scheme negotiation.
 
 ### Added
 
@@ -31,3 +32,5 @@
   with `is_active` set to `true`.
 
 - Modules must remove config/g11n.php.
+
+- The url() method now always needs a scheme.
