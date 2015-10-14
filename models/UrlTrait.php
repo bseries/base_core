@@ -23,6 +23,9 @@ use lithium\analysis\Logger;
 // Class where this trait is used must provide a static `base()` method.
 trait UrlTrait {
 
+	// Provided by SchemeTrait.
+	abstract protected function _negotiateScheme($scheme);
+
 	public function scheme($entity) {
 		return parse_url($entity->url, PHP_URL_SCHEME);
 	}
@@ -49,27 +52,14 @@ trait UrlTrait {
 	// returns absolute URLs.** $targetScheme can either be a string or an
 	// \lithium\net\http\Request object, to auto negotatiate the best HTTP
 	// scheme. This works similar to SchemeTrait's base() method.
-	public function url($entity, $targetScheme = null) {
-		$sourceScheme = parse_url($entity->url, PHP_URL_SCHEME);
-
-		if (is_object($targetScheme) && $targetScheme->is('ssl')) {
-			// Require https for SSL requests. Otherwise page will be
-			// broken.
-			$targetScheme = 'https';
-		} elseif (!$targetScheme) {
-			if (static::hasRegisteredScheme('https')) {
-				$targetScheme = 'https';
-			} elseif (static::hasRegisteredScheme('http')) {
-				$targetScheme = 'http';
-			} else {
-				throw new Exception("Failed to auto detect target scheme.");
-			}
-		} else {
+	public function url($entity, $targetScheme = null /* @deprecated removed default value */) {
+		if ($targetScheme === null) {
+			$message = 'Scheme for url() must be explictly given as the default value `http` will go away.';
+			trigger_error($message, E_USER_DEPRECATED);
 			$targetScheme = 'http';
 		}
-		if (!static::hasRegisteredScheme($targetScheme)) {
-			throw new Exception("Target scheme (auto-detected) `{$targetScheme}` not registered.");
-		}
+		$sourceScheme = parse_url($entity->url, PHP_URL_SCHEME);
+		$targetScheme = static::_negotiateScheme($targetScheme);
 
 		if ($targetScheme === $sourceScheme) {
 			return static::absoluteUrl($entity->url);

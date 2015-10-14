@@ -19,7 +19,6 @@ namespace base_core\models;
 
 use InvalidArgumentException;
 use OutOfBoundsException;
-use lithium\core\Environment;
 use lithium\util\Set;
 
 // Usable in conjunction with an entity having an `url` property, depends
@@ -46,10 +45,6 @@ trait SchemeTrait {
 		return static::$_schemes[$scheme][$capability];
 	}
 
-	public static function hasRegisteredScheme($scheme) {
-		return isset(static::$_schemes[$scheme]);
-	}
-
 	public function can($entity, $capability) {
 		$scheme = $entity->scheme();
 
@@ -60,15 +55,18 @@ trait SchemeTrait {
 	}
 
 	// Calculates the base URL from registered schemes.
-	//
+	public static function base($scheme) {
+		return static::$_schemes[static::_negotiateScheme($scheme)]['base'];
+	}
+
 	// $scheme may either be a string, an array of available schemes or
 	// an \lithium\net\http\Request object, to auto negotatiate the best
 	// correct HTTP scheme.
-	public static function base($scheme) {
+	protected static function _negotiateScheme($scheme) {
 		if (is_object($scheme)) {
 			if ($scheme->is('ssl')) {
 				// Require https for SSL requests. Otherwise page will be
-				// broken. Will throw exception further down.
+				// broken.
 				$available = ['https'];
 			} else {
 				// When requests is not SSL prefer http over https.
@@ -81,21 +79,24 @@ trait SchemeTrait {
 					$available[] = 'https';
 				}
 			}
-		} else {
+		} elseif (is_string($scheme)) {
 			$available = (array) $scheme;
+		} elseif (is_array($scheme)) {
+			$available = $scheme;
+		} else {
+			$available = [];
+		}
+		if (!$available) {
+			throw new Exception('No schemes available for negotiation.');
 		}
 		foreach ($available as $s) {
-			if (!isset(static::$_schemes[$s])) {
-				throw new OutOfBoundsException("No registered scheme `{$s}`.");
+			if (isset(static::$_schemes[$s])) {
+				return $s;
 			}
-			if (empty(static::$_schemes[$s]['base'])) {
-				continue;
-			}
-			$bases = static::$_schemes[$s]['base'];
-			return is_array($bases) ? $bases[Environment::get()] : $bases;
 		}
-		$message = 'No base found for scheme/s: ' . var_export($scheme, true);
-		throw new InvalidArgumentException($message);
+		$message  = 'Failed to negotiate scheme using schemes `' . implode(', ', $available) . '`.';
+		$message .= 'None of them are registered.';
+		throw new Exception($message);
 	}
 }
 
