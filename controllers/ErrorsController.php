@@ -23,7 +23,7 @@ class ErrorsController extends \base_core\controllers\BaseController {
 
 	public function fourohthree() {
 		if (INSIDE_ADMIN) {
-			return $this->redirect('Users::sesion');
+			return $this->redirect('Users::session');
 		}
 		$this->_render['layout'] = 'error';
 		$this->_render['template'] = '403';
