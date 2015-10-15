@@ -24,6 +24,7 @@ $config = [
 	'from' => PROJECT_MAIL_FROM
 ];
 
+// When we are in debug mode, all mail goes to a log file.
 if (PROJECT_DEBUG) {
 	$config += [
 		'adapter' => 'Debug',
@@ -38,6 +39,7 @@ if (PROJECT_DEBUG) {
 	];
 }
 
+// Debug mode must be of to make this take effect.
 if (PROJECT_MAIL_TEST) {
 	$config += [
 		'testmode' => true
