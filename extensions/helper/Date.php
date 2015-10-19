@@ -44,6 +44,8 @@ class Date extends \lithium\template\Helper {
 			$date = DateTime::createFromFormat('Y-m-d H:i:s', $value);
 		} elseif (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $value)) {
 			$date = DateTime::createFromFormat('Y-m-d', $value);
+		} elseif (is_integer($value)) {
+			$date = new DateTime('@' . $value);
 		} else {
 			throw new Exception("Cannot parse date value `{$value}`.");
 		}
