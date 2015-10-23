@@ -163,16 +163,14 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 		$auth = Auth::check('default');
 	}
 
-	foreach (['app', 'admin'] as $realm) {
-		if (!Access::check($realm, $auth, $params)) {
-			$errors = Access::errors($realm);
+	if (!Access::check($realm = INSIDE_ADMIN ? 'admin' : 'app', $auth, $params)) {
+		$errors = Access::errors($realm);
 
-			$message = "Security: Access denied for realm `{$realm}` and URL `{$url}` with: ";
-			$message .= var_export($errors, true);
-			Logger::debug($message);
+		$message = "Security: Access denied for realm `{$realm}` and URL `{$url}` with: ";
+		$message .= var_export($errors, true);
+		Logger::debug($message);
 
-			throw new AccessDeniedException(reset($errors)['message']);
-		}
+		throw new AccessDeniedException(reset($errors)['message']);
 	}
 
 	return $chain->next($self, $params, $chain);
