@@ -1380,7 +1380,7 @@ table .button.add-nested:hover {
   padding: 1em;
   right: 20px;
 }
-#messages .message.hide {
+#messages .message.invisible {
   display: inline-block;
   right: -400px;
 }
