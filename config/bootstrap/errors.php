@@ -185,9 +185,11 @@ if (!PROJECT_DEBUG) {
 				404 => 'fourohfour',
 				403 => 'fourohthree'
 			];
+			$code = $e->getCode() ?: 500;
+
 			return $controller(
 				$params['request'],
-				['action' => $map[$e->getCode() ?: 500]]
+				['action' => isset($map[$code]) ? $map[$code] : $map[500]]
 			);
 		}
 	});
