@@ -45,6 +45,9 @@ body {
 	padding: .5em;
 	padding-right: 10px; /* Distance to scroll bar. */
 }
+.wysihtml5-editor > p:first-of-type {
+  margin-top: 0;
+}
 .wysihtml5-editor:focus {
     background: white;
     color: black;
