@@ -75,7 +75,7 @@ class Date extends \lithium\template\Helper {
 			return sprintf(
 				'<time datetime="%s"%s>%s</time>',
 				$this->format($value, 'w3c'),
-				(isset($options['wrap']['class']) ? " class=\"{$options['wrap']['class']}\"" : null),
+				is_array($options['wrap']) ? $this->_attributes($options['wrap']) : '',
 				$result
 			);
 		}
