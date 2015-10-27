@@ -178,7 +178,12 @@ if (!PROJECT_DEBUG) {
 			$message .= ' ;message was `' . $e->getMessage() . '`.';
 			Logger::debug($message);
 
-			$controller = Libraries::instance('controllers', 'base_core.Errors', ['request' => $params['request']]);
+			// Searches for an ErrorsController in app and registered libraries. This
+			// allows apps to provide their own (subclass) of the errors controller,
+			// when modification or redirection of existing error cases is wanted.
+			$controller = Libraries::instance('controllers', 'Errors', [
+				'request' => $params['request']
+			]);
 
 			$map = [
 				500 => 'fiveohoh',
