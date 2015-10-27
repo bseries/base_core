@@ -1773,26 +1773,21 @@ thead .actions > div {
 /* Dashboard / Widgets
 ---------------------------------------------------------------- */
 .home .widgets {
-  max-width: 950px;
-  column-count: 2;
-  column-gap: var(--space-h-tight);
-  -moz-column-count: 2;
-  -moz-column-gap: var(--space-h-normal);
+  display: flex;
+  flex-flow: column wrap;
+  max-height: 120vh;
+  max-width: 100%;
   width: 100%;
+  margin: -10px -10px;
 }
 .widgets.loading .widget {
   transition: background 2s;
 }
 
 .widget {
-  page-break-inside: avoid; /* FF */
-  -webkit-column-break-inside: avoid; /* webkit */
-  break-inside: avoid-column; /* standard */
-
-  float: left;
   background-color: var(--color-gray-darkest);
-  width: 100%;
-  margin-bottom: var(--space-v-normal);
+  width: 450px;
+  margin: var(--space-v-tight) var(--space-h-tight);
   padding: var(--space-v-tight) var(--space-h-tighter) 5px;
 }
 .widget,
