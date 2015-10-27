@@ -1773,20 +1773,17 @@ thead .actions > div {
 /* Dashboard / Widgets
 ---------------------------------------------------------------- */
 .home .widgets {
-  display: flex;
-  flex-flow: column wrap;
-  max-height: 120vh;
-  max-width: 100%;
   width: 100%;
-  margin: -10px -10px;
 }
 .widgets.loading .widget {
   transition: background 2s;
 }
 
 .widget {
+  float: left;
   background-color: var(--color-gray-darkest);
-  width: 450px;
+  min-width: 350px;
+  width: 45%;
   margin: var(--space-v-tight) var(--space-h-tight);
   padding: var(--space-v-tight) var(--space-h-tighter) 5px;
 }
