@@ -51,6 +51,7 @@ requirejs.config({
     'richIndex': 'base-core/js/richIndex',
     'richForm': 'base-core/js/richForm',
     'waypoints': 'base-core/js/waypoints',
+    'minigrid': 'base-core/js/minigrid',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',

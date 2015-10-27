@@ -1784,7 +1784,6 @@ thead .actions > div {
   background-color: var(--color-gray-darkest);
   min-width: 350px;
   width: 45%;
-  margin: var(--space-v-tight) var(--space-h-tight);
   padding: var(--space-v-tight) var(--space-h-tighter) 5px;
 }
 .widget,
@@ -1801,8 +1800,7 @@ thead .actions > div {
   background-color: var(--color-red);
 }
 .widget.loading {
-  min-height: 244px;
-  background-color: var(--color-gray-darker);
+  display: none;
 }
 
 .widget h1 {

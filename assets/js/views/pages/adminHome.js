@@ -14,16 +14,29 @@
  * License. If not, see http://atelierdisko.de/licenses.
  */
 
-require(['jquery', 'widgets', 'domready!'], function($, Widgets) {
+require(['jquery', 'widgets', 'minigrid', 'domready!'], function($, Widgets, Minigrid) {
 
-  var dfrs = [];
+  function calcGrid() {
+    var dfr = new $.Deferred();
+
+    Minigrid({
+      container: '.widgets',
+      item: '.widget',
+      gutter: 20,
+      skipWindowOnLoad: true,
+      done: dfr.resolve
+    });
+
+    return dfr;
+  }
+
   $('.widget').each(function() {
-    var widget = Widgets.factory(this);
+    var el = this;
 
-    dfrs.push(widget.render());
+    Widgets.factory(el).render().done(function() {
+      calcGrid().done(function() {
+        $(el).removeClass('loading');
+      });
+    });
   });
-  $.when.apply($, dfrs).always(function() {
-    $('.widgets').removeClass('loading');
-  });
-
 });
