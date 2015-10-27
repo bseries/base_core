@@ -181,8 +181,10 @@ if (!PROJECT_DEBUG) {
 			// Searches for an ErrorsController in app and registered libraries. This
 			// allows apps to provide their own (subclass) of the errors controller,
 			// when modification or redirection of existing error cases is wanted.
-			$controller = Libraries::instance('controllers', 'Errors', [
-				'request' => $params['request']
+			$controller = Libraries::instance(
+				'controllers',
+				INSIDE_ADMIN ? 'base_core.Errors' : 'Errors',
+				['request' => $params['request']
 			]);
 
 			// We will try to call these methods on the controller. If a controller
