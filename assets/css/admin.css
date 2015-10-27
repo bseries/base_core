@@ -1781,6 +1781,7 @@ thead .actions > div {
 
 .widget {
   float: left;
+  clear: both;
   background-color: var(--color-gray-darkest);
   min-width: 350px;
   width: 45%;
