@@ -185,6 +185,8 @@ if (!PROJECT_DEBUG) {
 				'request' => $params['request']
 			]);
 
+			// We will try to call these methods on the controller. If a controller
+			// doesn't correctly sublcass the existing one, this will fail and it should.
 			$map = [
 				500 => 'fiveohoh',
 				404 => 'fourohfour',
