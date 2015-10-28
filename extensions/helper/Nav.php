@@ -72,7 +72,8 @@ class Nav extends \lithium\template\Helper {
 			'title' => null,
 			'rel' => null,
 			'target' => null,
-			'nested' => null
+			'nested' => null,
+			'scope' => null
 		];
 		$options = array_merge($default, $options);
 		$this->_items[$section][] = [
@@ -86,6 +87,7 @@ class Nav extends \lithium\template\Helper {
 			],
 			'title' => $title,
 			'url' => $url,
+			'scope' => $options['scope'],
 			'id' => $options['id'],
 			'class' => $options['class'],
 			'_title' => $options['title'] // This obviously is a hack :)
@@ -129,7 +131,9 @@ class Nav extends \lithium\template\Helper {
 			if ($item['exclude']) {
 				continue;
 			}
-			$subject = $this->_context->url($item['url']);
+			$subject = $this->_context->url(
+				$item['url'], $item['scope'] ? ['scope' => $item['scope']] : []
+			);
 			$object = $this->_context->request()->url;
 
 			if ($options['match'] === 'option') {
@@ -175,6 +179,7 @@ class Nav extends \lithium\template\Helper {
 		$out = null;
 		foreach ($items as $item) {
 			$linkOptions = array_filter([
+				'scope' => $item['scope'],
 				'escape' => $item['escape'],
 				'title' => $item['_title']
 			], function($v) {
