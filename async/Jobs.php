@@ -17,13 +17,15 @@
 
 namespace base_core\async;
 
-use Cz\Dependency as Resolver;
 use Exception;
-use RuntimeException;
+use base_core\util\TopologicalSorter;
 use lithium\analysis\Logger;
 use lithium\util\Set;
 
-class Jobs extends \lithium\core\StaticObject {
+/**
+ * Manages and executes recurring jobs. Jobs can have (optional) cross-frequency dependencies.
+ */
+class Jobs {
 
 	const FREQUENCY_HIGH   = 'high';
 	const FREQUENCY_MEDIUM = 'medium';
@@ -34,43 +36,6 @@ class Jobs extends \lithium\core\StaticObject {
 		'medium' => [],
 		'low' => []
 	];
-
-	public static function recur($name, $run, array $options = []) {
-		$options += [
-			'frequency' => null,
-			'depends' => []
-		];
-		if (isset($options['frequency'])) {
-			static::$_recurring[$options['frequency']][$name] = compact('name', 'run') + [
-				'depends' => Set::normalize($options['depends'])
-			];
-		}
-	}
-
-	public static function runName($name) {
-		if (!PROJECT_FEATURE_SCHEDULED_JOBS) {
-			throw new Exception("Scheduled jobs disabled! Tried running `{$name}`.");
-		}
-		foreach (static::$_recurring as $frequency => $data) {
-			if (!isset($data[$name])) {
-				continue;
-			}
-			return static::_run($data[$name]);
-		}
-		throw new Exception("Job `{$name}` not found.`");
-	}
-
-	protected static function _run($item) {
-		Logger::write('debug', "Running job `{$item['name']}`.");
-		$start = microtime(true);
-
-		$item['run']();
-
-		$took = round((microtime(true) - $start) / 1000, 2);
-		Logger::write('debug', "Finished running job `{$item['name']}`; took {$took}s.");
-
-		return true;
-	}
 
 	public static function read($name = null) {
 		if (!$name) {
@@ -83,44 +48,95 @@ class Jobs extends \lithium\core\StaticObject {
 		}
 	}
 
-	public static function runFrequency($frequency) {
-		if (!PROJECT_FEATURE_SCHEDULED_JOBS) {
-			throw new Exception("Scheduled jobs disabled! Tried running frequency `{$frequency}`.");
+	public static function recur($name, $unit, array $options = []) {
+		$options += [
+			'frequency' => static::FREQUENCY_MEDIUM,
+			'needs' => []
+		];
+
+		if (isset($options['depends'])) {
+			trigger_error('The `depends` job option is deprecated in favor of `needs`.', E_USER_DEPRECATED);
+			$options['needs'] = $options['depends'];
+			unset($options['depends']);
 		}
+		static::$_recurring[$options['frequency']][$name] = compact('name', 'unit') + [
+			'needs' => Set::normalize($needs) ?: []
+		];
+	}
+
+	public static function runName($name) {
+		foreach (static::$_recurring as $frequency => $data) {
+			if (!isset($data[$name])) {
+				continue;
+			}
+			return static::_run($data[$name]);
+		}
+		throw new Exception("Job `{$name}` not found.`");
+	}
+
+	public static function runFrequency($frequency) {
 		if (!static::$_recurring[$frequency]) {
 			Logger::write('debug', "No jobs to run for frequency `{$frequency}`.");
 			return true;
 		}
 		Logger::write('debug', "Running all jobs with frequency `{$frequency}`.");
 
-		// Resolve depdendencies and get order first
-		$resolver = new Resolver();
-		$deps = [];
+		// Allow cross frequency dependencies. Build a list of all names.
+		$available = [];
+		foreach (static::$_recurring as $data) {
+			$available = array_merge($available, array_keys($data));
+		}
+		$sorter = new TopologicalSorter();
 
-		foreach (static::$_recurring[$frequency] as $item) {
-			foreach ($item['depends'] as $name => $type) {
-				if (!$result = static::read($name)) { // Will find in any freq.
-					if ($type != 'optional') {
-						$message  = "Job `{$name}` not available but required dependency by ";
-						$message .= "`{$item['name']}`.";
-						throw new RuntimeException($message);
-					}
-					continue;
-				}
-				$deps[] = $name;
-			}
-			$resolver->add($item['name'], $deps);
+		foreach (static::$_recurring[$frequency] as $name => $item) {
+			$sorter->add($key, static::_dependencies($name, $available, $item['needs']));
 		}
-		if (!$order = $resolver->getResolved()) {
-			throw new RuntimeException("Failed to resolve run order dependencies.");
-		}
+		$order = $sorter->resolve();
 		Logger::write('debug', "Resolved dependencies into run order: " . implode(' -> ', $order));
 
 		foreach ($order as $name) {
-			static::_run(static::read($name));
+			static::_run(static::read($name)); // read() finds name in any freq.
 		}
 		Logger::write('debug', "Finished running all jobs with frequency `{$frequency}`.");
 		return true;
+	}
+
+	protected static function _run($item) {
+		Logger::write('debug', "Running job `{$item['name']}`.");
+		$start = microtime(true);
+
+		$item['unit']();
+
+		$took = round((microtime(true) - $start) / 1000, 2);
+		Logger::write('debug', "Finished running job `{$item['name']}`; took {$took}s.");
+
+		return true;
+	}
+
+	// FIXME Equal to Boot::_dependencies()
+	protected static function _dependencies($for, array $available, array $dependencies) {
+		$results = [];
+
+		foreach ($dependencies as $dep => $type) {
+			$result = [];
+
+			if (strpos($dep, '*') === false) {
+				if (isset($available[$dep])) {
+					$result[] = $dep;
+				}
+			} else {
+				foreach ($available as $key) {
+					if (fnmatch($dep, $key)) {
+						$result[] = $key;
+					}
+				}
+			}
+			if (!$result && $type !== 'optional') {
+				throw new Exception("No provider for `{$dep}` found (wanted by `{$for}`).");
+			}
+			$results = array_merge($results, $result);
+		}
+		return $results;
 	}
 }
 

@@ -30,7 +30,9 @@ class Boot {
 
 	// $needs may be string or an array
 	public static function add($provides, $needs, $unit) {
-		static::$_data[$provides] = compact('unit') + ['needs' => Set::normalize($needs) ?: []];
+		static::$_data[$provides] = compact('unit') + [
+			'needs' => Set::normalize($needs) ?: []
+		];
 	}
 
 	public static function run() {

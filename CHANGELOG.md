@@ -24,6 +24,7 @@
 ### Changed
 
 - Jobs has been moved into the "async" namespace.
+- Jobs now does not check for the _ASYNC_JOBS constant anymore.
 
 ### Backwards Incompatible Changes
 
