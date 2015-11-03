@@ -13,6 +13,7 @@
 - Material icons.
 - Tag fields can be styled via `input--tags` class.
 - Better scheme negotiation.
+- Jobs now uses new dependency resolver and drops dependency.
 
 ### Added
 
@@ -21,6 +22,8 @@
 - Token authentication via `auth_token` and `uuid`.
 
 ### Changed
+
+- Jobs has been moved into the "async" namespace.
 
 ### Backwards Incompatible Changes
 
