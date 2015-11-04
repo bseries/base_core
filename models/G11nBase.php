@@ -17,12 +17,12 @@
 
 namespace base_core\models;
 
-use Exception;
 use Collator;
-use lithium\g11n\Catalog;
-use lithium\util\Collection;
+use Exception;
 use lithium\core\Environment;
+use lithium\g11n\Catalog;
 use lithium\storage\Cache;
+use lithium\util\Collection;
 
 class G11nBase extends \base_core\models\Base {
 
@@ -56,10 +56,12 @@ class G11nBase extends \base_core\models\Base {
 		return Environment::get('locale');
 	}
 
+	// Implement
 	protected static function _available() {
 		throw new Exception('Not implemented, must override in subclass.');
 	}
 
+	// Implement
 	protected static function _data(array $options) {
 		throw new Exception('Not implemented, must override in subclass.');
 	}

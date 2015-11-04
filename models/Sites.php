@@ -17,28 +17,14 @@
 
 namespace base_core\models;
 
-class Sites extends \base_core\models\Base {
+class Sites extends \base_core\models\BaseRegister {
 
-	protected $_meta = [
-		'connection' => false
-	];
-
-	protected static $_data = [];
-
-	public static function register($id, array $data = []) {
+	public static function register($name, array $data = []) {
 		$data += [
-			'id' => $id,
+			'name' => $name,
 			'fqdn' => null // unused
 		];
-		static::$_data[$id] = static::create($data);
-	}
-
-	public static function find($type, array $options = []) {
-		if ($type === 'all') {
-			return static::$_data;
-		} elseif ($type === 'list') {
-			return array_combine($keys = array_keys(static::$_data), $keys);
-		}
+		static::$_data[$name] = static::create($data);
 	}
 }
 
