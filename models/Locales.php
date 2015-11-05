@@ -19,7 +19,7 @@ namespace base_core\models;
 
 use lithium\g11n\Catalog;
 
-class Locales extends \base_core\models\G11nBase {
+class Locales extends \base_core\models\BaseG11n {
 
 	protected static function _available() {
 		return explode(' ', PROJECT_LOCALES);

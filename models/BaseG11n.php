@@ -24,7 +24,7 @@ use lithium\g11n\Catalog;
 use lithium\storage\Cache;
 use lithium\util\Collection;
 
-class G11nBase extends \base_core\models\Base {
+class BaseG11n extends \base_core\models\Base {
 
 	protected $_meta = [
 		'connection' => false

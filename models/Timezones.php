@@ -17,7 +17,7 @@
 
 namespace base_core\models;
 
-class Timezones extends \base_core\models\G11nBase {
+class Timezones extends \base_core\models\BaseG11n {
 
 	protected static function _available() {
 		return explode(' ', PROJECT_TIMEZONES);
