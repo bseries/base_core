@@ -790,8 +790,8 @@ input[type="checkbox"] ~ label {
 
   /* Height of normal input elements is 75px (including bottom margin), we position
      the switch a little bit more to the top. */
-  margin-top: 15px;
-  margin-bottom: 30px;
+  margin-top: 25px;
+  margin-bottom: 20px;
 
   text-indent: 65px;
   height: 30px;
