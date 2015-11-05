@@ -17,23 +17,22 @@
 
 namespace base_core\controllers;
 
+use base_address\models\Addresses;
+use base_address\models\Countries;
+use base_core\extensions\cms\Settings;
+use base_core\models\Locales;
+use base_core\models\Timezones;
+use base_core\models\Users;
+use billing_core\models\Currencies;
+use billing_core\models\PaymentMethods;
+use billing_invoice\models\Invoices;
+use li3_flash_message\extensions\storage\FlashMessage;
+use li3_mailer\action\Mailer;
+use lithium\analysis\Logger;
 use lithium\core\Environment;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\security\Auth;
-use lithium\analysis\Logger;
-use li3_mailer\action\Mailer;
-use li3_flash_message\extensions\storage\FlashMessage;
-
-use base_core\models\Users;
-use base_core\extensions\cms\Settings;
-use base_address\models\Addresses;
-use billing_invoice\models\Invoices;
-
-use base_core\models\Locales;
-use base_core\models\Timezones;
-use billing_core\models\Currencies;
-use base_address\models\Countries;
 use lithium\security\validation\FormSignature;
 
 class UsersController extends \base_core\controllers\BaseController {
@@ -148,12 +147,18 @@ class UsersController extends \base_core\controllers\BaseController {
 			}
 		}
 
-		if (Libraries::get('billing_core')) {
+		if ($useBilling = Libraries::get('billing_core')) {
 			$currencies = Currencies::find('list');
+			$paymentMethods = PaymentMethods::find('list');
 		}
-		if (Libraries::get('billing_invoice')) {
-			$invoiceFrequencies = Invoices::enum('frequency');
+		$useInvoice = Libraries::get('billing_invoice');
+		$useEcommerce = Libraries::get('ecommerce_core');
+		$useRent = Libraries::get('ecommerce_rent');
+
+		if ($useAutoInvoice = $useInvoice && Settings::read('invoice.autoInvoice')) {
+			$autoInvoiceFrequencies = Invoices::enum('frequency');
 		}
+		$useAutoPay = $useInvoice && Settings::read('invoice.autoPay');
 
 		return compact(
 			'roles',
@@ -164,7 +169,15 @@ class UsersController extends \base_core\controllers\BaseController {
 			// Optional
 			'currencies',
 			'addresses',
-			'invoiceFrequencies'
+			'autoInvoiceFrequencies',
+			'paymentMethods',
+
+			'useBilling',
+			'useInvoice',
+			'useEcommerce',
+			'useRent',
+			'useAutoInvoice',
+			'useAutoPay'
 		);
 	}
 

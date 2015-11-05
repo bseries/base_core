@@ -1,6 +1,5 @@
 <?php
 
-use lithium\core\Libraries;
 use lithium\g11n\Message;
 
 $t = function($message, array $options = []) {
@@ -19,11 +18,6 @@ $this->set([
 		'is_locked' => $item->is_locked ? $t('locked') : null
 	]
 ]);
-
-$useBilling = Libraries::get('billing_core');
-$useInvoice = Libraries::get('billing_invoice');
-$useEcommerce = Libraries::get('ecommerce_core');
-$useRent = Libraries::get('ecommerce_rent');
 
 ?>
 <article>
@@ -149,16 +143,29 @@ $useRent = Libraries::get('ecommerce_rent');
 						'type' => 'text',
 						'label' => $t('Tax No.')
 					]) ?>
-					<?php if ($useInvoice): ?>
-						<?= $this->form->field('auto_invoice_frequency', [
-							'type' => 'select',
-							'label' => $t('Auto Invoice Frequency'),
-							'list' => $invoiceFrequencies
-						]) ?>
+					<?= $this->form->field('payment_method', [
+						'type' => 'select',
+						'label' => $t('Perferred payment method'),
+						'list' => $paymentMethods
+					]) ?>
+					<?php if ($useAutoInvoice): ?>
 						<?= $this->form->field('is_auto_invoiced', [
 							'type' => 'checkbox',
 							'label' => $t('auto invoice'),
 							'checked' => (boolean) $item->is_auto_invoiced,
+							'value' => 1
+						]) ?>
+						<?= $this->form->field('auto_invoice_frequency', [
+							'type' => 'select',
+							'label' => $t('Auto Invoice Frequency'),
+							'list' => $autoInvoiceFrequencies
+						]) ?>
+					<?php endif ?>
+					<?php if ($useAutoPay): ?>
+						<?= $this->form->field('is_auto_paying', [
+							'type' => 'checkbox',
+							'label' => $t('auto pay'),
+							'checked' => (boolean) $item->is_auto_paying,
 							'value' => 1
 						]) ?>
 					<?php endif ?>
