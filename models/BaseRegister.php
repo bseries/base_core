@@ -32,10 +32,17 @@ class BaseRegister extends \base_core\models\Base {
 		'base_core\extensions\data\behavior\Access'
 	];
 
-	protected static $_data = [];
+	protected $_data = [];
 
 	public static function register($name, array $data = []) {
-		throw new Exception('Must re-implement.');
+		static::_object()->_data[$name] = static::create(
+			static::_register(compact('name') + $data)
+		);
+	}
+
+	// Re-implement to customize behavior.
+	protected static function _register(array $data = []) {
+		return $data;
 	}
 
 	public static function find($type, array $options = []) {
@@ -45,14 +52,15 @@ class BaseRegister extends \base_core\models\Base {
 			$options['conditions']['name'] = $options['conditions']['id'];
 			unset($options['conditions']['id']);
 		}
+		$data = static::_object()->_data;
 
 		if ($type == 'all') {
-			return new Collection(['data' => static::$_data]);
+			return new Collection(compact('data'));
 		} elseif ($type == 'list') {
-			$useTitle = static::$_data ? method_exists(current(static::$_data), 'title') : false;
+			$useTitle = $data ? method_exists(current($data), 'title') : false;
 
 			$results = [];
-			foreach (static::$_data as $item) {
+			foreach ($data as $item) {
 				$results[$item->name] = $useTitle ? $item->title() : $item->name;
 			}
 			return $results;
@@ -64,12 +72,12 @@ class BaseRegister extends \base_core\models\Base {
 		} else {
 			$name = $type;
 		}
-		if (!isset(static::$_data[$name])) {
+		if (!isset($data[$name])) {
 			$message  = "Item `{$name}` not registered. Only have keys: ";
-			$message .= implode(', ', array_keys(static::$_data)) ?: '<none>';
+			$message .= implode(', ', array_keys($data)) ?: '<none>';
 			throw new OutOfBoundsException($message);
 		}
-		return static::$_data[$name];
+		return $data[$name];
 	}
 }
 

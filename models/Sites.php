@@ -19,12 +19,10 @@ namespace base_core\models;
 
 class Sites extends \base_core\models\BaseRegister {
 
-	public static function register($name, array $data = []) {
-		$data += [
-			'name' => $name,
+	protected static function _register(array $data) {
+		return $data + [
 			'fqdn' => null // unused
 		];
-		static::$_data[$name] = static::create($data);
 	}
 }
 
