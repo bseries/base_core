@@ -1784,6 +1784,7 @@ thead .actions > div {
   clear: both;
   background-color: var(--color-gray-darkest);
   min-width: 350px;
+  max-width: 550px;
   width: 45%;
   padding: var(--space-v-tight) var(--space-h-tighter) 5px;
 }
