@@ -49,7 +49,7 @@ class BaseRegister extends \base_core\models\Base {
 		if ($type == 'all') {
 			return new Collection(['data' => static::$_data]);
 		} elseif ($type == 'list') {
-			$useTitle = method_exists($item, 'title');
+			$useTitle = static::$_data ? method_exists(current(static::$_data), 'title') : false;
 
 			$results = [];
 			foreach (static::$_data as $item) {
