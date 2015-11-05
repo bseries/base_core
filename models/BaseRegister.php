@@ -57,7 +57,7 @@ class BaseRegister extends \base_core\models\Base {
 		if ($type == 'all') {
 			return new Collection(compact('data'));
 		} elseif ($type == 'list') {
-			$useTitle = $data ? method_exists(current($data), 'title') : false;
+			$useTitle = $data ? is_callable([current($data), 'title']) : false;
 
 			$results = [];
 			foreach ($data as $item) {
