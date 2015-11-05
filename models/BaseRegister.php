@@ -65,7 +65,9 @@ class BaseRegister extends \base_core\models\Base {
 			$name = $type;
 		}
 		if (!isset(static::$_data[$name])) {
-			throw new OutOfBoundsException("Item `{$name}` not registered.");
+			$message  = "Item `{$name}` not registered. Only have keys: ";
+			$message .= implode(', ', array_keys(static::$_data)) ?: '<none>';
+			throw new OutOfBoundsException($message);
 		}
 		return static::$_data[$name];
 	}
