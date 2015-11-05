@@ -114,6 +114,8 @@ $bootstrapFormal = function($name, $path) {
 			'panes' => ['*.config.access', '*.config.g11n'],
 			'widgets' => ['*.config.g11n'],
 			'contents' => null,
+			'billing' => null,
+			'ecommerce' => null,
 			'misc' => null
 		];
 		if (INSIDE_ADMIN === false) {
