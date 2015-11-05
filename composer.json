@@ -24,7 +24,6 @@
         "unionofrad/lithium": "1.0.*@dev",
         "composer/installers": "1.*@stable",
         "filp/whoops": "1.1.*@stable",
-        "czproject/dependency-php": "1.0.*@stable",
         "zendframework/zend-paginator": "2.*@stable",
         "zendframework/zend-servicemanager": "2.*@stable"
     },
