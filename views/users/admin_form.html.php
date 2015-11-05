@@ -148,24 +148,24 @@ $this->set([
 						'label' => $t('Perferred payment method'),
 						'list' => $paymentMethods
 					]) ?>
-					<?php if ($useAutoInvoice): ?>
-						<?= $this->form->field('is_auto_invoiced', [
-							'type' => 'checkbox',
-							'label' => $t('auto invoice'),
-							'checked' => (boolean) $item->is_auto_invoiced,
-							'value' => 1
-						]) ?>
-						<?= $this->form->field('auto_invoice_frequency', [
-							'type' => 'select',
-							'label' => $t('Auto Invoice Frequency'),
-							'list' => $autoInvoiceFrequencies
-						]) ?>
-					<?php endif ?>
 					<?php if ($useAutoPay): ?>
 						<?= $this->form->field('is_auto_paying', [
 							'type' => 'checkbox',
 							'label' => $t('auto pay'),
 							'checked' => (boolean) $item->is_auto_paying,
+							'value' => 1
+						]) ?>
+					<?php endif ?>
+					<?php if ($useAutoInvoice): ?>
+						<?= $this->form->field('auto_invoice_frequency', [
+							'type' => 'select',
+							'label' => $t('Auto Invoice Frequency'),
+							'list' => $autoInvoiceFrequencies
+						]) ?>
+						<?= $this->form->field('is_auto_invoiced', [
+							'type' => 'checkbox',
+							'label' => $t('auto invoice'),
+							'checked' => (boolean) $item->is_auto_invoiced,
 							'value' => 1
 						]) ?>
 					<?php endif ?>
