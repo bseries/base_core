@@ -41,7 +41,7 @@ class BaseRegister extends \base_core\models\Base {
 	}
 
 	// Re-implement to customize behavior.
-	protected static function _register(array $data = []) {
+	protected static function _register(array $data) {
 		return $data;
 	}
 
