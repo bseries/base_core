@@ -60,7 +60,7 @@ class Jobs {
 			unset($options['depends']);
 		}
 		static::$_recurring[$options['frequency']][$name] = compact('name', 'unit') + [
-			'needs' => Set::normalize($needs) ?: []
+			'needs' => Set::normalize($options['needs']) ?: []
 		];
 	}
 
