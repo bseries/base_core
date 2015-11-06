@@ -14,6 +14,7 @@
 - Tag fields can be styled via `input--tags` class.
 - Better scheme negotiation.
 - Jobs now uses new dependency resolver and drops dependency.
+- Aggregations are now more natural, they use regular model finders.
 
 ### Added
 

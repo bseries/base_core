@@ -23,31 +23,19 @@ use lithium\data\Entity;
 
 class Neigbors extends \li3_behaviors\data\model\Behavior {
 
-	// Retrieves the next and previous record, surroundig the current one.
+	// Retrieves the next and previous record, surrounding the current one.
 	//
-	// An order and direction must be given in query, use DESC direction for
+	// An order and direction should be given in query, use DESC direction for
 	// date fields, so that next is newer and prev is older.
 	//
-	// FIXME This is a naive implemetation.
-	// http://stackoverflow.com/questions/12293115/how-to-select-rows-surrounding-a-row-not-by-id
+	// FIXME This is a naive implemetation. Better:
+	//       http://stackoverflow.com/questions/12293115/how-to-select-rows-surrounding-a-row-not-by-id
 	public function neighbors($model, Behavior $behavior, Entity $entity, array $query = array()) {
-		$query += [
-			'conditions' => [],
-			'fields' => [],
-			'order' => [],
-			// No other constraints can be used.
-		];
 		$next = $prev = null;
 
-		if (!$query['order']) {
-			throw new Exception('Need field/direction in order, none set.');
-		}
-
 		$results = $model::find('all', [
-			'conditions' => $query['conditions'],
-			'order' => $query['order'],
 			'fields' => ['id']
-		])->to('array', ['indexed' => false]);
+		] + $query)->to('array', ['indexed' => false]);
 
 		foreach ($results as $key => $result) {
 			if ($result['id'] != $entity->id) {
@@ -63,14 +51,8 @@ class Neigbors extends \li3_behaviors\data\model\Behavior {
 		}
 
 		return [
-			'prev' => $prev ? $model::find('first', [
-				'conditions' => ['id' => $prev],
-				'fields' => $query['fields']
-			]) : false,
-			'next' => $next ? $model::find('first', [
-				'conditions' => ['id' => $next],
-				'fields' => $query['fields']
-			]) : false,
+			'prev' => $prev ? $model::find('first', $query) : false,
+			'next' => $next ? $model::find('first', $query) : false
 		];
 	}
 }

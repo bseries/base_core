@@ -17,11 +17,11 @@
 
 namespace base_core\extensions\data\behavior;
 
-use lithium\data\Entity;
-use li3_behaviors\data\model\Behavior;
-use lithium\util\Set;
-use lithium\util\Collection;
 use Exception;
+use li3_behaviors\data\model\Behavior;
+use lithium\data\Entity;
+use lithium\util\Collection;
+use lithium\util\Set;
 
 /**
  * This behavior allows to combine results from multiple models into one
@@ -62,26 +62,47 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 		'models' => []
 	];
 
-	public static function aggregate($model, Behavior $behavior, $type, array $options = []) {
-		if (!isset($options['aggregate'])) {
-			throw new Exception('The aggregate option is mandatory.');
-		}
-		if (isset($options['order'])) {
-			throw new Exception('The order option is not supported, use sorter instead.');
-		}
+	protected static function _finders($model, Behavior $behavior) {
+		$models = $behavior->config('models');
 
-		if ($type == 'all') {
+		$assertOptions = function($options, $requireAggregate = true) {
+			if (!isset($options['aggregate'])) {
+				throw new Exception('The aggregate option is mandatory.');
+			}
+			if (!is_array($options['aggregate'])) {
+				throw new Exception('Aggregation option must be array of names.');
+			}
+			if (isset($options['order'])) {
+				throw new Exception('The order option is not supported, use sorter instead.');
+			}
+			if (!empty($options['page']) && !empty($options['limit'])) {
+				throw new Exception('Page and limit options are mutually exclusive.');
+			}
+		};
+
+		$model::finder('all', function($self, $params, $chain) use ($model, $models, $assertOptions) {
+			$options = $params['options'];
+			$assertOptions($options);
+
 			$data = [];
 
 			$options += [
+				'aggregate' => [],
+				'sorter' => null, // function() {}
+
 				'page' => null,
 				'perPage' => 10,
-				'sorter' => null, // function() {}
 				'limit' => null // overall aggreation limit
-			];
 
-			if ($options['page'] && $options['limit']) {
-				throw new Exception('Page and limit options are mutually exclusive.');
+				// all other query options are moved onto aggregates
+			];
+			foreach (['conditions', 'fields'] as $option) {
+				if (isset($options[$option])) {
+					foreach ($options['aggregate'] as &$a) {
+						$a[$option] = $options[$option];
+					}
+					unset($options[$option]);
+				}
 			}
 
 			foreach ($options['aggregate'] as $n => $o) {
@@ -93,12 +114,13 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				// is applied later.
 				$o['limit'] = $options['limit'];
 
-				$_model = $behavior->config('models')[$n];
+				$_model = $models[$n];
 
 				foreach ($_model::find('all', $o) as $result) {
 					// Prefix key with model to make it unique
 					// and allow for quick lookup by index lookup.
-					$data[$_model . ':' . $result->id] = $model::create([
+					$data[$n . ':' . $result->id] = $model::create([
+						'id' => $n . ':' . $result->id,
 						'original' => $result
 					]);
 				}
@@ -121,33 +143,37 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				$data = array_slice($data, 0, $options['limit']);
 			}
 			return new Collection(['data' => &$data]);
+		});
 
-		} elseif ($type == 'first') {
-			if (!is_array($options['aggregate'])) {
-				throw new Exception('Aggregation option must be array of names.');
-			}
+		$model::finder('first', function($self, $params, $chain) use ($model, $models, $assertOptions) {
+			$options = $params['options'];
+			$assertOptions($options);
 
 			foreach (Set::normalize($options['aggregate']) as $n => $o) {
-				$_model = $behavior->config('models')[$n];
+				$_model = $models[$n];
 
 				if ($result = $_model::find('first', (array) $o)) {
-					return $model::create(['original' => $result]);
+					return $model::create([
+						'id' => $n . ':' . $result->id,
+						'original' => $result
+					]);
 				}
 			}
 			return;
+		});
 
-		} elseif ($type == 'count') {
-			if (!is_array($options['aggregate'])) {
-				throw new Exception('Aggregation option must be array of names.');
-			}
+		$model::finder('count', function($self, $params, $chain) use ($model, $models, $assertOptions) {
+			$options = $params['options'];
+			$assertOptions($options);
+
 			$result = 0;
 
 			foreach ($options['aggregate'] as $name => $value) {
-				$_model = $behavior->config('models')[$name];
+				$_model = $models[$name];
 				$result += $_model::find('count');
 			}
 			return $result;
-		}
+		});
 	}
 
 	public function type($model, Behavior $behavior, Entity $entity) {
@@ -157,6 +183,13 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			}
 		}
 		return false;
+	}
+
+	/* Deprecated / BC */
+
+	public static function aggregate($model, Behavior $behavior, $type, array $options = []) {
+		trigger_error('aggreate() is deprecated in favor of directly using find()', E_USER_DEPRECATED);
+		return $model::find($type, $options);
 	}
 }
 
