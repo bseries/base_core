@@ -17,15 +17,11 @@
 
 namespace base_core\extensions\data\behavior;
 
-use lithium\data\Entity;
-use li3_behaviors\data\model\Behavior;
-use lithium\util\Set;
-use lithium\util\Collection;
 use Exception;
+use li3_behaviors\data\model\Behavior;
+use lithium\data\Entity;
 
 class Neigbors extends \li3_behaviors\data\model\Behavior {
-
-	protected static $_defaults = [];
 
 	// Retrieves the next and previous record, surroundig the current one.
 	//
@@ -47,7 +43,7 @@ class Neigbors extends \li3_behaviors\data\model\Behavior {
 			throw new Exception('Need field/direction in order, none set.');
 		}
 
-		$results = static::find('all', [
+		$results = $model::find('all', [
 			'conditions' => $query['conditions'],
 			'order' => $query['order'],
 			'fields' => ['id']
@@ -67,11 +63,11 @@ class Neigbors extends \li3_behaviors\data\model\Behavior {
 		}
 
 		return [
-			'prev' => $prev ? static::find('first', [
+			'prev' => $prev ? $model::find('first', [
 				'conditions' => ['id' => $prev],
 				'fields' => $query['fields']
 			]) : false,
-			'next' => $next ? static::find('first', [
+			'next' => $next ? $model::find('first', [
 				'conditions' => ['id' => $next],
 				'fields' => $query['fields']
 			]) : false,
