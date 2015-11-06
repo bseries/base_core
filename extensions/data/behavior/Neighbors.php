@@ -21,7 +21,7 @@ use Exception;
 use li3_behaviors\data\model\Behavior;
 use lithium\data\Entity;
 
-class Neigbors extends \li3_behaviors\data\model\Behavior {
+class Neighbors extends \li3_behaviors\data\model\Behavior {
 
 	// Retrieves the next and previous record, surrounding the current one.
 	//

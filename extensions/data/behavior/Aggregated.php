@@ -49,9 +49,8 @@ use lithium\util\Set;
  *
  * On top of the aggregation functionality, paging functionality is
  * provided. Use it by providing the `page` option. How many items
- * are assigned to each page can be controlled via the `perPage`
- * option which defaults to 10 items per page. Pages are *not*
- * zero based.
+ * are assigned to each page can be controlled via the `limit`
+ * Pages are *not* zero based.
  *
  * @link http://php.net/uasort
  */
@@ -75,9 +74,6 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			if (isset($options['order'])) {
 				throw new Exception('The order option is not supported, use sorter instead.');
 			}
-			if (!empty($options['page']) && !empty($options['limit'])) {
-				throw new Exception('Page and limit options are mutually exclusive.');
-			}
 		};
 
 		$model::finder('all', function($self, $params, $chain) use ($model, $models, $assertOptions) {
@@ -91,8 +87,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				'sorter' => null, // function() {}
 
 				'page' => null,
-				'perPage' => 10,
-				'limit' => null // overall aggreation limit
+				'limit' => null
 
 				// all other query options are moved onto aggregates
 			];
@@ -119,8 +114,8 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				foreach ($_model::find('all', $o) as $result) {
 					// Prefix key with model to make it unique
 					// and allow for quick lookup by index lookup.
-					$data[$n . ':' . $result->id] = $model::create([
-						'id' => $n . ':' . $result->id,
+					$data[$n . '-' . $result->id] = $model::create([
+						'id' => $n . '-' . $result->id,
 						'original' => $result
 					]);
 				}
@@ -133,11 +128,11 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				uasort($data, $options['sorter']);
 			}
 
-			if ($options['page']) {
+			if ($options['page'] && $options['limit']) {
 				$data = array_slice(
 					$data,
-					$options['page'] > 1 ? $options['perPage'] * $options['page'] : 0,
-					$options['perPage']
+					$options['page'] > 1 ? $options['limit'] * $options['page'] : 0,
+					$options['limit']
 				);
 			} elseif ($options['limit']) {
 				$data = array_slice($data, 0, $options['limit']);
@@ -154,7 +149,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 
 				if ($result = $_model::find('first', (array) $o)) {
 					return $model::create([
-						'id' => $n . ':' . $result->id,
+						'id' => $n . '-' . $result->id,
 						'original' => $result
 					]);
 				}
@@ -176,7 +171,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 		});
 	}
 
-	public function type($model, Behavior $behavior, Entity $entity) {
+	public function aggregationName($model, Behavior $behavior, Entity $entity) {
 		foreach ($behavior->config('models') as $name => $_model) {
 			if ($_model === $entity->original->model()) {
 				return $name;
@@ -187,8 +182,13 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 
 	/* Deprecated / BC */
 
+	public function type($model, Behavior $behavior, Entity $entity) {
+		trigger_error('type() is deprecated in favor of aggregationName()', E_USER_DEPRECATED);
+		return $this->aggregationName($model, $behavior, $entity);
+	}
+
 	public static function aggregate($model, Behavior $behavior, $type, array $options = []) {
-		trigger_error('aggreate() is deprecated in favor of directly using find()', E_USER_DEPRECATED);
+		trigger_error('aggregate() is deprecated in favor of directly using find()', E_USER_DEPRECATED);
 		return $model::find($type, $options);
 	}
 }
