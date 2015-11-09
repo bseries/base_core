@@ -112,6 +112,9 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				$_model = $models[$n];
 
 				foreach ($_model::find('all', $o) as $result) {
+					if (!$result->id) {
+						throw new Exception('No value for id field. Check that id is in your fields.');
+					}
 					// Prefix key with model to make it unique
 					// and allow for quick lookup by index lookup.
 					$data[$n . '-' . $result->id] = $model::create([
