@@ -23,6 +23,8 @@ use temporary\Manager as Temporary;
 
 trait UrlDownloadTrait {
 
+	// FIXME Change Temporary so that it accepts kind of a cache key,
+	// and we can prevent redownloading the same file.
 	public function download($entity) {
 		$temporary = Temporary::file(['context' => 'download']);
 
