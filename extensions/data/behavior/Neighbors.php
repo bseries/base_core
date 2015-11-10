@@ -33,9 +33,11 @@ class Neighbors extends \li3_behaviors\data\model\Behavior {
 	public function neighbors($model, Behavior $behavior, Entity $entity, array $query = array()) {
 		$next = $prev = null;
 
-		$results = $model::find('all', [
+		// Do not rely on 'indexed' => false feature as we may get a regular collection as
+		// a result. In general this should not be the case, but `Aggregated` behavior does.
+		$results = array_values($model::find('all', [
 			'fields' => ['id']
-		] + $query)->to('array', ['indexed' => false]);
+		] + $query)->to('array', ['indexed' => false]));
 
 		foreach ($results as $key => $result) {
 			if ($result['id'] != $entity->id) {
