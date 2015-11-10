@@ -17,14 +17,14 @@
 
 namespace base_core\extensions\command;
 
-use base_core\extensions\cms\Jobs as CmsJobs;
+use base_core\async\Jobs as JobsCore;
 
 class Jobs extends \lithium\console\Command {
 
 	public function run($name = null) {
 		if (!$name) {
 			$this->header('Registered Recurring Jobs');
-			$data = CmsJobs::read();
+			$data = JobsCore::read();
 			$names = [];
 
 			foreach ($data['recurring'] as $frequency => $jobs) {
@@ -38,11 +38,11 @@ class Jobs extends \lithium\console\Command {
 		}
 
 		$this->out("Running job `{:green}{$name}{:end}`... ", false);
-		$this->out(CmsJobs::runName($name) ? 'OK' : 'FAILED');
+		$this->out(JobsCore::runName($name) ? 'OK' : 'FAILED');
 	}
 
 	public function runFrequency($frequency) {
-		CmsJobs::runFrequency($frequency);
+		JobsCore::runFrequency($frequency);
 	}
 }
 
