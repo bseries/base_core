@@ -61,6 +61,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 		'models' => []
 	];
 
+	// TODO Use UNION for SQL databases.
 	protected static function _finders($model, Behavior $behavior) {
 		$models = $behavior->config('models');
 
@@ -107,7 +108,11 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 				//
 				// We canot however calculate limits when paging as sorting
 				// is applied later.
-				$o['limit'] = $options['limit'];
+				if ($options['page']) {
+					unset($o['limit']);
+				} else {
+					$o['limit'] = $options['limit'];
+				}
 
 				$_model = $models[$n];
 
