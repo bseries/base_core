@@ -1515,6 +1515,8 @@ table .button.add-nested:hover {
 }
 .media-explorer input[type="checkbox"].good-night-switch ~ label {
   margin-top: 4px;
+  clear: none;
+  width: auto;
 }
 .media-explorer input[type="checkbox"].good-night-switch ~ label:before {
   background-color: var(--color-gray-darkest);
