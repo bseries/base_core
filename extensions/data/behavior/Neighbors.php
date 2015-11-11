@@ -53,8 +53,12 @@ class Neighbors extends \li3_behaviors\data\model\Behavior {
 		}
 
 		return [
-			'prev' => $prev ? $model::find('first', $query) : false,
-			'next' => $next ? $model::find('first', $query) : false
+			'prev' => $prev ? $model::find('first', [
+				'conditions' => ['id' => $prev]
+			] + $query) : false,
+			'next' => $next ? $model::find('first', [
+				'conditions' => ['id' => $next]
+			] + $query) : false
 		];
 	}
 }

@@ -65,7 +65,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 	protected static function _finders($model, Behavior $behavior) {
 		$models = $behavior->config('models');
 
-		$assertOptions = function($options, $requireAggregate = true) {
+		$formatOptions = function($options) {
 			if (!isset($options['aggregate'])) {
 				throw new Exception('The aggregate option is mandatory.');
 			}
@@ -75,31 +75,44 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			if (isset($options['order'])) {
 				throw new Exception('The order option is not supported, use sorter instead.');
 			}
+
+			// All conditions except the id are moved into aggregates.
+			if (isset($options['conditions'])) {
+				$name = $id = null;
+				if (isset($options['conditions']['id'])) {
+					// Assume <name>-<id> format.
+					list($name, $id) = explode('-', $options['conditions']['id']);
+					unset($options['conditions']['id']);
+				}
+				foreach ($options['aggregate'] as &$a) {
+					$a['conditions'] = $options['conditions'];
+				}
+				unset($options['conditions']);
+
+				if ($name && $id) {
+					$options['aggregate'][$name]['conditions']['id'] = $id;
+				}
+			}
+			if (isset($options['fields'])) {
+				foreach ($options['aggregate'] as &$a) {
+					$a['fields'] = $options['fields'];
+				}
+				unset($options['fields']);
+			}
+			return $options;
 		};
 
-		$model::finder('all', function($self, $params, $chain) use ($model, $models, $assertOptions) {
+		$model::finder('all', function($self, $params, $chain) use ($model, $models, $formatOptions) {
 			$options = $params['options'];
-			$assertOptions($options);
-
 			$data = [];
 
 			$options += [
 				'aggregate' => [],
 				'sorter' => null, // function() {}
-
 				'page' => null,
 				'limit' => null
-
-				// all other query options are moved onto aggregates
 			];
-			foreach (['conditions', 'fields'] as $option) {
-				if (isset($options[$option])) {
-					foreach ($options['aggregate'] as &$a) {
-						$a[$option] = $options[$option];
-					}
-					unset($options[$option]);
-				}
-			}
+			$formatOptions($options);
 
 			foreach ($options['aggregate'] as $n => $o) {
 				// We assume that in the worst case where only results
@@ -148,11 +161,16 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			return new Collection(['data' => &$data]);
 		});
 
-		$model::finder('first', function($self, $params, $chain) use ($model, $models, $assertOptions) {
+		// TODO Does not yet support sorting.
+		$model::finder('first', function($self, $params, $chain) use ($model, $models, $formatOptions) {
 			$options = $params['options'];
-			$assertOptions($options);
+			$options += [
+				'aggregate' => [],
+				'sorter' => null, // Currently not in use for this finder.
+			];
+			$options = $formatOptions($options);
 
-			foreach (Set::normalize($options['aggregate']) as $n => $o) {
+			foreach ($options['aggregate'] as $n => $o) {
 				$_model = $models[$n];
 
 				if ($result = $_model::find('first', (array) $o)) {
@@ -165,9 +183,12 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			return;
 		});
 
-		$model::finder('count', function($self, $params, $chain) use ($model, $models, $assertOptions) {
+		$model::finder('count', function($self, $params, $chain) use ($model, $models, $formatOptions) {
 			$options = $params['options'];
-			$assertOptions($options);
+			$options = $formatOptions($options);
+			$options += [
+				'aggregate' => []
+			];
 
 			$result = 0;
 
