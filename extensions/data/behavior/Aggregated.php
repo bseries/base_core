@@ -72,14 +72,18 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			if (!is_array($options['aggregate'])) {
 				throw new Exception('Aggregation option must be array of names.');
 			}
-			// Bring all aggregations into form name => options
-			$options['aggregate'] = Set::normalize($options['aggregate']);
+			// Bring all aggregations into form name => [options]
+			$options['aggregate'] = array_map(
+				function($v) { return (array) $v; },
+				Set::normalize($options['aggregate'])
+			);
 
 			if (isset($options['order'])) {
 				throw new Exception('The order option is not supported, use sorter instead.');
 			}
 
 			// All conditions except the id are moved into aggregates.
+			// This allows to find an aggregated item by its own ID.
 			if (isset($options['conditions'])) {
 				$name = $id = null;
 				if (isset($options['conditions']['id'])) {
@@ -176,7 +180,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			foreach ($options['aggregate'] as $n => $o) {
 				$_model = $models[$n];
 
-				if ($result = $_model::find('first', (array) $o)) {
+				if ($result = $_model::find('first', $o)) {
 					return $model::create([
 						'id' => $n . '-' . $result->id,
 						'original' => $result
@@ -197,7 +201,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 
 			foreach ($options['aggregate'] as $n => $o) {
 				$_model = $models[$n];
-				$result += $_model::find('count', (array) $o);
+				$result += $_model::find('count', $o);
 			}
 			return $result;
 		});
