@@ -192,9 +192,9 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 
 			$result = 0;
 
-			foreach ($options['aggregate'] as $name => $value) {
-				$_model = $models[$name];
-				$result += $_model::find('count');
+			foreach ($options['aggregate'] as $n => $o) {
+				$_model = $models[$n];
+				$result += $_model::find('count', (array) $o);
 			}
 			return $result;
 		});
