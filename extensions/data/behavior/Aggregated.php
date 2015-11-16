@@ -72,6 +72,9 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			if (!is_array($options['aggregate'])) {
 				throw new Exception('Aggregation option must be array of names.');
 			}
+			// Bring all aggregations into form name => options
+			$options['aggregate'] = Set::normalize($options['aggregate']);
+
 			if (isset($options['order'])) {
 				throw new Exception('The order option is not supported, use sorter instead.');
 			}
