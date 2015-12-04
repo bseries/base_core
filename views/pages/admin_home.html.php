@@ -15,7 +15,7 @@ $this->set([
 
 ?>
 <article class="home">
-	<div class="widgets loading">
+	<div class="widgets">
 		<?php foreach ($widgets as $item): ?>
 			<div
 				class="widget loading"

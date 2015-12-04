@@ -1787,9 +1787,6 @@ thead .actions > div {
 .home .widgets {
   width: 100%;
 }
-.widgets.loading .widget {
-  transition: background 2s;
-}
 
 .widget {
   float: left;
@@ -1799,6 +1796,7 @@ thead .actions > div {
   max-width: 550px;
   width: 45%;
   padding: var(--space-v-tight) var(--space-h-tighter) 5px;
+  transition: background .2s;
 }
 .widget,
 .widget a {
@@ -1814,7 +1812,8 @@ thead .actions > div {
   background-color: var(--color-red);
 }
 .widget.loading {
-  display: none;
+  transition: opacity 2s;
+  opacity: 0;
 }
 
 .widget h1 {
