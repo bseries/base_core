@@ -89,7 +89,7 @@ class Jobs {
 		$sorter = new TopologicalSorter();
 
 		foreach (static::$_recurring[$frequency] as $name => $item) {
-			$sorter->add($key, static::_dependencies($name, $available, $item['needs']));
+			$sorter->add($name, static::_dependencies($name, $available, $item['needs']));
 		}
 		$order = $sorter->resolve();
 		Logger::write('debug', "Resolved dependencies into run order: " . implode(' -> ', $order));
