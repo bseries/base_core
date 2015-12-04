@@ -24,6 +24,7 @@ use base_core\models\Locales;
 use base_core\models\Timezones;
 use base_core\models\Users;
 use billing_core\models\Currencies;
+use billing_core\models\TaxTypes;
 use billing_core\models\PaymentMethods;
 use billing_invoice\models\Invoices;
 use li3_flash_message\extensions\storage\FlashMessage;
@@ -149,6 +150,7 @@ class UsersController extends \base_core\controllers\BaseController {
 
 		if ($useBilling = Libraries::get('billing_core')) {
 			$currencies = Currencies::find('list');
+			$taxTypes = TaxTypes::find('list');
 			$paymentMethods = PaymentMethods::find('list');
 		}
 		$useInvoice = Libraries::get('billing_invoice');
@@ -170,6 +172,7 @@ class UsersController extends \base_core\controllers\BaseController {
 			'currencies',
 			'addresses',
 			'autoInvoiceFrequencies',
+			'taxTypes',
 			'paymentMethods',
 
 			'useBilling',

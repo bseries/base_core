@@ -143,6 +143,11 @@ $this->set([
 						'type' => 'text',
 						'label' => $t('Tax No.')
 					]) ?>
+					<?= $this->form->field('tax_type', [
+						'type' => 'select',
+						'label' => $t('Perferred tax type'),
+						'list' => $taxTypes
+					]) ?>
 					<?= $this->form->field('payment_method', [
 						'type' => 'select',
 						'label' => $t('Perferred payment method'),
