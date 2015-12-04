@@ -57,11 +57,9 @@ class BaseRegister extends \base_core\models\Base {
 		if ($type == 'all') {
 			return new Collection(compact('data'));
 		} elseif ($type == 'list') {
-			$useTitle = $data ? is_callable([current($data), 'title']) : false;
-
 			$results = [];
 			foreach ($data as $item) {
-				$results[$item->name] = $useTitle ? $item->title() : $item->name;
+				$results[$item->name] = $item->title();
 			}
 			return $results;
 		} elseif ($type == 'first') {
@@ -78,6 +76,10 @@ class BaseRegister extends \base_core\models\Base {
 			throw new OutOfBoundsException($message);
 		}
 		return $data[$name];
+	}
+
+	public function title($entity) {
+		return $entity->title;
 	}
 }
 

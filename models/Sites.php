@@ -21,6 +21,7 @@ class Sites extends \base_core\models\BaseRegister {
 
 	protected static function _register(array $data) {
 		return $data + [
+			'title' => $data['name'],
 			'fqdn' => null // unused
 		];
 	}
