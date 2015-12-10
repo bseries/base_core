@@ -1262,7 +1262,7 @@ table td {
 }
 table .flag {
   /* More space and different styling for flags. */
-  width: 60px;
+  width: 65px;
   padding-left: 5px;
   padding-right: 5px;
   text-align: center;
