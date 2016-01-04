@@ -59,7 +59,7 @@ Settings::register('contact.default', [
 ]);
 
 Settings::register('contact.exec', [
-	'organization' => 'Atelier Disko',
+	'organization' => 'Atelier Disko UG (haftungsbeschränkt) & Co. KG',
 	'address_line_1' => 'Budapester Straße 49',
 	'locality' => 'Hamburg',
 	'postal_code' => '20359',
