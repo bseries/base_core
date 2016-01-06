@@ -641,7 +641,6 @@ textarea {
   padding-left: 10px;
   padding-right: 10px;
   width: 100%;
-  max-width: 600px;
   background-color: white;
 
   transition: border-color .5s;
@@ -865,6 +864,23 @@ form .error {
   margin-bottom: 1em;
 }
 
+.textarea-size--beta,
+.editor-size--beta textarea,
+.editor-size--beta .wysihtml5-sandbox {
+  min-height: 50em;
+}
+.textarea-size--gamma,
+.editor-size--gamma textarea,
+.editor-size--gamma .wysihtml5-sandbox {
+  min-height: 10em;
+}
+.textarea-size--delta,
+.editor-size--delta textarea,
+.editor-size--delta .wysihtml5-sandbox {
+  min-height: 7em;
+}
+
+
 /* Buttons
 ---------------------------------------------------------------- */
 a.button {
@@ -994,19 +1010,6 @@ button.large,
 .use-editor textarea {
   color: transparent;
   margin-top: 3.75em;
-}
-
-.editor-size--beta textarea,
-.editor-size--beta .wysihtml5-sandbox {
-  min-height: 50em;
-}
-.editor-size--gamma textarea,
-.editor-size--gamma .wysihtml5-sandbox {
-  min-height: 10em;
-}
-.editor-size--delta textarea,
-.editor-size--delta .wysihtml5-sandbox {
-  min-height: 7em;
 }
 
 /* Modal
