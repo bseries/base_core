@@ -25,7 +25,7 @@ use base_core\models\Timezones;
 use base_core\models\Users;
 use billing_core\models\Currencies;
 use billing_core\models\TaxTypes;
-use billing_core\models\PaymentMethods;
+use billing_payment\models\PaymentMethods;
 use billing_invoice\models\Invoices;
 use li3_flash_message\extensions\storage\FlashMessage;
 use li3_mailer\action\Mailer;
