@@ -18,8 +18,8 @@
 namespace base_core\models;
 
 use Exception;
-use OutOfBoundsException;
 use InvalidArgumentException;
+use OutOfBoundsException;
 use lithium\util\Collection;
 
 class BaseRegister extends \base_core\models\Base {
