@@ -18,30 +18,35 @@
 namespace base_core\core;
 
 use base_core\core\Configuration;
-use lithium\util\Collection;
 
+// Double lazy loadable configurations.
 trait Configurable {
 
-	protected static $_configurations = null;
+	protected static $_configurations = [];
 
 	public static function config($name, $config = null) {
-		if (!static::$_configurations) {
-			static::$_configurations = new Collection();
-		}
 		if ($config === null) {
 			if ($name === true) {
+				foreach (static::$_configurations as $name => &$c) {
+					if (!is_a($c, 'Configuration')) {
+						$c = static::_initializeConfiguration($c);
+					}
+				}
 				return static::$_configurations;
 			}
 			if (!isset(static::$_configurations[$name])) {
 				throw new OutOfRangeException("No configuration `{$name}` available.");
 			}
-			return static::$_configurations[$name];
+			if (!is_a($c = static::$_configurations[$name], 'Configuration')) {
+				static::$_configurations[$name] = static::_initializeConfiguration($c);
+			}
+			static::$_configurations[$name];
 		}
-		static::$_configurations[$name] = static::_config($config);
+		static::$_configurations[$name] = $config;
 	}
 
-	static function _config($config) {
-		return new Configuration(['data' => $config]);
+	static function _initializeConfiguration($config) {
+		return new Configuration(is_callable($config) ? $config() : $config);
 	}
 }
 

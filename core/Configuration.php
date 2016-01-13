@@ -17,53 +17,29 @@
 
 namespace base_core\core;
 
-/**
- * A lazy load-able configuration.
- */
 class Configuration {
 
 	protected $_data = [];
 
-	protected $_initializer = null;
-
-	protected $_isInitialized = false;
-
 	/**
 	 * Constructor.
 	 *
-	 * @param array $config Configuration for this class. The available options are as follows:
-	 *        - `'initializer'` _null|callable_: A callable that will be used to initialize the
-	 *          instance. Good for lazyily initializing objects for this configuration.
-	 *        - `'data'` _array_: The actual configuration data.
+	 * @param array|callable $config Either an array of configuration data or a callable
+	 *        which will be used for lazy initialization-
 	 * @return void
 	 */
-	public function __construct(array $config = []) {
-		$config += [
-			'initializer' => null,
-			'data' => []
-		];
-		if (!$this->_initializer = $config['initializer']) {
-			$this->_isinitialized = true;
-		}
-		$this->_data = $config['data'];
+	public function __construct(array $config) {
+		$this->_data = $config;
 	}
 
 	public function __get($name) {
 		if (!array_key_exists($name, $this->_data)) {
 			return null;
 		}
-		if ($this->_initialized) {
-			return $this->_data[$offset];
-		}
-		$initializer = $this->_intializer;
-		$this->_data = $initializer($this->_data);
-
-		$this->_isInitialized = true;
 		return $this->_data[$name];
 	}
 
 	public function __set($name, $value) {
-		$this->_isInitialized = false;
 		$this->_data[$name] = $value;
 	}
 }
