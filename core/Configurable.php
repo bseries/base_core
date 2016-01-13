@@ -17,7 +17,6 @@
 
 namespace base_core\core;
 
-use OutOfRangeException;
 use base_core\core\Configuration;
 use lithium\util\Collection;
 
@@ -38,11 +37,11 @@ trait Configurable {
 			}
 			return static::$_configurations[$name];
 		}
-		if (is_object($config)) {
-			static::$_configurations[$name] = $config;
-		} else {
-			static::$_configurations[$name] = new Configuration(['data' => $config]);
-		}
+		static::$_configurations[$name] = static::_config($config);
+	}
+
+	static function _config($config) {
+		return new Configuration(['data' => $config]);
 	}
 }
 
