@@ -20,7 +20,7 @@ namespace base_core\core;
 /**
  * A lazy load-able configuration.
  */
-class Configuration implements \ArrayAccess {
+class Configuration {
 
 	protected $_data = [];
 
@@ -48,17 +48,8 @@ class Configuration implements \ArrayAccess {
 		$this->_data = $config['data'];
 	}
 
-	public function offsetExists($offset) {
-		return array_key_exists($offset, $this->_data);
-	}
-
-	public function offsetSet($offset, $value) {
-		$this->_isInitialized = false;
-		$this->_data[$offset] = $value;
-	}
-
-	public function offsetGet($offset) {
-		if (!array_key_exists($offset, $this->_data)) {
+	public function __get($name) {
+		if (!array_key_exists($name, $this->_data)) {
 			return null;
 		}
 		if ($this->_initialized) {
@@ -71,8 +62,9 @@ class Configuration implements \ArrayAccess {
 		return $this->_data[$name];
 	}
 
-	public function offsetUnset($offset) {
-		unset($this->_data[$offset]);
+	public function __set($name, $value) {
+		$this->_isInitialized = false;
+		$this->_data[$name] = $value;
 	}
 }
 
