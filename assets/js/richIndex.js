@@ -168,7 +168,7 @@ function($, Router, ThingsLoaded, Progress, _) {
 
         $active = _this.$element.find('.nav-paging .active');
         if ($active.length) {
-          var match = $active.attr('href').match(/page:(\d)/);
+          var match = $active.attr('href').match(/page:(\d+)/);
           _this.currentPage = match ? match[1] : 1;
         } else {
           _this.currentPage = 1;
