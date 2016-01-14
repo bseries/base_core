@@ -113,7 +113,7 @@ $bootstrapFormal = function($name, $path) {
 			'jobs' => ['*.config.settings'],
 			'panes' => ['*.config.access', '*.config.g11n'],
 			'widgets' => ['*.config.g11n'],
-			'contents' => null,
+			'cms' => null,
 			'billing' => null,
 			'ecommerce' => null,
 			'misc' => null
@@ -151,10 +151,10 @@ $bootstrapFormal = function($name, $path) {
 			'settings' => ['libraries.*.config.settings'],
 			'media' => ['libraries.*.config.media'],
 			'switchboard' => null,
-			'contents' => [
+			'cms' => [
 				// Contents app config is always present but contains commented
 				// code. cms_content may not always be present.
-				'libraries.cms_content.config.contents' => 'optional'
+				'libraries.cms_content.config.cms' => 'optional'
 			],
 			'billing' => [
 				'libraries.billing_*.config.settings',
@@ -178,7 +178,7 @@ $bootstrapFormal = function($name, $path) {
 	];
 	if ($name === 'app') {
 		$deprecated[] = 'base';
-		$deprecated[] = 'cms';
+		$deprecated[] = 'contents';
 	}
 	if ($name !== 'base_core') {
 		$deprecated[] = 'bootstrap';
