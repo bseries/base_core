@@ -17,6 +17,7 @@
 
 namespace base_core\extensions\data\behavior;
 
+use Exception;
 use li3_behaviors\data\model\Behavior;
 
 class StatusChange extends \li3_behaviors\data\model\Behavior {
@@ -26,6 +27,10 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 	];
 
 	protected static function _filters($model, Behavior $behavior) {
+		if (!$model::respondsTo('statusChange')) {
+			throw new Exception("No statusChange() method implemented in model `{$model}`.");
+		}
+
 		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
 			$field = $behavior->config('field');
 			$to = null;
