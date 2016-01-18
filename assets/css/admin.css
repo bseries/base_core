@@ -805,7 +805,7 @@ input[type="checkbox"] ~ label:after {
   bottom: 0;
   content: ' ';
   width: 55px;
-  background-color: var(--color-red);
+  background-color: var(--color-gray-dark);
   border-radius: 20px;
   transition: all 100ms ease-in;
 }
