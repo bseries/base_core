@@ -31,9 +31,9 @@ $this->set([
 				<?php if ($useBilling): ?>
 					<?= $this->form->field('number', [
 						'type' => 'text',
-						'label' => $t('Number')
+						'label' => $t('Number'),
+						'placeholder' => $t('Leave empty to autogenerate number.')
 					]) ?>
-					<div class="help"><?= $t('Leave empty to autogenerate number.') ?></div>
 				<?php endif ?>
 			</section>
 			<section class="grid-column-right">
@@ -74,11 +74,9 @@ $this->set([
 				<?=$this->form->field('password', [
 					'type' => 'password',
 					'label' => $t('New password'),
-					'autocomplete' => 'off'
+					'autocomplete' => 'off',
+					'placeholder' => $t('Keep empty to leave password unchanged.')
 				]) ?>
-				<div class="help">
-					<?= $t('Keep empty to leave password unchanged.') ?>
-				</div>
 				<?=$this->form->field('auth_token', [
 					'type' => 'text',
 					'label' => $t('Authentication token')
@@ -89,11 +87,11 @@ $this->set([
 				<?=$this->form->field('reset_answer', [
 					'type' => 'password',
 					'label' => $t('New reset answer'),
-					'autocomplete' => 'off'
+					'autocomplete' => 'off',
+					'placeholder' =>  $t('Keep empty to leave answer unchanged.')
 				]) ?>
 				<div class="help">
 					<?= $t('Required to allow resetting password.') ?>
-					<?= $t('Keep empty to leave answer unchanged.') ?>
 				</div>
 				<?=$this->form->field('reset_token', [
 					'type' => 'text',
@@ -122,12 +120,19 @@ $this->set([
 						'label' => $t('Billing Address'),
 						'list' => $addresses
 					]) ?>
-					<div class="help">
-						<?= $this->html->link($t('Create new address.'), [
+
+					<?= $this->html->link($t('address'), [
+						'library' => 'base_address',
+						'controller' => 'Addresses', 'action' => 'add'
+					], ['class' => 'button add']) ?>
+
+					<?php if ($item->exists() && $item->billing_address_id): ?>
+						<?= $this->html->link($t('open'), [
 							'library' => 'base_address',
-							'controller' => 'Addresses', 'action' => 'add'
-						]) ?>
-					</div>
+							'controller' => 'Addresses', 'action' => 'edit',
+							'id' => $item->billing_address_id
+						], ['class' => 'button']) ?>
+					<?php endif ?>
 				</section>
 				<section class="grid-column-right">
 					<?= $this->form->field('currency', [
