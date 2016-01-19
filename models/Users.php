@@ -19,18 +19,18 @@ namespace base_core\models;
 
 use Exception;
 use RuntimeException;
-use lithium\core\Libraries;
-use lithium\util\Validator;
-use lithium\util\String;
-use lithium\security\Password;
-use lithium\g11n\Message;
-use lithium\analysis\Logger;
-
+use base_address\models\Addresses;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
 use base_core\security\Gate;
-
-use base_address\models\Addresses;
+use billing_core\models\ClientGroups;
+use billing_core\models\TaxTypes;
+use lithium\analysis\Logger;
+use lithium\core\Libraries;
+use lithium\g11n\Message;
+use lithium\security\Password;
+use lithium\util\String;
+use lithium\util\Validator;
 
 class Users extends \base_core\models\Base {
 
@@ -149,6 +149,8 @@ class Users extends \base_core\models\Base {
 		}
 		return $entity->name;
 	}
+
+	/* Security */
 
 	// Checks if the entity will be treated as if it was locked. I.e. because
 	// the password is expired etc. Might be used to verify if user
@@ -347,6 +349,8 @@ class Users extends \base_core\models\Base {
 		]);
 	}
 
+	/* Address */
+
 	// Will always return a address object, even if none is
 	// associated with this user.
 	//
@@ -377,6 +381,18 @@ class Users extends \base_core\models\Base {
 			'country' => $entity->country
 		]);
 	}
+
+	/* Billing */
+
+	public function taxType($entity) {
+		return TaxTypes::find('first', ['conditions' => ['name' => $entity->tax_type]]);
+	}
+
+	public function clientGroup($entity) {
+		return ClientGroups::find('first', ['conditions' => ['user' => $entity->id]]);
+	}
+
+	/* Deprecated / BC */
 
 	// @deprecated
 	public function isVirtual() {
