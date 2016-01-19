@@ -151,6 +151,8 @@ class UsersController extends \base_core\controllers\BaseController {
 		if ($useBilling = Libraries::get('billing_core')) {
 			$currencies = Currencies::find('list');
 			$taxTypes = TaxTypes::find('list');
+		}
+		if ($useBillingPayment = Libraries::get('billing_payment')) {
 			$paymentMethods = PaymentMethods::find('list');
 		}
 		$useInvoice = Libraries::get('billing_invoice');
@@ -176,6 +178,7 @@ class UsersController extends \base_core\controllers\BaseController {
 			'paymentMethods',
 
 			'useBilling',
+			'useBillingPayment',
 			'useInvoice',
 			'useEcommerce',
 			'useRent',

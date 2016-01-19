@@ -153,11 +153,14 @@ $this->set([
 						'label' => $t('Perferred tax type'),
 						'list' => $taxTypes
 					]) ?>
-					<?= $this->form->field('payment_method', [
-						'type' => 'select',
-						'label' => $t('Perferred payment method'),
-						'list' => $paymentMethods
-					]) ?>
+
+					<?php if ($useBillingPayment): ?>
+						<?= $this->form->field('payment_method', [
+							'type' => 'select',
+							'label' => $t('Perferred payment method'),
+							'list' => $paymentMethods
+						]) ?>
+					<?php endif ?>
 					<?php if ($useAutoPay): ?>
 						<?= $this->form->field('is_auto_paying', [
 							'type' => 'checkbox',
