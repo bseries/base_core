@@ -31,7 +31,9 @@ function($, wysihtml5, MediaExplorerModal) {
         'rt__small': 1,
         'rt__h--beta': 1,
         'rt__h--gamma': 1,
-        'rt__aside': 1
+        'rt__aside': 1,
+        'rt__verbatim': 1,
+        'rt__code': 1
       },
       tags: {
         "aside":  { "set_class": "rt__aside" },
@@ -57,6 +59,18 @@ function($, wysihtml5, MediaExplorerModal) {
           }
         },
         div: {
+          "check_attributes": {
+            "class": "class"
+          }
+        },
+        pre: {
+          "set_class": "rt__verbatim",
+          "check_attributes": {
+            "class": "class"
+          }
+        },
+        code: {
+          "set_class": "rt__code",
           "check_attributes": {
             "class": "class"
           }
@@ -166,6 +180,8 @@ function($, wysihtml5, MediaExplorerModal) {
          '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
          '<a data-wysihtml5-command="insertUnorderedList" class="plugin-list button">' + _('list') + '</a>' +
          '<a data-wysihtml5-command="createLink" class="plugin-link button">' + _('link') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="pre" class="plugin-verbatim button">' + _('verbatim') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="code" class="plugin-code button">' + _('code') + '</a>' +
          '<a data-wysihtml5-command="undo" class="plugin-history button">' + _('undo') + '</a>' +
          '<a data-wysihtml5-command="redo" class="plugin-history button">' + _('redo') + '</a>' +
          '<div data-wysihtml5-dialog="createLink" style="display: none;">' +

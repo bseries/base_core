@@ -996,6 +996,9 @@ button.large,
 	font-weight: bold;
 	text-transform: uppercase;
 }
+[data-wysihtml5-command-value="pre"] {
+  font-family: var(--font-family-mono);
+}
 
 .editor .toolbar {
   min-height: 3em;

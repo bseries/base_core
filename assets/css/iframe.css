@@ -72,6 +72,7 @@ body {
 .rt__aside:before {
   opacity: .7;
   content: "(marginal) ";
+  vertical-align: top;
 }
 
 .wysihtml5-editor h2,
