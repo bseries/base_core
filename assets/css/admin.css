@@ -76,16 +76,62 @@ body {
 
   color: var(--color-dim-black);
   background-color: var(--color-dim-blue);
-
-  padding: var(--space-v-tight) var(--space-h-tight);
-
-  min-width: 1200px;
 }
 
 * {
   box-sizing: border-box;
 }
 
+/* Layouts/Content
+---------------------------------------------------------------- */
+body {
+  padding: var(--space-v-tight) var(--space-h-tight);
+}
+.layout-admin {
+  min-width: 1200px;
+}
+.layout-admin .content-wrapper {
+  margin-right: -20px;
+  min-width: 1000px;
+}
+.layout-admin #content {
+  padding: 80px 90px 60px 80px;
+
+  /* Hack to spread content over much space as possible. */
+  position: relative;
+  z-index: 1;
+  border-left: 100px solid var(--color-dim-blue);
+  margin-left: -100px;
+  width: 100%;
+
+  float: left;
+  min-height: 70em;
+  background: var(--color-gray-neutral);
+
+  border-top: 1px solid white;
+}
+
+.layout-admin-blank {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.layout-admin-blank #container {
+  height: 100%;
+  width: 100%;
+}
+.layout-admin-blank .content-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.layout-admin-blank .header--main {
+  position: absolute;
+}
+
+/* Misc
+-------------------------------------------------------------- */
 pre, code, .fixed {
   font-family: var(--font-family-mono);
   font-size: 14px;
@@ -96,8 +142,6 @@ pre, code, .fixed {
   color: var(--color-gray-darkest);
 }
 
-/* Misc
--------------------------------------------------------------- */
 .hide {
   display: none;
 }
@@ -329,10 +373,10 @@ html {
   position: relative;
   min-height: 100%;
 }
-body {
+.layout-admin body {
   margin: 0 0 100px; /* bottom = footer height */
 }
-footer.main {
+.layout-admin footer.main {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -488,39 +532,6 @@ footer.main {
 }
 .blocktab-h.active {
   color: var(--color-dim-black);
-}
-
-/* Content
----------------------------------------------------------------- */
-#content {
-  padding: 80px 90px 60px 80px;
-
-  /* Hack to spread content over much space as possible. */
-  position: relative;
-  z-index: 1;
-  border-left: 100px solid var(--color-dim-blue);
-  margin-left: -100px;
-  width: 100%;
-
-  float: left;
-  min-height: 70em;
-  background: var(--color-gray-neutral);
-
-  border-top: 1px solid white;
-}
-
-.layout-admin-blank #content {
-  min-height: 0;
-  padding-top: 50px;
-  margin-left: 0;
-  border-left: 0;
-}
-.layout-admin-blank .content-wrapper {
-  margin-right: 0;
-}
-.content-wrapper {
-  margin-right: -20px;
-  min-width: 1000px;
 }
 
 
@@ -1889,11 +1900,12 @@ thead .actions > div {
 .session {
   background-image: url(../img/session_bg.jpg);
   background-size: cover;
+  background-position: center;
 }
 .session #content {
-  float: none;
-  width: 500px;
-  margin: 10% auto;
+  padding: var(--space-v-normal) var(--space-h-normal);
+  background-color: var(--color-gray-bright);
+  width: 400px;
 }
 
 /* Drop / Tooltip
