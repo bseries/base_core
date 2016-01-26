@@ -373,7 +373,7 @@ html {
   position: relative;
   min-height: 100%;
 }
-.layout-admin body {
+.layout-admin {
   margin: 0 0 100px; /* bottom = footer height */
 }
 .layout-admin footer.main {
