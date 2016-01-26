@@ -31,6 +31,8 @@ use lithium\net\http\Media;
 use lithium\net\http\Router;
 use lithium\security\Auth;
 use lithium\storage\Cache;
+use base_core\security\Gate;
+
 //
 // Admin routing. Order matters.
 //
@@ -110,6 +112,10 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 		$flash = FlashMessage::read();
 		FlashMessage::clear();
 
+		// Security: Do not disclose route information in higher security contexts.
+		if (!Gate::checkRight('panel')) {
+			$app['routes'] = [];
+		}
 
 		$params['data'] += compact(
 			'authedUser',

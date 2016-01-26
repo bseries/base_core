@@ -213,9 +213,6 @@ class UsersController extends \base_core\controllers\BaseController {
 			return $this->redirect('Pages::home');
 		}
 		$this->_render['layout'] = 'admin_blank';
-
-		// Disable scripts to minimize attack surface.
-		$this->set(['noScripts' => true]);
 	}
 
 	public function admin_login() {
