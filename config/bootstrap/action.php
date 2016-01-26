@@ -112,8 +112,8 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 		$flash = FlashMessage::read();
 		FlashMessage::clear();
 
-		// Security: Do not disclose route information in higher security contexts.
-		if (!Gate::checkRight('panel')) {
+		// Security: Do not disclose route information in higher security administration contexts.
+		if (!empty($request->params['admin']) && !Gate::checkRight('panel')) {
 			$app['routes'] = [];
 		}
 
