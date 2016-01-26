@@ -39,19 +39,25 @@ $page += [
 		]) ?>
 		<?php echo $this->styles() ?>
 
-		<!-- Scripts -->
-		<?php
-			$scripts = array_merge(
-				['/base-core/js/require'],
-				$this->assets->availableScripts('base', ['admin' => true]),
-				$this->assets->availableScripts('view', ['admin' => true]),
-				$this->assets->availableScripts('layout', ['admin' => true])
-			);
-		?>
-		<?php echo $this->assets->script($scripts) ?>
-		<?php echo $this->scripts() ?>
+		<?php if (!empty($noScripts)): ?>
+			<!-- Global Application Object Definition -->
+			<script>
+				App = <?php echo json_encode($app, JSON_PRETTY_PRINT) ?>
+			</script>
 
-		<!-- Dynamically added -->
+			<!-- Scripts -->
+			<?php
+				$scripts = array_merge(
+					['/base-core/js/require'],
+					$this->assets->availableScripts('base', ['admin' => true]),
+					$this->assets->availableScripts('view', ['admin' => true]),
+					$this->assets->availableScripts('layout', ['admin' => true])
+				);
+			?>
+			<?php echo $this->assets->script($scripts) ?>
+			<?php echo $this->scripts() ?>
+			<!-- Dynamically added -->
+		<?php endif ?>
 	</head>
 	<?php
 		$classes = ['layout-admin-blank'];

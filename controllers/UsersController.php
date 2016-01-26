@@ -17,6 +17,7 @@
 
 namespace base_core\controllers;
 
+use Exception;
 use base_address\models\Addresses;
 use base_address\models\Countries;
 use base_core\extensions\cms\Settings;
@@ -25,8 +26,8 @@ use base_core\models\Timezones;
 use base_core\models\Users;
 use billing_core\models\Currencies;
 use billing_core\models\TaxTypes;
-use billing_payment\models\PaymentMethods;
 use billing_invoice\models\Invoices;
+use billing_payment\models\PaymentMethods;
 use li3_flash_message\extensions\storage\FlashMessage;
 use li3_mailer\action\Mailer;
 use lithium\analysis\Logger;
@@ -212,43 +213,47 @@ class UsersController extends \base_core\controllers\BaseController {
 			return $this->redirect('Pages::home');
 		}
 		$this->_render['layout'] = 'admin_blank';
+
+		// Disable scripts to minimize attack surface.
+		$this->set(['noScripts' => true]);
 	}
 
 	public function admin_login() {
 		extract(Message::aliases());
 
-		if ($this->request->data) {
-			if (!FormSignature::check($this->request)) {
-				FlashMessage::write($t('Failed to authenticate. Please retry request.', ['scope' => 'base_core']), [
-					'level' => 'error'
-				]);
-			} elseif (Auth::check('default', $this->request)) {
-				$message  = "Security: Authenticated user ";
-				$message .= "with email `{$this->request->data['email']}`.";
-				Logger::write('debug', $message);
-
-				FlashMessage::write($t('Authenticated.', ['scope' => 'base_core']), [
-					'level' => 'success'
-				]);
-				return $this->redirect('Pages::home');
-			} else {
-				FlashMessage::write($t('Failed to authenticate.', ['scope' => 'base_core']), [
-					'level' => 'error'
-				]);
-			}
-
-			$message  = "Security: Failed authentication for user ";
-			$message .= "with email `{$this->request->data['email']}`. Delaying response.";
+		if (!$this->request->data) {
+			throw new Exception('No data.');
+		}
+		if (!FormSignature::check($this->request)) {
+			FlashMessage::write($t('Failed to authenticate. Please retry request.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
+		} elseif (Auth::check('default', $this->request)) {
+			$message  = "Security: Authenticated user ";
+			$message .= "with email `{$this->request->data['email']}`.";
 			Logger::write('debug', $message);
 
-
-			// Naive implementation to conunterfeit brute forcing credentials.
-			// FIXME Implement advanced throttling with rate-limiter on token bucket basis.
-			// 5s as per https://www.owasp.org/index.php/Guide_to_Authentication
-			sleep(5);
-
-			return $this->redirect($this->request->referer());
+			FlashMessage::write($t('Authenticated.', ['scope' => 'base_core']), [
+				'level' => 'success'
+			]);
+			return $this->redirect('Pages::home');
+		} else {
+			FlashMessage::write($t('Failed to authenticate.', ['scope' => 'base_core']), [
+				'level' => 'error'
+			]);
 		}
+
+		$message  = "Security: Failed authentication for user ";
+		$message .= "with email `{$this->request->data['email']}`. Delaying response.";
+		Logger::write('debug', $message);
+
+
+		// Naive implementation to conunterfeit brute forcing credentials.
+		// FIXME Implement advanced throttling with rate-limiter on token bucket basis.
+		// 5s as per https://www.owasp.org/index.php/Guide_to_Authentication
+		sleep(5);
+
+		return $this->redirect($this->request->referer());
 	}
 
 	public function admin_logout() {
