@@ -95,3 +95,9 @@ body {
 .rt__big {
   font-size: 20px;
 }
+
+.rt__verbatim,
+.wyihtml5-editor pre {
+  white-space: pre-wrap;
+}
+
