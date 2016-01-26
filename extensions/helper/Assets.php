@@ -17,6 +17,7 @@
 
 namespace base_core\extensions\helper;
 
+use Exception;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets as AssetsModel;
 use lithium\core\Libraries;
@@ -160,9 +161,12 @@ class Assets extends \lithium\template\Helper {
 
 	protected function _script($library, $file) {
 		$library = str_replace('_', '-', $library);
-		$base = parse_url(AssetsModel::base('file'), PHP_URL_PATH) . '/' . $library;
+		$base = parse_url(AssetsModel::base('file'), PHP_URL_PATH);
 
-		if (file_exists("{$base}/js/{$file}.js")) {
+		if (!is_dir($base)) {
+			throw new Exception("Assets base directory `{$base}` does not exist.");
+		}
+		if (file_exists("{$base}/{$library}/js/{$file}.js")) {
 			return "/{$library}/js/{$file}";
 		}
 	}
