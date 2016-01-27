@@ -93,4 +93,7 @@ require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
     });
   }
 
+  $('button[type=submit]').on('click', function(ev) {
+    $(this).addClass('loading');
+  });
 });

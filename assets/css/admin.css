@@ -232,9 +232,6 @@ pre, code, .fixed {
   max-width: 100%;
 }
 
-/* Animations
----------------------------------------------------------------- */
-
 /* Text Sizes
 ---------------------------------------------------------------- */
 .t-super-alpha {
@@ -1107,9 +1104,12 @@ button.large,
 -------------------------------------------------------------- */
 @keyframes pulse {
   0% {transform: opacity: 0;}
-  25% {transform: opacity: .5;}
+  25% {transform: opacity: .25;}
   50% {opacity: 1; }
-  75% {opacity: .5; }
+  75% {opacity: .25; }
+}
+button[type="submit"].loading {
+  animation: pulse 2s linear infinite;
 }
 p.loading {
   animation: pulse 2s linear infinite;

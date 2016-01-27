@@ -25,4 +25,8 @@ require(['jquery', 'notify', 'domready!'], function($) {
   if (flashMessage) {
     $.notify(flashMessage, {level: flashLevel});
   }
+
+  $('button[type=submit]').on('click', function(ev) {
+    $(this).addClass('loading');
+  });
 });
