@@ -298,9 +298,9 @@ foreach (glob(PROJECT_PATH . '/app/libraries/li3_*') as $item) {
 require 'bootstrap/connections.php';
 require 'bootstrap/errors.php';
 require 'bootstrap/action.php';
+require 'bootstrap/cache.php';
 
 if (PHP_SAPI !== 'cli') {
-	require 'bootstrap/cache.php';
 	require 'bootstrap/session.php';
 }
 require 'bootstrap/g11n.php';

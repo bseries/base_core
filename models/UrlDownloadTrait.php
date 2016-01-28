@@ -18,36 +18,51 @@
 namespace base_core\models;
 
 use Exception;
+use lithium\storage\Cache;
 use lithium\analysis\Logger;
 use temporary\Manager as Temporary;
 
 trait UrlDownloadTrait {
 
-	// FIXME Change Temporary so that it accepts kind of a cache key,
-	// and we can prevent redownloading the same file.
 	public function download($entity) {
-		$temporary = Temporary::file(['context' => 'download']);
+		$file = Temporary::file(['context' => 'download']);
 
-		Logger::debug("Downloading into temporary `{$temporary}`.");
+		switch (parse_url($entity->url, PHP_URL_SCHEME)) {
+			case 'http':
+			case 'https':
+				$stream = fopen($file, 'w+');
+				$cacheKey = 'url_download_' . md5($entity->url);
 
-		if (strpos($entity->url, 'http') === 0) {
-			$curl = curl_init($entity->url);
-			$file = fopen($temporary, 'w');
+				if ($cached = Cache::read('blob', $cacheKey)) {
+					stream_copy_to_stream($cached, $stream);
+					fclose($cached);
+				} else {
+					Logger::debug("Downloading `{$entity->url}` -> `{$file}`.");
 
-			curl_setopt($curl, CURLOPT_FILE, $file);
-			curl_setopt($curl, CURLOPT_HEADER, 0);
+					$curl = curl_init($entity->url);
 
-			$result = curl_exec($curl);
-			curl_close($curl);
-			fclose($file);
-		} else {
-			$result = copy($entity->url, $temporary);
+					curl_setopt($curl, CURLOPT_FILE, $stream);
+					curl_setopt($curl, CURLOPT_HEADER, 0);
+
+					if (!curl_exec($curl)) {
+						throw new Exception("Failed to download `{$entity->url}` -> `{$file}`.");
+					}
+					curl_close($curl);
+
+					rewind($stream);
+					Cache::write('blob', $cacheKey, $stream);
+				}
+				fclose($stream);
+				break;
+			case 'file': // Fake download, download is copy.
+				if (!copy($entity->url, $file)) {
+					throw new Exception("Failed to copy `{$entity->url}` -> `{$file}`.");
+				}
+				break;
+			default:
+				throw new Exception("Cannot download `{$entity->url}`; wrong scheme.");
 		}
-		if (!$result) {
-			$message = "Could not copy from source {$entity->url} to temporary {$temporary}.";
-			throw new Exception($message);
-		}
-		return 'file://' . $temporary;
+		return 'file://' . $file;
 	}
 }
 
