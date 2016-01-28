@@ -33,24 +33,27 @@ if (PROJECT_FEATURE_MEMCACHED) {
 	if (!Memcache::enabled()) {
 		throw new Exception("Memcached not available.");
 	}
-	Cache::config([
-		'default' => [
-			'scope' => PROJECT_NAME . ':' . PROJECT_CONTEXT . ':' . PROJECT_VERSION,
-			'adapter' => 'Memcache',
-			'host' => '127.0.0.1:11211'
-		]
-	]);
+	$default = [
+		'scope' => PROJECT_NAME . ':' . PROJECT_CONTEXT . ':' . PROJECT_VERSION,
+		'adapter' => 'Memcache',
+		'host' => '127.0.0.1:11211'
+	];
 } else {
 	if (!is_writable($path = Libraries::get(true, 'resources') . '/tmp/cache')) {
 		throw new Exception("Cache path `{$path}` is not writable.");
 	}
-	Cache::config([
-		'default' => [
-			'adapter' => 'File',
-			'strategies' => ['Serializer']
-		]
-	]);
+	$default = [
+		'adapter' => 'File',
+		'strategies' => ['Serializer'],
+	];
 }
+Cache::config([
+	'default' => $default,
+	'blob' => [
+		'adapter' => 'File',
+		'streams' => true
+	]
+]);
 
 if (!PROJECT_DEBUG) {
 	Dispatcher::applyFilter('run', function($self, $params, $chain) {
