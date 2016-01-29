@@ -23,8 +23,8 @@ use base_address\models\Addresses;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
 use base_core\security\Gate;
-use billing_core\models\ClientGroups;
-use billing_core\models\TaxTypes;
+use billing_core\billing\ClientGroups;
+use billing_core\billing\TaxTypes;
 use lithium\analysis\Logger;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
@@ -385,11 +385,13 @@ class Users extends \base_core\models\Base {
 	/* Billing */
 
 	public function taxType($entity) {
-		return TaxTypes::find('first', ['conditions' => ['name' => $entity->tax_type]]);
+		return TaxTypes::registry($entity->tax_type);
 	}
 
 	public function clientGroup($entity) {
-		return ClientGroups::find('first', ['conditions' => ['user' => $entity->id]]);
+		return ClientGroups::registry(true)->first(function($item) use ($entity) {
+			return $item->conditions($entity);
+		});
 	}
 
 	/* Deprecated / BC */

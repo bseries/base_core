@@ -35,6 +35,8 @@ class BaseRegister extends \base_core\models\Base {
 	protected $_data = [];
 
 	public static function register($name, array $data = []) {
+		trigger_error('BaseRegister is deprecated.', E_USER_DEPRECATED);
+
 		static::_object()->_data[$name] = static::create(
 			static::_register(compact('name') + $data)
 		);
@@ -42,10 +44,14 @@ class BaseRegister extends \base_core\models\Base {
 
 	// Re-implement to customize behavior.
 	protected static function _register(array $data) {
+		trigger_error('BaseRegister is deprecated.', E_USER_DEPRECATED);
+
 		return $data;
 	}
 
 	public static function find($type, array $options = []) {
+		trigger_error('BaseRegister is deprecated.', E_USER_DEPRECATED);
+
 		if (isset($options['conditions']['id'])) {
 			trigger_error('The `id` condition is deprecated for `name`.', E_USER_DEPRECATED);
 
@@ -79,6 +85,8 @@ class BaseRegister extends \base_core\models\Base {
 	}
 
 	public function title($entity) {
+		trigger_error('BaseRegister is deprecated.', E_USER_DEPRECATED);
+
 		return $entity->title;
 	}
 }

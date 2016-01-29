@@ -15,15 +15,16 @@
  * License. If not, see http://atelierdisko.de/licenses.
  */
 
-namespace base_core\models;
+namespace base_core\base;
 
-class Sites extends \base_core\models\BaseRegister {
+class Sites {
 
-	protected static function _register(array $data) {
-		trigger_error('Sites is deprecated in favor of base\Site.', E_USER_DEPRECATED);
+	use \base_core\core\Registerable;
+	use \base_core\core\RegisterableEnumeration;
 
-		return $data + [
-			'title' => $data['name'],
+	public static function register($name, array $object) {
+		static::$_registry[$name] = $object + [
+			'title' => null,
 			'fqdn' => null // unused
 		];
 	}

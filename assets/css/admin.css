@@ -1369,6 +1369,7 @@ table.nested-items-alpha td {
 
 table .nested-add-action  {
   text-align: center;
+  background: transparent;
 }
 table .button.add-nested {
   margin-top: 20px;

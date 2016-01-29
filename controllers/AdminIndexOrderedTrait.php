@@ -18,7 +18,7 @@
 namespace base_core\controllers;
 
 use base_core\extensions\cms\Settings;
-use base_core\models\Sites;
+use base_core\base\Sites;
 use base_core\security\Gate;
 
 trait AdminIndexOrderedTrait {
@@ -40,7 +40,7 @@ trait AdminIndexOrderedTrait {
 		$useOwner = Settings::read('security.checkOwner') && Gate::checkRight('owner');
 
 		if ($useSites = Settings::read('useSites')) {
-			$sites = Sites::find('list');
+			$sites = Sites::enum();
 		}
 
 		return compact('data', 'useOwner', 'useSites', 'sites') + $this->_selects();

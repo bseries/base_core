@@ -25,9 +25,9 @@ use base_core\models\Locales;
 use base_core\models\Timezones;
 use base_core\models\Users;
 use billing_core\models\Currencies;
-use billing_core\models\TaxTypes;
+use billing_core\billing\TaxTypes;
+use billing_payment\billing\payment\Methods as PaymentMethods;
 use billing_invoice\models\Invoices;
-use billing_payment\models\PaymentMethods;
 use li3_flash_message\extensions\storage\FlashMessage;
 use li3_mailer\action\Mailer;
 use lithium\analysis\Logger;
@@ -151,10 +151,10 @@ class UsersController extends \base_core\controllers\BaseController {
 
 		if ($useBilling = Libraries::get('billing_core')) {
 			$currencies = Currencies::find('list');
-			$taxTypes = TaxTypes::find('list');
+			$taxTypes = TaxTypes::enum();
 		}
 		if ($useBillingPayment = Libraries::get('billing_payment')) {
-			$paymentMethods = PaymentMethods::find('list');
+			$paymentMethods = PaymentMethods::enum();
 		}
 		$useInvoice = Libraries::get('billing_invoice');
 		$useEcommerce = Libraries::get('ecommerce_core');

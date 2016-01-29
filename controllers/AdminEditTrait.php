@@ -18,7 +18,7 @@
 namespace base_core\controllers;
 
 use base_core\extensions\cms\Settings;
-use base_core\models\Sites;
+use base_core\base\Sites;
 use base_core\models\Users;
 use base_core\security\Gate;
 use li3_flash_message\extensions\storage\FlashMessage;
@@ -75,7 +75,7 @@ trait AdminEditTrait {
 		}
 
 		if ($useSites = Settings::read('useSites')) {
-			$sites = Sites::find('list');
+			$sites = Sites::enum();
 		}
 
 		$this->_render['template'] = 'admin_form';
