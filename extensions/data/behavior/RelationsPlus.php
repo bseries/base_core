@@ -17,8 +17,9 @@
 
 namespace base_core\extensions\data\behavior;
 
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\data\Entity;
+use lithium\util\Collection;
 
 // Nested relation keys may contain array data when saving.
 class RelationsPlus extends \li3_behaviors\data\model\Behavior {
@@ -64,6 +65,9 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
+				if (!$entity->{$key}) {
+					return false;
+				}
 				$query['conditions'] += [$relation['key'] => $entity->{$key}];
 
 				return $relation['to']::find('first', $query);
@@ -87,6 +91,9 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
+				if (!$entity->{$key}) {
+					return new Collection();
+				}
 				$query['conditions'] += [$relation['key'] => $entity->{$key}];
 
 				return $relation['to']::find('all', $query);
@@ -109,6 +116,9 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 
 				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
+				}
+				if (!$entity->{$key}) {
+					return false;
 				}
 				$query['conditions'] += [$key => $entity->{$relation['key']}];
 
