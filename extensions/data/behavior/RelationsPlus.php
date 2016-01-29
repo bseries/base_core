@@ -66,7 +66,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 					return $entity->{$lower};
 				}
 				if (!$entity->{$key}) {
-					return false;
+					return null;
 				}
 				$query['conditions'] += [$relation['key'] => $entity->{$key}];
 
@@ -117,8 +117,8 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
 					return $entity->{$lower};
 				}
-				if (!$entity->{$key}) {
-					return false;
+				if (!$entity->{$relation['key']}) {
+					return null;
 				}
 				$query['conditions'] += [$key => $entity->{$relation['key']}];
 
