@@ -91,9 +91,13 @@ define([
 
       return _this.data()
         .done(function(data) {
-          _this.$element.html(template(data));
-          _this.$element.addClass('widget-table');
-          _this.$element.removeClass('loading');
+          if (data.data !== []) {
+            _this.$element.html(template(data));
+            _this.$element.addClass('widget-table');
+            _this.$element.removeClass('loading');
+          } else {
+            _this.$element.remove();
+          }
         });
     };
   }

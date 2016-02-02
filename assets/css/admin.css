@@ -1837,6 +1837,7 @@ thead .actions > div {
 .widget h1 {
   font-size: var(--font-size-alpha);
   color: var(--color-dim-black);
+  margin-bottom: 1.5em;
 }
 .widget .title {
   text-transform: capitalize;

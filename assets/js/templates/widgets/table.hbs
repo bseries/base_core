@@ -1,6 +1,9 @@
 {{#if url}}
 	<a href="{{url}}">
 {{/if}}
+	{{#if title}}
+		<h1 class="title">{{title}}</h1>
+	{{/if}}
 	{{#each data}}
 	<div>
 		<span class="title">{{@key}}</span>
