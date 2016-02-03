@@ -74,12 +74,12 @@ trait UrlTrait {
 
 		// Transition to new scheme by exchanging base.
 		if (!$sourceBase = static::base($sourceScheme)) {
-			$message  = "Cannot transition URL `{$sourceUrl}` from scheme `{$sourceScheme}`;";
+			$message  = "Cannot transition URL `{$entity->url}` from scheme `{$sourceScheme}`;";
 			$message .= " no base found for scheme `{$sourceScheme}`.";
 			throw new Exception($message);
 		}
 		if (!$targetBase = static::base($targetScheme)) {
-			$message  = "Cannot transition URL `{$sourceUrl}` to scheme `{$targetScheme}`;";
+			$message  = "Cannot transition URL `{$entity->url}` to scheme `{$targetScheme}`;";
 			$message .= " no base found for scheme `{$targetScheme}`.";
 			throw new Exception($message);
 		}
