@@ -126,11 +126,12 @@ function($) {
         var editorElements = _this.$element.find('.use-editor');
 
         if (editorElements.length) {
-          require(['editor', 'editor-media'],
-            function(Editor, EditorMedia) {
+          require(['editor', 'editor-media', 'editor-code'],
+            function(Editor, EditorMedia, EditorCode) {
 
               var externalPlugins = {
-                media: (new EditorMedia()).init({endpoints: App.media.endpoints})
+                media: (new EditorMedia()).init({endpoints: App.media.endpoints}),
+                code: (new EditorCode()).init()
               };
 
               var pluginsByClasses = function(el) {

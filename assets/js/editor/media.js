@@ -1,7 +1,7 @@
 /*!
  * Editor
  *
- * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
+ * Copyright (c) 2013 Atelier Disko - All rights reserved.
  *
  * Licensed under the AD General Software License v1.
  *

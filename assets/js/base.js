@@ -38,7 +38,7 @@ requirejs.config({
     'notify': 'base-core/js/notify',
     'editor': 'base-core/js/editor',
     'editor-media': 'base-core/js/editor/media',
-    'editor-page-break': 'base-core/js/editor/page-break',
+    'editor-code': 'base-core/js/editor/code',
     'wysihtml5': 'base-core/js/wysihtml5',
     'modal': 'base-core/js/modal',
     'nprogress': 'base-core/js/nprogress',
