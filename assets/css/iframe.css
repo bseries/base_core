@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic);
 /*!
  * Admin Iframe Stylesheet
  *
@@ -14,6 +15,10 @@
  * You should have received a copy of the AD General Software
  * License. If not, see http://atelierdisko.de/licenses.
  */
+
+:root {
+  --font-family-mono: "Anonymous Pro", Consolas, Monaco, Courier, monospace;
+}
 
 /* Basics
 ---------------------------------------------------------------- */
@@ -95,9 +100,21 @@ body {
 .rt__big {
   font-size: 20px;
 }
-
 .rt__verbatim,
-.wyihtml5-editor pre {
+.wysihtml5-editor pre,
+.rt__code,
+.wysihtml5-editor code {
+  font-family: var(--font-family-mono);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.rt__verbatim,
+.wysihtml5-editor pre {
   white-space: pre-wrap;
 }
-
+.rt__code,
+.wysihtml5-editor code {
+  display: block;
+  padding: 10px;
+  background: #F2F2F2;
+}
