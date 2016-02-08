@@ -17,6 +17,7 @@
 
 namespace base_core\config;
 
+use lithium\util\Inflector;
 use lithium\g11n\Message;
 use base_core\security\Gate;
 use base_core\extensions\cms\Widgets;
@@ -37,6 +38,16 @@ Widgets::register('support', function() use ($t) {
 
 if (Gate::checkRight('users')) {
 	Widgets::register('users', function() use ($t) {
+		$roles = Users::enum('role');
+
+		foreach ($roles as $role) {
+			$data[Inflector::pluralize($role)] = Users::find('count', [
+				'conditions' => [
+					'role' => $role
+				]
+			]);
+		}
+
 		return [
 			'title' => $t('Users', ['scope' => 'base_core']),
 			'url' => [
@@ -44,9 +55,7 @@ if (Gate::checkRight('users')) {
 				'controller' => 'Users', 'action' => 'index',
 				'admin' => true
 			],
-			'data' => [
-				$t('Total', ['scope' => 'base_core']) => Users::find('count')
-			]
+			'data' => array_filter($data)
 		];
 	}, [
 		'type' => Widgets::TYPE_COUNTER,
