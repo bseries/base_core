@@ -71,6 +71,7 @@ function($) {
               } else {
                 $existing.remove();
               }
+              Waypoint.refreshAll();
             });
            });
         });
