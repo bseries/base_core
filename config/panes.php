@@ -40,7 +40,7 @@ Panes::register('base', [
 
 if (Gate::checkRight('users')) {
 	Panes::register('user', [
-		'title' => $t('Access', ['scope' => 'base_core']),
+		'title' => $t('User', ['scope' => 'base_core']),
 		'weight' => 80
 	]);
 	Panes::register('user.users', [
