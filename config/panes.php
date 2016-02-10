@@ -19,39 +19,31 @@ namespace base_core\config;
 
 use base_core\security\Gate;
 use base_core\extensions\cms\Panes;
-use base_core\extensions\cms\Settings;
 use lithium\g11n\Message;
 
 extract(Message::aliases());
 
 Panes::register('dashboard', [
 	'title' => $t('Dashboard', ['scope' => 'base_core']),
-	'url' => ['controller' => 'Pages', 'action' => 'home', 'admin' => true, 'library' => 'base_core'],
+	'url' => [
+		'library' => 'base_core',
+		'controller' => 'Pages', 'action' => 'home',
+		'admin' => true,
+	],
 	'actions' => false,
 	'weight' => 0
 ]);
-Panes::register('external', [
-	'title' => $t('External', ['scope' => 'base_core']),
+Panes::register('base', [
+	'title' => $t('Bento', ['scope' => 'base_core']),
 	'weight' => 85
-]);
-Panes::register('authoring', [
-	'title' => $t('Authoring', ['scope' => 'base_core']),
-	'weight' => 10
-]);
-Panes::register('viewSite', [
-	'title' => $t('Site', ['scope' => 'base_core']),
-	'weight' => 95,
-	'url' => '/',
-	'actions' => false
 ]);
 
 if (Gate::checkRight('users')) {
-	Panes::register('access', [
+	Panes::register('user', [
 		'title' => $t('Access', ['scope' => 'base_core']),
 		'weight' => 80
 	]);
-
-	Panes::register('access.users', [
+	Panes::register('user.users', [
 		'title' => $t('Users', ['scope' => 'base_core']),
 		'url' => [
 			'library' => 'base_core',
