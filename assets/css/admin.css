@@ -445,8 +445,8 @@ html {
 .tab-dashboard {
   background-image: url(../ico/dashboard_sprite.png);
 }
-.tab-authoring {
-  background-image: url(../ico/authoring_sprite.png);
+.tab-cms {
+  background-image: url(../ico/cms_sprite.png);
 }
 .tab-billing {
   background-image: url(../ico/billing_sprite.png);
@@ -454,17 +454,14 @@ html {
 .tab-ecommerce {
   background-image: url(../ico/ecommerce_sprite.png);
 }
-.tab-access {
-  background-image: url(../ico/access_sprite.png);
+.tab-user {
+  background-image: url(../ico/user_sprite.png);
 }
-.tab-external {
-  background-image: url(../ico/external_sprite.png);
+.tab-base {
+  background-image: url(../ico/base_sprite.png);
 }
 .tab-media {
   background-image: url(../ico/media_sprite.png);
-}
-.tab-view-site {
-  background-image: url(../ico/view_site_sprite.png);
 }
 
 .tabs-h {
