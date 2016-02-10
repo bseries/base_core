@@ -892,17 +892,16 @@ a.button {
   text-decoration: none;
 }
 
-button.save, .button.save {
+.button.save {
   color: white;
   background-color: var(--color-green);
   margin-left: -4px; /* fix when aligned in form with buttons next to it. */
 }
-button.delete,
 .button.delete {
   color: white;
   background-color: var(--color-red);
 }
-button.login, .button.login {
+.button.login {
   margin-top: 20px;
   width: 100%;
   color: white;
@@ -921,7 +920,6 @@ button.login, .button.login {
   background-image: url(../ico/material/action/ic_cached_24px.svg);
 }
 
-button,
 .button {
   outline: 0;
   text-transform: capitalize;
@@ -936,18 +934,14 @@ button,
   background: var(--color-gray-dark);
   transition: all .1s;
 }
-button:hover,
 .button:hover {
   background-color: white;
   color: var(--color-dim-black);
 }
-button.small,
 .button.small {
   font-size: 14px;
   padding: 3px 6px 3px 6px;
 }
-
-button.large,
 .button.large {
   height: 55px;
   font-weight: bold;
