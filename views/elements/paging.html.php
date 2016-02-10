@@ -19,7 +19,7 @@ if ($this->_request->orderField) {
 		<?php endif ?>
 		<?php if (!in_array($pages->first, $pages->pagesInRange)): ?>
 			<?= $this->html->link($pages->first, $base + ['page' => $pages->first], [
-				'rel' => 'prev', 'class' => 'button'
+				'class' => 'button'
 			]) ?>
 			&nbsp;&mdash;
 		<?php endif ?>
@@ -31,7 +31,7 @@ if ($this->_request->orderField) {
 		<?php if (!in_array($pages->last, $pages->pagesInRange)): ?>
 			&mdash;&nbsp;
 			<?= $this->html->link($pages->last, $base + ['page' => $pages->last], [
-				'rel' => 'prev', 'class' => 'button'
+				'class' => 'button'
 			]) ?>
 		<?php endif ?>
 		<?php if (isset($pages->next)): ?>

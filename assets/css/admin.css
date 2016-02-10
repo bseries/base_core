@@ -353,6 +353,7 @@ footer.main {
   width: 100%;
 }
 .nav-bottom .button {
+  overflow: hidden;
   vertical-align: bottom;
 }
 .nav-bottom {
@@ -880,7 +881,6 @@ a.button {
   border: none;
   text-transform: capitalize;
   display: inline-block;
-  overflow: hidden;
   font-size: var(--font-size-delta);
 
   height: 40px;
@@ -1785,7 +1785,7 @@ thead .actions > div {
   margin-bottom: 1em;
 }
 .nav-paging .button {
-  vertical-align: top;
+  vertical-align: middle;
 }
 .nav-paging .active {
   background: var(--color-blue);
