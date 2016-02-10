@@ -352,16 +352,13 @@ footer.main {
   text-align: right;
   width: 100%;
 }
+.nav-bottom .button {
+  vertical-align: bottom;
+}
 .nav-bottom {
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
   right: var(--space-h-tight);
-}
-.nav-bottom > * {
-  padding: 15px 15px 10px 15px;
-  display: inline-block;
-  background: white;
-  margin-left: -4px;
 }
 
 /* Sticky sticky Footer
@@ -883,7 +880,7 @@ a.button {
   border: none;
   text-transform: capitalize;
   display: inline-block;
-
+  overflow: hidden;
   font-size: var(--font-size-delta);
 
   height: 40px;
@@ -1231,7 +1228,7 @@ td:last-child {
 }
 thead {
   color: white;
-  background: var(--color-blue);
+  background: var(--color-dim-blue);
 }
 tfoot td,
 tbody td {
@@ -1282,8 +1279,14 @@ table .flag {
 table .flag:first-child {
   padding-left: 15px;
 }
+table tr:hover .flag .material-icons {
+  color: var(--color-dim-black);
+}
 table .flag .material-icons {
+  color: var(--color-gray-dark);
   vertical-align: middle;
+}
+table tbody .modified {
 }
 table td .avatar {
   width: 40px;
@@ -1858,7 +1861,6 @@ thead .actions > div {
 }
 
 .widget h1 {
-  font-weight: normal;
   font-size: var(--font-size-alpha);
   color: var(--color-gray-darkest);
   margin-bottom: 1.5em;

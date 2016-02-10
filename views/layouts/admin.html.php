@@ -199,7 +199,7 @@ if (!isset($meta)) {
 		</div>
 		<footer class="main">
 			<div class="nav-bottom">
-				<div>
+				<div class="button plain dumb">
 				<?php
 					$products = [
 						'base' => 'Bento',
@@ -218,9 +218,11 @@ if (!isset($meta)) {
 					echo 'AD ' . $loaded . ' ' . BASE_CORE_VERSION;
 				?>
 				</div>
-				<div class="copyright">
-					© 2013&ndash;<?= date('Y') ?> <?= $this->html->link('Atelier Disko', 'http://atelierdisko.de', ['target' => 'new']) ?>
-				</div>
+				<?= $this->html->link('© 2013&ndash;' . date('Y') . ' Atelier Disko', 'http://atelierdisko.de', [
+					'target' => 'new',
+					'class' => 'button plain',
+					'escape' => false
+				]) ?>
 			</div>
 		</footer>
 	</body>
