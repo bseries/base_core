@@ -128,37 +128,40 @@ if (!isset($meta)) {
 				</h2>
 				<div class="nav-top">
 					<?php if ($authedUser): ?>
-						<div class="welcome">
+						<a
+							href="<?= $this->url([
+								'controller' => 'users', 'action' => 'edit',
+								'id' => $authedUser->id,
+								'library' => 'base_core', 'admin' => true
+							])?>"
+							class="button plain"
+						>
 							<?php echo $t('Moin {:name}!', [
-								'name' => '<span class="name">' . strtok($authedUser->name, ' ') . '</span>'
+								'name' => '<span class="nav-top__name">' . strtok($authedUser->name, ' ') . '</span>'
 							]) ?>
-							<span class="role">
+							<span class="nav-top__role">
 								(<?= $authedUser->role ?>)
 							</span>
-							<?php if (isset($authedUser->original)): ?>
-								<span class="name-original">
-									(<?= $t('actually') ?>&nbsp;<?= strtok($authedUser->original['name'], ' ') ?>)
-								</span>
-							<?php endif ?>
-						</div>
+						</a>
 
-						<div class="date">
-							<?php $today = new DateTime(); ?>
-							<time class="today" datetime="<?= $this->date->format($today, 'w3c') ?>">
-								<?= $this->date->format($today, 'full-date') ?>
-							</time>
-						</div>
+						<?php if (isset($authedUser->original)): ?>
+							<?= $this->html->link($t('Become <span class="nav-top__name">{:name}</span> again', ['name' => strtok($authedUser->original['name'], ' ')] ), [
+								'library' => 'base_core',
+								'controller' => 'users', 'action' => 'debecome',
+								'admin' => true
+							], ['class' => 'button plain', 'escape' => false]) ?>
+						<?php endif ?>
 
 						<?= $this->html->link($t('Logout'), [
 							'controller' => 'users', 'action' => 'logout',
 							'library' => 'base_core', 'admin' => true
+						], ['class' => 'button logout plain']) ?>
+
+						<?= $this->html->link($t('Site'), '/', [
+							'scope' => 'app',
+							'target' => 'new',
+							'class' => 'view-site button plain inverse'
 						]) ?>
-						<?php if (isset($authedUser->original)): ?>
-							<?= $this->html->link($t('Debecome'), [
-								'controller' => 'users', 'action' => 'debecome', 'library' => 'base_core',
-								'admin' => true
-							]) ?>
-						<?php endif ?>
 					<?php endif ?>
 				</div>
 			</header>

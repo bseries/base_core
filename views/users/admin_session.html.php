@@ -20,6 +20,10 @@ $this->set([
 	<?=$this->form->create(null, ['url' => 'Users::login']) ?>
 		<?=$this->form->field('email', ['type' => 'email', 'label' => $t('E–Mail')]) ?>
 		<?=$this->form->field('password', ['type' => 'password', 'label' => $t('Password')]) ?>
-		<?=$this->form->button($t('Login'), ['type' => 'submit', 'class' => 'large button login', 'exclude' => true]) ?>
+		<?=$this->form->button($t('Login'), [
+			'type' => 'submit',
+			'class' => 'large plain inverse login button',
+			'exclude' => true
+		]) ?>
 	<?=$this->form->end() ?>
 </article>

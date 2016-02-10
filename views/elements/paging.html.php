@@ -13,7 +13,7 @@ if ($this->_request->orderField) {
 <?php if ($pages->pageCount > 1): ?>
 	<nav class="nav-paging">
 		<?php if (isset($pages->previous)): ?>
-			<?= $this->html->link('←', $base + ['page' => $pages->previous], [
+			<?= $this->html->link($t('previous page'), $base + ['page' => $pages->previous], [
 				'rel' => 'prev', 'class' => 'button'
 			]) ?>
 		<?php endif ?>
@@ -35,7 +35,7 @@ if ($this->_request->orderField) {
 			]) ?>
 		<?php endif ?>
 		<?php if (isset($pages->next)): ?>
-			<?= $this->html->link('→', $base + ['page' => $pages->next], [
+			<?= $this->html->link($t('next page'), $base + ['page' => $pages->next], [
 				'rel' => 'next', 'class' => 'button'
 			]) ?>
 		<?php endif ?>

@@ -391,25 +391,11 @@ html {
   text-align: right;
 }
 
-.nav-top > * {
-  padding: 15px 15px 10px 15px;
-  display: inline-block;
-  background: white;
-  margin-left: -4px;
-}
-.nav-top > a:hover {
-  background: var(--color-dim-black);
-  color: white;
-}
-.nav-top .welcome .name {
+.nav-top__name {
   font-weight: bold;
 }
-.nav-top .welcome .name-original {
-  margin-left: 10px;
-}
-.nav-top [href*=logout] {
-  color: white;
-  background-color: var(--color-red);
+.nav-top__role {
+  color: var(--color-gray-darker);
 }
 .tabs-v {
   font-size: var(--font-size-gamma);
@@ -892,52 +878,34 @@ a.button {
   text-decoration: none;
 }
 
-.button.save {
-  color: white;
-  background-color: var(--color-green);
-  margin-left: -4px; /* fix when aligned in form with buttons next to it. */
-}
-.button.delete {
-  color: white;
-  background-color: var(--color-red);
-}
-.button.login {
-  margin-top: 20px;
-  width: 100%;
-  color: white;
-  background-color: var(--color-dim-black);
-}
-.button.add,
-.button.refresh {
-  background-repeat: no-repeat;
-  background-position: 8px 8px;
-  padding-left: 35px;
-}
-.button.add {
-  background-image: url(../ico/material/content/ic_add_24px.svg);
-}
-.button.refresh {
-  background-image: url(../ico/material/action/ic_cached_24px.svg);
-}
-
 .button {
   outline: 0;
+  border: none;
   text-transform: capitalize;
+  display: inline-block;
+
+  font-size: var(--font-size-delta);
+
   height: 40px;
   min-width: 40px;
   line-height: 43px;
   padding: 0 15px;
   text-align: center;
-  display: inline-block;
   color: var(--color-dim-black);
-  border: none;
   background: var(--color-gray-dark);
+
   transition: all .1s;
 }
-.button:hover {
+.button:hover:not(.dumb) {
   background-color: white;
   color: var(--color-dim-black);
 }
+
+.button + .button {
+  margin-left: -4px; /* fix when aligned in form with buttons next to it. */
+}
+
+/* Sizes */
 .button.small {
   font-size: 14px;
   padding: 3px 6px 3px 6px;
@@ -950,8 +918,48 @@ a.button {
   line-height: 28px;
 }
 
-.button + .button {
-  margin-left: -4px;
+/* Styles */
+.button.save {
+  color: white;
+  background-color: var(--color-green);
+}
+.button.delete {
+  color: white;
+  background-color: var(--color-red);
+}
+.button.plain {
+  background: white;
+}
+.button.plain:hover:not(.inverse):not(.dumb) {
+  color: white;
+  background-color: var(--color-dim-black);
+}
+.button.inverse {
+  filter: invert(100%);
+}
+.button.inverse:hover {
+  filter: invert(0%);
+}
+
+.button.view-site {
+  background-repeat: no-repeat;
+  background-position: right 8px top 9px;
+  padding-right: 35px;
+}
+.button.add,
+.button.refresh {
+  background-repeat: no-repeat;
+  background-position: left 8px top 9px;
+  padding-left: 35px;
+}
+.button.add {
+  background-image: url(../ico/material/content/ic_add_24px.svg);
+}
+.button.refresh {
+  background-image: url(../ico/material/action/ic_cached_24px.svg);
+}
+.button.view-site {
+  background-image: url(../ico/material/navigation/ic_chevron_right_24px.svg);
 }
 
 /* Editor
@@ -1225,10 +1233,6 @@ thead {
   color: white;
   background: var(--color-blue);
 }
-thead td {
-  padding-top: 2px;
-  line-height: 38px;
-}
 tfoot td,
 tbody td {
   padding-top: 2px;
@@ -1279,7 +1283,6 @@ table .flag:first-child {
   padding-left: 15px;
 }
 table .flag .material-icons {
-  color: var(--color-gray-darkest);
   vertical-align: middle;
 }
 table td .avatar {
@@ -1758,24 +1761,50 @@ thead .actions > div {
   background-color: white;
   color: var(--color-dim-black);
 }
-.table-sort.asc:after {
-  content: "⌃";
+.table-sort.asc,
+.table-sort.desc {
+  background-repeat: no-repeat;
+  background-position: right 8px top 9px;
+  padding-right: 35px;
 }
-.table-sort.desc:after {
-  content: "⌄";
+.table-sort.asc {
+  background-image: url(../ico/material/navigation/ic_arrow_drop_up_24px.svg);
+}
+.table-sort.desc {
+  background-image: url(../ico/material/navigation/ic_arrow_drop_down_24px.svg);
 }
 
 /* Index Table: Pagination/Paging
 ---------------------------------------------------------------- */
+.nav-paging {
+  text-align: center;
+  margin-top: 4em;
+  margin-bottom: 1em;
+}
+.nav-paging .button {
+  vertical-align: top;
+}
 .nav-paging .active {
   background: var(--color-blue);
   color: white;
   font-weight: bold;
 }
-.nav-paging {
-  text-align: center;
-  margin-top: 4em;
-  margin-bottom: 1em;
+.nav-paging [rel="prev"]:hover,
+.nav-paging [rel="prev"],
+.nav-paging [rel="next"]:hover,
+.nav-paging [rel="next"] {
+  color: transparent;
+  width: 80px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center top 9px;
+}
+
+.nav-paging [rel="next"] {
+  background-image: url(../ico/material/navigation/ic_arrow_forward_24px.svg);
+}
+.nav-paging [rel="prev"] {
+  background-image: url(../ico/material/navigation/ic_arrow_back_24px.svg);
 }
 
 /* Sortable
@@ -1800,16 +1829,19 @@ thead .actions > div {
 .widget {
   float: left;
   clear: both;
-  background-color: var(--color-gray-darkest);
+  background-color: var(--color-gray-dark);
   min-width: 350px;
   max-width: 550px;
   width: 45%;
   padding: var(--space-v-tight) var(--space-h-tighter) 5px;
   transition: background .2s;
+  color: var(--color-dim-black);
 }
-.widget,
 .widget a {
-  color: white;
+  color: var(--color-dim-black);
+  float: left;
+  clear: both;
+  width: 100%;
 }
 .widget:hover {
   background-color: var(--color-gray-darker);
@@ -1826,8 +1858,9 @@ thead .actions > div {
 }
 
 .widget h1 {
+  font-weight: normal;
   font-size: var(--font-size-alpha);
-  color: var(--color-dim-black);
+  color: var(--color-gray-darkest);
   margin-bottom: 1.5em;
 }
 .widget .title {
@@ -1841,11 +1874,10 @@ thead .actions > div {
 .widget-quickdial {
   font-weight: bold;
   font-size: var(--font-size-alpha);
-  background-color: var(--color-gray-dark);
 }
 
 .widget .count {
-  color: white;
+  color: var(--color-dim-blue);
 }
 .widget-counter .count-groups {
   margin-top: 50px;
@@ -1865,7 +1897,7 @@ thead .actions > div {
 .widget-counter .count-group .title {
   font-weight: bold;
   display: inline-block;
-  border-top: 6px solid white;
+  border-top: 6px solid var(--color-gray-bright);
   padding-top: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -1891,8 +1923,13 @@ thead .actions > div {
 /* Session
 ---------------------------------------------------------------- */
 .session {
+  background-size: cover;
+  background-position: center;
 }
-
+.session #content {
+  padding: var(--space-v-normal) var(--space-h-normal);
+  width: 400px;
+}
 .session .header--main {
   top: 0;
   left: 0;
@@ -1918,13 +1955,9 @@ thead .actions > div {
   color: black;
   text-shadow: 2px 2px black, 10px 10px black, 18px 18px black, 26px 26px black, 34px 34px black, 42px 42px black, 50px 50px black, 58px 58px black, 66px 66px black, 74px 74px black, 82px 82px black, 90px 90px black, 98px 98px black, 106px 106px black, 114px 114px black, 122px 122px black, 130px 130px black, 138px 138px black, 146px 146px black, 154px 154px black, 162px 162px black, 170px 170px black, 178px 178px black, 186px 186px black, 194px 194px black, 202px 202px black, 210px 210px black, 218px 218px black, 226px 226px black, 234px 234px black, 242px 242px black, 250px 250px black, 258px 258px black, 266px 266px black, 274px 274px black, 282px 282px black, 290px 290px black, 298px 298px black, 306px 306px black, 314px 314px black, 322px 322px black, 330px 330px black, 338px 338px black, 346px 346px black, 354px 354px black, 362px 362px black, 370px 370px black, 378px 378px black, 386px 386px black, 394px 394px black;
 }
-.session {
-  background-size: cover;
-  background-position: center;
-}
-.session #content {
-  padding: var(--space-v-normal) var(--space-h-normal);
-  width: 400px;
+.session .button {
+  margin-top: 20px;
+  width: 100%;
 }
 .session form label {
   color: white;
