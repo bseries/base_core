@@ -159,7 +159,7 @@ if (!isset($meta)) {
 
 
 						<?php foreach ($sites as $site): ?>
-							<?= $this->html->link($site['fqdn'], '/', [
+							<?= $this->html->link($site['fqdn'], 'http://' . $site['fqdn'], [
 								'scope' => 'app',
 								'target' => 'new',
 								'class' => 'view-site button plain inverse'
