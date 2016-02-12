@@ -1,6 +1,6 @@
 <?php
 
-use base_core\extensions\cms\Settings;
+use base_core\base\Sites;
 use lithium\g11n\Message;
 
 $t = function($message, array $options = []) {
