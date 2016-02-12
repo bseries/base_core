@@ -145,7 +145,7 @@ $bootstrapFormal = function($name, $path) {
 		// isn't overwritten by anything else.
 		$available = [
 			'routes' => ['libraries.*.config.routes'],
-			'access' => ['libraries.*.config.access'],
+			'access' => ['libraries.*.config.access' => 'optional'],
 
 			// B-Series module type configuration files.
 			'base' => [
