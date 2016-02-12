@@ -17,21 +17,30 @@
 
 namespace base_core\config;
 
+use base_core\base\Sites;
 use base_core\extensions\cms\Settings;
+use base_core\models\Assets;
+use lithium\net\http\Media as HttpMedia;
 
-Settings::register('site.title', 'Application');
+//
+// Sites
+//
+Sites::register(PROJECT_DOMAIN, ['title' => PROJECT_DOMAIN]);
 
+// Enables multi site feature module wide. Allows to
+// place content in different sites hosted by the same
+// app.
+Settings::register('useSites', false);
+
+//
+// General Settings
+//
 // Enable checking of ownership module wide. When enabled everybody
 // else than users with the `'owner'` privilege can only view or
 // edit entities owned by them. When disabled ownership is still
 // assigned **and kept**, but there is no restriction on who can
 // see and edit what also the form elements are never displayed.
 Settings::register('security.checkOwner', false);
-
-// Enables multi site feature module wide. Allows to
-// place content in different sites hosted by the same
-// app.
-Settings::register('useSites', false);
 
 // When enabled the user will be notified when her account
 // is activated.
@@ -41,6 +50,7 @@ Settings::register('user.sendActivationMail', false);
 // i.e. to create an order in the name of somebody else.
 Settings::register('user.useBecome', false);
 
+
 // How to generate user reference numbers.
 Settings::register('user.number', [
 	'sort' => '/([0-9]{4}-[0-9]{4})/',
@@ -48,6 +58,9 @@ Settings::register('user.number', [
 	'generate' => '%Y-%%04.d'
 ]);
 
+//
+// Contacts
+//
 Settings::register('contact.default', [
 	// 'organization' => 'Acme Inc.',
 	// 'postal_code' => '12345',
@@ -70,11 +83,39 @@ Settings::register('contact.exec', [
 	'phone' => null
 ]);
 
-// Google Analytics
+//
+// Services
+//
 Settings::register('service.googleAnalytics.default', [
 	'account' => null,
 	'domain' => null,
 	'useUniversalAnalytics' => false
+]);
+
+//
+// Assets/Media
+//
+Assets::registerScheme('file', [
+	'base' => PROJECT_ASSETS_FILE_BASE
+]);
+
+if (defined('PROJECT_ASSETS_HTTP_BASE')) {
+	Assets::registerScheme('http', [
+		'base' => PROJECT_ASSETS_HTTP_BASE
+	]);
+}
+if (defined('PROJECT_ASSETS_HTTPS_BASE')) {
+	Assets::registerScheme('https', [
+		'base' => PROJECT_ASSETS_HTTPS_BASE
+	]);
+}
+
+// Do not touch binary media.
+HttpMedia::type('binary', 'application/octet-stream', [
+	'cast' => false,
+	'encode' => function($data) {
+		return $data;
+	}
 ]);
 
 ?>
