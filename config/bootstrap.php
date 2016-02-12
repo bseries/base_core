@@ -113,6 +113,7 @@ $bootstrapFormal = function($name, $path) {
 			'jobs' => ['*.config.settings'],
 			'panes' => ['*.config.access', '*.config.g11n'],
 			'widgets' => ['*.config.g11n'],
+			'base' => null,
 			'cms' => null,
 			'billing' => null,
 			'ecommerce' => null,
@@ -151,6 +152,10 @@ $bootstrapFormal = function($name, $path) {
 			'settings' => ['libraries.*.config.settings'],
 			'media' => ['libraries.*.config.media'],
 			'switchboard' => null,
+			'base' => [
+				'libraries.billing_*.config.settings',
+				'libraries.base_*.config.base' => 'optional'
+			],
 			'cms' => [
 				// Contents app config is always present but contains commented
 				// code. cms_content may not always be present.
