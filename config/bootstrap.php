@@ -108,16 +108,18 @@ $bootstrapFormal = function($name, $path) {
 			'access' => null,
 			'version' => null,
 			'routes' => null,
-			'settings' => null,
-			'media' => null,
-			'jobs' => ['*.config.settings'],
-			'panes' => ['*.config.access', '*.config.g11n'],
-			'widgets' => ['*.config.g11n'],
+
+			// B-Series module only files.
+			// Jobs are disabled/enabled depending on certain settings.
+			'jobs' => ['*.config.base', '*.config.cms', '*.config.billing', '*.config.ecommerce'],
+			'panes' => ['*.config.access'],
+			'widgets' => null,
+
+			// B-Series module type  onfiguration files.
 			'base' => null,
-			'cms' => null,
-			'billing' => null,
-			'ecommerce' => null,
-			'misc' => null
+			'cms' => ['*.config.base'],
+			'billing' => ['*.config.base'],
+			'ecommerce' => ['*.config.base', '*.config.billing']
 		];
 		if (INSIDE_ADMIN === false) {
 			// Don't load certain module configurations when
@@ -138,36 +140,29 @@ $bootstrapFormal = function($name, $path) {
 		if ($name !== 'base_core') {
 			$available['routes'] = ['libraries.base_core.config.routes'];
 		}
-		if (strpos($name, 'base_') === false) {
-			// Base module settings must always be loaded first, before
-			// loading other module settings.
-			$available['settings'] = ['libraries.base_*.config.settings'];
-		}
 	} else {
 		// Load app configuration last, so it can overwrite module default configuration and
 		// isn't overwritten by anything else.
 		$available = [
-			'access' => null,
 			'routes' => ['libraries.*.config.routes'],
-			'settings' => ['libraries.*.config.settings'],
-			'media' => ['libraries.*.config.media'],
-			'switchboard' => null,
+			'access' => ['libraries.*.config.access'],
+
+			// B-Series module type configuration files.
 			'base' => [
-				'libraries.billing_*.config.settings',
-				'libraries.base_*.config.base' => 'optional'
+				'libraries.*.config.base'
 			],
 			'cms' => [
-				// Contents app config is always present but contains commented
-				// code. cms_content may not always be present.
-				'libraries.cms_content.config.cms' => 'optional'
+				'app.config.base' => 'optional',
+				'libraries.*.config.cms' => 'optional'
 			],
 			'billing' => [
-				'libraries.billing_*.config.settings',
-				'libraries.billing_*.config.billing' => 'optional'
+				'app.config.base' => 'optional',
+				'libraries.*.config.billing' => 'optional'
 			],
 			'ecommerce' => [
-				'libraries.ecommerce_*.config.settings',
-				'libraries.ecommerce_*.config.ecommerce' => 'optional'
+				'app.config.base' => 'optional',
+				'app.config.billing' => 'optional',
+				'libraries.*.config.ecommerce' => 'optional'
 			],
 		];
 		if (INSIDE_ADMIN === true) {
@@ -179,10 +174,13 @@ $bootstrapFormal = function($name, $path) {
 	}
 
 	$deprecated = [
-		'g11n'
+		'g11n',
+		'misc',
+		'settings',
+		'media',
+		'switchboard'
 	];
 	if ($name === 'app') {
-		$deprecated[] = 'base';
 		$deprecated[] = 'contents';
 	}
 	if ($name !== 'base_core') {
