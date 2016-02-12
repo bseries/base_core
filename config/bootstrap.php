@@ -111,7 +111,12 @@ $bootstrapFormal = function($name, $path) {
 
 			// B-Series module only files.
 			// Jobs are disabled/enabled depending on certain settings.
-			'jobs' => ['*.config.base', '*.config.cms', '*.config.billing', '*.config.ecommerce'],
+			'jobs' => [
+				'*.config.base' => 'optional',
+				'*.config.cms' => 'optional',
+				'*.config.billing' => 'optional',
+				'*.config.ecommerce' => 'optional'
+			],
 			'panes' => ['*.config.access'],
 			'widgets' => null,
 
