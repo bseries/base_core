@@ -1,7 +1,7 @@
 <?php
 
 use base_core\extensions\cms\Panes;
-use base_core\extensions\cms\Settings;
+use base_core\base\Sites;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\util\Inflector;
@@ -10,7 +10,7 @@ $t = function($message, array $options = []) {
 	return Message::translate($message, $options + ['scope' => 'base_core', 'default' => $message]);
 };
 
-$site = Settings::read('site');
+$sites = Sites::registry(true);
 
 // Remove when every page uses new rich page title.
 if (!isset($page)) {
@@ -106,7 +106,7 @@ if (!isset($meta)) {
 		<div id="container">
 			<header class="header--main">
 				<h1 class="h-super-alpha header--main__site">
-					<?= $this->html->link($site['title'], [
+					<?= $this->html->link($sites->first()['title'], [
 						'controller' => 'pages', 'action' => 'home',
 						'library' => 'base_core', 'admin' => true
 					]) ?>
@@ -157,12 +157,14 @@ if (!isset($meta)) {
 							'library' => 'base_core', 'admin' => true
 						], ['class' => 'button logout plain']) ?>
 
-						<?= $this->html->link($t('Site'), '/', [
-							// FIXME Should be using the Sites feature instead.
-							'scope' => 'app',
-							'target' => 'new',
-							'class' => 'view-site button plain inverse'
-						]) ?>
+
+						<?php foreach ($sites as $site): ?>
+							<?= $this->html->link($site['fqdn'], '/', [
+								'scope' => 'app',
+								'target' => 'new',
+								'class' => 'view-site button plain inverse'
+							]) ?>
+						<?php endforeach ?>
 					<?php endif ?>
 				</div>
 			</header>

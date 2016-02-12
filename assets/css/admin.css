@@ -942,6 +942,7 @@ a.button {
   background-repeat: no-repeat;
   background-position: right 8px top 9px;
   padding-right: 35px;
+  text-transform: lowercase;
 }
 .button.add,
 .button.refresh {
