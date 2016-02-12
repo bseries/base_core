@@ -7,7 +7,7 @@ $t = function($message, array $options = []) {
 	return Message::translate($message, $options + ['scope' => 'base_core', 'default' => $message]);
 };
 
-$site = Settings::read('site');
+$sites = Sites::registry(true);
 
 // Remove when every page uses new rich page title.
 if (!isset($page)) {
@@ -72,7 +72,7 @@ $page += [
 		<div id="container">
 			<header class="header--main rich-page-title">
 				<h1 class="h-super-alpha header--main__site">
-					<?= $this->html->link($site['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core']) ?>
+					<?= $this->html->link($sites->first()['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core']) ?>
 				</h1>
 				<h2 class="h-super-alpha object header--main__rpt">
 					<?= $page['object'] ?>
