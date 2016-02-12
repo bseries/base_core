@@ -158,6 +158,7 @@ if (!isset($meta)) {
 						], ['class' => 'button logout plain']) ?>
 
 						<?= $this->html->link($t('Site'), '/', [
+							// FIXME Should be using the Sites feature instead.
 							'scope' => 'app',
 							'target' => 'new',
 							'class' => 'view-site button plain inverse'
@@ -187,8 +188,7 @@ if (!isset($meta)) {
 					<?php foreach ($panes as $name => $item): ?>
 						<?= $this->html->link($item['title'], $item['url'], [
 							'class' => 'tab-v tab-' . strtolower(Inflector::slug($item['name'])) .  ($item['active'] ? ' active' : null),
-							// FIXME Fixes "back to site" string URL, Should be using the Sites feature instead.
-							'scope' => is_string($item['url']) ? 'app' : 'admin'
+							'scope' => 'admin'
 						]) ?>
 					<?php endforeach ?>
 				</nav>
