@@ -14,7 +14,7 @@
  * License. If not, see http://atelierdisko.de/licenses.
  */
 
-require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
+require(['jquery', 'nprogress', 'moment', 'notify', 'domready!'], function($, Progress, Moment) {
 
   //
   // Progress setup
@@ -97,11 +97,17 @@ require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
     $(this).addClass('loading');
   });
 
-  var $expiry = $('.session-expiry__seconds');
+  //
+  // Session Expiry Display
+  //
+  Moment.locale($('html').attr('lang'));
+
+  var $expiry = $('.logout__in');
+  var expiry = Moment().add(parseInt($expiry.data('seconds'), 10), 'seconds');
+
+  $expiry.text(expiry.from());
+
   setInterval(function() {
-    var value = parseInt($expiry.text(), 10);
-
-    $expiry.text(value - 1);
-  }, 1000);
-
+    $expiry.text(expiry.from());
+  }, 1000); // 1s
 });

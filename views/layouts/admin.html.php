@@ -140,16 +140,10 @@ if (!isset($meta)) {
 							<?php echo $t('Moin {:name}!', [
 								'name' => '<span class="nav-top__name">' . strtok($authedUser->name, ' ') . '</span>'
 							]) ?>
-							<span class="nav-top__role">
+							<span class="button__secondary">
 								<?= $authedUser->role ?>
 							</span>
 						</a>
-
-						<div class="button dumb nav-top__session-expiry session-expiry">
-							<?php echo $t('Session expires in <span class="session-expiry__seconds">{:seconds}</span>s', [
-								'seconds' => $sessionTimeLeft
-							])?>
-						</div>
 
 						<?php if (isset($authedUser->original)): ?>
 							<?= $this->html->link($t('Become <span class="nav-top__name">{:name}</span> again', ['name' => strtok($authedUser->original['name'], ' ')] ), [
@@ -159,11 +153,19 @@ if (!isset($meta)) {
 							], ['class' => 'button plain', 'escape' => false]) ?>
 						<?php endif ?>
 
-						<?= $this->html->link($t('Logout'), [
+						<?php
+							$title  = $t('Logout');
+							$title .= ' <span class="logout__in button__secondary" data-seconds="' . $sessionTimeLeft .  '">' . $t('in {:minutes} minutes', [
+								'minutes' => round($sessionTimeLeft / 60, 0)
+							]) . '</span>';
+						?>
+						<?= $this->html->link($title, [
 							'controller' => 'users', 'action' => 'logout',
 							'library' => 'base_core', 'admin' => true
-						], ['class' => 'button logout plain']) ?>
-
+						], [
+							'class' => 'button logout plain',
+							'escape' => false
+						]) ?>
 
 						<?php foreach ($sites as $site): ?>
 							<?= $this->html->link($site['fqdn'], 'http://' . $site['fqdn'], [

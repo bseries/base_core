@@ -392,9 +392,6 @@ html {
 .nav-top__name {
   font-weight: bold;
 }
-.nav-top__role {
-  color: var(--color-gray-darker);
-}
 .tabs-v {
   font-size: var(--font-size-gamma);
   overflow: hidden;
@@ -901,6 +898,12 @@ a.button {
 .button + .button {
   margin-left: -4px; /* fix when aligned in form with buttons next to it. */
 }
+
+.button__secondary {
+  color: var(--color-gray-darker);
+  text-transform: none;
+}
+
 
 /* Sizes */
 .button.small {
