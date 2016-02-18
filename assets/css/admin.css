@@ -938,11 +938,14 @@ a.button {
   filter: invert(0%);
 }
 
+.button.session-expiry {
+  text-transform: none;
+}
 .button.view-site {
   background-repeat: no-repeat;
   background-position: right 8px top 9px;
   padding-right: 35px;
-  text-transform: lowercase;
+  text-transform: none;
 }
 .button.add,
 .button.refresh {

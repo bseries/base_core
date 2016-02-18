@@ -11,6 +11,7 @@ $t = function($message, array $options = []) {
 };
 
 $sites = Sites::registry(true);
+$sessionTimeLeft = ini_get('session.gc_maxlifetime');
 
 // Remove when every page uses new rich page title.
 if (!isset($page)) {
@@ -140,9 +141,15 @@ if (!isset($meta)) {
 								'name' => '<span class="nav-top__name">' . strtok($authedUser->name, ' ') . '</span>'
 							]) ?>
 							<span class="nav-top__role">
-								(<?= $authedUser->role ?>)
+								<?= $authedUser->role ?>
 							</span>
 						</a>
+
+						<div class="button dumb nav-top__session-expiry session-expiry">
+							<?php echo $t('Session expires in <span class="session-expiry__seconds">{:seconds}</span>s', [
+								'seconds' => $sessionTimeLeft
+							])?>
+						</div>
 
 						<?php if (isset($authedUser->original)): ?>
 							<?= $this->html->link($t('Become <span class="nav-top__name">{:name}</span> again', ['name' => strtok($authedUser->original['name'], ' ')] ), [

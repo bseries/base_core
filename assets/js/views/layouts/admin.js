@@ -96,4 +96,12 @@ require(['jquery', 'nprogress', 'notify', 'domready!'], function($, Progress) {
   $('button[type=submit]').on('click', function(ev) {
     $(this).addClass('loading');
   });
+
+  var $expiry = $('.session-expiry__seconds');
+  setInterval(function() {
+    var value = parseInt($expiry.text(), 10);
+
+    $expiry.text(value - 1);
+  }, 1000);
+
 });
