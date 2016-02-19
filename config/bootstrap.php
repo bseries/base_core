@@ -108,6 +108,7 @@ $bootstrapFormal = function($name, $path) {
 			'access' => null,
 			'version' => null,
 			'routes' => null,
+			'switchboard' => null,
 
 			// B-Series module only files.
 			// Jobs are disabled/enabled depending on certain settings.
@@ -151,6 +152,7 @@ $bootstrapFormal = function($name, $path) {
 		$available = [
 			'routes' => ['libraries.*.config.routes'],
 			'access' => ['libraries.*.config.access' => 'optional'],
+			'switchboard' => ['libraries.*.config.switchboard' => 'optional'],
 
 			// B-Series module type configuration files.
 			'base' => [
@@ -182,8 +184,7 @@ $bootstrapFormal = function($name, $path) {
 		'g11n',
 		'misc',
 		'settings',
-		'media',
-		'switchboard'
+		'media'
 	];
 	if ($name === 'app') {
 		$deprecated[] = 'contents';
