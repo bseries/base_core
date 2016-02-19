@@ -108,20 +108,22 @@ $bootstrapFormal = function($name, $path) {
 			'access' => null,
 			'version' => null,
 			'routes' => null,
-			'switchboard' => null,
-
-			// B-Series module only files.
-			// Jobs are disabled/enabled depending on certain settings.
-			'jobs' => [
+			'panes' => ['*.config.access'], // module only
+			'widgets' => null, // module only
+			'switchboard' => [
+				// Filters are disabled/enabled depending on certain settings.
 				'*.config.base' => 'optional',
 				'*.config.cms' => 'optional',
 				'*.config.billing' => 'optional',
 				'*.config.ecommerce' => 'optional'
 			],
-			'panes' => ['*.config.access'],
-			'widgets' => null,
-
-			// B-Series module type  onfiguration files.
+			'jobs' => [
+				// Jobs are disabled/enabled depending on certain settings.
+				'*.config.base' => 'optional',
+				'*.config.cms' => 'optional',
+				'*.config.billing' => 'optional',
+				'*.config.ecommerce' => 'optional'
+			],
 			'base' => null,
 			'cms' => ['*.config.base'],
 			'billing' => ['*.config.base'],
@@ -131,13 +133,14 @@ $bootstrapFormal = function($name, $path) {
 			// Don't load certain module configurations when
 			// not inside admin. Keep order when unsetting.
 			$available = array_diff_key($available, [
-				// - Module g11n must always be loaded as modules may contain
-				//   translations for validation messages used by the app.
-				// - Module routes must always be loaded as we may want to
-				//   link back into admin for admin users from the app.
-				'jobs' => null,
 				'panes' => null,
-				'widgets' => null
+				'widgets' => null,
+				'jobs' => null,
+				// Intentionally missing:
+				// - g11n must always be loaded as modules may contain
+				//   translations for validation messages used by the app.
+				// - routes must always be loaded as we may want to
+				//   link back into admin for admin users from the app.
 			]);
 		}
 
@@ -152,9 +155,8 @@ $bootstrapFormal = function($name, $path) {
 		$available = [
 			'routes' => ['libraries.*.config.routes'],
 			'access' => ['libraries.*.config.access' => 'optional'],
-			'switchboard' => ['libraries.*.config.switchboard' => 'optional'],
-
-			// B-Series module type configuration files.
+			'switchboard' => null,
+			'jobs' => null,
 			'base' => [
 				'libraries.*.config.base'
 			],
@@ -173,9 +175,9 @@ $bootstrapFormal = function($name, $path) {
 			],
 		];
 		if (INSIDE_ADMIN === true) {
-			// Do not load app routes when inside admin.
 			$available = array_diff_key($available, [
-				'routes' => null
+				'routes' => null,
+				'jobs' => null
 			]);
 		}
 	}
