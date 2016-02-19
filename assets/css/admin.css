@@ -1877,10 +1877,6 @@ thead .actions > div {
 .widget .title {
   text-transform: capitalize;
 }
-.widget.positive h1,
-.widget.negative h1 {
-  color: white;
-}
 
 .widget-quickdial {
   font-weight: bold;
