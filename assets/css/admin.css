@@ -1844,8 +1844,9 @@ thead .actions > div {
   max-width: 550px;
   width: 45%;
   padding: var(--space-v-tight) var(--space-h-tighter) 5px;
-  transition: background .2s;
+  transition: background .2s, border-color .2s;
   color: var(--color-dim-black);
+  border-top: 4px solid var(--color-gray-dark);
 }
 .widget a {
   color: var(--color-dim-black);
@@ -1855,12 +1856,13 @@ thead .actions > div {
 }
 .widget:hover {
   background-color: var(--color-gray-darker);
+  border-color: var(--color-gray-darker);
 }
 .widget.positive:not(:hover) {
-  background-color: var(--color-green);
+  border-color: var(--color-green);
 }
-.widget.negative:not(:hover) {
-  background-color: var(--color-red);
+.widget.negative {
+  border-color: var(--color-red);
 }
 .widget.loading {
   transition: opacity 2s;
