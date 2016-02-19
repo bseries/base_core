@@ -72,7 +72,10 @@ $page += [
 		<div id="container">
 			<header class="header--main rich-page-title">
 				<h1 class="h-super-alpha header--main__site">
-					<?= $this->html->link($sites->first()['title'], ['controller' => 'pages', 'action' => 'home', 'library' => 'base_core']) ?>
+					<?= $this->html->link($sites->first()->title(), [
+						'controller' => 'pages', 'action' => 'home',
+						'library' => 'base_core'
+					]) ?>
 				</h1>
 				<h2 class="h-super-alpha object header--main__rpt">
 					<?= $page['object'] ?>

@@ -2,7 +2,7 @@
 /**
  * Base Core
  *
- * Copyright (c) 2015 Atelier Disko - All rights reserved.
+ * Copyright (c) 2016 Atelier Disko - All rights reserved.
  *
  * Licensed under the AD General Software License v1.
  *
@@ -17,15 +17,24 @@
 
 namespace base_core\base;
 
-use base_core\base\Site;
+use BadMethodCallException;
 
-class Sites {
+class Site {
 
-	use \base_core\core\Registerable;
-	use \base_core\core\RegisterableEnumeration;
+	protected $_config = [];
 
-	public static function register($name, array $object) {
-		static::$_registry[$name] = new Site($object);
+	public function __construct(array $config) {
+		$this->_config = $config + [
+			'title' => null,
+			'fqdn' => null
+		];
+	}
+
+	public function __call($name, array $arguments) {
+		if (!array_key_exists($name, $this->_config)) {
+			throw new BadMethodCallException("Method or configuration `{$name}` does not exist.");
+		}
+		return $this->_config[$name];
 	}
 }
 

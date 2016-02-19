@@ -107,7 +107,7 @@ if (!isset($meta)) {
 		<div id="container">
 			<header class="header--main">
 				<h1 class="h-super-alpha header--main__site">
-					<?= $this->html->link($sites->first()['title'], [
+					<?= $this->html->link($sites->first()->title(), [
 						'controller' => 'pages', 'action' => 'home',
 						'library' => 'base_core', 'admin' => true
 					]) ?>
@@ -168,7 +168,7 @@ if (!isset($meta)) {
 						]) ?>
 
 						<?php foreach ($sites as $site): ?>
-							<?= $this->html->link($site['fqdn'], 'http://' . $site['fqdn'], [
+							<?= $this->html->link($site->fqdn(), 'http://' . $site->fqdn(), [
 								'scope' => 'app',
 								'target' => 'new',
 								'class' => 'view-site button plain inverse'
