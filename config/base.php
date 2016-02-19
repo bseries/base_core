@@ -25,7 +25,10 @@ use lithium\net\http\Media as HttpMedia;
 //
 // Sites
 //
-Sites::register(PROJECT_DOMAIN, ['title' => PROJECT_DOMAIN]);
+Sites::register(PROJECT_DOMAIN, [
+	'title' => PROJECT_DOMAIN,
+	'fqdn' => PROJECT_DOMAIN
+]);
 
 // Enables multi site feature module wide. Allows to
 // place content in different sites hosted by the same
