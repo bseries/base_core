@@ -91,12 +91,12 @@ define([
 
       return _this.data()
         .done(function(data) {
-          if (data.data !== []) {
+          if ($.isEmptyObject(data.data) || $.isArray(data.data) && data.data.length === 0)  {
+            _this.$element.remove();
+          } else {
             _this.$element.html(template(data));
             _this.$element.addClass('widget-table');
             _this.$element.removeClass('loading');
-          } else {
-            _this.$element.remove();
           }
         });
     };
