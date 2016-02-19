@@ -27,6 +27,18 @@ class Sites {
 	public static function register($name, array $object) {
 		static::$_registry[$name] = new Site($object);
 	}
+
+	public static function current() {
+		if (empty($_SERVER['HTTP_HOST'])) {
+			return null;
+		}
+		foreach (static::$_registry as $name => $site) {
+			if ($site->fqdn() === $_SERVER['HTTP_HOST']) {
+				return $site;
+			}
+		}
+		return null;
+	}
 }
 
 ?>

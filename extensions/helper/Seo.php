@@ -17,7 +17,7 @@
 
 namespace base_core\extensions\helper;
 
-use base_core\extensions\cms\Settings;
+use base_core\base\Sites;
 
 class Seo extends \lithium\template\Helper {
 
@@ -62,7 +62,7 @@ class Seo extends \lithium\template\Helper {
 			'separator' => ' – ',
 			'standalone' => 'auto',
 			'admin' => 'auto',
-			'site' => Settings::read('site.title') ?: '',
+			'site' => Sites::current()->title() ?: '',
 			'reverse' => true
 		];
 		if ($options['standalone'] === 'auto')  {
