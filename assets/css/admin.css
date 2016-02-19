@@ -1843,10 +1843,10 @@ thead .actions > div {
   min-width: 350px;
   max-width: 550px;
   width: 45%;
-  padding: var(--space-v-tight) var(--space-h-tighter) 5px;
+  padding: calc(var(--space-v-tight) - 5px) var(--space-h-tighter) 5px var(--space-h-tighter);
   transition: background .2s, border-color .2s;
   color: var(--color-dim-black);
-  border-top: 4px solid var(--color-gray-dark);
+  border-top: 5px solid var(--color-gray-dark);
 }
 .widget a {
   color: var(--color-dim-black);
