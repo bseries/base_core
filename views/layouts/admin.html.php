@@ -1,7 +1,8 @@
 <?php
 
-use base_core\extensions\cms\Panes;
 use base_core\base\Sites;
+use base_core\extensions\cms\Panes;
+use base_core\extensions\cms\Settings;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\util\Inflector;
@@ -166,6 +167,13 @@ if (!isset($meta)) {
 							'class' => 'button logout plain',
 							'escape' => false
 						]) ?>
+
+						<?php if (Settings::read('contactSupport.enabled')): ?>
+							<?= $this->html->link($t('Contact Support'), Settings::read('contactSupport.url'), [
+								'class' => 'button support',
+								'target' => 'new'
+							]) ?>
+						<?php endif ?>
 
 						<?php foreach ($sites as $site): ?>
 							<?= $this->html->link($site->fqdn(), 'http://' . $site->fqdn(), [

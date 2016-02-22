@@ -25,17 +25,6 @@ use base_core\models\Users;
 
 extract(Message::aliases());
 
-Widgets::register('support', function() use ($t) {
-	return [
-		'title' => $t('Contact Support', ['scope' => 'base_core']),
-		'url' => 'http://atelierdisko.de/contact'
-	];
-}, [
-	'type' => Widgets::TYPE_QUICKDIAL,
-	'group' => Widgets::GROUP_DASHBOARD,
-	'weight' => Widgets::WEIGHT_HIGH
-]);
-
 if (Gate::checkRight('users')) {
 	Widgets::register('users', function() use ($t) {
 		$roles = Users::enum('role');

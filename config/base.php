@@ -38,6 +38,13 @@ Settings::register('useSites', false);
 //
 // General Settings
 //
+
+// Enables in-admin support button.
+Settings::register('contactSupport', [
+	'enabled' => true,
+	'url' => 'http://atelierdisko.de/clients/tickets/add'
+]);
+
 // Enable checking of ownership module wide. When enabled everybody
 // else than users with the `'owner'` privilege can only view or
 // edit entities owned by them. When disabled ownership is still
