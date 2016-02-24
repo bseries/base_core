@@ -45,12 +45,6 @@ $nickRgb = function($nick) {
 				<td data-sort="is-active" class="flag table-sort"><?= $t('active?') ?>
 				<td data-sort="is-locked" class="flag table-sort is-locked "><?= $t('locked?') ?>
 				<td data-sort="is-notified" class="flag table-sort"><?= $t('notified?') ?>
-				<?php if ($useAutoInvoice): ?>
-					<td data-sort="is-auto-invoiced" class="flag table-sort"><?= $t('auto inv.?') ?>
-				<?php endif ?>
-				<?php if ($useAutoPay): ?>
-					<td data-sort="is-auto-paying" class="flag table-sort"><?= $t('auto pay.?') ?>
-				<?php endif ?>
 				<?php if ($useRent): ?>
 					<td data-sort="can-rent" class="flag table-sort"><?= $t('rent?') ?>
 				<?php endif ?>
@@ -85,12 +79,6 @@ $nickRgb = function($nick) {
 					<?php endif ?>
 				</i>
 				<td class="flag"><i class="material-icons"><?= ($item->is_notified ? 'done' : '') ?></i>
-				<?php if ($useAutoInvoice): ?>
-					<td class="flag"><i class="material-icons"><?= ($item->is_auto_invoiced ? 'done' : '') ?></i>
-				<?php endif ?>
-				<?php if ($useAutoPay): ?>
-					<td class="flag"><i class="material-icons"><?= ($item->is_auto_paying ? 'done' : '') ?></i>
-				<?php endif ?>
 				<?php if ($useRent): ?>
 					<td class="flag"><i class="material-icons"><?= ($item->can_rent ? 'done' : '') ?></i>
 				<?php endif ?>
