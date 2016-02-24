@@ -28,10 +28,10 @@ class Sluggable extends \li3_behaviors\data\model\Behavior {
 	];
 
 	public function slug($model, Behavior $behavior, Entity $entity, $value = null) {
-		if (!$value && !$entity->title && !$entity->name) {
+		if (!$value && !$entity->title) {
 			return;
 		}
-		$value = $value ?: ($entity->title ?: $entity->name);
+		$value = $value ?: $entity->title;
 		$slug = strtolower(Inflector::slug($slug));
 
 		if (strlen($slug) > ($length = $behavior->config('length'))) {
