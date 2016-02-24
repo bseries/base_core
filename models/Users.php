@@ -71,7 +71,8 @@ class Users extends \base_core\models\Base {
 		$model->validates['password'] = [
 			'notEmpty' => [
 				'notEmpty',
-				'on' => ['create', 'passwordChange', 'passwordInit'],
+				'on' => ['passwordChange', 'passwordInit'],
+				'required' => true,
 				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 		];
@@ -83,7 +84,7 @@ class Users extends \base_core\models\Base {
 			],
 			'repeat' => [
 				'passwordRepeat',
-				'on' => ['passwordChange', 'passwordInit'],
+				'on' => ['passwordInit', 'passwordChange'],
 				'message' => $t('The passwords are not identical.', ['scope' => 'base_core'])
 			]
 		];
@@ -91,10 +92,11 @@ class Users extends \base_core\models\Base {
 			return Password::check($value, $options['values']['password']);
 		});
 
-		$model->validates['reset_answer'] = [
+		$model->validates['answer'] = [
 			'notEmpty' => [
 				'notEmpty',
 				'on' => ['answerInit'],
+				'required' => true,
 				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 		];
@@ -243,7 +245,7 @@ class Users extends \base_core\models\Base {
 
 		$conditions += [
 			'email' => null,
-			'reset_answer' => null,
+			'answer' => null,
 			'is_active' => true,
 			'is_locked' => false
 		];
@@ -255,7 +257,7 @@ class Users extends \base_core\models\Base {
 			}
 			// The answer key is hashed in order to not leak information about the password.
 			// Users might give a hint to their actual password.
-			if ($key === 'reset_answer') {
+			if ($key === 'answer') {
 				$value = static::hashAnswer($value);
 			}
 		}

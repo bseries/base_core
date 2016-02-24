@@ -70,36 +70,43 @@ $this->set([
 		<div class="grid-row">
 			<h1 class="h-beta"><?= $t('Security') ?></h1>
 
-			<div class="grid-column-left">
+			<div class="grid-column-left cred-fields">
+				<?= $this->form->field('change_creds', [
+					'type' => 'checkbox',
+					'label' => $t('change credentials'),
+					'checked' => !$item->exists(),
+					'value' => 1,
+					'autocomplete' => 'off' // force checkbox to initial state
+				]) ?>
 				<?=$this->form->field('password', [
 					'type' => 'password',
-					'label' => $t('New password'),
+					'label' => $t('Password'),
 					'autocomplete' => 'off',
+					'disabled' => $item->exists(),
 					'placeholder' => $t('Keep empty to leave password unchanged.')
 				]) ?>
-				<?=$this->form->field('auth_token', [
-					'type' => 'text',
-					'label' => $t('Authentication token')
-				]) ?>
-				<div class="help">
-					<?= $t('Only needed when user will access the API.') ?>
-				</div>
-				<?=$this->form->field('reset_answer', [
+				<?=$this->form->field('answer', [
 					'type' => 'password',
-					'label' => $t('New reset answer'),
+					'label' => $t('Password reset answer'),
 					'autocomplete' => 'off',
+					'disabled' => $item->exists(),
 					'placeholder' =>  $t('Keep empty to leave answer unchanged.')
 				]) ?>
 				<div class="help">
 					<?= $t('Required to allow resetting password.') ?>
+					<?= $t('This is an additional security measure to protect password resets.') ?>
 				</div>
-				<?=$this->form->field('reset_token', [
+
+				<?=$this->form->field('auth_token', [
 					'type' => 'text',
-					'label' => $t('Reset token')
+					'disabled' => $item->exists(),
+					'autocomplete' => 'off',
+					'label' => $t('API Authentication token'),
+					'placeholder' => $t('Keep empty if the user has no API access.')
 				]) ?>
 				<div class="help">
-					<?= $t('Required to allow resetting password.') ?>
-					<?= $t('Automatically set when user request password reset.') ?>
+					<?= $t('A token that can be provided instead of the password.') ?>
+					<?= $t('Only needed when this is a technical user with access to the API.') ?>
 				</div>
 			</div>
 			<div class="grid-column-right">

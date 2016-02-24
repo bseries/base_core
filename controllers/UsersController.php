@@ -50,20 +50,10 @@ class UsersController extends \base_core\controllers\BaseController {
 		$item = Users::create();
 
 		if ($this->request->data) {
-			$this->request->data['password'] = Users::hashPassword(
-				$this->request->data['password']
+			list($data, $events) = $this->_handleCredentialsSubmission(
+				$this->request->data, ['create']
 			);
-			$events = ['create', 'passwordInit'];
-
-			if (!empty($this->request->data['reset_answer'])) {
-				$events[] = 'answerInit';
-
-				$this->request->data['reset_answer'] = Users::hashAnswer(
-					$this->request->data['reset_answer']
-				);
-			}
-
-			if ($item->save($this->request->data, compact('events'))) {
+			if ($item->save($data, compact('events'))) {
 				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
 					'level' => 'success'
 				]);
@@ -81,31 +71,16 @@ class UsersController extends \base_core\controllers\BaseController {
 	public function admin_edit() {
 		extract(Message::aliases());
 
-		$item = Users::find($this->request->id);
-
+		$item = Users::find('first', [
+			'conditions' => [
+				'id' => $this->request->id
+			]
+		]);
 		if ($this->request->data) {
-			$events = ['update'];
-
-			$protectedFields = [
-				'password' => function(array $data) {
-					return Users::hashPassword($data['password']);
-				},
-				'reset_answer' => function(array $data) {
-					return Users::hashAnswer($data['reset_answer']);
-				}
-			];
-			foreach ($protectedFields as $field => $value) {
-				if ($this->request->data[$field]) {
-					if ($field === 'password') {
-						$events[] = 'passwordInit';
-					}
-					$this->request->data[$field] = $value($this->request->data);
-				} else {
-					unset($this->request->data[$field]);
-				}
-			}
-
-			if ($item->save($this->request->data)) {
+			list($data, $events) = $this->_handleCredentialsSubmission(
+				$this->request->data, ['update']
+			);
+			if ($item->save($data, compact('events'))) {
 				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
 					'level' => 'success'
 				]);
@@ -118,6 +93,34 @@ class UsersController extends \base_core\controllers\BaseController {
 		}
 		$this->_render['template'] = 'admin_form';
 		return compact('item') + $this->_selects($item);
+	}
+
+	protected function _handleCredentialsSubmission(array $submitted, array $events) {
+		$protectedFields = [
+			'password' => function(array $data) {
+				if (empty($data['password'])) {
+					return [null, 'passwordInit'];
+				}
+				return [Users::hashPassword($data['password']), 'passwordInit'];
+			},
+			'answer' => function(array $data) {
+				if (empty($data['answer'])) {
+					return [null, 'answerInit'];
+				}
+				return [Users::hashAnswer($data['answer']), 'answerInit'];
+			}
+		];
+		foreach ($protectedFields as $field => $value) {
+			list($data, $event) = $value($submitted);
+
+			$events[] = $event;
+			if (!$data) {
+				unset($submitted[$field]);
+			} else {
+				$submitted[$field] = $data;
+			}
+		}
+		return [$submitted, $events];
 	}
 
 	protected function _selects($item = null) {
