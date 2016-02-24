@@ -51,7 +51,7 @@ class UsersController extends \base_core\controllers\BaseController {
 
 		if ($this->request->data) {
 			list($data, $events) = $this->_handleCredentialsSubmission(
-				$this->request->data, ['create']
+				$this->request->data, ['create', 'passwordInit']
 			);
 			if ($item->save($data, compact('events'))) {
 				FlashMessage::write($t('Successfully saved.', ['scope' => 'base_core']), [
