@@ -169,7 +169,7 @@ if (!isset($meta)) {
 						]) ?>
 
 						<?php if (Settings::read('contactSupport.enabled')): ?>
-							<?= $this->html->link($t('Contact Support'), Settings::read('contactSupport.url'), [
+							<?= $this->html->link($t('Support'), Settings::read('contactSupport.url'), [
 								'class' => 'button support',
 								'target' => 'new'
 							]) ?>

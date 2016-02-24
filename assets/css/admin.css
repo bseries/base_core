@@ -382,7 +382,6 @@ html {
 ---------------------------------------------------------------- */
 .nav-top {
   font-size: var(--font-size-delta);
-  width: 700px;
   position: absolute;
   top: 0;
   right: var(--space-h-tight);
