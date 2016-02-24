@@ -71,9 +71,9 @@ $this->set([
 			<h1 class="h-beta"><?= $t('Security') ?></h1>
 
 			<div class="grid-column-left cred-fields">
-				<?= $this->form->field('change_creds', [
+				<?= $this->form->field('change_password', [
 					'type' => 'checkbox',
-					'label' => $t('change credentials'),
+					'label' => $t('change password'),
 					'checked' => !$item->exists(),
 					'value' => 1,
 					'autocomplete' => 'off' // force checkbox to initial state
@@ -83,14 +83,20 @@ $this->set([
 					'label' => $t('Password'),
 					'autocomplete' => 'off',
 					'disabled' => $item->exists(),
-					'placeholder' => $t('Keep empty to leave password unchanged.')
+					'placeholder' => $t('Pick a strong password.')
+				]) ?>
+				<?= $this->form->field('change_answer', [
+					'type' => 'checkbox',
+					'label' => $t('change reset answer'),
+					'checked' => !$item->exists(),
+					'value' => 1,
+					'autocomplete' => 'off' // force checkbox to initial state
 				]) ?>
 				<?=$this->form->field('answer', [
 					'type' => 'password',
 					'label' => $t('Password reset answer'),
 					'autocomplete' => 'off',
-					'disabled' => $item->exists(),
-					'placeholder' =>  $t('Keep empty to leave answer unchanged.')
+					'disabled' => $item->exists()
 				]) ?>
 				<div class="help">
 					<?= $t('Required to allow resetting password.') ?>
@@ -99,7 +105,6 @@ $this->set([
 
 				<?=$this->form->field('auth_token', [
 					'type' => 'text',
-					'disabled' => $item->exists(),
 					'autocomplete' => 'off',
 					'label' => $t('API Authentication token'),
 					'placeholder' => $t('Keep empty if the user has no API access.')

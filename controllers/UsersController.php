@@ -96,29 +96,21 @@ class UsersController extends \base_core\controllers\BaseController {
 	}
 
 	protected function _handleCredentialsSubmission(array $submitted, array $events) {
-		$protectedFields = [
-			'password' => function(array $data) {
-				if (empty($data['password'])) {
-					return [null, 'passwordInit'];
-				}
-				return [Users::hashPassword($data['password']), 'passwordInit'];
-			},
-			'answer' => function(array $data) {
-				if (empty($data['answer'])) {
-					return [null, 'answerInit'];
-				}
-				return [Users::hashAnswer($data['answer']), 'answerInit'];
+		$protector = function($field, array &$data, array &$events) {
+			if (empty($data['change_' . $field])) {
+				return;
 			}
-		];
-		foreach ($protectedFields as $field => $value) {
-			list($data, $event) = $value($submitted);
+			$events[] = $field . 'Init';
 
-			$events[] = $event;
-			if (!$data) {
-				unset($submitted[$field]);
-			} else {
-				$submitted[$field] = $data;
+			if (!empty($data[$field])) {
+				// Allow validation to pick on empty fields, otherwise
+				// we generate a hash on empty string.
+				$method = 'hash' . ucfirst($field);
+				$data[$field] = Users::{$method}($data[$field]);
 			}
+		};
+		foreach (['password', 'answer'] as $field) {
+			$protector($field, $submitted, $events);
 		}
 		return [$submitted, $events];
 	}

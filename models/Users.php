@@ -71,7 +71,7 @@ class Users extends \base_core\models\Base {
 		$model->validates['password'] = [
 			'notEmpty' => [
 				'notEmpty',
-				'on' => ['passwordChange', 'passwordInit'],
+				'on' => ['passwordInit', 'passwordChange'],
 				'required' => true,
 				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
