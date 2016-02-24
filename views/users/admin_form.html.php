@@ -74,6 +74,7 @@ $this->set([
 				<?= $this->form->field('change_password', [
 					'type' => 'checkbox',
 					'label' => $t('change password'),
+					'label' => !$item->exists() ? $t('provide a password') : $t('change password'),
 					'checked' => !$item->exists(),
 					'value' => 1,
 					'autocomplete' => 'off' // force checkbox to initial state
@@ -87,8 +88,8 @@ $this->set([
 				]) ?>
 				<?= $this->form->field('change_answer', [
 					'type' => 'checkbox',
-					'label' => $t('change reset answer'),
-					'checked' => !$item->exists(),
+					'label' => !$item->exists() || !$item->answer ? $t('provide a reset answer') : $t('change reset answer'),
+					'checked' => false,
 					'value' => 1,
 					'autocomplete' => 'off' // force checkbox to initial state
 				]) ?>
@@ -96,7 +97,7 @@ $this->set([
 					'type' => 'password',
 					'label' => $t('Password reset answer'),
 					'autocomplete' => 'off',
-					'disabled' => $item->exists()
+					'disabled' => true
 				]) ?>
 				<div class="help">
 					<?= $t('Required to allow resetting password.') ?>
