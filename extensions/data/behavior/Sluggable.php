@@ -17,17 +17,27 @@
 
 namespace base_core\extensions\data\behavior;
 
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\data\Entity;
 use lithium\util\Inflector;
 
 class Sluggable extends \li3_behaviors\data\model\Behavior {
 
-	public function slug($model, Behavior $behavior, Entity $entity) {
-		if (!$entity->title && !$entity->name) {
+	protected static $_defaults = [
+		'length' => 50
+	];
+
+	public function slug($model, Behavior $behavior, Entity $entity, $value = null) {
+		if (!$value && !$entity->title && !$entity->name) {
 			return;
 		}
-		return strtolower(Inflector::slug($entity->title ?: $entity->name));
+		$value = $value ?: ($entity->title ?: $entity->name);
+		$slug = strtolower(Inflector::slug($slug));
+
+		if (strlen($slug) > ($length = $behavior->config('length'))) {
+			$slug = rtrim(substr($slug, 0, $length), '-');
+		}
+		return $slug;
 	}
 }
 
