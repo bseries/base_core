@@ -79,12 +79,14 @@ class Users extends \base_core\models\Base {
 		$model->validates['password_repeat'] = [
 			'notEmpty' => [
 				'notEmpty',
-				'on' => ['passwordInit', 'passwordChange'],
+				'on' => ['passwordRepeat'],
+				'required' => true,
 				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 			'repeat' => [
 				'passwordRepeat',
-				'on' => ['passwordInit', 'passwordChange'],
+				'on' => ['passwordRepeat'],
+				'required' => true,
 				'message' => $t('The passwords are not identical.', ['scope' => 'base_core'])
 			]
 		];
