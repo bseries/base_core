@@ -47,7 +47,7 @@ class Users extends \lithium\console\Command {
 	}
 
 	// @deprecated
-	public function migrate13to14() {
+	public function migrateUuid() {
 		$this->out('Migrating users to uuid...');
 
 		foreach (UsersModel::find('all') as $user) {
@@ -58,6 +58,11 @@ class Users extends \lithium\console\Command {
 				'uuid' => String::uuid()
 			], ['validate' => false, 'whitelist' => ['id', 'uuid']]);
 		}
+	}
+
+	// @deprecated
+	public function migrate13to14() {
+		$this->migrateUuid();
 		try {
 			foreach (VirtualUsers::find('all') as $user) {
 				if ($user->uuid) {
