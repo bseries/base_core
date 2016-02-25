@@ -32,7 +32,7 @@ class Sluggable extends \li3_behaviors\data\model\Behavior {
 			return;
 		}
 		$value = $value ?: $entity->title;
-		$slug = strtolower(Inflector::slug($slug));
+		$slug = strtolower(Inflector::slug($value));
 
 		if (strlen($slug) > ($length = $behavior->config('length'))) {
 			$slug = rtrim(substr($slug, 0, $length), '-');
