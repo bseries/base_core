@@ -1126,6 +1126,7 @@ p.loading {
 -------------------------------------------------------------- */
 .none-available,
 .bottom-help {
+  max-width: 800px;
   color: var(--color-dim-black);
   background: white;
   padding: 20px 30px 15px 30px;
@@ -1142,7 +1143,8 @@ p.loading {
    below to keep top appearance equal between
    views that have help and those which do not. */
 .bottom-help {
-  margin-top: 2em;
+  margin-top: 4em;
+  margin-left: auto;
 }
 
 /* Small form input help messages. Usually one line.
