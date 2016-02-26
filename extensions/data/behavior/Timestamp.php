@@ -28,27 +28,39 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 
 	protected static function _filters($model, Behavior $behavior) {
 		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
+			$skip = [];
+
+			foreach ($behavior->config('fields') as $field) {
+				if (isset($params['options'][$field])) {
+					if (!$params['options'][$field]) {
+						$skip[] = $field;
+					}
+					unset($params['options'][$field]);
+				}
+			}
 			if (isset($params['options']['whitelist'])) {
 				foreach ($behavior->config('fields') as $field) {
-					$params['options']['whitelist'][] = $field;
+					if (!in_array($field, $skip)) {
+						$params['options']['whitelist'][] = $field;
+					}
 				}
 			}
 			$params['data'] = static::_timestamp(
-				$behavior, $params['entity'], (array) $params['data']
+				$behavior, $params['entity'], (array) $params['data'], $skip
 			);
 
 			return $chain->next($self, $params, $chain);
 		});
 	}
 
-	protected static function _timestamp(Behavior $behavior, Entity $entity, array $data) {
+	protected static function _timestamp(Behavior $behavior, Entity $entity, array $data, array $skip) {
 		$now = date('Y-m-d H:i:s');
 		$fields = $behavior->config('fields');
 
-		if (!$entity->exists() && $fields['created']) {
+		if (!$entity->exists() && $fields['created'] && !in_array($fields['created'], $skip)) {
 			$data[$fields['created']] = $now;
 		}
-		if ($fields['modified']) {
+		if ($fields['modified'] && !in_array($fields['modified'], $skip)) {
 			$data[$fields['modified']] = $now;
 		}
 
