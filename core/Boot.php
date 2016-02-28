@@ -71,6 +71,43 @@ class Boot {
 		}
 		return $results;
 	}
+
+	// Parses an environment file and re-defines contained configuration
+	// as constants.
+	public static function environment($file, $prefix = null) {
+		$fh = fopen($file, 'r');
+		$results = [];
+
+		while (!feof($fh)) {
+			$line = fgets($fh);
+
+			if ($line['0'] === '#') {
+				continue;
+			}
+			if (!preg_match('/(?:export )?([a-zA-Z_][a-zA-Z0-9_]*)=(.*)/', $line, $matches)) {
+				continue;
+			}
+			$key = $matches[1];
+			$value = trim($matches[2], '"\'');
+
+			switch ($value) {
+				case 'y':
+				case 'yes':
+				case 'true':
+					$value = true;
+					break;
+				case 'n':
+				case 'no':
+				case 'false':
+					$value = false;
+					break;
+			}
+			define(($prefix ? $prefix . '_' : '') . $key, $value);
+		}
+
+		fclose($fh);
+		return $results;
+	}
 }
 
 ?>

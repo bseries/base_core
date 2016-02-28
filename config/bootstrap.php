@@ -60,46 +60,6 @@ if (PHP_SAPI === 'cli') {
 // app itself has access to default settings as defined in the modules configuration. This
 // is to prevent modules from overwriting the app's settings.
 
-//
-// Function definitions.
-//
-
-$defineFromDotEnvFile = function($file) {
-	$fh = fopen($file, 'r');
-	$results = [];
-
-	while (!feof($fh)) {
-		$line = fgets($fh);
-
-		if ($line['0'] === '#') {
-			continue;
-		}
-		if (!preg_match('/(?:export )?([a-zA-Z_][a-zA-Z0-9_]*)=(.*)/', $line, $matches)) {
-			continue;
-		}
-		$key = $matches[1];
-		$value = trim($matches[2], '"\'');
-
-		switch ($value) {
-			case 'y':
-			case 'yes':
-			case 'true':
-				$value = true;
-				break;
-			case 'n':
-			case 'no':
-			case 'false':
-				$value = false;
-				break;
-		}
-		define('PROJECT_' . $key, $value);
-	}
-
-	fclose($fh);
-	return $results;
-};
-
-
 // Implements a boostraping function that replaces the common lithium bootstraping for
 // modules and app.
 $bootstrapFormal = function($name, $path) {
@@ -233,11 +193,12 @@ $bootstrapFormal = function($name, $path) {
 //
 // Preparing the environment.
 //
+require dirname(__DIR__) . '/core/Boot.php';
 
 // Load the currently active environment file from the project's root/config directory.
 // Assumes we are located inside `project/app/libraries/base_core/config`. Any variables
 // defined inside the env file are prefixed with `PROJECT_`.
-$defineFromDotEnvFile(dirname(dirname(dirname(dirname(__DIR__)))) . '/config/current.env');
+Boot::environment(dirname(dirname(dirname(dirname(__DIR__)))) . '/config/current.env', 'PROJECT');
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.
