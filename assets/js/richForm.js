@@ -154,10 +154,10 @@ function($) {
                 return plugins;
               };
 
-              var editor = null;
-              editorElements.each(function(k, el) {
-                editor = new Editor();
-                editor.init($(el).find('textarea'), pluginsByClasses(el));
+              editorElements.each(function() {
+                (new Editor()).init(
+                    $(this).find('textarea'), pluginsByClasses(this)
+                );
               });
           });
         }
