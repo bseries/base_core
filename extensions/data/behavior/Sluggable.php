@@ -17,6 +17,7 @@
 
 namespace base_core\extensions\data\behavior;
 
+use Exception;
 use li3_behaviors\data\model\Behavior;
 use lithium\data\Entity;
 use lithium\util\Inflector;
@@ -28,10 +29,16 @@ class Sluggable extends \li3_behaviors\data\model\Behavior {
 	];
 
 	public function slug($model, Behavior $behavior, Entity $entity, $value = null) {
-		if (!$value && !$entity->title) {
-			return;
+		if (!$value) {
+			if (!$field = $model::meta('title')) {
+				throw new Exception("No manual slug value and no title field.");
+			} else {
+				$value = $entity->{$field};
+			}
 		}
-		$value = $value ?: $entity->title;
+		if (!$value) {
+			throw new Exception("Slug title is empty.");
+		}
 		$slug = strtolower(Inflector::slug($value));
 
 		if (strlen($slug) > ($length = $behavior->config('length'))) {
