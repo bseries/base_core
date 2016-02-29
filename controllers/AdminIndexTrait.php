@@ -47,10 +47,10 @@ trait AdminIndexTrait {
 			$query = $model::searchQuery($this->request->filter, $query);
 		}
 
-		$query = $this->_order($query);
+		$query = $this->_order($model, $query);
 
 		$data = $this->_all($model, $query);
-		$paginator = $this->_paginator($query);
+		$paginator = $this->_paginator($model, $query);
 
 		$useOwner = Settings::read('security.checkOwner') && Gate::checkRight('owner');
 		if ($useSites = Settings::read('useSites')) {
@@ -60,14 +60,16 @@ trait AdminIndexTrait {
 		return compact('data', 'paginator', 'useOwner', 'useSites', 'sites') + $this->_selects();
 	}
 
-	protected function _all($model, $query) {
+	protected function _all($model, array $query) {
 		return $model::find('all', $query);
 	}
 
-	// Handle pagination.
-	protected function _paginator($query) {
-		$model = $this->_model;
+	protected function _paginate($model, array $query) {
+		return $model::find('count', $query);
+	}
 
+	// Handle pagination.
+	protected function _paginator($model, array $query) {
 		$itemsPerPage = $query['limit'];
 		$page = $query['page'];
 
@@ -77,7 +79,7 @@ trait AdminIndexTrait {
 		unset($query['page']);
 		unset($query['limit']);
 		unset($query['order']); // Optimize.
-		$count = $model::find('count', $query);
+		$count = $this->_paginate($model, $query);
 
 		$paginator = new Paginator(new ArrayAdapter(
 			range(1, $count)
@@ -88,9 +90,8 @@ trait AdminIndexTrait {
 		return $paginator;
 	}
 
-	protected function _order($query) {
-		$model = $this->_model;
 
+	protected function _order($model, array $query) {
 		// Normalize order field and direction.
 		// We support sorting by one dimension at a time only.
 		if ($this->request->orderField) {
