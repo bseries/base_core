@@ -174,14 +174,6 @@ $this->set([
 							'list' => $paymentMethods
 						]) ?>
 					<?php endif ?>
-					<?php if ($useAutoPay): ?>
-						<?= $this->form->field('is_auto_paying', [
-							'type' => 'checkbox',
-							'label' => $t('auto pay'),
-							'checked' => (boolean) $item->is_auto_paying,
-							'value' => 1
-						]) ?>
-					<?php endif ?>
 					<?php if ($useAutoInvoice): ?>
 						<?= $this->form->field('auto_invoice_frequency', [
 							'type' => 'select',

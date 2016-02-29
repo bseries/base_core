@@ -158,7 +158,6 @@ class UsersController extends \base_core\controllers\BaseController {
 		if ($useAutoInvoice = $useInvoice && Settings::read('invoice.autoInvoice')) {
 			$autoInvoiceFrequencies = Invoices::enum('frequency');
 		}
-		$useAutoPay = $useInvoice && Settings::read('invoice.autoPay');
 
 		return compact(
 			'roles',
@@ -178,8 +177,7 @@ class UsersController extends \base_core\controllers\BaseController {
 			'useInvoice',
 			'useEcommerce',
 			'useRent',
-			'useAutoInvoice',
-			'useAutoPay'
+			'useAutoInvoice'
 		);
 	}
 
