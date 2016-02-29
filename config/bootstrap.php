@@ -17,6 +17,9 @@
 
 namespace base_core\config;
 
+use base_core\core\Boot;
+require dirname(__DIR__) . '/core/Boot.php';
+
 //
 // The `INSIDE_ADMIN` constant allows us to apply some optimization and not
 // load certain parts of the framework when we're navigating through the
@@ -166,7 +169,7 @@ $bootstrapFormal = function($name, $path) {
 		if (!array_key_exists($config, $available)) {
 			continue;
 		}
-		\base_core\core\Boot::add(
+		Boot::add(
 			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.' . $config,
 			$available[$config],
 			function () use ($file) {
@@ -175,7 +178,7 @@ $bootstrapFormal = function($name, $path) {
 		);
 	}
 	if (is_dir($path . '/resources/g11n/po')) {
-		\base_core\core\Boot::add(
+		Boot::add(
 			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.g11n',
 			null,
 			function () use ($name, $path) {
@@ -193,7 +196,6 @@ $bootstrapFormal = function($name, $path) {
 //
 // Preparing the environment.
 //
-require dirname(__DIR__) . '/core/Boot.php';
 
 // Load the currently active environment file from the project's root/config directory.
 // Assumes we are located inside `project/app/libraries/base_core/config`. Any variables
