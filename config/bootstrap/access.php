@@ -133,7 +133,13 @@ Access::add('admin', 'fallthrough', [
 // Setup access for entities.
 //
 Access::add('entity', 'user.role:admin', function($user, $entity) {
-	return $user && $user->role === 'admin';
+	if (!$user) {
+		return false;
+	}
+	if (is_array($user)) {
+		return isset($user['role']) && $user['role'] === 'admin';
+	}
+	return $user->role === 'admin';
 });
 Access::add('entity', 'any', function($user, $entity) {
 	return true;
