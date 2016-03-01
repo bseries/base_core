@@ -25,16 +25,17 @@ define([
 
     var _this = this;
 
-    this.mediaExplorerConfig = {
-      'available': {
-        // FIXME Restrict to images only.
-        'selectable': true,
-      }
-    };
-
     this.init = function(options) {
-      _this.mediaExplorerConfig = $.extend(_this.mediaExplorerConfig, options || {});
-      MediaExplorerModal.init(_this.mediaExplorerConfig);
+      Router.match('media:capabilities')
+        .done(function(url) {
+          $.getJSON(url)
+          .done(function(res) {
+
+            MediaExplorerModal.init($.extend(options || {}, {
+              'transfer': res.data.transfer
+            }));
+          });
+        });
 
       return _this;
     };
