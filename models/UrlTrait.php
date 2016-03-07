@@ -43,7 +43,7 @@ trait UrlTrait {
 			$path[] = $url['host'];
 		}
 		if (isset($url['path'])) {
-			$path[] = $url['path'];
+			$path[] = ltrim($url['path'], '/');
 		}
 		return implode('/', $path);
 	}
