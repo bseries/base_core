@@ -22,7 +22,12 @@ use base_core\models\Locales;
 class G11n extends \lithium\template\Helper {
 
 	public function name($locale) {
-		return Locales::find('first', ['conditions' => ['id' => $locale]])->name;
+		return Locales::find('first', [
+			'conditions' => [
+				'id' => $locale
+			],
+			'translate' => false
+		])->name;
 	}
 }
 
