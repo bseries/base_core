@@ -112,7 +112,6 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 		$normalize = function($values) {
 			if (is_numeric(key($values))) {
 				$values = array_filter(array_map('trim', $values));
-				sort($values);
 			}
 			return $values;
 		};
