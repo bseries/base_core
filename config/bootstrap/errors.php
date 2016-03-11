@@ -173,33 +173,53 @@ if (!PROJECT_DEBUG) {
 		try {
 			return $chain->next($self, $params, $chain);
 		} catch (\Exception $e) {
-			$message  = 'Catching exception and showing error response';
-			$message .= ' ;code was `' . $e->getCode() . '`';
-			$message .= ' ;message was `' . $e->getMessage() . '`.';
-			Logger::debug($message);
+			$errorId = String::uuid();
+			$code = $e->getCode();
+
+			$message  = "Caught an exception :)\n";
+			$message .= 'type      : ' . get_class($e) . "\n";
+			$message .= 'code      : ' . $code . "\n";
+			$message .= 'message   : ' . $e->getMessage() . "\n";
+			$message .= 'errror-id : ' . $errorId . "\n";
+			$message .= '-- will render error page --';
+			Logger::notice($message);
+
+			// Maps status codes to action/template names. PHP methods
+			// cannot begin with a number.
+			$map = [
+				403 => 'fourohthree',
+				404 => 'fourohfour',
+				500 => 'fiveohoh',
+				503 => 'fiveohthree'
+			];
 
 			// Searches for an ErrorsController in app and registered libraries. This
 			// allows apps to provide their own (subclass) of the errors controller,
 			// when modification or redirection of existing error cases is wanted.
-			$controller = Libraries::instance(
-				'controllers',
-				INSIDE_ADMIN ? 'base_core.Errors' : 'Errors',
-				['request' => $params['request']
+			$controller = Libraries::instance('controllers', INSIDE_ADMIN ? 'base_core.Errors' : 'app.Errors', [
+				'request' => $params['request'],
+				'response' => [
+					'status' => isset($map[$code]) ? $code : 500
+				],
+				'render' => [
+					'layout' => (INSIDE_ADMIN ? 'admin_' : '') . 'error',
+					'data' => [
+						'code' => $code,
+						'errorId' => $errorId
+					]
+				]
 			]);
 
-			// We will try to call these methods on the controller. If a controller
-			// doesn't correctly sublcass the existing one, this will fail and it should.
-			$map = [
-				500 => 'fiveohoh',
-				404 => 'fourohfour',
-				403 => 'fourohthree'
-			];
-			$code = $e->getCode() ?: 500;
-
-			return $controller(
-				$params['request'],
-				['action' => isset($map[$code]) ? $map[$code] : $map[500]]
-			);
+			// Some error actions may not be activated. Depends on application usage. At a minimum
+			// the controller must have a `generic()` action.
+			if (isset($map[$code]) && $controller->respondsTo((INSIDE_ADMIN ? 'admin_' : '') . $map[$code])) {
+				$action = (INSIDE_ADMIN ? 'admin_' : '') . $map[$code];
+			} else {
+				$action = (INSIDE_ADMIN ? 'admin_' : '') . 'generic';
+			}
+			return $controller($params['request'], [
+				'action' => $action
+			]);
 		}
 	});
 }

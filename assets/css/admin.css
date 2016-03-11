@@ -1094,13 +1094,19 @@ a.button {
 
 /* Errors
 ---------------------------------------------------------------- */
-.layout-error .try,
-.layout-error .reason {
-  list-style: none;
-  padding: 0;
+.layout-admin-error {
+  background: var(--color-gray-bright);
+  padding: 100px;
 }
-.layout-error .try li:before    { content: "➜ "; }
-.layout-error .reason li:before { content: "✖ "; }
+.error-page__code {
+  font-weight: normal;
+}
+.error-page__try {
+  margin-top: 25px;
+}
+.error-page__reason {
+  margin-bottom: 10px;
+}
 
 /* Status Indicators
 -------------------------------------------------------------- */

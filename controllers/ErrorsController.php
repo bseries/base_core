@@ -21,26 +21,15 @@ use AD\jsend\Response as JSendResponse;
 
 class ErrorsController extends \base_core\controllers\BaseController {
 
-	public function fourohthree() {
-		if (INSIDE_ADMIN) {
-			return $this->redirect('Users::session');
-		}
-		$this->_render['layout'] = 'error';
-		$this->_render['template'] = '403';
-		$this->response->status(403);
+	public function admin_generic() {}
+
+	public function admin_fourohthree() {
+		return $this->redirect('Users::session');
 	}
 
-	public function fourohfour() {
-		$this->_render['layout'] = INSIDE_ADMIN ? 'admin_error' : 'error';
-		$this->_render['template'] = '404';
-		$this->response->status(404);
-	}
+	// public function admin_fourohfour() {}
 
-	public function fiveohoh() {
-		$this->_render['layout'] = INSIDE_ADMIN ? 'admin_error' : 'error';
-		$this->_render['template'] = '500';
-		$this->response->status(500);
-
+	public function admin_fiveohoh() {
 		if ($this->request->accepts() === 'json') {
 			$response = new JSendResponse();
 			$response->error('An unkown error occured.');
@@ -50,25 +39,6 @@ class ErrorsController extends \base_core\controllers\BaseController {
 				'data' => $response->to('array')
 			]);
 		}
-	}
-
-	public function fiveohthree() {
-		$this->_render['layout'] = INSIDE_ADMIN ? 'admin_error' : 'error';
-		$this->_render['template'] = '503';
-		$this->response->status(503);
-	}
-
-	public function browser() {
-		$this->_render['layout'] = INSIDE_ADMIN ? 'admin_error' : 'error';
-		$this->_render['template'] = 'browser';
-		$this->response->status(400);
-	}
-
-	public function maintenance() {
-		$this->_render['layout'] = INSIDE_ADMIN ? 'admin_error' : 'error';
-		$this->_render['template'] = 'maintenance';
-		$this->response->status(503);
-		$this->response->headers['Retry-After'] = 3600; // s; 1 hour
 	}
 }
 
