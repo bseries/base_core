@@ -32,6 +32,7 @@ use lithium\net\http\Router;
 use lithium\security\Auth;
 use lithium\storage\Cache;
 use base_core\security\Gate;
+use base_core\extensions\net\http\ServiceUnavailableException;
 
 //
 // Admin routing. Order matters.
@@ -166,20 +167,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 //
 if (PROJECT_MAINTENANCE) {
 	Dispatcher::applyFilter('run', function($self, $params, $chain) {
-		// if (($user = Auth::check('default')) && $user->role === 'admin') {
-		//	return $chain->next($self, $params, $chain);
-		// }
-		$message  = 'Showing maintenance page.';
-		Logger::debug($message);
-
-		$controller = Libraries::instance('controllers', 'base_core.Errors', [
-			'request' => $params['request']
-		]);
-
-		return $controller(
-			$params['request'],
-			['action' => 'maintenance']
-		);
+		throw new ServiceUnavailableException('Maintenance');
 	});
 }
 
