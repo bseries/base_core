@@ -21,6 +21,10 @@ use AD\jsend\Response as JSendResponse;
 
 class ErrorsController extends \base_core\controllers\BaseController {
 
+	protected $_render = [
+		'layout' => 'admin_error'
+	];
+
 	public function admin_generic() {}
 
 	public function admin_fourohthree() {

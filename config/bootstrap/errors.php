@@ -129,22 +129,6 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 // set_error_handler($errorHandler);
 // set_exception_handler($exceptionHandler);
 
-// Whoops doesn't work reliably in cli.
-if (PROJECT_DEBUG && PHP_SAPI !== 'cli') {
-	// Do not name this variable run as it might
-	// interfer with li3 console's run closure.
-	$whoops = new Run();
-
-	$whoops->pushHandler(new PrettyPageHandler());
-
-	$handler = new JsonResponseHandler();
-	$handler->onlyForAjaxRequests(true);
-	$whoops->pushHandler($handler);
-
-	$whoops->pushHandler(new PlainTextHandler());
-
-	$whoops->register();
-}
 
 if (PROJECT_FEATURE_LOGGING) {
 	Logger::config([
@@ -169,6 +153,12 @@ $errorResponse = function($request, $code) {
 };
 
 if (!PROJECT_DEBUG) {
+	// Generally two error controllers to render error pages exist.
+	//
+	// For the admin scope there is `\base_core\controller\ErrorsController` and
+	// for the app, the distro MUST provide `\app\controller\ErrorsController`.
+	// Depend on the INSIDE_ADMIN constant requests are dispatched to these
+	// controllers.
 	Dispatcher::applyFilter('run', function($self, $params, $chain) use ($errorResponse){
 		try {
 			return $chain->next($self, $params, $chain);
@@ -202,7 +192,7 @@ if (!PROJECT_DEBUG) {
 					'status' => isset($map[$code]) ? $code : 500
 				],
 				'render' => [
-					'layout' => (INSIDE_ADMIN ? 'admin_' : '') . 'error',
+					// layout is set in the controllers
 					'data' => [
 						'code' => $code,
 						'errorId' => $errorId
@@ -222,6 +212,23 @@ if (!PROJECT_DEBUG) {
 			]);
 		}
 	});
+}
+
+// Whoops doesn't work reliably in cli.
+if (PROJECT_DEBUG && PHP_SAPI !== 'cli') {
+	// Do not name this variable run as it might
+	// interfer with li3 console's run closure.
+	$whoops = new Run();
+
+	$whoops->pushHandler(new PrettyPageHandler());
+
+	$handler = new JsonResponseHandler();
+	$handler->onlyForAjaxRequests(true);
+	$whoops->pushHandler($handler);
+
+	$whoops->pushHandler(new PlainTextHandler());
+
+	$whoops->register();
 }
 
 
