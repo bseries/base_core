@@ -186,13 +186,8 @@ pre, code, .fixed {
   margin-top: 2em;
 }
 
-.grid-row h1 {
-  font-weight: normal;
-  font-size: var(--font-size-delta);
-  color: var(--color-gray-darkest);
-  margin-bottom: .5em;
-}
 .grid-row > h1 {
+  font-weight: normal;
   margin-bottom: 1em;
   margin-top: -1em;
   color: var(--color-gray-darker);
@@ -1160,6 +1155,9 @@ form .help {
   margin: -.5em 4px 1.5em 4px;
   font-size: var(--font-size-epsilon);
   color: var(--color-gray-darker);
+}
+form table + .help {
+  margin-top: 1em;
 }
 
 /* Media Attachment

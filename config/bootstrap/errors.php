@@ -171,7 +171,7 @@ if (!PROJECT_DEBUG) {
 			$message .= 'code      : ' . $code . "\n";
 			$message .= 'message   : ' . $e->getMessage() . "\n";
 			$message .= 'errror-id : ' . $errorId . "\n";
-			$message .= '-- will render error page --';
+			$message .= '-- will invoke error action --';
 			Logger::notice($message);
 
 			// Maps status codes to action/template names. PHP methods
