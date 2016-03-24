@@ -20,7 +20,7 @@ requirejs.config({
       useXhr: function() { return true; }
     }
   },
-  baseUrl: App.assets.base + '/v:__PROJECT_VERSION_BUILD__',
+  baseUrl: App.assets.base,
   waitSeconds: 15,
   paths: {
     // Basics
