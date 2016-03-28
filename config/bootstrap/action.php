@@ -87,6 +87,7 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 
 		// Build global application definition for JavaScript.
 		$app = [
+			'debug' => PROJECT_DEBUG,
 			'assets' => [
 				'base' => Assets::base($request) . '/v:' . PROJECT_VERSION_BUILD
 			],
