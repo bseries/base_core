@@ -26,7 +26,7 @@ Connections::add('default', [
 	'host' => 'localhost',
 	'persistent' => false,
 	// Using defined for BC, as _HOST was introduced later.
-	'host' => defined('PROJECT_DB_HOST') ? PROJECT_DB_HOST : '127.0.0.1',
+	'host' => defined('PROJECT_DB_HOST') ? PROJECT_DB_HOST : 'localhost',
 	'database' => PROJECT_DB_DATABASE,
 	'login' => PROJECT_DB_USER,
 	'password' => PROJECT_DB_PASSWORD
