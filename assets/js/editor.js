@@ -84,7 +84,7 @@ function($, wysihtml5) {
         li:     {},
         a:      {
           check_attributes: {
-            href:   'url' // important to avoid XSS
+            href:   'href' // important to avoid XSS, allows all kinds of URLs (absolute, schema-less)
           }
         }
       }
@@ -178,7 +178,7 @@ function($, wysihtml5) {
          '<a data-wysihtml5-command="redo" class="plugin-history button">' + _('redo') + '</a>' +
          '<div data-wysihtml5-dialog="createLink" style="display: none;">' +
             // Beware of validation and Chrome's "An invalid form control with name=' is not focusable.".
-           '<input data-wysihtml5-dialog-field="href" type="url" placeholder="http://example.com" />' +
+           '<input data-wysihtml5-dialog-field="href" type="text" placeholder="http://example.com" />' +
            '<a data-wysihtml5-dialog-action="save" class="button save">' + _('OK') + '</a>' +
          '</div>' +
        '</div>');
