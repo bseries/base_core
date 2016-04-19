@@ -144,6 +144,9 @@ Access::add('entity', 'user.role:admin', function($user, $entity) {
 Access::add('entity', 'any', function($user, $entity) {
 	return true;
 });
+Access::add('entity', 'nobody', function($user, $entity) {
+	return false;
+});
 
 //
 // Actually run the checks on each and every request.
