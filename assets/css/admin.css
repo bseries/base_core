@@ -988,6 +988,7 @@ a.button {
 }
 [data-wysihtml5-command-value="h2"] {
 	font-size: 19px;
+  line-height: 39px;
 	text-transform: uppercase;
 }
 [data-wysihtml5-command-value="h3"] {
