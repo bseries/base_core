@@ -137,8 +137,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 			}
 			$result = $model::find('first', [
 				'conditions' => compact('id'),
-				'fields' => $missing,
-				'order' => false
+				'fields' => $missing
 			]);
 			if (!$result) {
 				throw new Exception('Could not determine cluster values.');
