@@ -103,6 +103,7 @@ class Nav extends \lithium\template\Helper {
 	 *                for this section. The algorithm determines which item will
 	 *                be set active. Possible values are `'strict'`, `'loose'`, `'diff'`
 	 *                and `'option'`. Defaults to `'option'`. Use `false` to disable matching.
+	 *              - `'separator'` _string_: Inject this HTML in between items.
 	 * @param array $items
 	 * @return string HTML
 	 */
@@ -113,7 +114,8 @@ class Nav extends \lithium\template\Helper {
 			'class' => null,
 			'tag' => 'nav',
 			'itemTag' => null,
-			'id' => null
+			'id' => null,
+			'separator' => null
 		];
 		$options += $default;
 		$out = null;
@@ -178,6 +180,10 @@ class Nav extends \lithium\template\Helper {
 		/* Format */
 		$out = null;
 		foreach ($items as $item) {
+			if ($out && $options['separator']) {
+				$out .= $options['separator'];
+			}
+
 			$linkOptions = array_filter([
 				'scope' => $item['scope'],
 				'escape' => $item['escape'],
