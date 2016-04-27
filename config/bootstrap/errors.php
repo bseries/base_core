@@ -129,7 +129,6 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 // set_error_handler($errorHandler);
 // set_exception_handler($exceptionHandler);
 
-
 if (PROJECT_FEATURE_LOGGING) {
 	Logger::config([
 		'default' => [
@@ -144,15 +143,15 @@ if (PROJECT_FEATURE_LOGGING) {
 	]);
 }
 
-// Handle errors rising from exceptions.
-$errorResponse = function($request, $code) {
-	$request = new Request([
-		'url' => '/' . $code
-	]);
-	return Dispatcher::run($request);
-};
-
 if (!PROJECT_DEBUG) {
+	// Handle errors rising from exceptions.
+	$errorResponse = function($request, $code) {
+		$request = new Request([
+			'url' => '/' . $code
+		]);
+		return Dispatcher::run($request);
+	};
+
 	// Generally two error controllers to render error pages exist.
 	//
 	// For the admin scope there is `\base_core\controller\ErrorsController` and
@@ -230,6 +229,5 @@ if (PROJECT_DEBUG && PHP_SAPI !== 'cli') {
 
 	$whoops->register();
 }
-
 
 ?>
