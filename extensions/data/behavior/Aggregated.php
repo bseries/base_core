@@ -159,7 +159,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			if ($options['page'] && $options['limit']) {
 				$data = array_slice(
 					$data,
-					$options['page'] > 1 ? $options['limit'] * $options['page'] : 0,
+					($options['page'] - 1) * $options['limit'],
 					$options['limit']
 				);
 			} elseif ($options['limit']) {
