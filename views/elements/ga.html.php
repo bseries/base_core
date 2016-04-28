@@ -7,7 +7,11 @@
 
 use base_core\extensions\cms\Settings;
 
-$name = 'default'; // Hardcoded to use default analytics configuration.
+extract([
+	// Hardcoded to use default analytics configuration.
+	'name' => 'default'
+], EXTR_SKIP);
+
 $data = Settings::read('service.googleAnalytics');
 
 if (empty($data[$name]['account'])) {
