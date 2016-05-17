@@ -73,9 +73,17 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 						$query['conditions']['OR'][] = (object) ('(' . $field . ' LIKE \'%' . $q . '%\')');
 					}
 					break;
+				case 'integer':
+				case 'float':
+					if (!is_numeric($q)) {
+						continue;
+					}
+					$field = static::_qualifyField($model, $behavior, $field);
+					$query['conditions']['OR'][$field] = $q;
+				break;
+				case 'string':
 				default:
 					$field = static::_qualifyField($model, $behavior, $field);
-
 					$query['conditions']['OR'][$field] = ['LIKE' => '%' . $q . '%'];
 				break;
 			}
