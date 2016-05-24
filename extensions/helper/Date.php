@@ -24,6 +24,29 @@ use Exception;
 
 class Date extends \lithium\template\Helper {
 
+	/**
+	 * Formats date strings and objects into loaclized date strings.
+	 *
+	 * @param string|\DateTime|integer $value Either:
+	 *        - a date as a string (in `'Y-m-d'`  or `'Y-m-d H:i:s'` format)
+	 *        - an DateTime object with the date to format
+	 *        - or an Unix timestamp
+	 * @param string $type On of:
+	 *        - the string `'w3c'`
+	 *        - a string with a valid datetime format syntax pattern:
+	 *          http://userguide.icu-project.org/formatparse/datetime
+	 *        - one of the strings:
+	 *          - `'time'` for short time only
+	 *          - `'date'` for short date only
+	 *          - `'full-date'` for full date only
+	 *          - `'long-date'` for long date only
+	 *          - `'datetime'` for short date and time
+	 * @param array $options Available options are:
+	 *        - `'locale'` the locale to use for formatting into
+	 *        - `'timezone'` the target timezone
+	 *        - `'wrap'` allows to wrap the date in an HTML date element.
+	 * @return string
+	 */
 	public function format($value, $type, array $options = []) {
 		if (!$value) {
 			return null;
