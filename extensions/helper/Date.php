@@ -68,7 +68,14 @@ class Date extends \lithium\template\Helper {
 		} elseif ($type == 'w3c') {
 			$result = $date->format(DateTime::W3C);
 		} else {
-			$result = $date->format($type);
+			$formatter = new IntlDateFormatter(
+				$locale,
+				IntlDateFormatter::FULL,
+				IntlDateFormatter::FULL,
+				$timezone
+			);
+			$formatter->setPattern($type);
+			$result = $formatter->format($date);
 		}
 
 		if ($options['wrap']) {
