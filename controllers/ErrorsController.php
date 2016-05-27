@@ -28,7 +28,12 @@ class ErrorsController extends \base_core\controllers\BaseController {
 	public function admin_generic() {}
 
 	public function admin_fourohthree() {
-		return $this->redirect('Users::session');
+		return $this->redirect([
+			'controller' => 'Users',
+			'action' => 'session',
+			'library' => 'base_core',
+			'admin' => true
+		]);
 	}
 
 	// public function admin_fourohfour() {}
