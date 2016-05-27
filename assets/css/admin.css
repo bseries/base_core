@@ -917,6 +917,11 @@ a.button {
   color: white;
   background-color: var(--color-green);
 }
+.button.warning {
+  color: white;
+  background-color: var(--color-yellow);
+}
+.button.error,
 .button.delete {
   color: white;
   background-color: var(--color-red);

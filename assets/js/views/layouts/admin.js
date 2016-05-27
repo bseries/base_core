@@ -108,6 +108,15 @@ require(['jquery', 'nprogress', 'moment', 'notify', 'domready!'], function($, Pr
   $expiry.text(expiry.from());
 
   setInterval(function() {
+    var now = Moment();
+
+    // Warn 2 minutes before expiration; error after expiration.
+    if (expiry.isBefore(now)) {
+      $expiry.parent().addClass('error').removeClass('plain');
+    } else if (expiry.diff(now) < (60 * 2 * 100)) {
+      $expiry.parent().addClass('warning').removeClass('plain');
+    }
+
     $expiry.text(expiry.from());
   }, 1000); // 1s
 });
