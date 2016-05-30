@@ -20,7 +20,9 @@ namespace base_core\config\bootstrap;
 
 use Mobile_Detect as MobileDetect;
 use base_core\extensions\net\http\ClientRouter;
+use base_core\extensions\net\http\ServiceUnavailableException;
 use base_core\models\Assets;
+use base_core\security\Gate;
 use base_media\models\MediaVersions;
 use li3_flash_message\extensions\storage\FlashMessage;
 use lithium\action\Dispatcher;
@@ -31,8 +33,7 @@ use lithium\net\http\Media;
 use lithium\net\http\Router;
 use lithium\security\Auth;
 use lithium\storage\Cache;
-use base_core\security\Gate;
-use base_core\extensions\net\http\ServiceUnavailableException;
+use lithium\util\Set;
 
 //
 // Admin routing. Order matters.
@@ -129,34 +130,46 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
+$scrubber = function($data) {
+	$clean = $data;
+
+	// Limit request data to display size.
+	$maxLength = 500;
+	if (is_array($clean)) {
+		foreach ($clean as $k => &$v) {
+			if (is_string($v) && strlen($v) > $maxLength) {
+				$v = '[too large - '. strlen($v) . ' bytes suppressed]';
+			}
+		}
+	} elseif (is_string($clean) && strlen($clean) > $maxLength) {
+		$clean = '[too large - '. strlen($clean) . ' bytes suppressed]';
+	}
+
+	// Remove sensitive data.
+	$scrubFields = [
+		'password',
+		'password_repeat',
+		'user.password',
+		'user.password_repeat'
+	];
+	foreach ($scrubFields as $field) {
+		if (Set::check($clean, $field)) {
+			$clean = Set::insert($clean, $field, '[protected]');
+		}
+	}
+
+	return $clean;
+};
+
 //
 // Request logging.
 //
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
+Dispatcher::applyFilter('run', function($self, $params, $chain) use ($scrubber) {
 	$request = $params['request'];
-
 	$message = sprintf('%s %s', $request->method, $request->url);
 
 	if (in_array($request->method, ['POST', 'PUT'])) {
-		$clean = $request->data;
-
-		if (is_array($clean)) {
-			foreach ($clean as $k => &$v) {
-				if (is_string($v) && strlen($v) > 500) {
-					$v = '[too large - '. strlen($v) . ' bytes suppressed]';
-				}
-			}
-		} elseif (is_string($clean) && strlen($clean) > 500) {
-			$clean = '[too large - '. strlen($clean) . ' bytes suppressed]';
-		}
-		$scrubFields = ['password', 'password_repeat'];
-
-		foreach ($scrubFields as $field) {
-			if (isset($clean[$field])) {
-				$clean[$field] = '[protected]';
-			}
-		}
-		$message .= " with:\n" . var_export($clean, true);
+		$message .= " with:\n" . var_export($scrubber($request->data), true);
 	}
 	Logger::debug($message);
 
