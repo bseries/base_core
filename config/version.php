@@ -17,6 +17,6 @@
 
 namespace base_core\config;
 
-define('BASE_CORE_VERSION', '1.4');
+define('BASE_CORE_VERSION', '1.5');
 
 ?>
