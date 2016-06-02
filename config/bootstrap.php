@@ -71,7 +71,12 @@ $bootstrapFormal = function($name, $path) {
 			'access' => null,
 			'version' => null,
 			'routes' => null,
-			'panes' => ['*.config.access'], // module only
+			'panes' => [ // module only
+				'*.config.access',
+				// Each lib contains its own g11n configuration and
+				// panes are translated.
+				'libraries.' . $name . '.config.g11n'
+			],
 			'widgets' => null, // module only
 			'switchboard' => [
 				// Filters are disabled/enabled depending on certain settings.
