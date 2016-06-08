@@ -1117,13 +1117,17 @@ a.button {
   50% {opacity: 1; }
   75% {opacity: .25; }
 }
+
+/* Delay loading animation on after a request
+   starts to take time. */
 button[type="submit"].loading {
-  animation: pulse 2s linear infinite;
+  animation: pulse 2s linear .8s infinite;
 }
 p.loading {
-  animation: pulse 2s linear infinite;
+  animation: pulse 2s linear .8s infinite;
   color: gray;
 }
+
 .media-explorer p.loading {
   text-align: center;
   margin: 200px 0 0 -30px;
