@@ -69,4 +69,7 @@ MailerMedia::type('text', 'text/plain', [
 	]
 ]);
 
+// Register more common formats i.e. for XML sitemaps.
+HttpMedia::type('xml', 'application/xml');
+
 ?>
