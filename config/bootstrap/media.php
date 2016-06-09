@@ -36,7 +36,7 @@ $baseCore = PROJECT_PATH . '/app/libraries/base_core';
 //
 // 3. Catch cases where library was given.
 //
-HttpMedia::type('html', 'text/html', [
+$default = [
 	'view' => 'lithium\template\View',
 	'paths' => [
 		'template' => [
@@ -51,7 +51,11 @@ HttpMedia::type('html', 'text/html', [
 		],
 		// 'element'  => '{:library}/views/elements/{:template}.{:type}.php'
 	]
-]);
+];
+HttpMedia::type('html', 'text/html', $default);
+HttpMedia::type('text', 'text/plain', $default); // change to render templates
+HttpMedia::type('xml', 'application/xml', $default); // new but very common
+
 MailerMedia::type('text', 'text/plain', [
 	'view' => 'li3_mailer\template\Mail',
 	'paths' => [
@@ -68,8 +72,5 @@ MailerMedia::type('text', 'text/plain', [
 		// 'element'  => '{:library}/mails/elements/{:template}.{:type}.php'
 	]
 ]);
-
-// Register more common formats i.e. for XML sitemaps.
-HttpMedia::type('xml', 'application/xml');
 
 ?>
