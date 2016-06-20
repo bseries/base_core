@@ -82,7 +82,7 @@ class BaseG11n extends \base_core\models\Base {
 
 	protected static function _formatFirst(array $data, $id) {
 		if (!isset($data[$id])) {
-			throw new Exception("No item with id `{$id}` in g11n data found.");
+			return false;
 		}
 		return static::create($data[$id]);
 	}
