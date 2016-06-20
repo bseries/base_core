@@ -17,6 +17,8 @@
 
 namespace base_core\models;
 
+use DateTimeZone;
+
 class Timezones extends \base_core\models\BaseG11n {
 
 	protected static function _available() {
@@ -26,10 +28,15 @@ class Timezones extends \base_core\models\BaseG11n {
 	protected static function _data(array $options) {
 		$data = [];
 
-		foreach ($options['available'] as $available) {
-			$data[$available] = [
-				'id' => $available,
-				'name' => $available
+		if ($options['available'] === true) {
+			$results = DateTimeZone::listIdentifiers();
+		} else {
+			$result = $options['available'];
+		}
+		foreach ($results as $result) {
+			$data[$result] = [
+				'id' => $result,
+				'name' => $result
 			];
 		}
 		return $data;

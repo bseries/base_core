@@ -17,27 +17,48 @@
 
 namespace base_core\models;
 
+use Exception;
 use lithium\g11n\Catalog;
+use lithium\g11n\Locale;
 
+// Works with language part only.
 class Locales extends \base_core\models\BaseG11n {
 
 	protected static function _available() {
 		return explode(' ', PROJECT_LOCALES);
 	}
 
+	// Implements special mode for when translate is `false`. Will then
+	// translate each language into its own language.
 	protected static function _data(array $options) {
 		$data = [];
 
-		if ($options['translate']) {
-			$results = Catalog::read(true, 'language', $options['translate']);
+		$results = Catalog::read(true, 'language', $options['translate'] ?: 'en');
+
+		if ($options['available'] !== true) {
+			$options['available'] = array_map(function($v) {
+				return Locale::language($v);
+			}, $options['available']);
+
+			$results = array_intersect_assoc($results, array_fill_key($options['available'], null));
 		}
-		foreach ($options['available'] as $available) {
-			if (!$options['translate']) {
-				$results = Catalog::read(true, 'language', $available);
+
+		foreach ($results as $code => $name) {
+			if ($options['translate'] === false) {
+				// Translate each language into its own language.
+				try {
+					$translated = Catalog::read(true, 'language', $code);
+
+					if (isset($translated[$code])) {
+						$name = $translated[$code];
+					}
+				} catch (Exception $e) {
+					// es_419 is an invalid code
+				}
 			}
-			$data[$available] = [
-				'id' => $available,
-				'name' => $results[$available]
+			$data[$code] = [
+				'id' => $code,
+				'name' => $name
 			];
 		}
 		return $data;
