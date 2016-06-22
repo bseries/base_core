@@ -40,7 +40,7 @@ class Locales extends \base_core\models\BaseG11n {
 				return Locale::language($v);
 			}, $options['available']);
 
-			$results = array_intersect_assoc($results, array_fill_key($options['available'], null));
+			$results = array_intersect_assoc($results, array_fill_keys($options['available'], null));
 		}
 
 		foreach ($results as $code => $name) {
