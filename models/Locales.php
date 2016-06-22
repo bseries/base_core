@@ -34,15 +34,13 @@ class Locales extends \base_core\models\BaseG11n {
 		$data = [];
 
 		$results = Catalog::read(true, 'language', $options['translate'] ?: 'en');
-
 		if ($options['available'] !== true) {
 			$options['available'] = array_map(function($v) {
 				return Locale::language($v);
 			}, $options['available']);
 
-			$results = array_intersect_assoc($results, array_fill_keys($options['available'], null));
+			$results = array_intersect_key($results, array_fill_keys($options['available'], null));
 		}
-
 		foreach ($results as $code => $name) {
 			if ($options['translate'] === false) {
 				// Translate each language into its own language.
