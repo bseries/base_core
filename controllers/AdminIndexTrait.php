@@ -98,6 +98,10 @@ trait AdminIndexTrait {
 			$orderField = str_replace('-', '_', $this->request->orderField);
 		} elseif ($model::hasField('modified')) {
 			$orderField = 'modified';
+		} elseif ($model::hasField('created')) {
+			$orderField = 'created';
+		} elseif ($model::hasField('published')) {
+			$orderField = 'published';
 		} else {
 			$orderField = 'id';
 		}
