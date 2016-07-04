@@ -1342,7 +1342,7 @@ table td.status {
 }
 table td.title,
 table td.name {
-  width: 180px;
+  min-width: 180px;
 }
 table .position-description--f {
   width: 550px;
