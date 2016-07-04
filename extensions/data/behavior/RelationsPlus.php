@@ -57,16 +57,21 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
-				$query += ['force' => false, 'conditions' => []];
-
-				$force = $query['force'];
+				$isGenericQuery = !array_diff_key($query, ['force' => null]);
+				$force = !empty($query['force']);
 				unset($query['force']);
 
-				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
+				if ($isGenericQuery && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
+					if ($entity->{$lower}->id === null) {
+						return null;
+					}
 					return $entity->{$lower};
 				}
 				if (!$entity->{$key}) {
 					return null;
+				}
+				if (!isset($query['conditions'])) {
+					$query['conditions'] = [];
 				}
 				$query['conditions'] += [$relation['key'] => $entity->{$key}];
 
@@ -83,16 +88,20 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
-				$query += ['force' => false, 'conditions' => []];
-
-				$force = $query['force'];
+				$isGenericQuery = !array_diff_key($query, ['force' => null]);
+				$force = !empty($query['force']);
 				unset($query['force']);
 
-				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
-					return $entity->{$lower};
+				if ($isGenericQuery && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
+					return $entity->{$lower}->find(function($item) {
+						return $item->id !== null;
+					});
 				}
 				if (!$entity->{$key}) {
 					return new Collection();
+				}
+				if (!isset($query['conditions'])) {
+					$query['conditions'] = [];
 				}
 				$query['conditions'] += [$relation['key'] => $entity->{$key}];
 
@@ -109,16 +118,21 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
-				$query += ['force' => false, 'conditions' => []];
-
-				$force = $query['force'];
+				$isGenericQuery = !array_diff_key($query, ['force' => null]);
+				$force = !empty($query['force']);
 				unset($query['force']);
 
-				if (!$query && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
+				if ($isGenericQuery && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
+					if ($entity->{$lower}->id === null) {
+						return null;
+					}
 					return $entity->{$lower};
 				}
 				if (!$entity->{$relation['key']}) {
 					return null;
+				}
+				if (!isset($query['conditions'])) {
+					$query['conditions'] = [];
 				}
 				$query['conditions'] += [$key => $entity->{$relation['key']}];
 
