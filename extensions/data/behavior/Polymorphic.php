@@ -19,8 +19,9 @@ namespace base_core\extensions\data\behavior;
 
 use li3_behaviors\data\model\Behavior;
 use lithium\data\Entity;
-use lithium\util\Collection;
 use lithium\net\http\Router;
+use lithium\util\Collection;
+use lithium\util\Inflector;
 
 // Manages polymorphic relationships. One per model.
 class Polymorphic extends \li3_behaviors\data\model\Behavior {
