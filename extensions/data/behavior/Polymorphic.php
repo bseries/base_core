@@ -18,6 +18,7 @@
 namespace base_core\extensions\data\behavior;
 
 use li3_behaviors\data\model\Behavior;
+use lithium\core\Libraries;
 use lithium\data\Entity;
 use lithium\net\http\Router;
 use lithium\util\Collection;
