@@ -52,9 +52,8 @@ trait AdminPublishTrait {
 			FlashMessage::write($t('Failed to publish.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 
 	public function admin_unpublish() {
@@ -85,9 +84,8 @@ trait AdminPublishTrait {
 			FlashMessage::write($t('Failed to unpublish.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 }
 

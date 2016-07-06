@@ -56,9 +56,8 @@ trait AdminLockTrait {
 			FlashMessage::write($t('Failed to lock.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 
 	public function admin_unlock() {
@@ -93,9 +92,8 @@ trait AdminLockTrait {
 			FlashMessage::write($t('Failed to unlock.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 }
 

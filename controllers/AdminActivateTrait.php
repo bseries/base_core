@@ -52,9 +52,8 @@ trait AdminActivateTrait {
 			FlashMessage::write($t('Failed to activate.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 
 	public function admin_deactivate() {
@@ -85,9 +84,8 @@ trait AdminActivateTrait {
 			FlashMessage::write($t('Failed to deactivate.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 }
 

@@ -50,9 +50,8 @@ trait AdminPromoteTrait {
 			FlashMessage::write($t('Failed to promote.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 
 	public function admin_unpromote() {
@@ -81,9 +80,8 @@ trait AdminPromoteTrait {
 			FlashMessage::write($t('Failed to unpromote.', ['scope' => 'base_core']), [
 				'level' => 'error'
 			]);
-			return $this->redirect($this->request->referer());
 		}
-		return $this->redirect(['action' => 'index', 'library' => $this->_library]);
+		return $this->redirect($this->request->referer());
 	}
 }
 
