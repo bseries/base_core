@@ -144,15 +144,14 @@ class Users extends \base_core\models\Base {
 		$isFinancial = (boolean) Libraries::get('billing_core');
 		static::finder('list', function($self, $params, $chain) use ($isFinancial) {
 			$result = [];
-			$meta = $self::meta();
-			$name = $meta['key'];
 
 			$params['options']['order'] = [
 				$isFinancial ? 'number' : 'name'
 			];
+			// FIXME Group by common prefix.
+			// http://stackoverflow.com/questions/1336207/finding-common-prefix-of-array-of-strings
 			foreach ($chain->next($self, $params, $chain) as $entity) {
-				$key = $entity->{$name};
-				$result[is_scalar($key) ? $key : (string) $key] = $entity->title();
+				$result[$entity->id] = $entity->title();
 			}
 			return $result;
 		});
