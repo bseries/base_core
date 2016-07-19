@@ -139,8 +139,26 @@ class Users extends \base_core\models\Base {
 			}
 			return !Users::find('count', compact('conditions'));
 		});
+
+		// Override default finder to switch between number/name order.
+		$isFinancial = (boolean) Libraries::get('billing_core');
+		static::finder('list', function($self, $params, $chain) use ($isFinancial) {
+			$result = [];
+			$meta = $self::meta();
+			$name = $meta['key'];
+
+			$params['options']['order'] = [
+				$isFinancial ? 'number' : 'name'
+			];
+			foreach ($chain->next($self, $params, $chain) as $entity) {
+				$key = $entity->{$name};
+				$result[is_scalar($key) ? $key : (string) $key] = $entity->title();
+			}
+			return $result;
+		});
 	}
 
+	// For displaying and listing users.
 	// find('list') will pick this up.
 	public function title($entity) {
 		static $financial = null;

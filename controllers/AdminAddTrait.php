@@ -67,10 +67,7 @@ trait AdminAddTrait {
 		$useOwner = Settings::read('security.checkOwner') && $model::hasBehavior('Ownable');
 		$useOwner = $useOwner && Gate::checkRight('owner');
 		if ($useOwner) {
-			$users = Users::find('list', [
-				'order' => 'name',
-				'conditions' => ['is_active' => true]
-			]);
+			$users = $this->_users($item, ['field' => 'owner_id']);
 		}
 
 		if ($useSites = Settings::read('useSites')) {

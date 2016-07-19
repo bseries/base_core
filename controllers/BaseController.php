@@ -17,8 +17,8 @@
 
 namespace base_core\controllers;
 
-use lithium\util\Inflector;
 use lithium\analysis\Logger;
+use lithium\util\Inflector;
 
 class BaseController extends \lithium\action\Controller {
 
