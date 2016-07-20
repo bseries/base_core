@@ -78,7 +78,7 @@ class Polymorphic extends \li3_behaviors\data\model\Behavior {
 		]);
 	}
 
-	public function polyUrl($model, Behavior $behavior, Entity $entity, $request, array $url = []) {
+	public function polyUrl($model, Behavior $behavior, Entity $entity, $request, array $url = [], array $options = []) {
 		if (!$entity->polyExists()) {
 			return;
 		}
@@ -91,7 +91,7 @@ class Polymorphic extends \li3_behaviors\data\model\Behavior {
 			'controller' => $controller,
 			'id' => $entity->foreign_key
 		];
-		if (Router::match($url, $request)) {
+		if (Router::match($url, $request, $options)) {
 			return $url;
 		}
 	}
