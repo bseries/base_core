@@ -22,7 +22,9 @@ $this->set([
 ?>
 <article>
 	<?=$this->form->create($item) ?>
-		<?= $this->form->field('id', ['type' => 'hidden']) ?>
+		<?php if ($item->exists()): ?>
+			<?= $this->form->field('id', ['type' => 'hidden']) ?>
+		<?php endif ?>
 
 		<div class="grid-row">
 			<section class="grid-column-left">
