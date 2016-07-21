@@ -160,11 +160,14 @@ class Users extends \base_core\models\Base {
 				$params['options']['fields'][] = 'YEAR(created) AS year';
 			}
 
-
 			// FIXME Group by common prefix.
 			// http://stackoverflow.com/questions/1336207/finding-common-prefix-of-array-of-strings
 			foreach ($chain->next($self, $params, $chain) as $entity) {
-				$result[$entity->year][$entity->id] = $entity->title();
+				if ($hasLots) {
+					$result[$entity->year][$entity->id] = $entity->title();
+				} else {
+					$result[$entity->id] = $entity->title();
+				}
 			}
 			return $result;
 		});
