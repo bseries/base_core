@@ -145,13 +145,26 @@ class Users extends \base_core\models\Base {
 		static::finder('list', function($self, $params, $chain) use ($isFinancial) {
 			$result = [];
 
-			$params['options']['order'] = [
-				$isFinancial ? 'number' : 'name'
-			];
+			$hasLots = static::find('count') > 100;
+
+			$params['options']['order'] = ['name' => 'ASC'];
+			$params['options']['fields'] = ['id', 'name'];
+
+			if ($isFinancial) {
+				$params['options']['order'] = ['number' => $hasLots ? 'DESC' : 'ASC'];
+				$params['options']['fields'][] = ['number'];
+			}
+
+			if ($hasLots) {
+				$params['options']['order'] = ['year' => 'DESC'] + $params['options']['order'];
+				$params['options']['fields'][] = 'YEAR(created) AS year';
+			}
+
+
 			// FIXME Group by common prefix.
 			// http://stackoverflow.com/questions/1336207/finding-common-prefix-of-array-of-strings
 			foreach ($chain->next($self, $params, $chain) as $entity) {
-				$result[$entity->id] = $entity->title();
+				$result[$entity->year][$entity->id] = $entity->title();
 			}
 			return $result;
 		});
@@ -166,7 +179,7 @@ class Users extends \base_core\models\Base {
 			$financial = (boolean) Libraries::get('billing_core');
 		}
 		if ($financial) {
-			return $entity->number . '/' . $entity->name;
+			return $entity->number . ' / ' . $entity->name;
 		}
 		return $entity->name;
 	}
