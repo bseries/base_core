@@ -1933,13 +1933,18 @@ thead .actions > div {
   font-size: var(--font-size-alpha);
   font-weight: bold;
 }
-.widget-table .title {
+.widget-table .title:not(h1) {
   clear: both;
   float: left;
+  max-width: 70%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .widget-table .count {
   font-weight: bold;
   float: right;
+  max-width: 30%;
 }
 
 /* Session
