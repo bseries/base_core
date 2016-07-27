@@ -1256,6 +1256,8 @@ tfoot td,
 tbody td {
   padding-top: 2px;
   line-height: 36px; /* Tune to actual 40px height */
+}
+tbody td {
   background: white;
   transition: background .05s;
 }
@@ -1336,10 +1338,10 @@ table td.media {
 }
 table .position-total--f,
 table .finance--f,
-table td.user,
 table td.status {
   width: 120px;
 }
+table td.user,
 table td.title,
 table td.name {
   min-width: 180px;
