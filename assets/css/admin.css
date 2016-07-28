@@ -807,11 +807,13 @@ input[type="checkbox"]:checked ~ label:after {
 button[disabled] {
   background: var(--color-gray-dark);
 }
+select[readonly],
+input[readonly],
+textarea[readonly],
 select[disabled],
 textarea[disabled],
 input[disabled] {
-  background: transparent;
-  border-color: transparent;
+  background: var(--color-gray-bright);
 }
 
 input:invalid {
