@@ -17,6 +17,8 @@
 
 namespace base_core\controllers;
 
+use Exception;
+
 trait DownloadTrait {
 
 	protected function _renderSendfile($file) {
@@ -46,7 +48,12 @@ trait DownloadTrait {
 		rewind($stream);
 
 		while (!feof($stream)) {
-			echo fread($stream, $chunkSize);
+			$chunk = fread($stream, $chunkSize);
+
+			if ($chunk === false) {
+				throw new Exception("Failed to read chunk from stream.");
+			}
+			echo $chunk;
 		}
 	}
 

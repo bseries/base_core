@@ -81,6 +81,10 @@ class Boot {
 		while (!feof($fh)) {
 			$line = fgets($fh);
 
+			if ($line === false) {
+				throw new Exception("Failed to read line from env file.");
+			}
+
 			if ($line['0'] === '#') {
 				continue;
 			}
