@@ -12,6 +12,7 @@
 
 namespace base_core\controllers;
 
+use Exception;
 use lithium\util\Inflector;
 use lithium\analysis\Logger;
 
@@ -95,7 +96,12 @@ class BaseController extends \lithium\action\Controller {
 		rewind($stream);
 
 		while (!feof($stream)) {
-			echo fread($stream, $chunkSize);
+			$chunk = fread($stream, $chunkSize);
+
+			if ($chunk === false) {
+				throw new Exception('Failed to read chunk.');
+			}
+			echo $chunk;
 		}
 	}
 
