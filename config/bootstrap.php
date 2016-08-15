@@ -63,13 +63,7 @@ $defineFromDotEnvFile = function($file) {
 	$fh = fopen($file, 'r');
 	$results = [];
 
-	while (!feof($fh)) {
-		$line = fgets($fh);
-
-		if ($line === false) {
-			throw new \Exception("Failed to read line from env file.");
-		}
-
+	while (($line = fgets($fh)) !== false) {
 		if (!preg_match('/(?:export )?([a-zA-Z_][a-zA-Z0-9_]*)=(.*)/', $line, $matches)) {
 			continue;
 		}
