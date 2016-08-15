@@ -205,7 +205,13 @@ $bootstrapFormal = function($name, $path) {
 // Load the currently active environment file from the project's root/config directory.
 // Assumes we are located inside `project/app/libraries/base_core/config`. Any variables
 // defined inside the env file are prefixed with `PROJECT_`.
-Boot::environment(dirname(dirname(dirname(dirname(__DIR__)))) . '/config/current.env', 'PROJECT');
+$root = dirname(dirname(dirname(dirname(__DIR__))));
+
+if (file_exists($root . '/Envfile')) { // Forward compatible.
+	Boot::environment($root . '/Envfile', 'PROJECT');
+} else { // Backwards compatible.
+	Boot::environment($root . '/config/current.env', 'PROJECT');
+}
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.
