@@ -78,7 +78,7 @@ class Boot {
 		$fh = fopen($file, 'r');
 		$results = [];
 
-		while (($line = fgets($f)) !== false) {
+		while (($line = fgets($fh)) !== false) {
 			if ($line['0'] === '#') {
 				continue;
 			}
