@@ -141,26 +141,29 @@ if (PROJECT_DEBUG && PHP_SAPI !== 'cli') {
 	$whoops->register();
 }
 
-if (PROJECT_FEATURE_LOGGING === true) {
-	Logger::config([
-		'default' => [
-			'adapter' => 'File',
-			'path' => $path . '/log',
-			'timestamp' => 'Y-m-d H:i:s',
-			'format' => "[{:timestamp}] [{:priority}] {:message}\n",
-			// Log everything into one file.
-			'file' => function($data, $config) { return 'app.log'; },
-			'priority' => ['debug', 'error', 'notice', 'warning']
-		],
-	]);
-} elseif (PROJECT_FEATURE_LOGGING == "syslog") {
-	Logger::config([
-		'default' => [
-			'adapter' => 'Syslog',
-			'identity' => PROJECT_NAME . '@' . PROJECT_CONTEXT,
-			'priority' => ['debug', 'error', 'notice', 'warning']
-		],
-	]);
+if (PROJECT_FEATURE_LOGGING) {
+	// BC: env var was introduced later and my not be present in all projects
+	if (is_defined('PROJECT_FEATURE_SYSLOG') && PROJECT_FEATURE_SYSLOG) {
+		Logger::config([
+			'default' => [
+				'adapter' => 'Syslog',
+				'identity' => PROJECT_NAME . '@' . PROJECT_CONTEXT,
+				'priority' => ['debug', 'error', 'notice', 'warning']
+			],
+		]);
+	} else {
+		Logger::config([
+			'default' => [
+				'adapter' => 'File',
+				'path' => $path . '/log',
+				'timestamp' => 'Y-m-d H:i:s',
+				'format' => "[{:timestamp}] [{:priority}] {:message}\n",
+				// Log everything into one file.
+				'file' => function($data, $config) { return 'app.log'; },
+				'priority' => ['debug', 'error', 'notice', 'warning']
+			],
+		]);
+	}
 }
 
 // Handle errors rising from exceptions.
