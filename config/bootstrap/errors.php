@@ -129,7 +129,7 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 // set_error_handler($errorHandler);
 // set_exception_handler($exceptionHandler);
 
-if (PROJECT_FEATURE_LOGGING) {
+if (PROJECT_FEATURE_LOGGING === true) {
 	Logger::config([
 		'default' => [
 			'adapter' => 'File',
@@ -138,6 +138,14 @@ if (PROJECT_FEATURE_LOGGING) {
 			'format' => "[{:timestamp}] [{:priority}] {:message}\n",
 			// Log everything into one file.
 			'file' => function($data, $config) { return 'app.log'; },
+			'priority' => ['debug', 'error', 'notice', 'warning']
+		],
+	]);
+} elseif (PROJECT_FEATURE_LOGGING == "syslog") {
+	Logger::config([
+		'default' => [
+			'adapter' => 'Syslog',
+			'identity' => PROJECT_NAME . '@' . PROJECT_CONTEXT,
 			'priority' => ['debug', 'error', 'notice', 'warning']
 		],
 	]);
