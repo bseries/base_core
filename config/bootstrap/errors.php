@@ -131,7 +131,7 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 
 if (PROJECT_FEATURE_LOGGING) {
 	// BC: env var was introduced later and my not be present in all projects
-	if (is_defined('PROJECT_FEATURE_SYSLOG') && PROJECT_FEATURE_SYSLOG) {
+	if (defined('PROJECT_FEATURE_SYSLOG') && PROJECT_FEATURE_SYSLOG) {
 		Logger::config([
 			'default' => [
 				'adapter' => 'Syslog',
