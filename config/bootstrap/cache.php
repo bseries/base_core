@@ -29,6 +29,9 @@ use lithium\storage\Cache;
 use lithium\storage\Session;
 use lithium\storage\cache\adapter\Memcache;
 
+if (!is_writable($path = Libraries::get(true, 'resources') . '/tmp/cache')) {
+	throw new Exception("Cache path `{$path}` is not writable.");
+}
 if (PROJECT_FEATURE_MEMCACHED) {
 	if (!Memcache::enabled()) {
 		throw new Exception("Memcached not available.");
@@ -39,19 +42,18 @@ if (PROJECT_FEATURE_MEMCACHED) {
 		'host' => '127.0.0.1:11211'
 	];
 } else {
-	if (!is_writable($path = Libraries::get(true, 'resources') . '/tmp/cache')) {
-		throw new Exception("Cache path `{$path}` is not writable.");
-	}
 	$default = [
 		'adapter' => 'File',
 		'strategies' => ['Serializer'],
+		'path' => $path
 	];
 }
 Cache::config([
 	'default' => $default,
 	'blob' => [
 		'adapter' => 'File',
-		'streams' => true
+		'streams' => true,
+		'path' => $path
 	]
 ]);
 
