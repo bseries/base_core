@@ -29,7 +29,7 @@ use lithium\storage\Cache;
 use lithium\storage\Session;
 use lithium\storage\cache\adapter\Memcache;
 
-if (!is_writable($path = Libraries::get(true, 'resources') . '/tmp/cache')) {
+if (!is_writable($path = PROJECT_PATH . '/tmp/cache')) {
 	throw new Exception("Cache path `{$path}` is not writable.");
 }
 if (PROJECT_FEATURE_MEMCACHED) {
