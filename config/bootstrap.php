@@ -207,10 +207,18 @@ $bootstrapFormal = function($name, $path) {
 // defined inside the env file are prefixed with `PROJECT_`.
 $root = dirname(dirname(dirname(dirname(__DIR__))));
 
-if (file_exists($root . '/Envfile')) { // Forward compatible.
-	Boot::environment($root . '/Envfile', 'PROJECT');
-} else { // Backwards compatible.
+// BC / deprecated
+if (!file_exists($root . '/Envfile')) {
+	trigger_error("Did not find root Envfile falling back to old config/current.env", E_USER_DEPRECATED);
 	Boot::environment($root . '/config/current.env', 'PROJECT');
+} else {
+	Boot::environment($root . '/Envfile', 'PROJECT');
+}
+
+// BC / deprecated: env var was introduced later and my not be present in all projects
+if (!defined('PROJECT_FEATURE_SYSLOG')) {
+	trigger_error("PROJECT_FEATURE_SYSLOG not defined!", E_USER_DEPRECATED);
+	define('PROJECT_FEATURE_SYSLOG', false);
 }
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
