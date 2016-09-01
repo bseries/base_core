@@ -232,7 +232,7 @@ class Nav extends \lithium\template\Helper {
 				$out .= $this->_context->html->link($item['title'], $item['url'], $attributes);
 
 				if ($item['nested']) {
-					$out .= $this->generate($item['nested'], $options);
+					$out .= $this->generate($item['nested'], ['class' => $options['class'] . '-nested'] + $options);
 				}
 			}
 		}
