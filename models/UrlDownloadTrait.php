@@ -30,7 +30,9 @@ trait UrlDownloadTrait {
 		switch (parse_url($entity->url, PHP_URL_SCHEME)) {
 			case 'http':
 			case 'https':
-				$stream = fopen($file, 'w+');
+				if (!$stream = fopen($file, 'w+')) {
+					throw new Exception("Failed to open `{$file}` for writing.");
+				}
 				$cacheKey = 'url_download_' . md5($entity->url);
 
 				if ($cached = Cache::read('blob', $cacheKey)) {
