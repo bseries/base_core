@@ -31,8 +31,13 @@ class Date extends \lithium\template\Helper {
 	 *        - a date as a string (in `'Y-m-d'`  or `'Y-m-d H:i:s'` format)
 	 *        - an DateTime object with the date to format
 	 *        - or an Unix timestamp
-	 * @param string $type On of:
+	 * @param string $type One of:
 	 *        - the string `'w3c'`
+	 *        - the string `'atom'`
+	 *        - the string `'w3c-noz'`, this is the same as w3c but without TZ,
+	 *          good for datetime input fields (RFC 3339):
+	 *          https://www.w3.org/TR/html-markup/datatypes.html#form.data.datetime-local
+	 *        - a string with a valid datetime format syntax pattern:
 	 *        - a string with a valid datetime format syntax pattern:
 	 *          http://userguide.icu-project.org/formatparse/datetime
 	 *        - one of the strings:
@@ -80,7 +85,13 @@ class Date extends \lithium\template\Helper {
 			'long-date' => [IntlDateFormatter::LONG, IntlDateFormatter::NONE],
 			'datetime' => [IntlDateFormatter::SHORT, IntlDateFormatter::SHORT]
 		];
-		if (isset($types[$type])) {
+		if ($type == 'w3c') {
+			$result = $date->format(DateTime::W3C);
+		} elseif ($type == 'atom') {
+			$result = $date->format(DateTime::ATOM);
+		} elseif ($type == 'w3c-noz') {
+			$result = $date->format('Y-m-d\TH:i:s');
+		} elseif (isset($types[$type])) {
 			$formatter = new IntlDateFormatter(
 				$locale,
 				$types[$type][0],
@@ -88,8 +99,6 @@ class Date extends \lithium\template\Helper {
 				$timezone
 			);
 			$result = $formatter->format($date);
-		} elseif ($type == 'w3c') {
-			$result = $date->format(DateTime::W3C);
 		} else {
 			$formatter = new IntlDateFormatter(
 				$locale,
