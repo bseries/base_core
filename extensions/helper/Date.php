@@ -43,9 +43,11 @@ class Date extends \lithium\template\Helper {
 	 *        - one of the strings:
 	 *          - `'time'` for short time only
 	 *          - `'date'` for short date only
-	 *          - `'full-date'` for full date only
-	 *          - `'long-date'` for long date only
+	 *          - `'full-date'` for full date only (Montag, 5. September 2016)
+	 *          - `'long-date'` for long date only (5. September 2016)
 	 *          - `'datetime'` for short date and time
+	 *        - an array with two elements (IntlDateFormatter constants):
+	 *          http://php.net/IntlDateFormatter
 	 * @param array $options Available options are:
 	 *        - `'locale'` the locale to use for formatting into
 	 *        - `'timezone'` the target timezone
@@ -91,6 +93,14 @@ class Date extends \lithium\template\Helper {
 			$result = $date->format(DateTime::ATOM);
 		} elseif ($type == 'w3c-noz') {
 			$result = $date->format('Y-m-d\TH:i:s');
+		} elseif (is_array($type)) {
+			$formatter = new IntlDateFormatter(
+				$locale,
+				$type[0],
+				$type[1],
+				$timezone
+			);
+			$result = $formatter->format($date);
 		} elseif (isset($types[$type])) {
 			$formatter = new IntlDateFormatter(
 				$locale,
