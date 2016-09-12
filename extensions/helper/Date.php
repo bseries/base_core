@@ -25,7 +25,7 @@ use Exception;
 class Date extends \lithium\template\Helper {
 
 	/**
-	 * Formats date strings and objects into loaclized date strings.
+	 * Formats date strings and objects into localized date strings.
 	 *
 	 * @param string|\DateTime|integer $value Either:
 	 *        - a date as a string (in `'Y-m-d'`  or `'Y-m-d H:i:s'` format)
@@ -68,18 +68,38 @@ class Date extends \lithium\template\Helper {
 		$locale = $options['locale'] ?: $this->_locale();
 		$timezone = $options['timezone'] ?: $this->_timezone();
 
-		if ($value instanceof DateTime) {
-			$date = $value;
-		} elseif (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]+:[0-9]+:[0-9]+$/', $value)) {
-			$date = DateTime::createFromFormat('Y-m-d H:i:s', $value);
-		} elseif (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $value)) {
-			$date = DateTime::createFromFormat('Y-m-d', $value);
-		} elseif (is_integer($value)) {
-			$date = new DateTime('@' . $value);
-		} else {
-			throw new Exception("Cannot parse date value `{$value}`.");
-		}
+		$parsed = $this->_parse($value);
+		$result = $this->_format($parsed, $type, $locale, $timezone);
 
+		if ($options['wrap']) {
+			return sprintf(
+				'<time datetime="%s"%s>%s</time>',
+				$this->_format($parsed, 'w3c', $locale, $timezone),
+				is_array($options['wrap']) ? $this->_attributes($options['wrap']) : '',
+				$result
+			);
+		}
+		return $result;
+	}
+
+	protected function _parse($value) {
+		if ($value instanceof DateTime) {
+			return $value;
+		}
+		if (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]+:[0-9]+:[0-9]+$/', $value)) {
+			return DateTime::createFromFormat('Y-m-d H:i:s', $value);
+		}
+		if (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $value)) {
+			return DateTime::createFromFormat('Y-m-d', $value);
+		}
+		if (is_integer($value)) {
+			// "@" indicates UNIX timestamp.
+			return new DateTime('@' . $value);
+		}
+		throw new Exception("Cannot parse date value `{$value}`.");
+	}
+
+	protected function _format($date, $type, $locale, $timezone) {
 		$types = [
 			'time' => [IntlDateFormatter::NONE, IntlDateFormatter::SHORT],
 			'date' => [IntlDateFormatter::SHORT, IntlDateFormatter::NONE],
@@ -88,47 +108,40 @@ class Date extends \lithium\template\Helper {
 			'datetime' => [IntlDateFormatter::SHORT, IntlDateFormatter::SHORT]
 		];
 		if ($type == 'w3c') {
-			$result = $date->format(DateTime::W3C);
-		} elseif ($type == 'atom') {
-			$result = $date->format(DateTime::ATOM);
-		} elseif ($type == 'w3c-noz') {
-			$result = $date->format('Y-m-d\TH:i:s');
-		} elseif (is_array($type)) {
+			return $date->format(DateTime::W3C);
+		}
+		if ($type == 'atom') {
+			return $date->format(DateTime::ATOM);
+		}
+		if ($type == 'w3c-noz') {
+			return $date->format('Y-m-d\TH:i:s');
+		}
+		if (is_array($type)) {
 			$formatter = new IntlDateFormatter(
 				$locale,
 				$type[0],
 				$type[1],
 				$timezone
 			);
-			$result = $formatter->format($date);
-		} elseif (isset($types[$type])) {
+			return $formatter->format($date);
+		}
+		if (isset($types[$type])) {
 			$formatter = new IntlDateFormatter(
 				$locale,
 				$types[$type][0],
 				$types[$type][1],
 				$timezone
 			);
-			$result = $formatter->format($date);
-		} else {
-			$formatter = new IntlDateFormatter(
-				$locale,
-				IntlDateFormatter::FULL,
-				IntlDateFormatter::FULL,
-				$timezone
-			);
-			$formatter->setPattern($type);
-			$result = $formatter->format($date);
+			return $formatter->format($date);
 		}
-
-		if ($options['wrap']) {
-			return sprintf(
-				'<time datetime="%s"%s>%s</time>',
-				$this->format($value, 'w3c'),
-				is_array($options['wrap']) ? $this->_attributes($options['wrap']) : '',
-				$result
-			);
-		}
-		return $result;
+		$formatter = new IntlDateFormatter(
+			$locale,
+			IntlDateFormatter::FULL,
+			IntlDateFormatter::FULL,
+			$timezone
+		);
+		$formatter->setPattern($type);
+		return $formatter->format($date);
 	}
 
 	protected function _locale() {
