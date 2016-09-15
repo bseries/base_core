@@ -1322,12 +1322,15 @@ table .price-rate--f,
 table .quantity--f {
   width: 100px;
 }
+
+table td.number {
+  width: 60px;
+}
 table .currency--f,
 table .price-amount--f,
 table .price-type--f,
 table .money--f,
 table td.money,
-table td.number,
 table td.date,
 table td.id {
   width: 100px;
