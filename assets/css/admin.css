@@ -1350,6 +1350,7 @@ table td.user,
 table td.title,
 table td.name {
   min-width: 180px;
+  max-width: none;
 }
 table .position-description--f {
   width: 550px;
