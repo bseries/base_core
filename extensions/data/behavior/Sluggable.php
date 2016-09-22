@@ -37,7 +37,7 @@ class Sluggable extends \li3_behaviors\data\model\Behavior {
 			}
 		}
 		if (!$value) {
-			throw new Exception("Slug title is empty.");
+			return null;
 		}
 		$slug = strtolower(Inflector::slug($value));
 
