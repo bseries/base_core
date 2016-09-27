@@ -130,12 +130,17 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 // set_exception_handler($exceptionHandler);
 
 if (PROJECT_FEATURE_LOGGING) {
+	$priority = ['error', 'notice', 'warning'];
+
+	if (PROJECT_DEBUG_LOGGING || PROJECT_DEBUG) {
+		$priority[] = 'debug';
+	}
 	if (PROJECT_FEATURE_SYSLOG) {
 		Logger::config([
 			'default' => [
 				'adapter' => 'Syslog',
 				'identity' => PROJECT_NAME . '@' . PROJECT_CONTEXT,
-				'priority' => ['debug', 'error', 'notice', 'warning']
+				'priority' => $priority
 			],
 		]);
 	} else {
@@ -147,7 +152,7 @@ if (PROJECT_FEATURE_LOGGING) {
 				'format' => "[{:timestamp}] [{:priority}] {:message}\n",
 				// Log everything into one file.
 				'file' => function($data, $config) { return 'app.log'; },
-				'priority' => ['debug', 'error', 'notice', 'warning']
+				'priority' => $priority
 			],
 		]);
 	}

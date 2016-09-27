@@ -130,51 +130,56 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
-$scrubber = function($data) {
-	$clean = $data;
-
-	// Limit request data to display size.
-	$maxLength = 500;
-	if (is_array($clean)) {
-		foreach ($clean as $k => &$v) {
-			if (is_string($v) && strlen($v) > $maxLength) {
-				$v = '[too large - '. strlen($v) . ' bytes suppressed]';
-			}
-		}
-	} elseif (is_string($clean) && strlen($clean) > $maxLength) {
-		$clean = '[too large - '. strlen($clean) . ' bytes suppressed]';
-	}
-
-	// Remove sensitive data.
-	$scrubFields = [
-		'password',
-		'password_repeat',
-		'user.password',
-		'user.password_repeat'
-	];
-	foreach ($scrubFields as $field) {
-		if (Set::check($clean, $field)) {
-			$clean = Set::insert($clean, $field, '[protected]');
-		}
-	}
-
-	return $clean;
-};
-
 //
 // Request logging.
 //
-Dispatcher::applyFilter('run', function($self, $params, $chain) use ($scrubber) {
-	$request = $params['request'];
-	$message = sprintf('%s %s', $request->method, $request->url);
+// This is enclosed in this condition in order to optimize performance. We
+// know that when Logger does not log debug messages, we do not have
+// to generate them here. Request logging is pretty expensive.
+if (PROJECT_DEBUG_LOGGING) {
+	$scrubber = function($data) {
+		$clean = $data;
 
-	if (in_array($request->method, ['POST', 'PUT'])) {
-		$message .= " with:\n" . var_export($scrubber($request->data), true);
-	}
-	Logger::debug($message);
+		// Limit request data to display size.
+		$maxLength = 500;
+		if (is_array($clean)) {
+			foreach ($clean as $k => &$v) {
+				if (is_string($v) && strlen($v) > $maxLength) {
+					$v = '[too large - '. strlen($v) . ' bytes suppressed]';
+				}
+			}
+		} elseif (is_string($clean) && strlen($clean) > $maxLength) {
+			$clean = '[too large - '. strlen($clean) . ' bytes suppressed]';
+		}
 
-	return $chain->next($self, $params, $chain);
-});
+		// Remove sensitive data.
+		$scrubFields = [
+			'password',
+			'password_repeat',
+			'user.password',
+			'user.password_repeat'
+		];
+		foreach ($scrubFields as $field) {
+			if (Set::check($clean, $field)) {
+				$clean = Set::insert($clean, $field, '[protected]');
+			}
+		}
+
+		return $clean;
+	};
+
+	Dispatcher::applyFilter('run', function($self, $params, $chain) use ($scrubber) {
+		$request = $params['request'];
+		$message = sprintf('%s %s', $request->method, $request->url);
+
+		if (in_array($request->method, ['POST', 'PUT'])) {
+			$message .= " with:\n" . var_export($scrubber($request->data), true);
+		}
+		Logger::debug($message);
+
+		return $chain->next($self, $params, $chain);
+	});
+}
 
 //
 // Maintenance page handling.
