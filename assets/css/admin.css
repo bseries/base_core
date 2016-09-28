@@ -1021,6 +1021,11 @@ a.button {
   margin-right: 10px;
   margin-bottom: .5em;
 }
+.editor .toolbar .button .material-icons {
+  font-size: 18px;
+  position: relative;
+  top: 4px;
+}
 
 .use-editor textarea,
 .use-editor textarea {
