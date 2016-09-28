@@ -13,7 +13,7 @@
  * You should have received a copy of the AD General Software
  * License. If not, see http://atelierdisko.de/licenses.
  */
-define(['jquery', 'wysihtml5', 'domready!'],
+define(['jquery', 'wysihtml5'],
 function($, wysihtml5) {
   return function Editor() {
     var _this = this;
