@@ -39,7 +39,14 @@ class Sluggable extends \li3_behaviors\data\model\Behavior {
 		if (!$value) {
 			return null;
 		}
-		$slug = strtolower(Inflector::slug($value));
+		$slug = Inflector::slug($value);
+
+		// FIXME: Use lithium's Multibyte::strtolower once its implemented.
+		if (function_exists('mb_strtolower')) {
+			$slug = mb_strtolower($slug);
+		} else {
+			$slug = strtolower($slug);
+		}
 
 		if (strlen($slug) > ($length = $behavior->config('length'))) {
 			$slug = rtrim(substr($slug, 0, $length), '-');
