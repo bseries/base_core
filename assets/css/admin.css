@@ -699,6 +699,9 @@ input[type="checkbox"] + label {
 form .editor {
   margin-bottom: 4em;
 }
+form .editor .help {
+  margin-top: .75em;
+}
 
 form .type-selector + .editor {
   margin-top: 1.5em;
