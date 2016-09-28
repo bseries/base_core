@@ -181,6 +181,7 @@ function($, wysihtml5) {
          '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="pre" class="plugin-verbatim button">' + _('verbatim') + '</a>' +
          '<a data-wysihtml5-command="undo" class="plugin-history button">' + _('undo') + '</a>' +
          '<a data-wysihtml5-command="redo" class="plugin-history button">' + _('redo') + '</a>' +
+         '<a data-wysihtml5-command="removeFormat"  class="plugin-clear button">' + _('clear') + '</a>' +
        '</div>');
 
       var builtin = [];
