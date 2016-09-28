@@ -173,14 +173,14 @@ function($, wysihtml5) {
          '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
          '<a data-wysihtml5-command="insertUnorderedList" class="plugin-list button">' + _('list') + '</a>' +
          '<a data-wysihtml5-command="createLink" class="plugin-link button">' + _('link') + '</a>' +
-         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="pre" class="plugin-verbatim button">' + _('verbatim') + '</a>' +
-         '<a data-wysihtml5-command="undo" class="plugin-history button">' + _('undo') + '</a>' +
-         '<a data-wysihtml5-command="redo" class="plugin-history button">' + _('redo') + '</a>' +
          '<div data-wysihtml5-dialog="createLink" style="display: none;">' +
             // Beware of validation and Chrome's "An invalid form control with name=' is not focusable.".
            '<input data-wysihtml5-dialog-field="href" type="text" placeholder="http://example.com" />' +
            '<a data-wysihtml5-dialog-action="save" class="button save">' + _('OK') + '</a>' +
          '</div>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="pre" class="plugin-verbatim button">' + _('verbatim') + '</a>' +
+         '<a data-wysihtml5-command="undo" class="plugin-history button">' + _('undo') + '</a>' +
+         '<a data-wysihtml5-command="redo" class="plugin-history button">' + _('redo') + '</a>' +
        '</div>');
 
       var builtin = [];
