@@ -29,7 +29,9 @@ Session::config([
 	'default' => [
 		'adapter' => 'Php',
 		'session.name' => PROJECT_NAME . '_session',
-		'session.cache_limiter' => false
+		'session.cache_limiter' => false,
+		// http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes
+		'session.gc_maxlifetime' => 3600
 	],
 	'cookie' => [
 		'adapter' => 'Cookie',
