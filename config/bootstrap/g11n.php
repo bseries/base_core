@@ -178,7 +178,12 @@ Multibyte::config([
 Inflector::rules('transliteration', Catalog::read(true, 'inflection.transliteration', 'en'));
 Inflector::rules('transliteration', [
 	'/–|—/' => '-',
-	'/…/' => '...'
+	'/…/' => '...',
+	// FIXME Some uppercase rules are missing, lithium 1.1 will support them.
+	'/É|È/' => 'E',
+	'/Á|À/' => 'A',
+	'/Ú|Ù/' => 'U',
+	'/Í|Ì/' => 'I'
 ]);
 
 /**
