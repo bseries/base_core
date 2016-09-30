@@ -38,7 +38,6 @@ class Date extends \lithium\template\Helper {
 	 *          good for datetime input fields (RFC 3339):
 	 *          https://www.w3.org/TR/html-markup/datatypes.html#form.data.datetime-local
 	 *        - a string with a valid datetime format syntax pattern:
-	 *        - a string with a valid datetime format syntax pattern:
 	 *          http://userguide.icu-project.org/formatparse/datetime
 	 *        - one of the strings:
 	 *          - `'time'` for short time only
