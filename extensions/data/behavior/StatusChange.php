@@ -20,6 +20,15 @@ namespace base_core\extensions\data\behavior;
 use Exception;
 use li3_behaviors\data\model\Behavior;
 
+/**
+ * Detects changes to the status field and executes corresponding method on model. The
+ * method will be called after the field has been persisted.
+ *
+ * This behavior abstracts details about modification of the field away.
+ *
+ * In future versions a state machine can be used to define possible transitions between
+ * statuses.
+ */
 class StatusChange extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
@@ -63,10 +72,17 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 			if (!$result = $chain->next($self, $params, $chain)) {
 				return false;
 			}
-			return $params['entity']->statusChange(
-				$old ? $old->$field : null,
-				$to
-			);
+
+			$params = compact('to') + [
+				'from' => $old ? $old->$field : null,
+				'entity' => $params['entity']
+			];
+			return $model::invokeMethod('_filter', ['statusChange', $params, function($self, $params) {
+				return $params['entity']->statusChange(
+					$params['from'],
+					$params['to']
+				);
+			}]);
 		});
 	}
 }
