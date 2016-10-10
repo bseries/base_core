@@ -986,8 +986,8 @@ article > .help {
 }
 
 @keyframes pulse {
-  0% {transform: opacity: 0;}
-  25% {transform: opacity: .5;}
+  0% {opacity: 0;}
+  25% {opacity: .5;}
   50% {opacity: 1; }
   75% {opacity: .5; }
 }
