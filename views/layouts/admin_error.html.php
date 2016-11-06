@@ -22,7 +22,7 @@ $t = function($message, array $options = []) {
 
 		<!-- Styles -->
 		<?php echo $this->assets->style([
-			'/base-core/css/reset',
+			'/base-core/css/normalize',
 			'/base-core/css/admin'
 		]) ?>
 		<?php echo $this->styles() ?>
