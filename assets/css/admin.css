@@ -1445,6 +1445,7 @@ table .button.add-nested:hover {
 }
 #messages .message.invisible {
   display: inline-block;
+  opacity: 0;
   right: -400px;
 }
 #messages .message.error {
