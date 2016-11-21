@@ -13,7 +13,7 @@
     "require": {
         "atelierdisko/jsend": "1.0.*",
         "atelierdisko/li3_access": "2.0.*",
-        "atelierdisko/li3_flash_message": "1.0.*",
+        "atelierdisko/li3_flash_message": "1.*",
         "atelierdisko/li3_mailer": "1.0.*",
         "davidpersson/li3_behaviors": "2.0.*",
         "davidpersson/temporary": "1.0.*",
