@@ -22,7 +22,7 @@
         "php": ">=5.5.0",
         "unionofrad/li3_cldr": "1.0.*@RC",
         "unionofrad/li3_lldr": "1.0.*@RC",
-        "unionofrad/lithium": "1.0.*@dev",
+        "unionofrad/lithium": "1.1.*@dev",
         "zendframework/zend-paginator": "2.*",
         "zendframework/zend-servicemanager": "2.*"
     },
