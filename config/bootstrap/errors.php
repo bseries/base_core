@@ -177,10 +177,10 @@ if (!PROJECT_DEBUG) {
 			$code = $e->getCode();
 
 			$message  = "Caught an exception :)\n";
-			$message .= 'type      : ' . get_class($e) . "\n";
-			$message .= 'code      : ' . $code . "\n";
-			$message .= 'message   : ' . $e->getMessage() . "\n";
-			$message .= 'errror-id : ' . $errorId . "\n";
+			$message .= 'type     : ' . get_class($e) . "\n";
+			$message .= 'code     : ' . $code . "\n";
+			$message .= 'message  : ' . $e->getMessage() . "\n";
+			$message .= 'error-id : ' . $errorId . "\n";
 			$message .= '-- will invoke error action --';
 			Logger::notice($message);
 
