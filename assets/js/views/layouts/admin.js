@@ -39,7 +39,7 @@ require(['jquery', 'nprogress', 'moment', 'notify', 'domready!'], function($, Pr
   var flashLevel = $('#messages').data('flash-level') || 'neutral';
 
   if (flashMessage) {
-    $.notify(flashMessage, {level: flashLevel});
+    $.notify(flashMessage, {level: flashLevel, timeout: 3000});
   }
 
   //

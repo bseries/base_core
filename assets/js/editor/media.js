@@ -25,6 +25,25 @@ define([
 
     var _this = this;
 
+    if ($('html').attr('lang') === 'de') {
+      this.translations = {
+        "media": "Medien",
+      }
+    } else {
+      this.translations = {}
+    }
+
+    var _ = function(key) {
+      if (_this.translations === {}) {
+        return key;
+      }
+      if (key in _this.translations) {
+        return _this.translations[key];
+      }
+      return key;
+    };
+
+
     this.init = function(options) {
       Router.match('media:capabilities')
         .done(function(url) {
@@ -48,7 +67,7 @@ define([
     };
 
     this.toolbar = function() {
-      return '<a data-wysihtml5-command="insertMedia" class="button media-explorer">' + 'media' + '</a>';
+      return '<a data-wysihtml5-command="insertMedia" class="button media-explorer">' + _('media') + '</a>';
     };
 
     this.classes = function() {

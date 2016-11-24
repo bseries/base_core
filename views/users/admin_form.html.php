@@ -39,7 +39,11 @@ $this->set([
 				<?php endif ?>
 			</section>
 			<section class="grid-column-right">
-				<?= $this->form->field('email', ['type' => 'email', 'label' => $t('E–mail')]) ?>
+				<?= $this->form->field('email', [
+					'type' => 'email',
+					'label' => $t('E–mail'),
+					'autocomplete' => 'off'
+				]) ?>
 				<?= $this->form->field('is_notified', [
 					'type' => 'checkbox',
 					'label' => $t('receives notifications'),
@@ -79,14 +83,17 @@ $this->set([
 					'label' => !$item->exists() ? $t('provide a password') : $t('change password'),
 					'checked' => !$item->exists(),
 					'value' => 1,
-					'autocomplete' => 'off' // force checkbox to initial state
+					// force checkbox to initial state
+					// https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
+					'autocomplete' => 'new-password'
 				]) ?>
 				<?=$this->form->field('password', [
 					'type' => 'password',
 					'label' => $t('Password'),
 					'autocomplete' => 'off',
 					'disabled' => $item->exists(),
-					'placeholder' => $t('Pick a strong password.')
+					'placeholder' => $t('Pick a strong password.'),
+					'autocomplete' => 'new-password'
 				]) ?>
 				<?= $this->form->field('change_answer', [
 					'type' => 'checkbox',

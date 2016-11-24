@@ -699,6 +699,9 @@ input[type="checkbox"] + label {
 form .editor {
   margin-bottom: 4em;
 }
+form .editor .help {
+  margin-top: .75em;
+}
 
 form .type-selector + .editor {
   margin-top: 1.5em;
@@ -1020,6 +1023,11 @@ a.button {
 .editor .toolbar .button {
   margin-right: 10px;
   margin-bottom: .5em;
+}
+.editor .toolbar .button .material-icons {
+  font-size: 18px;
+  position: relative;
+  top: 4px;
 }
 
 .use-editor textarea,
@@ -1437,6 +1445,7 @@ table .button.add-nested:hover {
 }
 #messages .message.invisible {
   display: inline-block;
+  opacity: 0;
   right: -400px;
 }
 #messages .message.error {

@@ -46,9 +46,16 @@ body {
 /* Editor
 -------------------------------------------------------------- */
 .wysihtml5-editor {
-    font-weight: normal;
+  font-weight: normal;
 	padding: .5em;
 	padding-right: 10px; /* Distance to scroll bar. */
+}
+.wysihtml5-editor p {
+  border-left: 2px solid gray;
+  padding-left: 6px;
+  margin-left: -8px;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 .wysihtml5-editor > p:first-of-type {
   margin-top: 0;
@@ -67,30 +74,23 @@ body {
 
 .wysihtml5-editor aside,
 .rt__aside {
+  max-width: 500px;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;
   background: #F2F2F2;
   font-size: 12px;
 }
-.wysihtml5-editor aside:before,
-.rt__aside:before {
-  opacity: .7;
-  content: "(marginal) ";
-  vertical-align: top;
-}
 
 .wysihtml5-editor h2,
 .rt__h--beta {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: .5em;
 }
 .wysihtml5-editor h3,
 .rt__h--gamma {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: .5em;
 }
 .wysihtml5-editor small,
 .rt__small {

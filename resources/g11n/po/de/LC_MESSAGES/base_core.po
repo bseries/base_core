@@ -200,7 +200,7 @@ msgstr "nächste Seite"
 #: views/errors/admin_fiveohoh.html.php:17
 #: views/errors/admin_generic.html.php:17
 msgid "Ooops, this shouldn't have happened."
-msgstr "Hubs, das sollte nicht passieren."
+msgstr "Ups, das sollte nicht passieren."
 
 #: views/errors/admin_fiveohoh.html.php:20
 #: views/errors/admin_generic.html.php:20
