@@ -150,38 +150,6 @@ $bootstrapFormal = function($name, $path) {
 		}
 	}
 
-	$deprecated = [
-		'g11n',
-		'misc',
-		'settings',
-		'media'
-	];
-	if ($name === 'app') {
-		$deprecated[] = 'contents';
-	}
-	if ($name !== 'base_core') {
-		$deprecated[] = 'bootstrap';
-	}
-	foreach (glob($path . '/config/*.php', GLOB_NOSORT) as $file) {
-		$config = pathinfo($file, PATHINFO_FILENAME);
-
-		if (in_array($config, $deprecated)) {
-			trigger_error(
-				"Found deprecated configuration file `{$file}` in `{$name}`.",
-				E_USER_DEPRECATED
-			);
-		}
-		if (!array_key_exists($config, $available)) {
-			continue;
-		}
-		Boot::add(
-			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.' . $config,
-			$available[$config],
-			function () use ($file) {
-				require_once $file;
-			}
-		);
-	}
 	if (is_dir($path . '/resources/g11n/po')) {
 		Boot::add(
 			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.g11n',
@@ -206,20 +174,7 @@ $bootstrapFormal = function($name, $path) {
 // Assumes we are located inside `project/app/libraries/base_core/config`. Any variables
 // defined inside the env file are prefixed with `PROJECT_`.
 $root = dirname(dirname(dirname(dirname(__DIR__))));
-
-// BC / deprecated
-if (!file_exists($root . '/Envfile')) {
-	trigger_error("Did not find root Envfile falling back to old config/current.env", E_USER_DEPRECATED);
-	Boot::environment($root . '/config/current.env', 'PROJECT');
-} else {
-	Boot::environment($root . '/Envfile', 'PROJECT');
-}
-
-// BC / deprecated: env var was introduced later and my not be present in all projects
-if (!defined('PROJECT_FEATURE_SYSLOG')) {
-	trigger_error("PROJECT_FEATURE_SYSLOG not defined!", E_USER_DEPRECATED);
-	define('PROJECT_FEATURE_SYSLOG', false);
-}
+Boot::environment($root . '/Envfile', 'PROJECT');
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.

@@ -96,14 +96,6 @@ class Seo extends \lithium\template\Helper {
 
 	// Returns the meta description for the page enclosed in tags.
 	public function description() {
-		if (!empty($this->_context->data()['seo']['description'])) {
-			$message  = 'Setting the SEO description via `$this->set([...seo..])` is ';
-			$message .= 'deprecated. Use the SEO helper instead: `$this->seo->set(\'description\', ...)`.';
-			trigger_error($message, E_USER_DEPRECATED);
-
-			$this->_description = $this->_context->data()['seo']['description'];
-		}
-
 		if ($this->_description) {
 			return sprintf('<meta name="description" content="%s">', $this->_description);
 		}

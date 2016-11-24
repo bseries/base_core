@@ -430,14 +430,6 @@ class Users extends \base_core\models\Base {
 			return $item->conditions($entity);
 		});
 	}
-
-	/* Deprecated / BC */
-
-	// @deprecated
-	public function isVirtual() {
-		trigger_error('isVirtual() has been deprecated, all users are real now.', E_USER_DEPRECATED);
-		return false;
-	}
 }
 
 Users::init();

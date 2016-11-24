@@ -35,10 +35,6 @@ class Widgets extends \lithium\core\StaticObject {
 	protected static $_data = [];
 
 	public static function register($name, $inner, array $options = []) {
-		if (func_num_args() > 3) {
-			trigger_error("Library parameter is deprecated (widget $name).", E_USER_DEPRECATED);
-			return;
-		}
 		$options += [
 			'weight' => static::WEIGHT_NORMAL,
 			'type' => null,

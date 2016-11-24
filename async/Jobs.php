@@ -53,12 +53,6 @@ class Jobs {
 			'frequency' => static::FREQUENCY_MEDIUM,
 			'needs' => []
 		];
-
-		if (isset($options['depends'])) {
-			trigger_error('The `depends` job option is deprecated in favor of `needs`.', E_USER_DEPRECATED);
-			$options['needs'] = $options['depends'];
-			unset($options['depends']);
-		}
 		static::$_recurring[$options['frequency']][$name] = compact('name', 'unit') + [
 			'needs' => Set::normalize($options['needs']) ?: []
 		];

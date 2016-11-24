@@ -52,12 +52,7 @@ trait UrlTrait {
 	// returns absolute URLs.** $targetScheme can either be a string or an
 	// \lithium\net\http\Request object, to auto negotatiate the best HTTP
 	// scheme. This works similar to SchemeTrait's base() method.
-	public function url($entity, $targetScheme = null /* @deprecated removed default value */) {
-		if ($targetScheme === null) {
-			$message = 'Scheme for url() must be explictly given as the default value `http` will go away.';
-			trigger_error($message, E_USER_DEPRECATED);
-			$targetScheme = 'http';
-		}
+	public function url($entity, $targetScheme) {
 		$sourceScheme = parse_url($entity->url, PHP_URL_SCHEME);
 		$targetScheme = static::_negotiateScheme($targetScheme);
 

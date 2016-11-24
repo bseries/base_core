@@ -215,18 +215,6 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 		}
 		return false;
 	}
-
-	/* Deprecated / BC */
-
-	public function type($model, Behavior $behavior, Entity $entity) {
-		trigger_error('type() is deprecated in favor of aggregationName()', E_USER_DEPRECATED);
-		return $this->aggregationName($model, $behavior, $entity);
-	}
-
-	public static function aggregate($model, Behavior $behavior, $type, array $options = []) {
-		trigger_error('aggregate() is deprecated in favor of directly using find()', E_USER_DEPRECATED);
-		return $model::find($type, $options);
-	}
 }
 
 ?>
