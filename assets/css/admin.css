@@ -1439,7 +1439,8 @@ table .button.add-nested:hover {
   position: relative;
   display: inline-block;
   transition: .75s all ease-in;
-  background: var(--color-yellow);
+  background-color: var(--color-dim-black);
+  color: white;
   padding: 1em;
   right: 20px;
 }
@@ -1449,12 +1450,14 @@ table .button.add-nested:hover {
   right: -400px;
 }
 #messages .message.error {
-  background: var(--color-red);
-  color: white;
+  background-color: var(--color-red);
+}
+#messages .message.notice {
+  background-color: var(--color-yellow);
+  color: var(--color-dim-black);
 }
 #messages .message.success {
-  background: var(--color-green);
-  color: white;
+  background-color: var(--color-green);
 }
 
 /* Media Explorer
