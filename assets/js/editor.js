@@ -18,8 +18,9 @@ function($, wysihtml5) {
   return function Editor() {
     var _this = this;
 
-    if ($('html').attr('lang') === 'de') {
-      this.translations = {
+    var _locale = $('html').attr('lang');
+    var _translations = {
+      "de": {
         "bold": "fett",
         "italic": "kursiv",
         "big": "groß",
@@ -32,16 +33,12 @@ function($, wysihtml5) {
         "list": "Liste",
         "clear format": "Formatierung entfernen",
       }
-    } else {
-      this.translations = {}
-    }
-
+    };
     var _ = function(key) {
-      if (_this.translations === {}) {
-        return key;
-      }
-      if (key in _this.translations) {
-        return _this.translations[key];
+      if (_locale in _translations) {
+        if (key in _translations[_locale]) {
+          return _translations[_locale][key];
+        }
       }
       return key;
     };
