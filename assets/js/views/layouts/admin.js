@@ -67,31 +67,10 @@ require(['jquery', 'nprogress', 'moment', 'domready!'], function($, Progress, Mo
   //
   // Automatically bind sortables.
   //
-  var sortableElement = $('.use-manual-sorting');
-  if (sortableElement.length) {
-    require(['jqueryUi'],
-      function() {
-        sortableElement.sortable({
-          placeholder: 'sortable-placeholder',
-          items: '> tr',
-          update: function(ev, ui) {
-            var ids = [];
-            sortableElement.find('tr').each(function(k, v) {
-              ids.push($(v).data('id'));
-            });
-            $.ajax({
-              type: 'POST',
-              // Assumes we are on an index page and can relatively get to the endpoint.
-              url: window.location.pathname + '/order',
-              data: {'ids': ids},
-            }).done(function() {
-              $.notify('Sortierung gespeichert.', 'success');
-            }).fail(function() {
-              $.notify('Speichern der Sortierung fehlgeschlagen.', 'error');
-              $.notify('Stellen Sie sicher, dass AdBlock für diese Domain deaktiviert ist.');
-            });
-          }
-        });
+  var $sortableElement = $('.use-manual-sorting');
+  if ($sortableElement.length) {
+    require(['sortableIndex'], function(SortableIndex) {
+      new SortableIndex($sortableElement);
     });
   }
 
