@@ -14,7 +14,7 @@
  * License. If not, see http://atelierdisko.de/licenses.
  */
 
-require(['jquery', 'nprogress', 'moment', 'notify', 'domready!'], function($, Progress, Moment) {
+require(['jquery', 'nprogress', 'moment', 'domready!'], function($, Progress, Moment) {
 
   //
   // Progress setup
@@ -39,7 +39,9 @@ require(['jquery', 'nprogress', 'moment', 'notify', 'domready!'], function($, Pr
   var flashLevel = $('#messages').data('flash-level') || 'neutral';
 
   if (flashMessage) {
-    $.notify(flashMessage, {level: flashLevel, timeout: 3000});
+    require(['notify'], function() {
+      $.notify(flashMessage, {level: flashLevel, timeout: 3000});
+    });
   }
 
   //
