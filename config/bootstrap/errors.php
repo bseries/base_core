@@ -26,10 +26,6 @@ use lithium\action\Dispatcher;
 use lithium\action\Request;
 use lithium\action\Response;
 use lithium\net\http\Media;
-use Whoops\Run;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Handler\JsonResponseHandler;
-use Whoops\Handler\PlainTextHandler;
 
 $path = dirname(Libraries::get(true, 'path'));
 ini_set('error_reporting', E_ALL);
@@ -226,23 +222,6 @@ if (!PROJECT_DEBUG) {
 			]);
 		}
 	});
-}
-
-// Whoops doesn't work reliably in cli.
-if (PROJECT_DEBUG && PHP_SAPI !== 'cli') {
-	// Do not name this variable run as it might
-	// interfer with li3 console's run closure.
-	$whoops = new Run();
-
-	$whoops->pushHandler(new PrettyPageHandler());
-
-	$handler = new JsonResponseHandler();
-	$handler->onlyForAjaxRequests(true);
-	$whoops->pushHandler($handler);
-
-	$whoops->pushHandler(new PlainTextHandler());
-
-	$whoops->register();
 }
 
 ?>
