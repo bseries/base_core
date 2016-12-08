@@ -142,6 +142,14 @@ $bootstrapFormal = function($name, $path) {
 				'libraries.*.config.ecommerce' => 'optional'
 			],
 		];
+
+		// Load debug configuration only when debug is enabled, so debugging tools are not
+		// mistakenly enabled in production, where they might reveal precious secrets. We
+		// also try to ensure to load debugging is early as possible, so early errors can
+		// be catched.
+		if (PROJECT_DEBUG) {
+			$available = ['debug' => null] + $available;
+		}
 		if (INSIDE_ADMIN === true) {
 			$available = array_diff_key($available, [
 				'routes' => null,
