@@ -50,6 +50,7 @@ requirejs.config({
     'thingsLoaded': 'base-core/js/thingsLoaded',
     'richIndex': 'base-core/js/richIndex',
     'richForm': 'base-core/js/richForm',
+    'sortableIndex': 'base-core/js/sortableIndex',
     'waypoints': 'base-core/js/waypoints',
     'minigrid': 'base-core/js/minigrid',
 

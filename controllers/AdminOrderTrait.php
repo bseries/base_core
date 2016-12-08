@@ -17,6 +17,7 @@
 
 namespace base_core\controllers;
 
+use AD\jsend\Response as JSendResponse;
 use base_core\extensions\cms\Settings;
 use base_core\security\Gate;
 use li3_flash_message\extensions\storage\FlashMessage;
@@ -24,8 +25,10 @@ use lithium\g11n\Message;
 
 trait AdminOrderTrait {
 
-	public function admin_order() {
+	public function admin_api_order() {
 		extract(Message::aliases());
+
+		$response = new JSendResponse();
 
 		$model = $this->_model;
 		$model::pdo()->beginTransaction();
@@ -42,18 +45,15 @@ trait AdminOrderTrait {
 
 		if ($model::weightSequence($ids)) {
 			$model::pdo()->commit();
-
-			FlashMessage::write($t('Successfully updated order.', ['scope' => 'base_core']), [
-				'level' => 'success'
-			]);
+			$response->success();
 		} else {
 			$model::pdo()->rollback();
-
-			FlashMessage::write($t('Failed to update order.', ['scope' => 'base_core']), [
-				'level' => 'error'
-			]);
+			$response->error('Failed to update order.');
 		}
-		return $this->render(['head' => true]);
+		return $this->render([
+			'type' => $this->request->accepts(),
+			'data' => $response->to('array')
+		]);
 	}
 }
 

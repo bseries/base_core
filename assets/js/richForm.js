@@ -1,5 +1,5 @@
 /*!
- * Index Table
+ * Rich Form
  *
  * Copyright (c) 2015 Atelier Disko - All rights reserved.
  *
@@ -13,7 +13,6 @@
  * You should have received a copy of the AD General Software
  * License. If not, see http://atelierdisko.de/licenses.
  */
-
 define(['jquery'],
 function($) {
 
