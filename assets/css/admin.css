@@ -752,7 +752,7 @@ select {
   padding-left: 6px;
 }
 select:not([multiple]) {
-  background: white url("../ico/field_arrow_down.png?v=__PROJECT_VERSION_BUILD__") no-repeat right 8px center;
+  background: white url("../ico/field_arrow_down.png") no-repeat right 8px center;
 }
 
 /* Checkbox are styled. */
@@ -1198,7 +1198,7 @@ form table + .help {
   opacity: 1;
 }
 .media-attachment .selected.populated:empty {
-  background: url("../img/none_bg.png?v=__PROJECT_VERSION_BUILD__") no-repeat -350px 0;
+  background: url("../img/none_bg.png") no-repeat -350px 0;
 }
 .media-attachment img {
   max-height: 100%;
