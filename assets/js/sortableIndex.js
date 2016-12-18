@@ -47,7 +47,7 @@ function($) {
           //
           // FIXME When defining the class, the endpoint should be defined in HTML as
           //       a data attribute.
-          url: window.location.pathname.replace('/admin', '/admin/api') + '/orde + '/order'r',
+          url: window.location.pathname.replace('/admin', '/admin/api') + '/order',
           data: {'ids': ids},
         }).done(function() {
           $.notify(_('Order saved.'), {level: 'success'});

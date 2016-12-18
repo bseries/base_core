@@ -44,7 +44,11 @@ trait AdminIndexTrait {
 		}
 
 		if ($model::hasBehavior('Searchable')) {
-			$query = $model::searchQuery($this->request->filter, $query);
+			$query = $model::searchQuery(
+				// UTF-8 chars must be decoded.
+				urldecode($this->request->filter),
+				$query
+			);
 		}
 
 		$query = $this->_order($model, $query);
