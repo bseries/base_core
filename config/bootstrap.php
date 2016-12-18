@@ -69,7 +69,6 @@ $bootstrapFormal = function($name, $path) {
 	if ($name !== 'app') {
 		$available = [
 			'access' => null,
-			'version' => null,
 			'routes' => null,
 			'panes' => [ // module only
 				'*.config.access',
@@ -158,6 +157,14 @@ $bootstrapFormal = function($name, $path) {
 		}
 	}
 
+	// Deprecated: now defined via VERSION.txt
+	if (file_exists($file = $path . '/config/version.php')) {
+		trigger_error("Found deprecated configuration file `{$file}` in `{$name}`.", E_USER_DEPRECATED);
+	}
+
+	if (file_exists($file = $path . '/VERSION.txt')) {
+		define(strtoupper($name) . '_VERSION', file_get_contents($file));
+	}
 	if (is_dir($path . '/resources/g11n/po')) {
 		Boot::add(
 			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.g11n',
@@ -183,6 +190,21 @@ $bootstrapFormal = function($name, $path) {
 // defined inside the env file are prefixed with `PROJECT_`.
 $root = dirname(dirname(dirname(dirname(__DIR__))));
 Boot::environment($root . '/Envfile', 'PROJECT');
+
+if (defined('PROJECT_VERSION_BUILD')) { // Deprecated
+	$message = "Project version build is not used anymore: do not define in Envfile.";
+	trigger_error($message, E_USER_DEPRECATED);
+}
+if (defined('PROJECT_VERSION')) { // Deprecated
+	$message = "Project version should not be defined in the Envfile anymore but in VERSION.txt.";
+	trigger_error($message, E_USER_DEPRECATED);
+} else {
+	if (file_exists($file = $root . '/VERSION.txt')) {
+		define('PROJECT_VERSION', file_get_contents($file));
+	} else {
+		trigger_error("Failed to define project version: missing VERSION.txt file at `{$file}`.", E_USER_WARNING);
+	}
+}
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.
