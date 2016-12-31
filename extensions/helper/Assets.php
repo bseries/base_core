@@ -66,7 +66,7 @@ class Assets extends \lithium\template\Helper {
 		if (strpos($path, '://') !== false) {
 			return $path;
 		}
-		$version = PROJECT_VERSION_BUILD;
+		$version = PROJECT_VERSION;
 		return $this->base() . '/v:' . $version . $path . $suffix;
 	}
 
