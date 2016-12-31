@@ -191,6 +191,12 @@ $bootstrapFormal = function($name, $path) {
 $root = dirname(dirname(dirname(dirname(__DIR__))));
 Boot::environment($root . '/Envfile', 'PROJECT');
 
+if (defined('PROJECT_PATH')) {
+	$message = "Project path is not used anymore: do not define in Envfile.";
+	trigger_error($message, E_USER_DEPRECATED);
+} else {
+	define('PROJECT_PATH', $root);
+}
 if (defined('PROJECT_VERSION_BUILD')) { // Deprecated
 	$message = "Project version build is not used anymore: do not define in Envfile.";
 	trigger_error($message, E_USER_DEPRECATED);
