@@ -21,7 +21,9 @@ use li3_mailer\net\mail\Delivery;
 
 $config = [
 	'types' => explode(' ', PROJECT_MAIL_TYPES),
-	'from' => PROJECT_MAIL_FROM
+	// The default sender, can be changed on a
+	// per mailing basis inside i.e. Controllers.
+	'from' => 'noreply@' . PROJECT_MAIL_DOMAIN
 ];
 
 // When we are in debug mode, all mail goes to a log file.

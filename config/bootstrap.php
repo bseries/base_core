@@ -211,6 +211,14 @@ if (defined('PROJECT_VERSION')) { // Deprecated
 		trigger_error("Failed to define project version: missing VERSION.txt file at `{$file}`.", E_USER_WARNING);
 	}
 }
+if (defined('PROJECT_MAIL_FROM')) {
+	$message = "Project MAIL_FROM is not used anymore: do not define in Envfile.";
+	if (PROJECT_MAIL_FROM != 'noreply@' . PROJECT_MAIL_DOMAIN) {
+		$message .= " WARNING: noreply@ is now the default but current value is " . PROJECT_MAIL_FROM;
+		$message .= " Ensure you set the sender in Controller code manually.";
+	}
+	trigger_error($message, E_USER_DEPRECATED);
+}
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.
