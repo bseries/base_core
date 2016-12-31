@@ -22,6 +22,10 @@ reserved and licensed under the AD General Software License v1.
 You should have received a copy of the AD General Software
 License. If not, see http://atelierdisko.de/licenses.
 
+Material Design Icons under assets/ico/material are (c) Google, Inc. and
+licensed under the Apache License V 2.0.
+
 This library may contain code from open source projects with a different
 license. Please see the respective fileheaders for more information.
+
 
