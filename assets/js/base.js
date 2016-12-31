@@ -24,14 +24,15 @@ requirejs.config({
   waitSeconds: 15,
   paths: {
     // Basics
-    'domready': 'base-core/js/require/domready',
-    'text': 'base-core/js/require/text',
-    'async': 'base-core/js/require/async',
-    'propertyParser': 'base-core/js/require/propertyParser',
     'jquery': 'base-core/js/jquery',
     'jqueryUi': 'base-core/js/jqueryUi',
     'router': 'base-core/js/router',
     'underscore': 'base-core/js/underscore',
+
+    'domready': 'base-core/js/require/domready',
+    'text': 'base-core/js/require/text',
+    'async': 'base-core/js/require/async',
+    'propertyParser': 'base-core/js/require/propertyParser',
 
     // Other
     'util': 'base-core/js/util',
@@ -64,9 +65,6 @@ requirejs.config({
     'jqueryUi': {
       deps: ['jquery'],
       exports: '$'
-    },
-    'underscore': {
-      exports: '_'
     },
 
     // App (here Admin)
