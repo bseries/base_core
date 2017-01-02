@@ -39,13 +39,13 @@ class Sluggable extends \li3_behaviors\data\model\Behavior {
 		if (!$value) {
 			return null;
 		}
-		$slug = Inflector::slug($value);
-
-		// FIXME: Use lithium's Multibyte::strtolower once its implemented.
+		// Lowercase before transliteration, otherwise transliteration
+		// may see partial lowercase characters (Ä -> Ae) and interpretes
+		// them as new words, adding spaces mid-word.
 		if (function_exists('mb_strtolower')) {
-			$slug = mb_strtolower($slug);
+			$slug = Inflector::slug(mb_strtolower($value));
 		} else {
-			$slug = strtolower($slug);
+			$slug = Inflector::slug(strtolower($value));
 		}
 
 		if (strlen($slug) > ($length = $behavior->config('length'))) {
