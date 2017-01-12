@@ -1496,36 +1496,41 @@ table .button.add-nested:hover {
   position: absolute;
   bottom: 0;
   left: 0;
-  text-align: right;
   background: var(--color-gray-dark);
   width: 100%;
   z-index: 30;
   height: 78px;
   padding: 20px;
 }
+.media-explorer .actions .left {
+  float: left;
+}
+.media-explorer .actions .right {
+  float: right;
+}
+.media-explorer .actions .input {
+  float: left;
+}
+.media-explorer .actions .input + .input {
+  margin-left: 20px;
+}
 .media-explorer .actions .button:not([disabled]) {
   background-color: white;
 }
-.media-explorer .button.progress {
-  position: relative;
-  min-width: 100px; /* prevent jumping of size when text changes. */
+.media-explorer .actions input[type="checkbox"] ~ label {
+  margin-top: 4px;
+  clear: none;
+  width: auto;
 }
-.media-explorer .button .button-text {
-  position: relative;
-  z-index: 3;
+
+/* The default gray unchecked color is the same as the actions background,
+   thus would not be visible. */
+.media-explorer input[type="checkbox"] ~ label:before {
+  background-color: var(--color-gray-darker);
 }
-.media-explorer .button.all-done {
-  color: white;
-}
-.media-explorer .button .progress-bar {
-  transition: width .5s;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: var(--color-blue);
-  height: 100%;
-  width: 0%;
-  z-index: 2;
+/* Green would be too much distracting. */
+.media-explorer input[type="checkbox"]:checked ~ label:before {
+  background-color: var(--color-gray-bright);
 }
 
 /* Panes */
@@ -1570,17 +1575,6 @@ table .button.add-nested:hover {
 .media-explorer .good-night .available {
   background-color: var(--color-gray-darkest);
 }
-.media-explorer input[type="checkbox"].good-night-switch ~ label {
-  margin-top: 4px;
-  clear: none;
-  width: auto;
-}
-.media-explorer input[type="checkbox"].good-night-switch ~ label:before {
-  background-color: var(--color-gray-darkest);
-}
-.media-explorer input[type="checkbox"].good-night-switch:checked ~ label:before {
-  background-color: var(--color-gray-bright);
-}
 
 .media-explorer .available .item {
   width: 300px;
@@ -1614,7 +1608,6 @@ table .button.add-nested:hover {
 }
 
 .media-explorer .available .item .meta {
-  /* margin-top: 10px; */
   display: none;
   margin-top: -25px;
   text-overflow: ellipsis;
@@ -1701,7 +1694,6 @@ table .button.add-nested:hover {
   border-color: white var(--color-gray-darker);
 }
 
-
 .media-explorer .queue .item .message,
 .media-explorer .queue .item .meta {
   position: absolute; /* must not expand image box */
@@ -1726,6 +1718,28 @@ table .button.add-nested:hover {
 }
 .media-explorer .transfer .methods input[name="vimeo_id"] {
   width: 30%;
+}
+
+.media-explorer .button.progress {
+  position: relative;
+  min-width: 100px; /* prevent jumping of size when text changes. */
+}
+.media-explorer .button .button-text {
+  position: relative;
+  z-index: 3;
+}
+.media-explorer .button.all-done {
+  color: white;
+}
+.media-explorer .button .progress-bar {
+  transition: width .5s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--color-blue);
+  height: 100%;
+  width: 0%;
+  z-index: 2;
 }
 
 /* Transfer Pane: Dragging */
