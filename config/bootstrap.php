@@ -333,4 +333,15 @@ $bootstrapFormal('app', PROJECT_PATH . '/app');
 
 \base_core\core\Boot::run();
 
+// ------------------------------------------------------------------------------------------------
+
+// @deprecated
+if (!\base_core\base\Sites::registry(true)->count()) {
+	trigger_error('No Site found, at least one Site must be registed.', E_USER_DEPRECATED);
+	\base_core\base\Sites::register(PROJECT_DOMAIN, [
+		'title' => PROJECT_DOMAIN,
+		'fqdn' => PROJECT_DOMAIN
+	]);
+}
+
 ?>
