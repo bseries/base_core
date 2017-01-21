@@ -28,12 +28,12 @@ class Sites {
 		static::$_registry[$name] = new Site($object);
 	}
 
-	public static function current() {
-		if (empty($_SERVER['HTTP_HOST'])) {
+	public static function current(\lithium\action\Request $request) {
+		if (!$request->env('HTTP_HOST')) {
 			return null;
 		}
 		foreach (static::$_registry as $name => $site) {
-			if ($site->fqdn() === $_SERVER['HTTP_HOST']) {
+			if ($site->fqdn() === $request->env('HTTP_HOST')) {
 				return $site;
 			}
 		}
