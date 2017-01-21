@@ -30,9 +30,8 @@ Sites::register(PROJECT_DOMAIN, [
 	'fqdn' => PROJECT_DOMAIN
 ]);
 
-// Enables multi site feature module wide. Allows to
-// place content in different sites hosted by the same
-// app.
+// Enables the Sites framework feature for multi site support. Allows to place content in
+// different sites hosted by the same app.
 Settings::register('useSites', false);
 
 //
