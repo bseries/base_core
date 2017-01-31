@@ -38,11 +38,11 @@ trait SchemeTrait {
 		static::$_schemes[$scheme] = Set::merge($default, $options);
 	}
 
-	public static function registeredScheme($scheme, $capability) {
+	public static function registeredScheme($scheme) {
 		if (!isset(static::$_schemes[$scheme])) {
 			throw new OutOfBoundsException("No registered scheme `{$scheme}`.");
 		}
-		return static::$_schemes[$scheme][$capability];
+		return static::$_schemes[$scheme];
 	}
 
 	public function can($entity, $capability) {
