@@ -25,11 +25,15 @@ Jobs::recur('base_core:gc_cache', function() {
 	$start = microtime(true);
 
 	foreach (['default', 'blob'] as $name) {
-		Cache::clean($name);
+		if (!Cache::clean($name)) {
+			return false;
+		}
 	}
 
 	$took = round((microtime(true) - $start), 2);
 	Logger::debug("GC on caches done, took {$took}s.");
+
+	return true;
 }, [
 	'frequency' => Jobs::FREQUENCY_LOW
 ]);
