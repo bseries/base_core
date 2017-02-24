@@ -88,23 +88,43 @@ class Jobs {
 		$order = $sorter->resolve();
 		Logger::write('debug', "Resolved dependencies into run order: " . implode(' -> ', $order));
 
+		$result = true;
 		foreach ($order as $name) {
-			static::_run(static::read($name)); // read() finds name in any freq.
+			// read() finds name in any freq.
+			if (!static::_run(static::read($name))) {
+				$result = false;
+			}
 		}
-		Logger::write('debug', "Finished running all jobs with frequency `{$frequency}`.");
-		return true;
+		if ($result) {
+			Logger::write('debug', "Finished running all jobs with frequency `{$frequency}`.");
+		} else {
+			Logger::write('debug', "Finished running jobs (some had errors) with frequency `{$frequency}`.");
+		}
+		return $result;
 	}
 
 	protected static function _run($item) {
 		Logger::write('debug', "Running job `{$item['name']}`.");
 		$start = microtime(true);
 
-		$item['unit']();
+		$result = $item['run']();
+
+		if ($result === null) {
+			$result = true;
+			trigger_error(
+				"Job `{$item['name']}` returned	`null`. It should return true/false.",
+				E_USER_DEPRECATED
+			);
+		}
 
 		$took = round((microtime(true) - $start) / 1000, 2);
-		Logger::write('debug', "Finished running job `{$item['name']}`; took {$took}s.");
 
-		return true;
+		if ($result) {
+			Logger::write('debug', "Finished running job `{$item['name']}`; took {$took}s.");
+		} else {
+			Logger::write('notice', "Failed to run job `{$item['name']}`");
+		}
+		return $result;
 	}
 
 	// FIXME Equal to Boot::_dependencies()

@@ -42,7 +42,8 @@ class Jobs extends \lithium\console\Command {
 	}
 
 	public function runFrequency($frequency) {
-		JobsCore::runFrequency($frequency);
+		$this->out("Running all jobs for frequency `{:green}{$frequency}{:end}`... ", false);
+		$this->out(CmsCore::runFrequency($frequency) ? 'OK' : 'FAILED');
 	}
 }
 
