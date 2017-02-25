@@ -521,7 +521,7 @@ msgstr "E–Mail"
 #~ msgstr "Site"
 
 #~ msgid "Access"
-#~ msgstr "Zugriffsrechte"
+#~ msgstr "Zugriff"
 
 #~ msgid "Virtual Users"
 #~ msgstr "Virtuelle Benutzer"

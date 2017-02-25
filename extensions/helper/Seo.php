@@ -62,7 +62,7 @@ class Seo extends \lithium\template\Helper {
 			'separator' => ' – ',
 			'standalone' => 'auto',
 			'admin' => 'auto',
-			'site' => Sites::current()->title() ?: '',
+			'site' => Sites::current($this->_context->request())->title() ?: '',
 			'reverse' => true
 		];
 		if ($options['standalone'] === 'auto')  {

@@ -17,22 +17,13 @@
 
 namespace base_core\config;
 
-use base_core\base\Sites;
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
 use lithium\net\http\Media as HttpMedia;
 
-//
-// Sites
-//
-Sites::register(PROJECT_DOMAIN, [
-	'title' => PROJECT_DOMAIN,
-	'fqdn' => PROJECT_DOMAIN
-]);
-
-// Enables multi site feature module wide. Allows to
-// place content in different sites hosted by the same
-// app.
+// Enables the Sites framework feature for multi site support. Allows to place content
+// in different sites hosted by the same app. Each site must be registered via
+// base_core\base\Sites.
 Settings::register('useSites', false);
 
 //
@@ -59,7 +50,6 @@ Settings::register('user.sendActivationMail', false);
 // Enables the `become` feature. Allows to become another user
 // i.e. to create an order in the name of somebody else.
 Settings::register('user.useBecome', false);
-
 
 // How to generate user reference numbers.
 Settings::register('user.number', [
