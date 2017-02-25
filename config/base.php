@@ -105,19 +105,16 @@ Settings::register('service.googleAnalytics.default', [
 // Assets/Media
 //
 Assets::registerScheme('file', [
-	'base' => PROJECT_ASSETS_FILE_BASE
+	'base' => 'file://' . PROJECT_PATH . '/assets'
 ]);
 
-if (defined('PROJECT_ASSETS_HTTP_BASE')) {
-	Assets::registerScheme('http', [
-		'base' => PROJECT_ASSETS_HTTP_BASE
-	]);
-}
-if (defined('PROJECT_ASSETS_HTTPS_BASE')) {
-	Assets::registerScheme('https', [
-		'base' => PROJECT_ASSETS_HTTPS_BASE
-	]);
-}
+Assets::registerScheme('http', [
+	'base' => 'http://' . PROJECT_DOMAIN . '/assets'
+]);
+
+Assets::registerScheme('https', [
+	'base' => 'https://' . PROJECT_DOMAIN . '/assets'
+]);
 
 // Do not touch binary media.
 HttpMedia::type('binary', 'application/octet-stream', [
