@@ -95,15 +95,15 @@ Settings::register('service.googleAnalytics.default', [
 // Assets/Media
 //
 Assets::registerScheme('file', [
-	'base' => 'file://' . PROJECT_PATH . '/assets'
+	'base' => PROJECT_ASSETS_FILE_BASE
 ]);
 
 Assets::registerScheme('http', [
-	'base' => 'http://' . PROJECT_DOMAIN . '/assets'
+	'base' => PROJECT_ASSETS_HTTP_BASE
 ]);
 
 Assets::registerScheme('https', [
-	'base' => 'https://' . PROJECT_DOMAIN . '/assets'
+	'base' => PROJECT_ASSETS_HTTPS_BASE
 ]);
 
 // Do not touch binary media.
