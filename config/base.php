@@ -95,7 +95,7 @@ Settings::register('service.googleAnalytics.default', [
 // Assets/Media
 //
 Assets::registerScheme('file', [
-	'base' => PROJECT_PATH . '/assets'
+	'base' => PROJECT_PATH . (PROJECT_WEBROOT_NESTING_ENABLED ? '/app/webroot' : '') . '/assets'
 ]);
 
 Assets::registerScheme('http', [
