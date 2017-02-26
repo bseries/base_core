@@ -224,6 +224,16 @@ if (defined('PROJECT_ASSETS_FILE_BASE')) {
 	$message .= 'It now defaults to: ' . PROJECT_PATH . '/assets';
 	trigger_error($message, E_USER_DEPRECATED);
 }
+if (defined('PROJECT_MEDIA_FILE_BASE')) {
+	$message  = 'Project media file base should not be defined and has no effect anymore. ';
+	$message .= 'It now defaults to: ' . PROJECT_PATH . '/media';
+	trigger_error($message, E_USER_DEPRECATED);
+}
+if (defined('PROJECT_MEDIA_VERSIONS_FILE_BASE')) {
+	$message  = 'Project media versions file base should not be defined and has no effect anymore. ';
+	$message .= 'It now defaults to: ' . PROJECT_PATH . '/media_versions';
+	trigger_error($message, E_USER_DEPRECATED);
+}
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.
