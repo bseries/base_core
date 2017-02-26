@@ -35,6 +35,13 @@ trait SchemeTrait {
 		} else {
 			$default = static::$_defaultScheme;
 		}
+		if (isset($options['base']) && ($pos = strpos($options['base'], '://')) !== false) {
+			$message  = "The base for a scheme should not include the scheme prefix anymore: ";
+			$message .= "`{$options['base']}`.";
+			trigger_error($message, E_USER_DEPRECATED);
+
+			$options['base'] = substr($options['base'], $pos + 3);
+		}
 		static::$_schemes[$scheme] = Set::merge($default, $options);
 	}
 
@@ -54,9 +61,10 @@ trait SchemeTrait {
 		return static::$_schemes[$scheme][$capability];
 	}
 
-	// Calculates the base URL from registered schemes.
+	// Calculates the base URL from registered schemes. Will return the base
+	// including the scheme prefix.
 	public static function base($scheme) {
-		return static::$_schemes[static::_negotiateScheme($scheme)]['base'];
+		return $scheme . '://' . static::$_schemes[static::_negotiateScheme($scheme)]['base'];
 	}
 
 	// $scheme may either be a string, an array of available schemes or
