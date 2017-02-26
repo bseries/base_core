@@ -219,6 +219,11 @@ if (defined('PROJECT_MAIL_FROM')) {
 	}
 	trigger_error($message, E_USER_DEPRECATED);
 }
+if (defined('PROJECT_ASSETS_FILE_BASE')) {
+	$message  = 'Project assets file base should not be defined and has no effect anymore. ';
+	$message .= 'It now defaults to: ' . PROJECT_PATH . '/assets';
+	trigger_error($message, E_USER_DEPRECATED);
+}
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.
