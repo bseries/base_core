@@ -27,6 +27,7 @@ use base_media\models\MediaVersions;
 use li3_flash_message\extensions\storage\FlashMessage;
 use lithium\action\Dispatcher;
 use lithium\analysis\Logger;
+use lithium\aop\Filters;
 use lithium\core\Environment;
 use lithium\core\Libraries;
 use lithium\net\http\Media;
@@ -34,7 +35,6 @@ use lithium\net\http\Router;
 use lithium\security\Auth;
 use lithium\storage\Cache;
 use lithium\util\Set;
-
 //
 // Admin routing. Order matters.
 //
@@ -48,13 +48,13 @@ Dispatcher::config([
 //
 // Admin layout.
 //
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	$parsed = Router::parse($params['request']);
 
 	if (isset($parsed->params['admin'])) {
 		$params['options']['render']['layout'] = 'admin';
 	}
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 //
@@ -70,7 +70,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 // $app           - The application definition for use with JavaScript.
 // $flash         - The last message.
 //
-Media::applyFilter('_handle', function($self, $params, $chain) {
+Filters::apply(Media::class, '_handle', function($params, $next) {
 	if ($params['handler']['type'] == 'html') {
 		$request = $params['handler']['request'];
 
@@ -127,7 +127,7 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 			'locale'
 		);
 	}
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 //
@@ -168,7 +168,7 @@ if (PROJECT_DEBUG_LOGGING) {
 		return $clean;
 	};
 
-	Dispatcher::applyFilter('run', function($self, $params, $chain) use ($scrubber) {
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) use ($scrubber) {
 		$request = $params['request'];
 		$message = sprintf('%s %s', $request->method, $request->url);
 
@@ -177,7 +177,7 @@ if (PROJECT_DEBUG_LOGGING) {
 		}
 		Logger::debug($message);
 
-		return $chain->next($self, $params, $chain);
+		return $next($params);
 	});
 }
 
@@ -185,7 +185,8 @@ if (PROJECT_DEBUG_LOGGING) {
 // Maintenance page handling.
 //
 if (PROJECT_MAINTENANCE) {
-	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		throw new ServiceUnavailableException('Maintenance');
 	});
 }
@@ -226,16 +227,16 @@ if (PROJECT_DEVICE_DETECTION) {
 	};
 
 	// Wrapped in dispatcher as we need the request object.
-	Dispatcher::applyFilter('run', function($self, $params, $chain) use ($detectDevice) {
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) use ($detectDevice) {
 		$device = $detectDevice($params['request']);
 
-		Media::applyFilter('_handle', function($self, $params, $chain) use ($device) {
+		Filters::apply(Media::class, '_handle', function($params, $next) use ($device) {
 			if ($params['handler']['type'] == 'html') {
 				$params['data']['device'] = $device;
 			}
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
-		return $chain->next($self, $params, $chain);
+		return $next($params);
 	});
 }
 
