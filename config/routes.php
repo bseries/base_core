@@ -107,7 +107,7 @@ Router::scope('admin', function() {
 		'api' => true
 	], compact('modifiers', 'formatters', 'persist') + ['defaults' => ['type' => 'json']]);
 
-	if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
+	if (PROJECT_SCHEDULED_JOBS === 'http') {
 		Router::connect("/api/base-core/jobs/run/{:frequency:(high|medium|low)}", [
 			'library' => 'base_core',
 			'controller' => 'Jobs',

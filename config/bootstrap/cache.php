@@ -32,7 +32,7 @@ use lithium\storage\cache\adapter\Memcache;
 if (!is_writable($path = PROJECT_PATH . '/tmp/cache')) {
 	throw new Exception("Cache path `{$path}` is not writable.");
 }
-if (PROJECT_FEATURE_MEMCACHED) {
+if (PROJECT_HAS_MEMCACHED) {
 	if (!Memcache::enabled()) {
 		throw new Exception("Memcached not available.");
 	}
@@ -96,7 +96,7 @@ if (!PROJECT_DEBUG) {
 }
 
 
-if (PROJECT_FEATURE_FPC) {
+if (PROJECT_FPC) {
 	// Will ignore any existing session and dynamic data.
 	// Doesn't work with redirects.
 	Dispatcher::applyFilter('run', function($self, $params, $chain) {

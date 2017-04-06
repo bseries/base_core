@@ -97,7 +97,7 @@ Access::add('admin', 'users', [
 
 // Scheduled jobs API routes have more lax requirements on what
 // auth method can be used.
-if (PROJECT_FEATURE_SCHEDULED_JOBS === 'http') {
+if (PROJECT_SCHEDULED_JOBS === 'http') {
 	Access::add('admin', 'api.jobs', [
 		'resource' => ['admin' => true, 'api' => true, 'controller' => 'Jobs'],
 		'rule' => function($user) {

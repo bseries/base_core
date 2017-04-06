@@ -194,7 +194,7 @@ if (PROJECT_MAINTENANCE) {
 // Device detection. When enabled makes the view variable $device available.
 // Detections are cached when not in debug mode.
 //
-if (PROJECT_FEATURE_DEVICE_DETECTION) {
+if (PROJECT_DEVICE_DETECTION) {
 	$detectDevice = function($request) {
 		$detect = new MobileDetect();
 		$headers = array_merge(

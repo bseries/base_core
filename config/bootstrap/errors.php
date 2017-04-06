@@ -125,13 +125,13 @@ $exceptionHandler = function($exception, $return = false) use ($handler) {
 // set_error_handler($errorHandler);
 // set_exception_handler($exceptionHandler);
 
-if (PROJECT_FEATURE_LOGGING) {
+if (PROJECT_LOGGING) {
 	$priority = ['error', 'notice', 'warning'];
 
 	if (PROJECT_DEBUG_LOGGING || PROJECT_DEBUG) {
 		$priority[] = 'debug';
 	}
-	if (PROJECT_FEATURE_SYSLOG) {
+	if (PROJECT_HAS_SYSLOG) {
 		Logger::config([
 			'default' => [
 				'adapter' => 'Syslog',

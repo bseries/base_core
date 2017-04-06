@@ -28,7 +28,7 @@ class JobsController extends \base_core\controllers\BaseController {
 	// by token based auth to prevent easy-dos'ing through expensive job
 	// invocation.
 	public function admin_api_run() {
-		if (PROJECT_FEATURE_SCHEDULED_JOBS !== 'http') {
+		if (PROJECT_SCHEDULED_JOBS !== 'http') {
 			throw new InternalServerErrorException('HTTP API for scheduled jobs is disabled.');
 		}
 		$response = new JSendResponse();
