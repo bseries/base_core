@@ -14,7 +14,7 @@
         "atelierdisko/jsend": "1.0.*",
         "atelierdisko/li3_access": "2.0.*",
         "atelierdisko/li3_flash_message": "1.*",
-        "atelierdisko/li3_mailer": "^1.1 || 1.1.*@dev",
+        "atelierdisko/li3_mailer": "^1.1@stable || 1.1.0@dev",
         "composer/installers": "1.*",
         "davidpersson/temporary": "1.0.*",
         "mobiledetect/mobiledetectlib": "2.*",
