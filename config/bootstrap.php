@@ -320,7 +320,7 @@ require 'bootstrap/security.php';
 require 'bootstrap/auth.php';
 require 'bootstrap/access.php';
 
-if (FEATURE_MAIL) {
+if (PROJECT_MAIL) {
 	require 'bootstrap/mail.php';
 }
 
