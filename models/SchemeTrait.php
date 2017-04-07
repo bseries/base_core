@@ -64,7 +64,8 @@ trait SchemeTrait {
 	// Calculates the base URL from registered schemes. Will return the base
 	// including the scheme prefix.
 	public static function base($scheme) {
-		return $scheme . '://' . static::$_schemes[static::_negotiateScheme($scheme)]['base'];
+		$scheme = static::_negotiateScheme($scheme);
+		return $scheme . '://' . static::$_schemes[$scheme]['base'];
 	}
 
 	// $scheme may either be a string, an array of available schemes or
