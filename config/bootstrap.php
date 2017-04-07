@@ -177,7 +177,7 @@ $bootstrapFormal = function($name, $path) {
 	}
 
 	if (file_exists($file = $path . '/VERSION.txt')) {
-		define(strtoupper($name) . '_VERSION', file_get_contents($file));
+		define(strtoupper($name) . '_VERSION', trim(file_get_contents($file)));
 	}
 	if (is_dir($path . '/resources/g11n/po')) {
 		Boot::add(
@@ -220,7 +220,7 @@ if (defined('PROJECT_VERSION')) { // Deprecated
 	trigger_error($message, E_USER_DEPRECATED);
 } else {
 	if (file_exists($file = $root . '/VERSION.txt')) {
-		define('PROJECT_VERSION', file_get_contents($file));
+		define('PROJECT_VERSION', trim(file_get_contents($file)));
 	} else {
 		trigger_error("Failed to define project version: missing VERSION.txt file at `{$file}`.", E_USER_WARNING);
 	}
