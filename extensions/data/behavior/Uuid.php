@@ -17,9 +17,10 @@
 
 namespace base_core\extensions\data\behavior;
 
-use lithium\util\String;
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
+use lithium\data\Entity;
+use lithium\util\String;
 
 class Uuid extends \li3_behaviors\data\model\Behavior {
 
@@ -28,15 +29,14 @@ class Uuid extends \li3_behaviors\data\model\Behavior {
 	];
 
 	protected static function _filters($model, Behavior $behavior) {
-		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
+		Filters::apply($model, 'save', function($params, $next) use ($behavior) {
 			if (isset($params['options']['whitelist'])) {
 				$params['options']['whitelist'][] = $behavior->config('field');
 			}
 			if (!$params['entity']->exists()) {
 				$params['data'] = static::_uuid($behavior, $params['data']);
 			}
-
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
 	}
 

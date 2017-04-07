@@ -18,9 +18,10 @@
 namespace base_core\extensions\data\behavior;
 
 use Exception;
-use lithium\util\Set;
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
+use lithium\data\Entity;
+use lithium\util\Set;
 
 /**
  * Allows for storing a sequential weight value with your entities. And
@@ -51,7 +52,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 	];
 
 	protected static function _filters($model, Behavior $behavior) {
-		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
+		Filters::apply($model, 'save', function($params, $next) use ($model, $behavior) {
 			if (!$params['entity']->exists()) {
 				$cluster = static::_cluster(
 					$model, $behavior,
@@ -61,7 +62,7 @@ class Sortable extends \li3_behaviors\data\model\Behavior {
 					$model, $behavior, $cluster
 				) + 1;
 			}
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
 	}
 

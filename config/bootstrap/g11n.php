@@ -21,19 +21,20 @@ namespace base_core\config\bootstrap;
  * This bootstrap file contains configurations for all globalizing
  * aspects of your application.
  */
-use lithium\core\Libraries;
+use li3_mailer\net\mail\Media as MailMedia;
+use lithium\action\Dispatcher as ActionDispatcher;
+use lithium\aop\Filters;
+use lithium\console\Dispatcher as ConsoleDispatcher;
 use lithium\core\Environment;
-use lithium\g11n\Locale;
+use lithium\core\Libraries;
 use lithium\g11n\Catalog;
+use lithium\g11n\Locale;
 use lithium\g11n\Message;
 use lithium\g11n\Multibyte;
+use lithium\net\http\Media;
+use lithium\security\Auth;
 use lithium\util\Inflector;
 use lithium\util\Validator;
-use lithium\net\http\Media;
-use lithium\action\Dispatcher as ActionDispatcher;
-use lithium\console\Dispatcher as ConsoleDispatcher;
-use lithium\security\Auth;
-use li3_mailer\net\mail\Media as MailMedia;
 
 /**
  * Dates
@@ -71,7 +72,7 @@ date_default_timezone_set('UTC');
  * @see lithiumm\g11n\Message
  * @see lithiumm\core\Environment
  */
-$setLocale = function($self, $params, $chain) {
+$setLocale = function($params, $next) {
 	$request =& $params['request'];
 
 	// Timezone
@@ -109,10 +110,10 @@ $setLocale = function($self, $params, $chain) {
 	Environment::set(true, ['locale' => $locale]);
 	$request->locale($locale); // For BC, not used elsewhere.
 
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 };
-ActionDispatcher::applyFilter('_callable', $setLocale);
-ConsoleDispatcher::applyFilter('_callable', $setLocale);
+Filters::apply(ActionDispatcher::class, '_callable', $setLocale);
+Filters::apply(ConsoleDispatcher::class, '_callable', $setLocale);
 
 /**
  * Resources
@@ -261,15 +262,15 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * @see lithiumm\g11n\Message::aliases()
  * @see lithiumm\net\http\Media
  */
-Media::applyFilter('_handle', function($self, $params, $chain) {
+Filters::apply(Media::class, '_handle', function($params, $next) {
 	$params['handler'] += ['outputFilters' => []];
 	$params['handler']['outputFilters'] += Message::aliases();
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
-MailMedia::applyFilter('_handle', function($self, $params, $chain) {
+Filters::apply(MailMedia::class, '_handle', function($params, $next) {
 	$params['handler'] += ['outputFilters' => []];
 	$params['handler']['outputFilters'] += Message::aliases();
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 ?>

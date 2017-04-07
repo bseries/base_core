@@ -18,8 +18,9 @@
 namespace base_core\extensions\data\behavior;
 
 use Exception;
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
+use lithium\data\Entity;
 
 // Continuous, sequential, unique.
 // Cannot mixed different style numbers in a column.
@@ -66,7 +67,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 	// Will assign a new reference number only if the entity doesn't already exist and
 	// a number wasn't manually provided.
 	protected static function _filters($model, Behavior $behavior) {
-		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
+		Filters::apply($model, 'save', function($params, $next) use ($model, $behavior) {
 			$field = $behavior->config('field');
 
 			if (!$params['entity']->exists() && empty($params['data'][$field])) {
@@ -77,7 +78,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 					$model, $behavior, $params['data'] + $params['entity']->data()
 				);
 			}
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
 	}
 

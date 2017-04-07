@@ -18,9 +18,10 @@
 namespace base_core\extensions\data\behavior;
 
 use Exception;
-use lithium\util\Set;
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
+use lithium\data\Entity;
+use lithium\util\Set;
 
 class Serializable extends \li3_behaviors\data\model\Behavior {
 
@@ -41,7 +42,7 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 	}
 
 	protected static function _filters($model, Behavior $behavior) {
-		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
+		Filters::apply($model, 'save', function($params, $next) use ($behavior) {
 			foreach ($behavior->config('fields') as $field => $type) {
 				if (isset($params['data'][$field])) {
 					$data = $params['data'][$field];
@@ -54,7 +55,7 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 				$params['data'][$field] = static::_normalize($data, $type);
 				$params['data'][$field] = static::_serialize($data, $type);
 			}
-			$result = $chain->next($self, $params, $chain);
+			$result = $next($params);
 
 			// After save unserialize again, so we can work.
 
@@ -67,8 +68,8 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 
 			return $result;
 		});
-		$model::applyFilter('find', function($self, $params, $chain) use ($behavior) {
-			$result = $chain->next($self, $params, $chain);
+		Filters::apply($model, 'find', function($params, $next) use ($behavior) {
+			$result = $next($params);
 
 			if (is_a($result, '\lithium\data\Collection')) {
 				foreach ($result as $r) {

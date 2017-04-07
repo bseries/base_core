@@ -17,15 +17,16 @@
 
 namespace base_core\config\bootstrap;
 
-use lithium\core\ErrorHandler;
-use lithium\core\Libraries;
-use lithium\analysis\Logger;
-use lithium\util\String;
-use lithium\data\Connections;
 use lithium\action\Dispatcher;
 use lithium\action\Request;
 use lithium\action\Response;
+use lithium\analysis\Logger;
+use lithium\aop\Filters;
+use lithium\core\ErrorHandler;
+use lithium\core\Libraries;
+use lithium\data\Connections;
 use lithium\net\http\Media;
+use lithium\util\String;
 
 $path = dirname(Libraries::get(true, 'path'));
 ini_set('error_reporting', E_ALL);
@@ -169,9 +170,9 @@ if (!PROJECT_DEBUG) {
 	// for the app, the distro MUST provide `\app\controller\ErrorsController`.
 	// Depend on the INSIDE_ADMIN constant requests are dispatched to these
 	// controllers.
-	Dispatcher::applyFilter('run', function($self, $params, $chain) use ($errorResponse){
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) use ($errorResponse){
 		try {
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		} catch (\Exception $e) {
 			$errorId = String::uuid();
 			$code = $e->getCode();

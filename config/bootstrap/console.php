@@ -17,17 +17,18 @@
 
 namespace base_core\config\bootstrap;
 
+use lithium\aop\Filters;
 use lithium\console\Dispatcher;
 
 /**
  * This filter will convert {:heading} to the specified color codes. This is useful for colorizing
  * output and creating different sections.
  */
-Dispatcher::applyFilter('_call', function($self, $params, $chain) {
+Filters::apply(Dispatcher::class, '_call', function($params, $next) {
 	$params['callable']->response->styles(array(
 		'heading' => '\033[1;30;46m'
 	));
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 ?>

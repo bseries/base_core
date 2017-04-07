@@ -19,9 +19,10 @@ namespace base_core\extensions\data\behavior;
 
 use Exception;
 use NumberFormatter;
+use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
 use lithium\core\Environment;
 use lithium\data\Entity;
-use li3_behaviors\data\model\Behavior;
 
 class Localizable extends \li3_behaviors\data\model\Behavior {
 
@@ -30,13 +31,13 @@ class Localizable extends \li3_behaviors\data\model\Behavior {
 	];
 
 	protected static function _filters($model, Behavior $behavior) {
-		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
+		Filters::apply($model, 'save', function($params, $next) use ($behavior) {
 			$params['options'] += ['localize' => true];
 
 			$data = (array) $params['data'] + $params['entity']->data();
 
 			if (!$params['options']['localize']) {
-				return $chain->next($self, $params, $chain);
+				return $next($params);
 			}
 			foreach ($behavior->config('fields') as $field => $type) {
 				if (!isset($data[$field])) {
@@ -44,7 +45,7 @@ class Localizable extends \li3_behaviors\data\model\Behavior {
 				}
 				$params['data'][$field] = static::_normalize($data[$field], $type);
 			}
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
 	}
 

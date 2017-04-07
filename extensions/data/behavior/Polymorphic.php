@@ -18,6 +18,7 @@
 namespace base_core\extensions\data\behavior;
 
 use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
 use lithium\core\Libraries;
 use lithium\data\Entity;
 use lithium\net\http\Router;
@@ -38,7 +39,7 @@ class Polymorphic extends \li3_behaviors\data\model\Behavior {
 	}
 
 	protected static function _filters($model, Behavior $behavior) {
-		$model::applyFilter('save', function($self, $params, $chain) {
+		Filters::apply($model, 'save', function($params, $next) {
 			$entity = $params['entity'];
 			$data =& $params['data'];
 
@@ -48,15 +49,15 @@ class Polymorphic extends \li3_behaviors\data\model\Behavior {
 			if ($entity->model) {
 				$entity->model = static::_normalizeModel($entity->model);
 			}
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
-		$model::applyFilter('find', function($self, $params, $chain) {
+		Filters::apply($model, 'find', function($params, $next) {
 			$conditions =& $params['options']['conditions'];
 
 			if (isset($conditions['model'])) {
 				$conditions['model'] = static::_normalizeModel($conditions['model']);
 			}
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
 	}
 

@@ -22,6 +22,7 @@ use li3_access\security\Access;
 use li3_access\security\AccessDeniedException;
 use lithium\action\Dispatcher;
 use lithium\analysis\Logger;
+use lithium\aop\Filters;
 use lithium\security\Auth;
 
 // Role/Level and Rights Definitions
@@ -151,7 +152,7 @@ Access::add('entity', 'nobody', function($user, $entity) {
 //
 // Actually run the checks on each and every request.
 //
-Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
+Filters::apply(Dispatcher::class, '_callable', function($params, $next) {
 	$url = $params['request']->url;
 
 	// Try to login via token. Precheck to prevent overhead.
@@ -182,7 +183,7 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 		throw new AccessDeniedException(reset($errors)['message']);
 	}
 
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 ?>

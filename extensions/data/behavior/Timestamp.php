@@ -17,8 +17,9 @@
 
 namespace base_core\extensions\data\behavior;
 
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
+use lithium\data\Entity;
 
 class Timestamp extends \li3_behaviors\data\model\Behavior {
 
@@ -27,7 +28,7 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 	];
 
 	protected static function _filters($model, Behavior $behavior) {
-		$model::applyFilter('save', function($self, $params, $chain) use ($behavior) {
+		Filters::apply($model, 'save', function($params, $next) use ($behavior) {
 			$skip = [];
 
 			foreach ($behavior->config('fields') as $field) {
@@ -49,7 +50,7 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 				$behavior, $params['entity'], (array) $params['data'], $skip
 			);
 
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		});
 	}
 

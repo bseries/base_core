@@ -20,6 +20,7 @@ namespace base_core\config\bootstrap;
 use Exception;
 use lithium\action\Dispatcher;
 use lithium\analysis\Logger;
+use lithium\aop\Filters;
 use lithium\core\Environment;
 use lithium\core\Libraries;
 use lithium\data\Connections;
@@ -58,14 +59,14 @@ Cache::config([
 ]);
 
 if (!PROJECT_DEBUG) {
-	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		$cacheKey = 'core.libraries';
 
 		if ($cached = Cache::read('default', $cacheKey)) {
 			$cached = (array) $cached + Libraries::cache();
 			Libraries::cache($cached);
 		}
-		$result = $chain->next($self, $params, $chain);
+		$result = $next($params);
 
 		if ($cached != ($data = Libraries::cache())) {
 			Cache::write('default', $cacheKey, $data, '+1 day');
@@ -73,25 +74,25 @@ if (!PROJECT_DEBUG) {
 		return $result;
 	});
 
-	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		foreach (Connections::get() as $name) {
 			if (!(($connection = Connections::get($name)) instanceof Database)) {
 				continue;
 			}
-			$connection->applyFilter('describe', function($self, $params, $chain) use ($name) {
+			Filters::apply($connection, 'describe', function($params, $next) use ($name) {
 				if ($params['fields']) {
-					return $chain->next($self, $params, $chain);
+					return $next($params);
 				}
 				$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
 
 				return Cache::read('default', $cacheKey, [
-					'write' => function() use ($self, $params, $chain) {
-						return ['+1 day' => $chain->next($self, $params, $chain)];
+					'write' => function() use ($params, $next) {
+						return ['+1 day' => $next($params)];
 					}
 				]);
 			});
 		}
-		return $chain->next($self, $params, $chain);
+		return $next($params);
 	});
 }
 
@@ -99,9 +100,9 @@ if (!PROJECT_DEBUG) {
 if (PROJECT_FPC) {
 	// Will ignore any existing session and dynamic data.
 	// Doesn't work with redirects.
-	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		$request = $params['request'];
-		$response = $chain->next($self, $params, $chain);
+		$response = $next($params);
 
 		$cacheKey = 'fpc_' . $request->url;
 
@@ -127,9 +128,9 @@ if (PROJECT_FPC) {
 }
 
 if (!PROJECT_DEBUG) {
-	Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		$request  = $params['request'];
-		$response = $chain->next($self, $params, $chain);
+		$response = $next($params);
 
 		// Cache only HTML responses, JSON responses come from
 		// APIs and are most often highly dynamic.
@@ -167,9 +168,9 @@ if (!PROJECT_DEBUG) {
 		Cache::write('default', 'template_view_urls', $cachedUrls);
 	});
 
-	Libraries::applyFilter('instance', function($self, $params, $chain) use (&$cachedUrls) {
+	Filters::apply(Libraries::class, 'instance', function($params, $next) use (&$cachedUrls) {
 		if ($params['name'] !== 'File' || $params['type'] !== 'adapter.template.view') {
-			return $chain->next($self, $params, $chain);
+			return $next($params);
 		}
 		$req = $params['options']['request'];
 		$h = $params['options']['view']->outputFilters['h'];
@@ -192,7 +193,7 @@ if (!PROJECT_DEBUG) {
 				return $result;
 			}
 		];
-		return $chain->next($self, $params, $chain);
+		return $next($params);
 	});
 }
 

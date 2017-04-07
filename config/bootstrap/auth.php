@@ -17,8 +17,9 @@
 
 namespace base_core\config\bootstrap;
 
-use lithium\security\Auth;
 use base_core\models\Users;
+use lithium\aop\Filters;
+use lithium\security\Auth;
 use lithium\storage\Session;
 
 Auth::config([
@@ -46,8 +47,8 @@ Auth::config([
 ]);
 
 // Sync session_key for user in database when a session is created.
-Auth::applyFilter('set', function($self, $params, $chain) {
-	$result = $chain->next($self, $params, $chain);
+Filters::apply(Auth::class, 'set', function($params, $next) {
+	$result = $next($params);
 	$key = Session::key('default');
 
 	if (isset($params['data']['original'])) {
@@ -70,10 +71,10 @@ Auth::applyFilter('set', function($self, $params, $chain) {
 	]);
 	return $result;
 });
-Auth::applyFilter('clear', function($self, $params, $chain) {
+Filters::apply(Auth::class, 'clear', function($params, $next) {
 	$key = Session::key('default');
 
-	$result = $chain->next($self, $params, $chain);
+	$result = $next($params);
 
 	$user = Users::find('first', [
 		'conditions' => [

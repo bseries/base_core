@@ -19,6 +19,7 @@ namespace base_core\extensions\data\behavior;
 
 use Exception;
 use li3_behaviors\data\model\Behavior;
+use lithium\aop\Filters;
 
 /**
  * Detects changes to the status field and executes corresponding method on model. The
@@ -40,7 +41,7 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 			throw new Exception("No statusChange() method implemented in model `{$model}`.");
 		}
 
-		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
+		Filters::apply($model, 'save', function($params, $next) use ($model, $behavior) {
 			$field = $behavior->config('field');
 			$to = null;
 
@@ -55,7 +56,7 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 			}
 
 			if (!$to) {
-				return $chain->next($self, $params, $chain);
+				return $next($params);
 			}
 			$old = null;
 
@@ -66,10 +67,10 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 					'fields' => [$field]
 				]);
 				if ($old->$field == $to) {
-					return $chain->next($self, $params, $chain);
+					return $next($params);
 				}
 			}
-			if (!$result = $chain->next($self, $params, $chain)) {
+			if (!$result = $next($params)) {
 				return false;
 			}
 
