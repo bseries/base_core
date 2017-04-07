@@ -109,7 +109,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			return $options;
 		};
 
-		$model::finder('all', function($self, $params, $chain) use ($model, $models, $formatOptions) {
+		$model::finder('all', function($params, $next) use ($model, $models, $formatOptions) {
 			$options = $params['options'];
 			$data = [];
 
@@ -169,7 +169,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 		});
 
 		// TODO Does not yet support sorting.
-		$model::finder('first', function($self, $params, $chain) use ($model, $models, $formatOptions) {
+		$model::finder('first', function($params, $next) use ($model, $models, $formatOptions) {
 			$options = $params['options'];
 			$options += [
 				'aggregate' => [],
@@ -190,7 +190,7 @@ class Aggregated extends \li3_behaviors\data\model\Behavior {
 			return;
 		});
 
-		$model::finder('count', function($self, $params, $chain) use ($model, $models, $formatOptions) {
+		$model::finder('count', function($params, $next) use ($model, $models, $formatOptions) {
 			$options = $params['options'];
 			$options = $formatOptions($options);
 			$options += [

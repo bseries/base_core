@@ -142,7 +142,7 @@ class Users extends \base_core\models\Base {
 
 		// Override default finder to switch between number/name order.
 		$isFinancial = (boolean) Libraries::get('billing_core');
-		static::finder('list', function($self, $params, $chain) use ($isFinancial) {
+		static::finder('list', function($params, $next) use ($isFinancial) {
 			$result = [];
 
 			$hasLots = static::find('count') > 100;
@@ -162,7 +162,7 @@ class Users extends \base_core\models\Base {
 
 			// FIXME Group by common prefix.
 			// http://stackoverflow.com/questions/1336207/finding-common-prefix-of-array-of-strings
-			foreach ($chain->next($self, $params, $chain) as $entity) {
+			foreach ($next($params) as $entity) {
 				if ($hasLots) {
 					$result[$entity->year][$entity->id] = $entity->title();
 				} else {
