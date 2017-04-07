@@ -156,6 +156,20 @@ $bootstrapFormal = function($name, $path) {
 			]);
 		}
 	}
+	foreach (glob($path . '/config/*.php', GLOB_NOSORT) as $file) {
+		$config = pathinfo($file, PATHINFO_FILENAME);
+
+		if (!array_key_exists($config, $available)) {
+			continue;
+		}
+		Boot::add(
+			($name !== 'app' ? 'libraries.' . $name : $name) . '.config.' . $config,
+			$available[$config],
+			function () use ($file) {
+				require_once $file;
+			}
+		);
+	}
 
 	// Deprecated: now defined via VERSION.txt
 	if (file_exists($file = $path . '/config/version.php')) {
