@@ -185,7 +185,6 @@ if (PROJECT_DEBUG_LOGGING) {
 // Maintenance page handling.
 //
 if (PROJECT_MAINTENANCE) {
-
 	Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		throw new ServiceUnavailableException('Maintenance');
 	});
