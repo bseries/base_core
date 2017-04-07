@@ -90,7 +90,7 @@ Filters::apply(Media::class, '_handle', function($params, $next) {
 		$app = [
 			'debug' => PROJECT_DEBUG,
 			'assets' => [
-				'base' => Assets::base($request) . '/v:' . PROJECT_VERSION_BUILD
+				'base' => Assets::base($request) . '/v:' . PROJECT_VERSION
 			],
 			'media' => [
 				'base' => MediaVersions::base($request)
