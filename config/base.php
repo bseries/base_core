@@ -12,7 +12,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *
  * You should have received a copy of the AD General Software
- * License. If not, see http://atelierdisko.de/licenses.
+ * License. If not, see https://atelierdisko.de/licenses.
  */
 
 namespace base_core\config;
@@ -33,7 +33,7 @@ Settings::register('useSites', false);
 // Enables in-admin support button.
 Settings::register('contactSupport', [
 	'enabled' => true,
-	'url' => 'http://atelierdisko.de/clients/tickets/add'
+	'url' => 'https://atelierdisko.de/clients/tickets/add'
 ]);
 
 // Enable checking of ownership module wide. When enabled everybody

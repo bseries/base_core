@@ -237,7 +237,7 @@ if (!isset($meta)) {
 					echo 'AD ' . $loaded . ' ' . BASE_CORE_VERSION;
 				?>
 				</div>
-				<?= $this->html->link('© 2013&ndash;' . date('Y') . ' Atelier Disko', 'http://atelierdisko.de', [
+				<?= $this->html->link('© 2013&ndash;' . date('Y') . ' Atelier Disko', 'https://atelierdisko.de', [
 					'target' => 'new',
 					'class' => 'button plain',
 					'escape' => false
