@@ -20,7 +20,7 @@ namespace base_core\extensions\data\behavior;
 use li3_behaviors\data\model\Behavior;
 use lithium\aop\Filters;
 use lithium\data\Entity;
-use lithium\util\String;
+use lithium\util\Text;
 
 class Uuid extends \li3_behaviors\data\model\Behavior {
 
@@ -42,7 +42,7 @@ class Uuid extends \li3_behaviors\data\model\Behavior {
 
 	protected static function _uuid(Behavior $behavior, array $data) {
 		if ($field = $behavior->config('field')) {
-			$data[$field] = String::uuid();
+			$data[$field] = Text::uuid();
 		}
 		return $data;
 	}

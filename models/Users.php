@@ -28,8 +28,9 @@ use billing_core\billing\TaxTypes;
 use lithium\analysis\Logger;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
+use lithium\security\Hash;
+use lithium\security\Random;
 use lithium\security\Password;
-use lithium\util\String;
 use lithium\util\Validator;
 
 class Users extends \base_core\models\Base {
@@ -245,8 +246,8 @@ class Users extends \base_core\models\Base {
 	}
 
 	public static function generateToken($length = 16) {
-		$result = String::random(max($length * 2), 32); // At least 2x the length randomness, or 32.
-		$result = String::hash($random); // Use strong hashing algo implictly by default.
+		$result = Random::generate(max($length * 2), 32); // At least 2x the length randomness, or 32.
+		$result = Hash::calculate($random); // Use strong hashing algo implictly by default.
 		$result = substr($result, 0, $length); // Limit to length.
 
 		return $result;
@@ -263,11 +264,11 @@ class Users extends \base_core\models\Base {
 	}
 
 	public static function hashAnswer($answer) {
-		return String::hash($answer, ['type' => 'sha512']);
+		return Hash::calculate($answer, ['type' => 'sha512']);
 	}
 
 	public static function checkAnswer($answer, $hash) {
-		return String::hash($answer, ['type' => 'sha512']) === $hash;
+		return Hash::calculate($answer, ['type' => 'sha512']) === $hash;
 	}
 
 	// Performs password reset process and returns the
