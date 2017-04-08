@@ -26,7 +26,7 @@ use lithium\core\ErrorHandler;
 use lithium\core\Libraries;
 use lithium\data\Connections;
 use lithium\net\http\Media;
-use lithium\util\String;
+use lithium\util\Text;
 
 $path = dirname(Libraries::get(true, 'path'));
 ini_set('error_reporting', E_ALL);
@@ -91,7 +91,7 @@ $handler = function($info) use ($mapErrorType, $path) {
 	if (is_numeric(($info['type']))) {
 		$info['type'] = $mapErrorType($info['type']);
 	}
-	$message  = String::insert("Error ({:type})\nMessage : {:message}\nLine    : {:line}\nFile    : {:file}", $info);
+	$message  = Text::insert("Error ({:type})\nMessage : {:message}\nLine    : {:line}\nFile    : {:file}", $info);
 	$message .= "\nTrace   :\n" . $formatTrace($info['trace']) . "";
 
 	Logger::error($message);
@@ -174,7 +174,7 @@ if (!PROJECT_DEBUG) {
 		try {
 			return $next($params);
 		} catch (\Exception $e) {
-			$errorId = String::uuid();
+			$errorId = Text::uuid();
 			$code = $e->getCode();
 
 			$message  = "Caught an exception :)\n";
