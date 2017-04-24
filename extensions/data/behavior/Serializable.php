@@ -22,6 +22,7 @@ use li3_behaviors\data\model\Behavior;
 use lithium\aop\Filters;
 use lithium\data\Entity;
 use lithium\util\Set;
+use lithium\util\Inflector;
 
 class Serializable extends \li3_behaviors\data\model\Behavior {
 
@@ -94,7 +95,7 @@ class Serializable extends \li3_behaviors\data\model\Behavior {
 
 		$methods = [];
 		foreach ($behavior->config('fields') as $field => $pass) {
-			$methods[$field] = function($entity, array $options = []) use ($behavior, $field, $pass) {
+			$methods[Inflector::camelize($field, false)] = function($entity, array $options = []) use ($behavior, $field, $pass) {
 				$options += ['serialized' => true];
 
 				$result = $entity->{$field};
