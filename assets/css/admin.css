@@ -653,6 +653,10 @@ form select {
 }
 form select[multiple] {
   height: 120px;
+  padding: 4px;
+}
+form select[multiple] option {
+  padding: 4px;
 }
 textarea {
   padding-top: 10px;
