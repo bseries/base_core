@@ -65,7 +65,7 @@ $page += [
 		}
 	?>
 	<body class="<?= implode(' ', $classes) ?>">
-		<?=$this->view()->render(['element' => 'messages'], compact('flash'), [
+		<?=$this->_render('element', 'messages', compact('flash'), [
 			'library' => 'base_core'
 		]) ?>
 

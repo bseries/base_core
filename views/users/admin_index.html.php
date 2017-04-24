@@ -117,7 +117,7 @@ $nickRgb = function($nick) {
 		</tbody>
 	</table>
 
-	<?=$this->view()->render(['element' => 'paging'], compact('paginator'), ['library' => 'base_core']) ?>
+	<?=$this->_render('element', 'paging', compact('paginator'), ['library' => 'base_core']) ?>
 
 	<?php if (Settings::read('user.sendActivationMail')): ?>
 	<div class="bottom-help">
