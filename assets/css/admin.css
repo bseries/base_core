@@ -1184,6 +1184,16 @@ form table + .help {
   margin-top: 1em;
 }
 
+/* Usually placed under the heading of a grid-row. */
+.section-help {
+  text-align: right;
+  font-size: var(--font-size-epsilon);
+  color: var(--color-gray-darker);
+  margin-bottom: 2em;
+  max-width: 600px;
+  margin-left: auto;
+}
+
 /* Media Attachment
 ---------------------------------------------------------------- */
 .media-attachment {
