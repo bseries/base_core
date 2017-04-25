@@ -78,12 +78,12 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 				'from' => $old ? $old->$field : null,
 				'entity' => $params['entity']
 			];
-			return $model::invokeMethod('_filter', ['statusChange', $params, function($self, $params) {
+			return Filters::run($model, 'statusChange', $params, function($params) {
 				return $params['entity']->statusChange(
 					$params['from'],
 					$params['to']
 				);
-			}]);
+			});
 		});
 	}
 }
