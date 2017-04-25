@@ -26,14 +26,13 @@ for f in $(ls resources/g11n/po/*/LC_MESSAGES/*.po); do
 	msgfmt -o ${f/.po/.mo} --verbose $f
 done
 
-for f in $(find assets/js -type f -name *.js); do
-	if [[ $(basename $f) == jquery.js ]]; then
-		# yui does not work with jquery 2.2
-		# https://github.com/yui/yuicompressor/issues/234
-		closure-compiler --js $f --js_output_file $f.min && mv $f.min $f
-	else
-		yuicompressor --type js -o $f.min --nomunge --charset utf-8 $f && mv $f.min $f
-	fi
+# yui does not work with jquery 2.2
+# https://github.com/yui/yuicompressor/issues/234
+for f in $(find assets/js -type f -name *.js ! -name jquery.js); do
+	yuicompressor --type js -o $f.min --nomunge --charset utf-8 $f && mv $f.min $f
+done
+for f in $(find assets/js -type f -name jquery.js); do
+	closure-compiler --warning_level QUIET --js $f --js_output_file $f.min && mv $f.min $f
 done
 
 for f in $(ls assets/*.css); do
