@@ -261,6 +261,7 @@ define('LITHIUM_LIBRARY_PATH', PROJECT_PATH . '/app/libraries');
 // Preload some classes always used to increase performance.
 require PROJECT_PATH . '/app/libraries/lithium/core/Object.php';
 require PROJECT_PATH . '/app/libraries/lithium/core/StaticObject.php';
+require PROJECT_PATH . '/app/libraries/lithium/core/MergeInheritable.php';
 require PROJECT_PATH . '/app/libraries/lithium/util/Collection.php';
 require PROJECT_PATH . '/app/libraries/lithium/aop/Filters.php';
 require PROJECT_PATH . '/app/libraries/lithium/util/Inflector.php';
