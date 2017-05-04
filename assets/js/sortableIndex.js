@@ -14,25 +14,25 @@
  * License. If not, see https://atelierdisko.de/licenses.
  */
 
-define(['jquery', 'jqueryUi', 'notify'],
-function($) {
+define([
+  'jquery',
+  'translator',
+  'jqueryUi',
+  'notify'
+], function(
+  $,
+  Translator
+) {
   return function SortableIndex(container) {
-    var _locale = $('html').attr('lang');
-    var _translations = {
+
+    var t = (new Translator({
       "de": {
         "Order saved.": "Sortierung gespeichert.",
         "Failed to save order.": "Speichern der Sortierung fehlgeschlagen.",
         "Ensure your adblocker is switched off.": "Stellen Sie sicher, dass ihr Adblocker deaktiviert ist.",
       }
-    };
-    var _ = function(key) {
-      if (_locale in _translations) {
-        if (key in _translations[_locale]) {
-          return _translations[_locale][key];
-        }
-      }
-      return key;
-    };
+    })).translate;
+
     $(container).sortable({
       placeholder: 'sortable-placeholder',
       items: '> tr',
@@ -50,13 +50,13 @@ function($) {
           url: window.location.pathname.replace('/admin', '/admin/api') + '/order',
           data: {'ids': ids},
         }).done(function() {
-          $.notify(_('Order saved.'), {level: 'success'});
+          $.notify(t('Order saved.'), {level: 'success'});
         }).fail(function() {
-          $.notify(_('Failed to save order.'), {level: 'error'});
-          $.notify(_('Ensure your adblocker is switched off.'), {level: 'notice'});
+          $.notify(t('Failed to save order.'), {level: 'error'});
+          $.notify(t('Ensure your adblocker is switched off.'), {level: 'notice'});
         });
       }
     });
-  }
+  };
 });
 

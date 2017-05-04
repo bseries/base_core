@@ -14,9 +14,17 @@
  * License. If not, see https://atelierdisko.de/licenses.
  */
 define([
-  'jquery', 'wysihtml5', 'mediaExplorerModal', 'router'
+  'jquery',
+  'translator',
+  'wysihtml5',
+  'mediaExplorerModal',
+  'router'
 ], function(
-  $, wysihtml5, MediaExplorerModal, Router
+  $,
+  Translator,
+  wysihtml5,
+  MediaExplorerModal,
+  Router
 ) {
 
   // This works in tandem with the Editor helper,
@@ -25,20 +33,11 @@ define([
 
     var _this = this;
 
-    var _locale = $('html').attr('lang');
-    var _translations = {
+    var t = (new Translator({
       "de": {
         "media": "Medien",
       }
-    };
-    var _ = function(key) {
-      if (_locale in _translations) {
-        if (key in _translations[_locale]) {
-          return _translations[_locale][key];
-        }
-      }
-      return key;
-    };
+    })).translate;
 
     this.init = function(options) {
       Router.match('media:capabilities')
@@ -63,7 +62,7 @@ define([
     };
 
     this.toolbar = function() {
-      return '<a data-wysihtml5-command="insertMedia" class="button media-explorer">' + _('media') + '</a>';
+      return '<a data-wysihtml5-command="insertMedia" class="button media-explorer">' + t('media') + '</a>';
     };
 
     this.classes = function() {
