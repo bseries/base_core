@@ -53,6 +53,7 @@ requirejs.config({
     'sortableIndex': 'base-core/js/sortableIndex',
     'waypoints': 'base-core/js/waypoints',
     'minigrid': 'base-core/js/minigrid',
+    'translator': 'base-core/js/translator',
 
     // Compat
     'modernizr': 'base-core/js/compat/modernizr',

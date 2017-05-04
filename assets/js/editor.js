@@ -13,13 +13,13 @@
  * You should have received a copy of the AD General Software
  * License. If not, see http://atelierdisko.de/licenses.
  */
-define(['jquery', 'wysihtml5'],
-function($, wysihtml5) {
+define(['jquery', 'translator', 'wysihtml5'],
+function($, Translator, wysihtml5) {
+
   return function Editor() {
     var _this = this;
 
-    var _locale = $('html').attr('lang');
-    var _translations = {
+    var t = (new Translator({
       "de": {
         "bold": "fett",
         "italic": "kursiv",
@@ -33,15 +33,7 @@ function($, wysihtml5) {
         "list": "Liste",
         "clear format": "Formatierung entfernen",
       }
-    };
-    var _ = function(key) {
-      if (_locale in _translations) {
-        if (key in _translations[_locale]) {
-          return _translations[_locale][key];
-        }
-      }
-      return key;
-    };
+    })).translate;
 
     this.rules = {
       // Classes are prefix with rt (richtext)
@@ -182,26 +174,26 @@ function($, wysihtml5) {
     this.renderToolbar = function() {
       var html = $('' +
       '<div id="' + _this.id + 'Toolbar" class="toolbar" style="display: none;">' +
-         '<a data-wysihtml5-command="bold" class="plugin-basic button">' + _('bold') +'</a>' +
-         '<a data-wysihtml5-command="italic" class="plugin-basic button">' + _('italic') + '</a>' +
-         '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="big" class="plugin-size button">' + _('big') + '</a>' +
-         '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="small" class="plugin-size button">' + _('small') + '</a>' +
-         '<a data-wysihtml5-command="createLink" class="plugin-link button">' + _('link') + '</a>' +
+         '<a data-wysihtml5-command="bold" class="plugin-basic button">' + t('bold') +'</a>' +
+         '<a data-wysihtml5-command="italic" class="plugin-basic button">' + t('italic') + '</a>' +
+         '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="big" class="plugin-size button">' + t('big') + '</a>' +
+         '<a data-wysihtml5-command="formatInline" data-wysihtml5-command-value="small" class="plugin-size button">' + t('small') + '</a>' +
+         '<a data-wysihtml5-command="createLink" class="plugin-link button">' + t('link') + '</a>' +
          '<div data-wysihtml5-dialog="createLink" style="display: none;">' +
             // Beware of validation and Chrome's "An invalid form control with name=' is not focusable.".
            '<input data-wysihtml5-dialog-field="href" type="text" placeholder="http://example.com" />' +
-           '<a data-wysihtml5-dialog-action="save" class="button save">' + _('OK') + '</a>' +
+           '<a data-wysihtml5-dialog-action="save" class="button save">' + t('OK') + '</a>' +
          '</div>' +
-         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" class="plugin-headline button">' + _('H2') + '</a>' +
-         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" class="plugin-headline button">' + _('H3') + '</a>' +
-         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" class="plugin-quote button">' + _('„quote“') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" class="plugin-headline button">' + t('H2') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" class="plugin-headline button">' + t('H3') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" class="plugin-quote button">' + t('„quote“') + '</a>' +
          '<a data-wysihtml5-command="insertHTML" data-wysihtml5-command-value="<hr/>" class="plugin-line button">―</a>' +
-         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="aside" class="plugin-aside button">' + _('marginal') + '</a>' +
-         '<a data-wysihtml5-command="insertUnorderedList" class="plugin-list button">' + _('list') + '</a>' +
-         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="pre" class="plugin-verbatim button">' + _('verbatim') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="aside" class="plugin-aside button">' + t('marginal') + '</a>' +
+         '<a data-wysihtml5-command="insertUnorderedList" class="plugin-list button">' + t('list') + '</a>' +
+         '<a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="pre" class="plugin-verbatim button">' + t('verbatim') + '</a>' +
          '<a data-wysihtml5-command="undo" class="plugin-history button"><i class="material-icons">undo</i></a>' +
          '<a data-wysihtml5-command="redo" class="plugin-history button"><i class="material-icons">redo</i></a>' +
-         '<a data-wysihtml5-command="removeFormat" class="plugin-basic button">' + _('clear format') + '</a>' +
+         '<a data-wysihtml5-command="removeFormat" class="plugin-basic button">' + t('clear format') + '</a>' +
        '</div>');
 
       var builtin = [];
