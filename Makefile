@@ -18,3 +18,5 @@ update-assets:
 	curl https://code.jquery.com/jquery-3.1.1.js > $(ASSETS_PATH)/js/jquery.js
 	curl http://requirejs.org/docs/release/2.3.2/comments/require.js > $(ASSETS_PATH)/js/require.js
 	curl https://raw.githubusercontent.com/requirejs/domReady/latest/domReady.js > $(ASSETS_PATH)/js/require/domready.js
+	curl https://raw.githubusercontent.com/imakewebthings/waypoints/master/lib/noframework.waypoints.js > $(ASSETS_PATH)/js/waypoints.js
+
