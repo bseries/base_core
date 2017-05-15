@@ -23,7 +23,7 @@ $config = [
 	'types' => explode(' ', PROJECT_MAIL_TYPES),
 	// The default sender, can be changed on a
 	// per mailing basis inside i.e. Controllers.
-	'from' => 'noreply@' . PROJECT_MAIL_DOMAIN
+	'from' => PROJECT_MAIL_FROM
 ];
 
 // When we are in debug mode, all mail goes to a log file.
