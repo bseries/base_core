@@ -22,7 +22,7 @@ $this->set([
 		<?=$this->form->field('password', ['type' => 'password', 'label' => $t('Password')]) ?>
 		<?=$this->form->button($t('Login'), [
 			'type' => 'submit',
-			'class' => 'large plain inverse login button',
+			'class' => 'large plain login button',
 			'exclude' => true
 		]) ?>
 	<?=$this->form->end() ?>
