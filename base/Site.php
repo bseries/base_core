@@ -18,6 +18,7 @@
 namespace base_core\base;
 
 use BadMethodCallException;
+use InvalidArgumentException;
 
 class Site {
 
@@ -28,6 +29,21 @@ class Site {
 			'title' => null,
 			'fqdn' => null
 		];
+	}
+
+	public function fqdn($www = 'keep') {
+		$fqdn = $this->_config['fqnd'];
+
+		if ($www === 'keep') {
+			return $fqdn;
+		}
+		if ($www === 'drop') {
+			if (strpos($fqnd, 'www.') !== 0) {
+				return $fqdn;
+			}
+			return substr($fqdn, 4);
+		}
+		throw new InvalidArgumentException('Invalid value for $www: ' . $www);
 	}
 
 	public function __call($name, array $arguments) {
