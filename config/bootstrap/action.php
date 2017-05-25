@@ -32,7 +32,6 @@ use lithium\core\Libraries;
 use lithium\net\http\Media;
 use lithium\net\http\Router;
 use lithium\security\Auth;
-use lithium\storage\Cache;
 use lithium\util\Set;
 //
 // Admin routing. Order matters.
