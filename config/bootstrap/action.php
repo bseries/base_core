@@ -18,7 +18,6 @@
 namespace base_core\config\bootstrap;
 
 
-use Mobile_Detect as MobileDetect;
 use base_core\extensions\net\http\ClientRouter;
 use base_core\extensions\net\http\ServiceUnavailableException;
 use base_core\models\Assets;
@@ -187,55 +186,6 @@ if (PROJECT_DEBUG_LOGGING) {
 if (PROJECT_MAINTENANCE) {
 	Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		throw new ServiceUnavailableException('Maintenance');
-	});
-}
-
-//
-// Device detection. When enabled makes the view variable $device available.
-// Detections are cached when not in debug mode.
-//
-if (PROJECT_DEVICE_DETECTION) {
-	$detectDevice = function($request) {
-		$detect = new MobileDetect();
-		$headers = array_merge(
-			$detect->getUaHttpHeaders(),
-			array_keys($detect->getMobileHeaders()
-		));
-
-		$cacheKey = '';
-
-		foreach ($headers as $header) {
-			if ($value = $request->env($header)) {
-				$cacheKey .= $header . $value;
-			}
-		}
-		$cacheKey = 'deviceDetection_' . md5($cacheKey);
-
-		if (!PROJECT_DEBUG && ($ua = Cache::read('default', $cacheKey))) {
-			return $ua;
-		}
-		$ua = [
-			'isMobile' => $detect->isMobile(),
-			'isTablet' => $detect->isTablet(),
-			// 'mobileGrade' => $detect->mobileGrade(),
-			'isIos' => $detect->isiOS()
-		];
-
-		Cache::write('default', $cacheKey, $ua, '+1 week');
-		return $ua;
-	};
-
-	// Wrapped in dispatcher as we need the request object.
-	Filters::apply(Dispatcher::class, 'run', function($params, $next) use ($detectDevice) {
-		$device = $detectDevice($params['request']);
-
-		Filters::apply(Media::class, '_handle', function($params, $next) use ($device) {
-			if ($params['handler']['type'] == 'html') {
-				$params['data']['device'] = $device;
-			}
-			return $next($params);
-		});
-		return $next($params);
 	});
 }
 

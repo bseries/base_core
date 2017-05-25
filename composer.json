@@ -17,7 +17,6 @@
         "atelierdisko/li3_mailer": "^1.1@stable || 1.1.0@dev",
         "composer/installers": "1.*",
         "davidpersson/temporary": "1.0.*",
-        "mobiledetect/mobiledetectlib": "2.*",
         "php": "^5.5 || ^7.0",
         "unionofrad/li3_behaviors": "2.*",
         "unionofrad/li3_cldr": "1.0.*@RC",

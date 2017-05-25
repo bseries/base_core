@@ -240,6 +240,10 @@ if (defined('PROJECT_MEDIA_VERSIONS_FILE_BASE')) {
 	$message .= 'It now defaults to: ' . PROJECT_PATH . '/media_versions';
 	trigger_error($message, E_USER_DEPRECATED);
 }
+if (defined('PROJECT_FEATURE_DEVICE_DETECTION')) {
+	$message  = 'Device detection is not available anymore.';
+	trigger_error($message, E_USER_DEPRECATED);
+}
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.
