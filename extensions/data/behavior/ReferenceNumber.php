@@ -28,25 +28,35 @@ use li3_behaviors\data\model\Behavior;
 class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
+		// The field where the reference number is stored.
 		'field' => 'number',
 
+		// Regular expression containing a single capture group, to extract the part of
+		// the number to bump, when calculating the next available number.
 		'extract' => '/^([0-9]{4})$/',
+
+		// Regular expression containing a single capture group, to extract the string to
+		// sort on. This may equal the `'extract'` configuration setting.
 		'sort' => '/^(.*)$/',
+
+		// Comparison function to use for sorting.
+		'compare' => 'strcmp',
 
 		// When string passed through strftime and sprintf.
 		'generate' => '%%04.d',
 
-		// Set to true when your sort pattern spreads
-		// over the whole string. Then optimizations can
-		// happen at source/database level. Automatically enabled
-		// when `sort` equals the default setting.
-		'useSourceSort' => false,
+		// When `true` will use - more performant - native data source sorting. The
+		// `'sort'` and `'compare'` settings are than ignored. Source sorting will always
+		// sort over the whole number and use string comparison. Will be automatically
+		// enabled when the two settings are unmodified at their defaults. Set to `false`
+		// to ensure source sorting is never used.
+		'useSourceSort' => null,
 
 		// Models to use when calculating the next reference number. If empty
 		// will use the current model only.
 		//
 		// Models must all have the ReferenceNumber behavior attached and
-		// should have the same settings for `extract`, `generate`, `sort`
+		// should have the same settings for `extract`, `generate`, `sort`, `compare`,
 		// and `models`.
 		'models' => []
 	];
@@ -56,9 +66,6 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 		if (!$config['models']) {
 			$config['models'] = array_merge($config['models'], [$model]);
-		}
-		if ($config['sort'] === '/^(.*)$/') {
-			$config['useSourceSort'] = true;
 		}
 		return $config;
 	}
@@ -85,12 +92,19 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		$numbers = [];
 		$useSourceSort = $behavior->config('useSourceSort');
 
+		if ($useSourceSort === null) {
+			$sortDefault    = $behavior->config('sort') === static::$_defaults['sort'];
+			$compareDefault = $behavior->config('compare') === static::$_defaults['compare'];
+
+			$useSourceSort = $sortDefault && $compareDefault;
+		}
+
 		foreach ($behavior->config('models') as $model) {
 			$behavior = $model::behavior(__CLASS__);
 
 			$field = $behavior->config('field');
 
-			if (!$useSourceSort) {
+			if ($useSourceSort) {
 				$results = $model::find('all', [
 					'fields' => [$field],
 					'order' => [$field => 'DESC'],
@@ -113,28 +127,28 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		if (!$numbers) {
 			return $generator($entity, 1);
 		}
-		if ($useSourceSort) {
-			sort($numbers);
-		} else {
+		if (!$useSourceSort) {
 			uasort($numbers, static::_sorter($model, $behavior));
 		}
 		return $generator($entity, $extractor($entity, array_pop($numbers)) + 1);
 	}
 
 	protected static function _sorter($model, Behavior $behavior) {
-		$config = $behavior->config('sort');
+		$sort = $behavior->config('sort');
+		$compare = $behavior->config('compare');
 
-		return function($a, $b) use ($config) {
-			$extract = function($value) use ($config) {
-				if (!preg_match($config, $value, $matches)) {
-					// Cannot throw exception here as this modifies the value in sort.
-					$message = "Cannot extract number for sorting from value `{$value}`.`";
-					trigger_error($message, E_USER_NOTICE);
+		$extract = function($value) use ($sort) {
+			if (!preg_match($sort, $value, $matches)) {
+				// Cannot throw exception here as this modifies the value in sort.
+				$message = "Cannot extract number for sorting from value `{$value}`.`";
+				trigger_error($message, E_USER_NOTICE);
 
-					return false;
-				}
-				return $matches[1];
-			};
+				return false;
+			}
+			return $matches[1];
+		};
+
+		return function($a, $b) use ($extract, $compare) {
 			$a = $extract($a);
 			$b = $extract($b);
 
@@ -144,7 +158,7 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 			if (!$b) {
 				return 1;
 			}
-			return strcmp($a, $b);
+			return $compare($a, $b);
 		};
 	}
 
