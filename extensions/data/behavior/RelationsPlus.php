@@ -30,14 +30,27 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		$object = $model::invokeMethod('_object');
 		$key = $model::key();
 
+		$normalize = function(array $relations) {
+			$normalized = [];
+
+			foreach ($relations as $name => $relation) {
+				if (is_numeric($name)) {
+					$normalized[$relation] = [];
+				} else {
+					$normalized[$name] = $relation;
+				}
+			}
+			return $normalized;
+		};
+
 		if (isset($object->hasOne)) {
-			$methods += static::_methodsForHasOne($key, $object->hasOne);
+			$methods += static::_methodsForHasOne($key, $normalize($object->hasOne));
 		}
 		if (isset($object->hasMany)) {
-			$methods += static::_methodsForHasMany($key, $object->hasMany);
+			$methods += static::_methodsForHasMany($key, $normalize($object->hasMany));
 		}
 		if (isset($object->belongsTo)) {
-			$methods += static::_methodsForBelongsTo($key, $object->belongsTo);
+			$methods += static::_methodsForBelongsTo($key, $normalize($object->belongsTo));
 		}
 
 		$results = [];
