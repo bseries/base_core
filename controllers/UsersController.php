@@ -119,18 +119,13 @@ class UsersController extends \base_core\controllers\BaseController {
 		extract(Message::aliases());
 
 		$roles = Users::enum('role');
-		$timezones = Timezones::find('list', [
-			'available' => true
-		]);
+		$timezones = Timezones::find('list');
 		$locales = Locales::find('list', [
-			'translate' => false,
-			'available' => true
+			'translate' => false
 		]);
 
 		if (class_exists('\base_address\models\Countries')) {
-			$countries = Countries::find('list', [
-				'available' => true
-			]);
+			$countries = Countries::find('list');
 		} else {
 			$countries = array_combine($list = explode(' ', PROJECT_COUNTRIES), $list);
 		}
