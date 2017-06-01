@@ -67,6 +67,11 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		$methods = [];
 
 		foreach ($relations as $name => $relation) {
+			// TODO: Remove once we support short relation definition syntax, whre
+			//       $relation is empty.
+			if (!$relation) {
+				continue;
+			}
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
@@ -98,6 +103,11 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		$methods = [];
 
 		foreach ($relations as $name => $relation) {
+			// TODO: Remove once we support short relation definition syntax, whre
+			//       $relation is empty.
+			if (!$relation) {
+				continue;
+			}
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
@@ -128,6 +138,11 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 		$methods = [];
 
 		foreach ($relations as $name => $relation) {
+			// TODO: Remove once we support short relation definition syntax, whre
+			//       $relation is empty.
+			if (!$relation) {
+				continue;
+			}
 			$lower = lcfirst($name);
 
 			$methods[$lower] = function($entity, array $query = []) use ($lower, $relation, $key) {
