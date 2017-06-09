@@ -18,11 +18,11 @@
 namespace base_core\extensions\data\behavior;
 
 use Exception;
-use lithium\data\Entity;
 use li3_behaviors\data\model\Behavior;
+use lithium\data\Entity;
+use lithium\util\Validator;
 
 // Continuous, sequential, unique.
-// Cannot mixed different style numbers in a column.
 // If you can infer the number from row data (implement it using a model
 // instance method) do that. Otherwise use this behavior.
 class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
@@ -31,26 +31,30 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		// The field where the reference number is stored.
 		'field' => 'number',
 
-		// Regular expression containing a single capture group, to extract the part of
-		// the number to bump, when calculating the next available number.
-		'extract' => '/^([0-9]{4})$/',
+		// Either a regular expression containing a single capture group or a data source fragment
+		// containing a field placeholder for - more performant and feature rich - source sorting.
+		//
+		// By default and when `true` sorts over the whole field using natural source sorting.
+		//
+		// When a regular expression the part matched by the capture group will be extracted and
+		// then passed to the `'compare'` function. Without source sorting, data retrieved through
+		// find operations and ordered by `'field'` will most likely not have the correct order,
+		// especially when differing number formats are used that do not sort naturally.
+		//
+		// When a data source fragment, the string must contain exactly one placeholder into
+		// which the field name will be inserted, i.e. `REGEXP_REPLACE(%s, "([0-9]{4})(0*)([0-9]*)", "\\1\\3")`
+		'sort' => true,
 
-		// Regular expression containing a single capture group, to extract the string to
-		// sort on. This may equal the `'extract'` configuration setting.
-		'sort' => '/^(.*)$/',
-
-		// Comparison function to use for sorting.
+		// Comparison function to use for sorting i.e. `function($a, $b) { return /* ... */; }`,
+		// defaults to`strcmp`. Will only be used if `'sort'` is a regular expression.
 		'compare' => 'strcmp',
 
 		// When string passed through strftime and sprintf.
 		'generate' => '%%04.d',
 
-		// When `true` will use - more performant - native data source sorting. The
-		// `'sort'` and `'compare'` settings are than ignored. Source sorting will always
-		// sort over the whole number and use string comparison. Will be automatically
-		// enabled when the two settings are unmodified at their defaults. Set to `false`
-		// to ensure source sorting is never used.
-		'useSourceSort' => null,
+		// Regular expression containing a single capture group, to extract the part of
+		// the number to bump, when calculating the next available number.
+		'extract' => '/^([0-9]{4})$/',
 
 		// Models to use when calculating the next reference number. If empty
 		// will use the current model only.
@@ -70,9 +74,46 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		return $config;
 	}
 
+	// Returns sort SQL fragment with inserted escaped field name.
+	protected static function _sourceSort($model, Behavior $behavior) {
+		return sprintf(
+			$behavior->config('sort'),
+			$model::connection()->name($behavior->config('field'))
+		);
+	}
+
 	// Will assign a new reference number only if the entity doesn't already exist and
 	// a number wasn't manually provided.
 	protected static function _filters($model, Behavior $behavior) {
+		$model::applyFilter('find', function($self, $params, $chain) use ($model, $behavior) {
+			$field = $behavior->config('field');
+			$sort = $behavior->config('sort');
+
+			if ($sort === true) { // simply pass through, using natural sorting
+				return $chain->next($self, $params, $chain);
+			}
+			if (!is_string($sort) || $sort[0] === '/') { // not supported
+				return $chain->next($self, $params, $chain);
+			}
+			$order = $params['options']['order'];
+
+			if (!$order || !isset($order[$field]) && !in_array($field, $order)) {
+				return $chain->next($self, $params, $chain);
+			}
+
+			// $order may be normalized [field => direction] or simply [field] or a mix thereof.
+			if (isset($order[$field])) {
+				$dir = $order[$field];
+				unset($order[$field]);
+				$order[static::_sourceSort($model, $behavior)] = $dir;
+			} elseif (in_array($field, $order)) {
+				unset($order[array_search($field, $order)]);
+				$order[] = static::_sourceSort($model, $behavior);
+			}
+			$params['options']['order'] = $order;
+
+			return $chain->next($self, $params, $chain);
+		});
 		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
 			$field = $behavior->config('field');
 
@@ -90,24 +131,19 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 	protected static function _nextReferenceNumber($model, Behavior $behavior, array $entity) {
 		$numbers = [];
-		$useSourceSort = $behavior->config('useSourceSort');
-
-		if ($useSourceSort === null) {
-			$sortDefault    = $behavior->config('sort') === static::$_defaults['sort'];
-			$compareDefault = $behavior->config('compare') === static::$_defaults['compare'];
-
-			$useSourceSort = $sortDefault && $compareDefault;
-		}
+		$sourceSort = static::_sourceSort($model, $behavior);
 
 		foreach ($behavior->config('models') as $model) {
 			$behavior = $model::behavior(__CLASS__);
-
 			$field = $behavior->config('field');
+			$useSourceSort = $sort === true || is_string($sort) && $sort[0] !== '/';
 
 			if ($useSourceSort) {
 				$results = $model::find('all', [
 					'fields' => [$field],
-					'order' => [$field => 'DESC'],
+					'order' => [
+						($sort === true ? $field : static::_sourceSort($model, $behavior)) => 'DESC'
+					],
 					'limit' => 1
 				]);
 			} else {

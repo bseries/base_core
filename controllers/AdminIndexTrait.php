@@ -94,10 +94,9 @@ trait AdminIndexTrait {
 		return $paginator;
 	}
 
-
+	// We support sorting by one dimension at a time only.
 	protected function _order($model, array $query) {
 		// Normalize order field and direction.
-		// We support sorting by one dimension at a time only.
 		if ($this->request->orderField) {
 			$orderField = str_replace('-', '_', $this->request->orderField);
 		} elseif ($model::hasField('modified')) {
