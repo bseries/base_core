@@ -133,10 +133,12 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		$numbers = [];
 		$sourceSort = static::_sourceSort($model, $behavior);
 
+		$field = $behavior->config('field');
+		$sort = $behavior->config('sort');
+		$useSourceSort = $sort === true || is_string($sort) && $sort[0] !== '/';
+
 		foreach ($behavior->config('models') as $model) {
 			$behavior = $model::behavior(__CLASS__);
-			$field = $behavior->config('field');
-			$useSourceSort = $sort === true || is_string($sort) && $sort[0] !== '/';
 
 			if ($useSourceSort) {
 				$results = $model::find('all', [
