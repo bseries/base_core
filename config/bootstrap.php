@@ -74,7 +74,7 @@ $bootstrapFormal = function($name, $path) {
 				'*.config.access',
 				// Each lib contains its own g11n configuration and
 				// panes are translated.
-				'libraries.' . $name . '.config.g11n'
+				'libraries.' . $name . '.config.g11n' => 'optional'
 			],
 			'widgets' => null, // module only
 			'switchboard' => [

@@ -30,6 +30,15 @@ class BaseG11n extends \base_core\models\Base {
 		'connection' => false
 	];
 
+	// Accepts two options:
+	//
+	// - `translate` _boolean|string_: When `false` will disable translating results. When
+	//   a locale string will translate into this locale. By default results are translated
+	//   into the current effective locale.
+	//
+	// - `available` _boolean|array_: When an array of i.e. locales will restrict results to just
+	//  these. If `true` will no limit results in any way. By default uses a set of i.e. available
+	//  locales from configuration.
 	public static function find($type, array $options = []) {
 		$options += [
 			'translate' => static::_translate(),
