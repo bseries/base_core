@@ -28,7 +28,11 @@ $this->set([
 
 		<div class="grid-row">
 			<section class="grid-column-left">
-				<?= $this->form->field('name', ['type' => 'text', 'label' => $t('Name'), 'class' => 'use-for-title']) ?>
+				<?= $this->form->field('name', [
+					'type' => 'text',
+					'label' => $t('Name'),
+					'class' => 'use-for-title'
+				]) ?>
 
 				<?php if ($useBilling): ?>
 					<?= $this->form->field('number', [
