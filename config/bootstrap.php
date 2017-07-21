@@ -144,7 +144,6 @@ $bootstrapFormal = function($name, $path) {
 		];
 		if (INSIDE_ADMIN === true) {
 			$available = array_diff_key($available, [
-				'routes' => null,
 				'jobs' => null
 			]);
 		}
