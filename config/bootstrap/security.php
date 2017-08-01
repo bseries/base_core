@@ -41,7 +41,7 @@ FormSignature::config([
  */
 Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	foreach (Sites::registry(true) as $site) {
-		$fqdn = $site->fqdn(true);
+		$fqdn = $site->fqdn('drop');
 		$host = $params['request']->host;
 
 		if ($host === $fqdn || $host === "www.{$fqdn}") {

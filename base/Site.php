@@ -38,7 +38,7 @@ class Site {
 			return $fqdn;
 		}
 		if ($www === 'drop') {
-			if (strpos($fqnd, 'www.') !== 0) {
+			if (strpos($fqdn, 'www.') !== 0) {
 				return $fqdn;
 			}
 			return substr($fqdn, 4);
