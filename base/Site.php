@@ -32,7 +32,7 @@ class Site {
 	}
 
 	public function fqdn($www = 'keep') {
-		$fqdn = $this->_config['fqnd'];
+		$fqdn = $this->_config['fqdn'];
 
 		if ($www === 'keep') {
 			return $fqdn;
