@@ -15,6 +15,7 @@
  */
 define(['jquery', 'translator', 'wysihtml5'],
 function($, Translator, wysihtml5) {
+  'use strict';
 
   return function Editor() {
     var _this = this;

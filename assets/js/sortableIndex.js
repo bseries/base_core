@@ -23,8 +23,9 @@ define([
   $,
   Translator
 ) {
-  return function SortableIndex(container) {
+  'use strict';
 
+  return function SortableIndex(container) {
     var t = (new Translator({
       "de": {
         "Order saved.": "Sortierung gespeichert.",

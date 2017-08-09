@@ -15,6 +15,7 @@
  */
 
 require(['jquery', 'nprogress', 'moment', 'domready!'], function($, Progress, Moment) {
+  'use strict';
 
   //
   // Progress setup

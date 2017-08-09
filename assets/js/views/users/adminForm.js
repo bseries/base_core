@@ -15,6 +15,7 @@
  */
 
 require(['jquery', 'domready!'], function($) {
+  'use strict';
 
   $('#UsersChangePassword').on('change', function(ev) {
     $('#UsersPassword').prop('disabled', !$(this).is(':checked'));

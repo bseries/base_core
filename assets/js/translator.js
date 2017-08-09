@@ -14,6 +14,7 @@
  * License. If not, see https://atelierdisko.de/licenses.
  */
 define('translator', ['domready!'], function() {
+  'use strict';
 
   var locale = document.querySelector('html').getAttribute('lang');
 

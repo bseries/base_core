@@ -15,6 +15,7 @@
  */
 
 require(['jquery', 'widgets', 'minigrid', 'domready!'], function($, Widgets, Minigrid) {
+  'use strict';
 
   function calcGrid() {
     var dfr = new $.Deferred();

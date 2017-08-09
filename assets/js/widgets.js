@@ -30,6 +30,7 @@ define([
   TableTemplate,
   QuickdialTemplate
 ) {
+  'use strict';
 
   // TODO Handle timeout and error gracefully
 

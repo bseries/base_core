@@ -15,6 +15,7 @@
  */
 
 define('router', ['jquery'], function($) {
+  'use strict';
 
   // Expects to have access to a global `App` object that must
   // have a `routes` property defined on it, containing all

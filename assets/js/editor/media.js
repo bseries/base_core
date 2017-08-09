@@ -26,6 +26,7 @@ define([
   MediaExplorerModal,
   Router
 ) {
+  'use strict';
 
   // This works in tandem with the Editor helper,
   // which enables dynamic image version replacement.

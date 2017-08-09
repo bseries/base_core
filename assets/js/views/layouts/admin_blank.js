@@ -15,6 +15,7 @@
  */
 
 require(['jquery', 'notify', 'domready!'], function($) {
+  'use strict';
 
   //
   // Bridge between PHP flash messaging and JS notify.

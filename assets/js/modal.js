@@ -16,6 +16,7 @@
 
 define(['jquery', 'domready!'],
 function($) {
+  'use strict';
 
   var elements = {
     modal: $('#modal'),
