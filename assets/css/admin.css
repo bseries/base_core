@@ -636,6 +636,7 @@ form label {
   color: var(--color-gray-darkest);
   display: block;
   margin-left: 4px;
+  margin-bottom: 2px;
 }
 form label + textarea,
 form label + input,
@@ -697,6 +698,7 @@ input[type="checkbox"] {
 }
 input[type="checkbox"] + label {
   display: inline-block;
+  margin-bottom: 0;
 }
 
 /* Fields with editor. */
