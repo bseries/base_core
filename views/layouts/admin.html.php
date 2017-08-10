@@ -76,7 +76,10 @@ if (!isset($meta)) {
 		<!-- Scripts -->
 		<?php
 			$scripts = array_merge(
-				['/base-core/js/require'],
+				[
+					'https://cdn.polyfill.io/v2/polyfill.min.js?features=es6&rum=0',
+					'/base-core/js/require'
+				],
 				$this->assets->availableScripts('base', ['admin' => true]),
 				$this->assets->availableScripts('view', ['admin' => true]),
 				$this->assets->availableScripts('layout', ['admin' => true])
