@@ -41,7 +41,7 @@ for f in $(find assets/js -type f -name jquery.js); do
 done
 
 for f in $(ls assets/*.css); do
-	myth $f $f
+	cssnextgen $f > $f.tmp && mv $f.tmp $f
 	# yuicompressor breaks spaces in calc() expressions
 	sqwish $f -o $f.min && mv $f.min $f
 done
