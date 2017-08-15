@@ -17,27 +17,42 @@
 
 namespace base_core\extensions\net\http;
 
-use lithium\net\http\Router;
 use Exception;
+use lithium\net\http\Router;
+use lithium\net\http\Request;
 
-class ClientRouter extends \lithium\core\StaticObject {
+// The sister of `Router`, allows us to register named routes, then provide them to
+// clients (browsers). It basically allows us to expose certain routes publicly. This
+// class and its output from `matched()` is often used together with `router.js`.
+class ClientRouter {
 
 	protected static $_routes = [];
 
 	public static function provide($name, array $params, array $options = []) {
 		$options += ['scope' => Router::scope()];
-
-		static::$_routes[$name] = compact('params', 'options');
+		static::$_routes[] = compact('name', 'params', 'options');
 	}
 
-	public static function get($name = null) {
-		if (!$name) {
-			return static::$_routes;
+	// Returns an array mapping client route names to their matched URLs.
+	public static function matched(Request $request, $scope) {
+		$routes = array_filter(static::$_routes, function($route) use ($scope) {
+			return $route['options']['scope'] === $scope;
+		});
+
+		// In client router context no params should be persisted.
+		$clientRequest = clone $request;
+		$clientRequest->persist = [];
+
+		$results = [];
+		foreach ($routes as $route) {
+			if (isset($results[$route['name']])) {
+				throw new Exception("Possible duplicate client route `'{$route['name']}'`.");
+			}
+			$results[$route['name']] = Router::match(
+				$route['params'], $clientRequest, $route['options']
+			);
 		}
-		if (isset(static::$_routes[$name])) {
-			return static::$_routes[$name];
-		}
-		throw new Exception("No client route provided with name `{$name}`.");
+		return $results;
 	}
 }
 

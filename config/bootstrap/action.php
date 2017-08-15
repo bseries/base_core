@@ -95,21 +95,8 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 			'media' => [
 				'base' => MediaVersions::base($request)
 			],
-			'routes' => []
+			'routes' => ClientRouter::matched($request, Router::scope())
 		];
-
-		foreach (ClientRouter::get() as $name => $ps) {
-			if (!empty($request->params['admin']) && empty($ps['params']['admin'])) {
-				continue;
-			} elseif (empty($request->params['admin']) && !empty($ps['params']['admin'])) {
-				continue;
-			}
-			// In client router context no params should be persisted.
-			$clientRequest = clone $request;
-			$clientRequest->persist = [];
-
-			$app['routes'][$name] = Router::match($ps['params'], $clientRequest, $ps['options']);
-		}
 
 		// Pass and clear last flash message.
 		$flash = FlashMessage::read();
