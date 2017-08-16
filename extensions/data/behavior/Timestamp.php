@@ -21,10 +21,33 @@ use li3_behaviors\data\model\Behavior;
 use lithium\aop\Filters;
 use lithium\data\Entity;
 
+// Adds timestamps to created and modified fields. Sets the created field once when the
+// record is created, and updates the modified field whenever the record is saved.
+//
+// To disable timestamping on save, use the `'modified'` and/or `'created'` options:
+// ```
+// $product->save(['title' => 'foo'], ['modified' => false]};
+// ```
+//
+// The behavior takes a single `'fields'` option that allows to remap field names, i.e.
+// when the modified field is named `'changed'`. Or switch off the fields entirely:
+//
+// ```
+// fields' => [
+//    'created' => 'created',
+//    'modified' => 'changed'
+// ...
+// fields' => [
+//    'created' => 'created',
+//    'modified' => false
+// ```
 class Timestamp extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
-		'fields' => ['created' => 'created', 'modified' => 'modified']
+		'fields' => [
+			'created' => 'created',
+			'modified' => 'modified'
+		]
 	];
 
 	protected static function _filters($model, Behavior $behavior) {
@@ -39,6 +62,8 @@ class Timestamp extends \li3_behaviors\data\model\Behavior {
 					unset($params['options'][$field]);
 				}
 			}
+
+			// Bypass whitelist, our fields hold meta data.
 			if (isset($params['options']['whitelist'])) {
 				foreach ($behavior->config('fields') as $name => $field) {
 					if (!in_array($name, $skip)) {
