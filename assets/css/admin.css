@@ -955,7 +955,8 @@ a.button {
 .button.session-expiry {
   text-transform: none;
 }
-.button.view-site {
+
+.button.backlink {
   background-repeat: no-repeat;
   background-position: right 8px top 9px;
   padding-right: 35px;
@@ -973,7 +974,7 @@ a.button {
 .button.refresh {
   background-image: url(../ico/material/action/ic_cached_24px.svg);
 }
-.button.view-site {
+.button.backlink {
   background-image: url(../ico/material/navigation/ic_chevron_right_24px.svg);
 }
 
