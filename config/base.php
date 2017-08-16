@@ -51,7 +51,28 @@ Settings::register('user.sendActivationMail', false);
 // i.e. to create an order in the name of somebody else.
 Settings::register('user.useBecome', false);
 
-// How to generate user reference numbers.
+// To activate, pass an anonymous function which returns either an URL string, or an array
+// with routing information. This information is used to provide links from detail and
+// index pages inside the admin back to the corresponding application pages. If their is
+// no corresponding application page than the resolver may return `null`.
+//
+// The function receives two parameters: $type, which can be either `'single'` or
+// `'multiple'`. For the single an entity is passed as the second parameter, otherwise it
+// will be `null`.
+//
+// ```
+// Settings::write('backlink', function($type, $entity) {
+//   if ($type === 'single') {
+//     if (strpos($entity->model(), 'Events) {
+//        return ['controller' => 'Events', 'action' => 'view', 'id' => $entity->id];
+//     }
+//   }
+// });
+// ```
+Settings::register('backlink', false);
+
+// How to generate user reference numbers. Takes effect only
+// when billing_core is active.
 Settings::register('user.number', [
 	'sort' => '/([0-9]{4}-[0-9]{4})/',
 	'extract' => '/[0-9]{4}-([0-9]{4})/',
