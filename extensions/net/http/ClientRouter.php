@@ -35,16 +35,15 @@ class ClientRouter {
 
 	// Returns an array mapping client route names to their matched URLs.
 	public static function matched(Request $request, $scope) {
-		$routes = array_filter(static::$_routes, function($route) use ($scope) {
-			return $route['options']['scope'] === $scope;
-		});
-
 		// In client router context no params should be persisted.
 		$clientRequest = clone $request;
 		$clientRequest->persist = [];
 
 		$results = [];
 		foreach ($routes as $route) {
+			if ($route['options']['scope'] !== $scope) {
+				continue;
+			}
 			if (isset($results[$route['name']])) {
 				throw new Exception("Possible duplicate client route `'{$route['name']}'`.");
 			}
