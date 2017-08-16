@@ -51,10 +51,10 @@ Settings::register('user.sendActivationMail', false);
 // i.e. to create an order in the name of somebody else.
 Settings::register('user.useBecome', false);
 
-// To activate, pass an anonymous function which returns either an URL string, or an array
-// with routing information. This information is used to provide links from detail and
+// To activate, pass an anonymous function which returns an array of URL strings or
+// routing information arrays. This information is used to provide links from detail and
 // index pages inside the admin back to the corresponding application pages. If their is
-// no corresponding application page than the resolver may return `null`.
+// no corresponding application page than the resolver may returns an empty array `[]`.
 //
 // The function receives two parameters: $type, which can be either `'single'` or
 // `'multiple'`. For the single an entity is passed as the second parameter, otherwise it
@@ -62,11 +62,14 @@ Settings::register('user.useBecome', false);
 //
 // ```
 // Settings::write('backlink', function($type, $entity) {
+//   $urls = [];
+//
 //   if ($type === 'single') {
 //     if (strpos($entity->model(), 'Events) {
-//        return ['controller' => 'Events', 'action' => 'view', 'id' => $entity->id];
+//        $urls[] = ['controller' => 'Events', 'action' => 'view', 'id' => $entity->id];
 //     }
 //   }
+//   return $urls;
 // });
 // ```
 Settings::register('backlink', false);

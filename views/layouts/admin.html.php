@@ -179,7 +179,7 @@ if (!isset($meta)) {
 							<?= $this->html->link($site->fqdn(), 'http://' . $site->fqdn(), [
 								'scope' => 'app',
 								'target' => 'new',
-								'class' => 'view-site button plain inverse'
+								'class' => 'backlink button plain inverse'
 							]) ?>
 						<?php endforeach ?>
 					<?php endif ?>
