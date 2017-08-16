@@ -40,7 +40,7 @@ class ClientRouter {
 		$clientRequest->persist = [];
 
 		$results = [];
-		foreach ($routes as $route) {
+		foreach (static::$_routes as $route) {
 			if ($route['options']['scope'] !== $scope) {
 				continue;
 			}
