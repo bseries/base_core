@@ -511,6 +511,7 @@ html {
   text-align: right;
   margin-top: -81px; /* align over top border */
   margin-bottom: 56px; /* algin with left nav blocks */
+  min-height: 40px; /* same as buttons, keeps space */
 }
 
 /* By default always hidden. */
