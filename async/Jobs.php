@@ -107,7 +107,7 @@ class Jobs {
 		Logger::write('debug', "Running job `{$item['name']}`.");
 		$start = microtime(true);
 
-		$result = $item['run']();
+		$result = $item['unit']();
 
 		if ($result === null) {
 			$result = true;
