@@ -74,6 +74,13 @@ date_default_timezone_set('UTC');
 $setLocale = function($self, $params, $chain) {
 	$request =& $params['request'];
 
+	// We cannot
+	if (INSIDE_ADMIN) {
+		Environment::set(true, 'timezone', PROJECT_TIMEZONE);
+		Environment::set(true, 'locale', PROJECT_LOCALE);
+		return $chain->next($self, $params, $chain);
+	}
+
 	// Timezone
 	if (PHP_SAPI !== 'cli' && ($user = Auth::check('default'))) {
 		$timezone = $user['timezone'];
