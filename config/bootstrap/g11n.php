@@ -75,6 +75,16 @@ date_default_timezone_set('UTC');
 $setLocale = function($params, $next) {
 	$request =& $params['request'];
 
+	// We cannot yet switch the locale early enough (or load config files late enough), so
+	// that we can use the user's locale for auto translated admin.
+	if (INSIDE_ADMIN) {
+		Environment::set(true, [
+			'timezone' => PROJECT_TIMEZONE,
+			'locale' => PROJECT_LOCALE
+		]);
+		return $chain->next($self, $params, $chain);
+	}
+
 	// Timezone
 	if (PHP_SAPI !== 'cli' && ($user = Auth::check('default'))) {
 		$timezone = $user['timezone'];
