@@ -82,7 +82,7 @@ $setLocale = function($params, $next) {
 			'timezone' => PROJECT_TIMEZONE,
 			'locale' => PROJECT_LOCALE
 		]);
-		return $chain->next($self, $params, $chain);
+		return $next($params);
 	}
 
 	// Timezone
