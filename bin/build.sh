@@ -32,7 +32,7 @@ done
 babel assets/js \
 	-d assets/js \
 	--presets babel-preset-es2015 \
-	--ignore underscore.js,require.js
+	--ignore underscore.js,require.js,require,jquery.js,modernizr.js,wysihtml5.js
 
 for f in $(find assets/js -type f -name *.js); do
 	uglifyjs --compress --mangle -o $f.min -- $f && mv $f.min $f
