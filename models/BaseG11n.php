@@ -56,7 +56,10 @@ class BaseG11n extends \base_core\models\Base {
 		} elseif ($type == 'list') {
 			return static::_formatList($data, 'id', 'name', $options['translate']);
 		} elseif ($type == 'first') {
-			return static::_formatFirst($data, $options['conditions']['id']);
+			if (isset($options['conditions']['name'])) {
+				return static::_formatFirstByName($data, $options['conditions']['name']);
+			}
+			return static::_formatFirstById($data, $options['conditions']['id']);
 		}
 		throw new Exception("Invalid find type `{$type}` for g11n data.");
 	}
@@ -89,11 +92,17 @@ class BaseG11n extends \base_core\models\Base {
 		return new Collection(['data' => $data]);
 	}
 
-	protected static function _formatFirst(array $data, $id) {
-		if (!isset($data[$id])) {
-			return false;
+	protected static function _formatFirstById(array $data, $id) {
+		return isset($data[$id]) ? static::create($data[$id]) : false;
+	}
+
+	protected static function _formatFirstByName(array $data, $name) {
+		foreach ($data as $item) {
+			if ($item['name'] === $name) {
+				return static::create($item);
+			}
 		}
-		return static::create($data[$id]);
+		return false;
 	}
 
 	protected static function _formatList(array $data, $key, $value, $translate = null) {
