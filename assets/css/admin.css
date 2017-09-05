@@ -511,6 +511,7 @@ html {
   text-align: right;
   margin-top: -81px; /* align over top border */
   margin-bottom: 56px; /* algin with left nav blocks */
+  min-height: 40px; /* same as buttons, keeps space */
 }
 
 /* By default always hidden. */
@@ -1324,15 +1325,15 @@ table .flag {
   padding-left: 5px;
   padding-right: 5px;
   text-align: center;
+  color: var(--color-gray-dark);
+}
+table tr:hover .flag {
+  color: var(--color-dim-black);
 }
 table .flag:first-child {
   padding-left: 15px;
 }
-table tr:hover .flag .material-icons {
-  color: var(--color-dim-black);
-}
 table .flag .material-icons {
-  color: var(--color-gray-dark);
   vertical-align: middle;
 }
 table tbody .modified {

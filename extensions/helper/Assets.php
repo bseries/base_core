@@ -93,12 +93,16 @@ class Assets extends \lithium\template\Helper {
 
 		if ($type == 'base') {
 			// Load base js files in cms_* assets/js.
-			// Filter out any non-cms libraries, then sort.
-			$libraries = Libraries::get();
-			$libraries = array_filter($libraries, function($a) {
-				return preg_match('/^(base|cms|ecommerce|billing)_/', $a['name']) || $a['name'] === 'app';
+			$libraries = array_filter(Libraries::get(), function($l) {
+				return preg_match('/^((base|cms|billing|ecommerce)_|app)/', $l['name']);
 			});
-			uasort($libraries, function($a, $b) {
+			$priorities = array_flip([
+				'base',
+				'cms',
+				'billing',
+				'ecommerce'
+			]);
+			uasort($libraries, function($a, $b) use ($priorities) {
 				// Keep app last...
 				if ($a['name'] === 'app') {
 					return 1;
@@ -106,13 +110,36 @@ class Assets extends \lithium\template\Helper {
 				if ($b['name'] === 'app') {
 					return -1;
 				}
-				// ... and core first.
-				if ($a['name'] === 'base_core') {
-					return -1;
+				if ($a['name'] === $b['name']) {
+					return 0;
 				}
-				if ($b['name'] === 'base_core') {
+
+				preg_match('/^([a-z]+)_([a-z]+)$/', $a['name'], $ma);
+				preg_match('/^([a-z]+)_([a-z]+)$/', $b['name'], $mb);
+
+				if ($ma[2] === 'core' && $mb[2] === 'core') {
+					if ($priorities[$ma[1]] > $priorities[$mb[1]]) {
+						return -1;
+					}
+					if ($priorities[$ma[1]] < $priorities[$mb[1]]) {
+						// billing_core after ecommere_core
+						return 1;
+					}
+				}
+				if ($ma[2] === 'core') {
 					return 1;
 				}
+				if ($mb[2] === 'core') {
+					return -1;
+				}
+				if ($priorities[$ma[1]] > $priorities[$mb[1]]) {
+					return -1;
+				}
+				if ($priorities[$ma[1]] < $priorities[$mb[1]]) {
+					// billing_core after ecommere_core
+					return 1;
+				}
+				// cms_social after cms_banner
 				return strcmp($a['name'], $b['name']);
 			});
 
