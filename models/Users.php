@@ -415,6 +415,7 @@ class Users extends \base_core\models\Base {
 			]
 		]) ?: Addresses::create([
 			'user_id' => $entity->id,
+			'recipient' => $entity->name,
 			'country' => $entity->country
 		]);
 	}
