@@ -134,6 +134,14 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		}
 	}
 
+	public static function nextReferenceNumber($model, Behavior $behavior, Entity $item = null) {
+		if ($behavior->config('generate')) {
+			return static::_nextReferenceNumber(
+				$model, $behavior, $item ? $item->data() : []
+			);
+		}
+	}
+
 	protected static function _nextReferenceNumber($model, Behavior $behavior, array $entity) {
 		$numbers = [];
 		$sourceSort = static::_sourceSort($model, $behavior);
