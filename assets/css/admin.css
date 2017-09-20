@@ -587,6 +587,9 @@ html {
   /* See https://bugzilla.mozilla.org/show_bug.cgi?id=737757#c1 */
   vertical-align: top;
 }
+.rich-page-title .title:empty {
+  margin-right: 0;
+}
 .richt-page-title .object {
   text-transform: capitalize;
 }

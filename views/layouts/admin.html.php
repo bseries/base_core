@@ -119,9 +119,9 @@ if (!isset($meta)) {
 					<?php endif ?>
 					<span class="object"><?= $page['object'] ?></span>
 					<?php if ($page['type'] == 'single'): ?>
-						<span class="title" data-empty="<?= $page['empty'] ?>">
-							<?= $page['title'] ?: $page['empty'] ?>
-						</span>
+						<span class="title" data-empty="<?= $page['empty'] ?>"><!--
+							--><?= $page['title'] ?: $page['empty'] ?><!--
+						--></span>
 					<?php endif ?>
 					<?php foreach ($meta as $name => $value): ?>
 						<?php if ($value === null) continue ?>
