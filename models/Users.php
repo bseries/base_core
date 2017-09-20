@@ -85,13 +85,13 @@ class Users extends \base_core\models\Base {
 				'message' => $t('This field cannot be empty.', ['scope' => 'base_core'])
 			],
 			'repeat' => [
-				'passwordRepeat',
+				'Users.passwordRepeat',
 				'on' => ['passwordRepeat'],
 				'required' => true,
 				'message' => $t('The passwords are not identical.', ['scope' => 'base_core'])
 			]
 		];
-		Validator::add('passwordRepeat', function($value, $format, $options) {
+		Validator::add('Users.passwordRepeat', function($value, $format, $options) {
 			return Password::check($value, $options['values']['password']);
 		});
 
@@ -126,12 +126,12 @@ class Users extends \base_core\models\Base {
 				'message' => $t('Invalid e–mail.', ['scope' => 'base_core'])
 			],
 			'isUnique' => [
-				'isUnique',
+				'Users.isUnique',
 				'on' => ['create', 'update'],
 				'message' => $t('The e–mail is already in use.', ['scope' => 'base_core'])
 			]
 		];
-		Validator::add('isUnique', function($value, $format, $options) {
+		Validator::add('Users.isUnique', function($value, $format, $options) {
 			$conditions = [
 				$options['field'] => $value
 			];
