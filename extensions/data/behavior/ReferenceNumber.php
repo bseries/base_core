@@ -22,9 +22,9 @@ use li3_behaviors\data\model\Behavior;
 use lithium\data\Entity;
 use lithium\util\Validator;
 
-// Continuous, sequential, unique.
-// If you can infer the number from row data (implement it using a model
-// instance method) do that. Otherwise use this behavior.
+// Deals with reference numbers as used on invoices or as customer numbers. When
+// configured infers the next available number from the last present one. Allows
+// to provide custom sorting to correctly sort numbers.
 class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
@@ -42,7 +42,8 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		// especially when differing number formats are used that do not sort naturally.
 		//
 		// When a data source fragment, the string must contain exactly one placeholder into
-		// which the field name will be inserted, i.e. `REGEXP_REPLACE(%s, "([0-9]{4})(0*)([0-9]*)", "\\1\\3")`
+		// which the field name will be inserted, i.e.
+		// `REGEXP_REPLACE(%s, "([0-9]{4})(0*)([0-9]*)", "\\1\\3")`
 		'sort' => true,
 
 		// Comparison function to use for sorting i.e. `function($a, $b) { return /* ... */; }`,
@@ -61,9 +62,8 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		// Models to use when calculating the next reference number. If empty will use the
 		// current model only. Unused when `'generate'` is `false`.
 		//
-		// Models must all have the ReferenceNumber behavior attached and
-		// should have the same settings for `extract`, `generate`, `sort`, `compare`,
-		// and `models`.
+		// Models must all have the ReferenceNumber behavior attached and should have the
+		// same settings for `extract`, `generate`, `sort`, `compare`, and `models`.
 		'models' => []
 	];
 
