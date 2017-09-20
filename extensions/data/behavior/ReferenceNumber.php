@@ -54,6 +54,11 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		// of next reference numbers.
 		'generate' => '%%04.d',
 
+		// An initial number that should be considered present when no generated numbers
+		// are. Useful when migrating from previous systems. When `null` will not be
+		// considered.
+		'initial' => null,
+
 		// Regular expression containing a single capture group, to extract the part of
 		// the number to bump, when calculating the next available number. Not used when
 		// `'generate'` is `false`.
@@ -179,7 +184,11 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		$extractor = static::_extractor($model, $behavior);
 
 		if (!$numbers) {
-			return $generator($entity, 1);
+			if ($initial = $behavior->config('initial')) {
+				$numbers[] = $initial;
+			} else {
+				return $generator($entity, 1);
+			}
 		}
 		if (!$useSourceSort) {
 			uasort($numbers, static::_sorter($model, $behavior));
