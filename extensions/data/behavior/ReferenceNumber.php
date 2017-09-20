@@ -49,15 +49,17 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		// defaults to`strcmp`. Will only be used if `'sort'` is a regular expression.
 		'compare' => 'strcmp',
 
-		// When string passed through strftime and sprintf.
+		// When string passed through strftime and sprintf. When `false`, disables generation
+		// of next reference numbers.
 		'generate' => '%%04.d',
 
 		// Regular expression containing a single capture group, to extract the part of
-		// the number to bump, when calculating the next available number.
+		// the number to bump, when calculating the next available number. Not used when
+		// `'generate'` is `false`.
 		'extract' => '/^([0-9]{4})$/',
 
-		// Models to use when calculating the next reference number. If empty
-		// will use the current model only.
+		// Models to use when calculating the next reference number. If empty will use the
+		// current model only. Unused when `'generate'` is `false`.
 		//
 		// Models must all have the ReferenceNumber behavior attached and
 		// should have the same settings for `extract`, `generate`, `sort`, `compare`,
@@ -114,19 +116,22 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 			return $chain->next($self, $params, $chain);
 		});
-		$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
-			$field = $behavior->config('field');
 
-			if (!$params['entity']->exists() && empty($params['data'][$field])) {
-				if (isset($params['options']['whitelist'])) {
-					$params['options']['whitelist'][] = $field;
+		if ($behavior->config('generate')) {
+			$model::applyFilter('save', function($self, $params, $chain) use ($model, $behavior) {
+				$field = $behavior->config('field');
+
+				if (!$params['entity']->exists() && empty($params['data'][$field])) {
+					if (isset($params['options']['whitelist'])) {
+						$params['options']['whitelist'][] = $field;
+					}
+					$params['data'][$field] = static::_nextReferenceNumber(
+						$model, $behavior, $params['data'] + $params['entity']->data()
+					);
 				}
-				$params['data'][$field] = static::_nextReferenceNumber(
-					$model, $behavior, $params['data'] + $params['entity']->data()
-				);
-			}
-			return $chain->next($self, $params, $chain);
-		});
+				return $chain->next($self, $params, $chain);
+			});
+		}
 	}
 
 	protected static function _nextReferenceNumber($model, Behavior $behavior, array $entity) {
