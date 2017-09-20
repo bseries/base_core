@@ -245,4 +245,14 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 	}
 }
 
+Validator::add('isUniqueReferenceNumber', function($value, $format, $options) {
+	$conditions = [
+		$options['field'] => $value
+	];
+	if (!empty($options['values']['id'])) {
+		$conditions['id'] = ['!=' => $options['values']['id']];
+	}
+	return !$options['model']::find('count', compact('conditions'));
+});
+
 ?>
