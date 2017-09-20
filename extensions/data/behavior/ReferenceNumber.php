@@ -143,6 +143,9 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 	}
 
 	protected static function _nextReferenceNumber($model, Behavior $behavior, array $entity) {
+		if (!$behavior->config('generate')) {
+			return false;
+		}
 		$numbers = [];
 		$sourceSort = static::_sourceSort($model, $behavior);
 
