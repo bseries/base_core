@@ -63,6 +63,14 @@ trait AdminEditTrait {
 				]);
 			}
 		}
+
+		$autoNumber = false;
+		$nextNumber = null;
+		if ($model::hasBehavior('ReferenceNumber')) {
+			$autoNumber = (boolean) $model::behavior('ReferenceNumber')->config('generate');
+			$nextNumber = $model::nextReferenceNumber($item);
+		}
+
 		$isTranslated = $model::hasBehavior('Translatable');
 
 		$useOwner = Settings::read('security.checkOwner') && $model::hasBehavior('Ownable');
@@ -77,8 +85,11 @@ trait AdminEditTrait {
 
 		$this->_render['template'] = 'admin_form';
 		return compact(
-			'item', 'users',
-			'isTranslated', 'useOwner',
+			'item',
+			'users',
+			'isTranslated',
+			'autoNumber', 'nextNumber',
+			'useOwner',
 			'useSites', 'sites'
 		) + $this->_selects($item);
 	}

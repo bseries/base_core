@@ -23,9 +23,9 @@ use lithium\aop\Filters;
 use lithium\data\Entity;
 use lithium\util\Validator;
 
-// Continuous, sequential, unique.
-// If you can infer the number from row data (implement it using a model
-// instance method) do that. Otherwise use this behavior.
+// Deals with reference numbers as used on invoices or as customer numbers. When
+// configured infers the next available number from the last present one. Allows
+// to provide custom sorting to correctly sort numbers.
 class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 	protected static $_defaults = [
@@ -43,26 +43,33 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		// especially when differing number formats are used that do not sort naturally.
 		//
 		// When a data source fragment, the string must contain exactly one placeholder into
-		// which the field name will be inserted, i.e. `REGEXP_REPLACE(%s, "([0-9]{4})(0*)([0-9]*)", "\\1\\3")`
+		// which the field name will be inserted, i.e.
+		// `REGEXP_REPLACE(%s, "([0-9]{4})(0*)([0-9]*)", "\\1\\3")`
 		'sort' => true,
 
 		// Comparison function to use for sorting i.e. `function($a, $b) { return /* ... */; }`,
 		// defaults to`strcmp`. Will only be used if `'sort'` is a regular expression.
 		'compare' => 'strcmp',
 
-		// When string passed through strftime and sprintf.
+		// When string passed through strftime and sprintf. When `false`, disables generation
+		// of next reference numbers.
 		'generate' => '%%04.d',
 
+		// An initial number that should be considered present when no generated numbers
+		// are. Useful when migrating from previous systems. When `null` will not be
+		// considered.
+		'initial' => null,
+
 		// Regular expression containing a single capture group, to extract the part of
-		// the number to bump, when calculating the next available number.
+		// the number to bump, when calculating the next available number. Not used when
+		// `'generate'` is `false`.
 		'extract' => '/^([0-9]{4})$/',
 
-		// Models to use when calculating the next reference number. If empty
-		// will use the current model only.
+		// Models to use when calculating the next reference number. If empty will use the
+		// current model only. Unused when `'generate'` is `false`.
 		//
-		// Models must all have the ReferenceNumber behavior attached and
-		// should have the same settings for `extract`, `generate`, `sort`, `compare`,
-		// and `models`.
+		// Models must all have the ReferenceNumber behavior attached and should have the
+		// same settings for `extract`, `generate`, `sort`, `compare`, and `models`.
 		'models' => []
 	];
 
@@ -115,22 +122,36 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 
 			return $next($params);
 		});
-		Filters::apply($model, 'save', function($params, $next) use ($model, $behavior) {
-			$field = $behavior->config('field');
 
-			if (!$params['entity']->exists() && empty($params['data'][$field])) {
-				if (isset($params['options']['whitelist'])) {
-					$params['options']['whitelist'][] = $field;
+		if ($behavior->config('generate')) {
+			Filters::apply($model, 'save', function($params, $next) use ($model, $behavior) {
+				$field = $behavior->config('field');
+
+				if (!$params['entity']->exists() && empty($params['data'][$field])) {
+					if (isset($params['options']['whitelist'])) {
+						$params['options']['whitelist'][] = $field;
+					}
+					$params['data'][$field] = static::_nextReferenceNumber(
+						$model, $behavior, $params['data'] + $params['entity']->data()
+					);
 				}
-				$params['data'][$field] = static::_nextReferenceNumber(
-					$model, $behavior, $params['data'] + $params['entity']->data()
-				);
-			}
-			return $next($params);
-		});
+				return $next($params);
+			});
+		}
+	}
+
+	public static function nextReferenceNumber($model, Behavior $behavior, Entity $item = null) {
+		if ($behavior->config('generate')) {
+			return static::_nextReferenceNumber(
+				$model, $behavior, $item ? $item->data() : []
+			);
+		}
 	}
 
 	protected static function _nextReferenceNumber($model, Behavior $behavior, array $entity) {
+		if (!$behavior->config('generate')) {
+			return false;
+		}
 		$numbers = [];
 		$sourceSort = static::_sourceSort($model, $behavior);
 
@@ -164,7 +185,11 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		$extractor = static::_extractor($model, $behavior);
 
 		if (!$numbers) {
-			return $generator($entity, 1);
+			if ($initial = $behavior->config('initial')) {
+				$numbers[] = $initial;
+			} else {
+				return $generator($entity, 1);
+			}
 		}
 		if (!$useSourceSort) {
 			uasort($numbers, static::_sorter($model, $behavior));
@@ -229,5 +254,15 @@ class ReferenceNumber extends \li3_behaviors\data\model\Behavior {
 		};
 	}
 }
+
+Validator::add('isUniqueReferenceNumber', function($value, $format, $options) {
+	$conditions = [
+		$options['field'] => $value
+	];
+	if (!empty($options['values']['id'])) {
+		$conditions['id'] = ['!=' => $options['values']['id']];
+	}
+	return !$options['model']::find('count', compact('conditions'));
+});
 
 ?>
