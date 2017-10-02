@@ -31,7 +31,7 @@ class Timezones extends \base_core\models\BaseG11n {
 		if ($options['available'] === true) {
 			$results = DateTimeZone::listIdentifiers();
 		} else {
-			$result = $options['available'];
+			$results = $options['available'];
 		}
 		foreach ($results as $result) {
 			$data[$result] = [
