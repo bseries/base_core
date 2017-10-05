@@ -115,10 +115,21 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				$force = !empty($query['force']);
 				unset($query['force']);
 
-				if ($isGenericQuery && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
-					return $entity->{$lower}->find(function($item) {
-						return $item->id !== null;
-					});
+				if ($isGenericQuery && !$force && $entity->{$lower}) {
+					if (is_object($entity->{$lower})) {
+						return $entity->{$lower}->find(function($item) {
+							return $item->id !== null;
+						});
+					} elseif (is_array($entity->{$lower})) {
+						$data = [];
+						foreach ($entity->{$lower} as $key => $value) {
+							if ($key === 'new') {
+								continue;
+							}
+							$data[$key] = $relation['to']::create(['id' => $key] + $value);
+						}
+						return new Collection(compact('data'));
+					}
 				}
 				if (!$entity->{$key}) {
 					return new Collection();
