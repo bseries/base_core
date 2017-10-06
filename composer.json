@@ -11,6 +11,7 @@
         }
     ],
     "require": {
+        "atelierdisko/cute": "0.3.*@dev",
         "atelierdisko/jsend": "1.0.*",
         "atelierdisko/li3_access": "2.*@stable || 2.1.0@dev",
         "atelierdisko/li3_flash_message": "1.*",
