@@ -86,52 +86,90 @@ class Assets extends \lithium\template\Helper {
 		return AssetsModel::base($scheme ?: $this->_context->request());
 	}
 
+	public function availableStyles($type, array $options = []) {
+		return $this->_availableAssets('style', $type, $options);
+	}
+
 	public function availableScripts($type, array $options = []) {
+		return $this->_availableAssets('script', $type, $options);
+	}
+
+	protected function _availableAssets($assetType, $viewType, array $options = []) {
 		$options += ['admin' => false];
 
-		$scripts = [];
+		$assets = [];
 
-		if ($type == 'base') {
-			// Load base js files in cms_* assets/js.
-			$libraries = array_filter(Libraries::get(), function($l) {
-				return preg_match('/^((base|cms|billing|ecommerce)_|app)/', $l['name']);
-			});
-			$priorities = array_flip([
-				'base',
-				'cms',
-				'billing',
-				'ecommerce'
-			]);
-			uasort($libraries, function($a, $b) use ($priorities) {
-				// Keep app last...
-				if ($a['name'] === 'app') {
-					return 1;
+		if ($viewType == 'base') {
+			// Load base files. When in admin context also load all module base files, if
+			// in app context do not rely on any module JS/CSS, load only app base.
+			if (!$options['admin']) {
+				// Load only app's base.js not anything else, when in app context.
+				if ($asset = $this->_asset($assetType, 'app', 'base')) {
+					$assets[] = $asset;
 				}
-				if ($b['name'] === 'app') {
-					return -1;
-				}
-				if ($a['name'] === $b['name']) {
-					return 0;
-				}
-
-				preg_match('/^([a-z]+)_([a-z_]+)$/', $a['name'], $ma);
-				preg_match('/^([a-z]+)_([a-z_]+)$/', $b['name'], $mb);
-
-				if ($ma[2] === 'core' && $mb[2] === 'core') {
-					if ($priorities[$ma[1]] > $priorities[$mb[1]]) {
-						return -1;
+			} else {
+				// Load base JS/CSS files in i.e. cms_* assets/{js,css}.
+				foreach ($this->_libraries() as $name => $library) {
+					if ($name == 'app' && $options['admin']) {
+						// Do not load app base.js/base.css when in admin context.
+						continue;
 					}
-					if ($priorities[$ma[1]] < $priorities[$mb[1]]) {
-						// billing_core after ecommere_core
-						return 1;
+					if ($asset = $this->_asset($assetType, $name, 'base')) {
+						$assets[] = $asset;
 					}
 				}
-				if ($ma[2] === 'core') {
-					return 1;
-				}
-				if ($mb[2] === 'core') {
-					return -1;
-				}
+			}
+		} elseif ($viewType == 'layout') {
+			// Load corresponding layout asset; when admin load it from _core when in app
+			// load it from app.
+			$library = $options['admin'] ? 'base_core' : 'app';
+			$layout = $this->_context->_config['layout'];
+
+			if ($asset = $this->_asset($assetType, $library, "views/layouts/{$layout}")) {
+				$assets[] = $asset;
+			}
+		} elseif ($viewType == 'view') {
+			// Load corresponding view assets automatically.
+			$library = $this->_context->_config['library'];
+			$controller = $this->_context->_config['controller'];
+			$template = Inflector::camelize($this->_context->_config['template'], false);
+
+			if ($asset = $this->_asset($assetType, $library, "views/{$controller}/{$template}")) {
+				$assets[] = $asset;
+			}
+		} elseif ($viewType == 'element') {
+
+		}
+		return $assets;
+	}
+
+	// Returns custom sorted array of libraries.
+	protected function _libraries() {
+		$priorities = array_flip([
+			'base',
+			'cms',
+			'billing',
+			'ecommerce'
+		]);
+		$libraries = array_filter(Libraries::get(), function($l) {
+			return preg_match('/^((base|cms|billing|ecommerce)_|app)/', $l['name']);
+		});
+		uasort($libraries, function($a, $b) use ($priorities) {
+			// Keep app last...
+			if ($a['name'] === 'app') {
+				return 1;
+			}
+			if ($b['name'] === 'app') {
+				return -1;
+			}
+			if ($a['name'] === $b['name']) {
+				return 0;
+			}
+
+			preg_match('/^([a-z]+)_([a-z_]+)$/', $a['name'], $ma);
+			preg_match('/^([a-z]+)_([a-z_]+)$/', $b['name'], $mb);
+
+			if ($ma[2] === 'core' && $mb[2] === 'core') {
 				if ($priorities[$ma[1]] > $priorities[$mb[1]]) {
 					return -1;
 				}
@@ -139,62 +177,37 @@ class Assets extends \lithium\template\Helper {
 					// billing_core after ecommere_core
 					return 1;
 				}
-				// cms_social after cms_banner
-				return strcmp($a['name'], $b['name']);
-			});
-
-			// Load base files. When in admin context also
-			// load all module base files, if in app context
-			// do not rely on any module JS, load only app base.
-			if (!$options['admin']) {
-				// Load only app's base.js not anything else, when in app context.
-				if ($script = $this->_script('app', 'base')) {
-					$scripts[] = $script;
-				}
-			} else {
-				foreach ($libraries as $name => $library) {
-					if ($name == 'app' && $options['admin']) {
-						// Do not load app base.js when in admin context.
-						continue;
-					}
-					if ($script = $this->_script($name, 'base')) {
-						$scripts[] = $script;
-					}
-				}
 			}
-		} elseif ($type == 'layout') {
-			// Load corresponding layout script; when admin load it from _core
-			// when in app load it from app.
-			$library = $options['admin'] ? 'base_core' : 'app';
-			$layout = $this->_context->_config['layout'];
-
-			if ($script = $this->_script($library, "views/layouts/{$layout}")) {
-				$scripts[] = $script;
+			if ($ma[2] === 'core') {
+				return 1;
 			}
-		} elseif ($type == 'view') {
-			// Load corresponding view scripts automatically.
-			$library = $this->_context->_config['library'];
-			$controller = $this->_context->_config['controller'];
-			$template = Inflector::camelize($this->_context->_config['template'], false);
-
-			if ($script = $this->_script($library, "views/{$controller}/{$template}")) {
-				$scripts[] = $script;
+			if ($mb[2] === 'core') {
+				return -1;
 			}
-		} elseif ($type == 'element') {
-
-		}
-		return $scripts;
+			if ($priorities[$ma[1]] > $priorities[$mb[1]]) {
+				return -1;
+			}
+			if ($priorities[$ma[1]] < $priorities[$mb[1]]) {
+				// billing_core after ecommere_core
+				return 1;
+			}
+			// cms_social after cms_banner
+			return strcmp($a['name'], $b['name']);
+		});
+		return $libraries;
 	}
 
-	protected function _script($library, $file) {
+	protected function _asset($assetType, $library, $file) {
 		$library = str_replace('_', '-', $library);
 		$base = parse_url(AssetsModel::base('file'), PHP_URL_PATH);
 
 		if (!is_dir($base)) {
 			throw new Exception("Assets base directory `{$base}` does not exist.");
 		}
-		if (file_exists("{$base}/{$library}/js/{$file}.js")) {
-			return "/{$library}/js/{$file}";
+		$fragment = $assetType === 'script' ? 'js' : 'css';
+
+		if (file_exists("{$base}/{$library}/{$fragment}/{$file}.{$fragment}")) {
+			return "/{$library}/{$fragment}/{$file}";
 		}
 	}
 }

@@ -62,10 +62,14 @@ if (!isset($meta)) {
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 		<!-- Styles -->
-		<?php echo $this->assets->style([
-			'/base-core/css/normalize',
-			'/base-core/css/admin'
-		]) ?>
+		<?php
+			$styles = array_merge(
+				$this->assets->availableStyles('base', ['admin' => true]),
+				$this->assets->availableStyles('view', ['admin' => true]),
+				$this->assets->availableStyles('layout', ['admin' => true])
+			);
+		?>
+		<?php echo $this->assets->style($scripts) ?>
 		<?php echo $this->styles() ?>
 
 		<!-- Global Application Object Definition -->
