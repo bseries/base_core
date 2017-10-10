@@ -32,6 +32,7 @@ $path = dirname(Libraries::get(true, 'path'));
 ini_set('error_reporting', E_ALL);
 
 if (PROJECT_DEBUG) {
+	ini_set('display_startup_errors', true);
 	ini_set('display_errors', true);
 }
 
