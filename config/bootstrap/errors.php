@@ -33,8 +33,6 @@ ini_set('error_reporting', E_ALL);
 
 if (PROJECT_DEBUG) {
 	ini_set('display_errors', true);
-} else {
-	ini_set('display_errors', false);
 }
 
 $mapErrorType = function($type) {
