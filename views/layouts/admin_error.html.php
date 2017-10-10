@@ -28,7 +28,7 @@ $t = function($message, array $options = []) {
 				$this->assets->availableStyles('layout', ['admin' => true])
 			);
 		?>
-		<?php echo $this->assets->style($scripts) ?>
+		<?php echo $this->assets->style($styles) ?>
 		<?php echo $this->styles() ?>
 	</head>
 	<?php

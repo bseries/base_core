@@ -69,7 +69,7 @@ if (!isset($meta)) {
 				$this->assets->availableStyles('layout', ['admin' => true])
 			);
 		?>
-		<?php echo $this->assets->style($scripts) ?>
+		<?php echo $this->assets->style($styles) ?>
 		<?php echo $this->styles() ?>
 
 		<!-- Global Application Object Definition -->
