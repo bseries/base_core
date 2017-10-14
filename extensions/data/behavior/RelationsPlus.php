@@ -1,18 +1,10 @@
 <?php
 /**
- * Base Core
+ * Copyright 2013 David Persson. All rights reserved.
+ * Copyright 2016 Atelier Disko. All rights reserved.
  *
- * Copyright (c) 2013 Atelier Disko - All rights reserved.
- *
- * Licensed under the AD General Software License v1.
- *
- * This software is proprietary and confidential. Redistribution
- * not permitted. Unless required by applicable law or agreed to
- * in writing, software distributed on an "AS IS" BASIS, WITHOUT-
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * You should have received a copy of the AD General Software
- * License. If not, see https://atelierdisko.de/licenses.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
  */
 
 namespace base_core\extensions\data\behavior;
@@ -115,10 +107,21 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 				$force = !empty($query['force']);
 				unset($query['force']);
 
-				if ($isGenericQuery && !$force && $entity->{$lower} && is_object($entity->{$lower})) {
-					return $entity->{$lower}->find(function($item) {
-						return $item->id !== null;
-					});
+				if ($isGenericQuery && !$force && $entity->{$lower}) {
+					if (is_object($entity->{$lower})) {
+						return $entity->{$lower}->find(function($item) {
+							return $item->id !== null;
+						});
+					} elseif (is_array($entity->{$lower})) {
+						$data = [];
+						foreach ($entity->{$lower} as $key => $value) {
+							if ($key === 'new') {
+								continue;
+							}
+							$data[$key] = $relation['to']::create(['id' => $key] + $value);
+						}
+						return new Collection(compact('data'));
+					}
 				}
 				if (!$entity->{$key}) {
 					return new Collection();

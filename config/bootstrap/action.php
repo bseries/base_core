@@ -1,22 +1,13 @@
 <?php
 /**
- * Base Core
+ * Copyright 2013 David Persson. All rights reserved.
+ * Copyright 2016 Atelier Disko. All rights reserved.
  *
- * Copyright (c) 2013 Atelier Disko - All rights reserved.
- *
- * Licensed under the AD General Software License v1.
- *
- * This software is proprietary and confidential. Redistribution
- * not permitted. Unless required by applicable law or agreed to
- * in writing, software distributed on an "AS IS" BASIS, WITHOUT-
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * You should have received a copy of the AD General Software
- * License. If not, see https://atelierdisko.de/licenses.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
  */
 
 namespace base_core\config\bootstrap;
-
 
 use base_core\extensions\net\http\ClientRouter;
 use base_core\extensions\net\http\ServiceUnavailableException;
@@ -33,6 +24,7 @@ use lithium\net\http\Media;
 use lithium\net\http\Router;
 use lithium\security\Auth;
 use lithium\util\Set;
+
 //
 // Admin routing. Order matters.
 //
@@ -66,7 +58,6 @@ Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 // $authedUser    - The current authenticated user as an User entity.
 // $locale        - The current effective locale.
 // $app           - The application definition for use with JavaScript.
-// $flash         - The last message.
 //
 Filters::apply(Media::class, '_handle', function($params, $next) {
 	if ($params['handler']['type'] == 'html') {
@@ -93,11 +84,10 @@ Filters::apply(Media::class, '_handle', function($params, $next) {
 			'media' => [
 				'base' => MediaVersions::base($request)
 			],
-			'routes' => ClientRouter::matched($request, Router::scope())
+			'routes' => ClientRouter::matched($request, Router::scope()),
+			'flash' => FlashMessage::read()
 		];
-
-		// Pass and clear last flash message.
-		$flash = FlashMessage::read();
+		// Clear the last flash message as we've read it already above.
 		FlashMessage::clear();
 
 		// Security: Do not disclose route information in higher security administration contexts.
@@ -108,7 +98,6 @@ Filters::apply(Media::class, '_handle', function($params, $next) {
 		$params['data'] += compact(
 			'authedUser',
 			'app',
-			'flash',
 			'locale'
 		);
 	}

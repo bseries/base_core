@@ -1,13 +1,7 @@
+# Copyright 2016 Atelier Disko. All rights reserved.
 #
-# Base Core
-#
-# Copyright (c) 2016 Atelier Disko - All rights reserved.
-#
-# This software is proprietary and confidential. Redistributions
-# not permitted. Unless required by applicable law or agreed to
-# in writing, software distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
 
 ASSETS_PATH = assets
 

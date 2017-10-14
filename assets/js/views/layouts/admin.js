@@ -1,17 +1,9 @@
 /*!
- * Base Core
+ * Copyright 2013 David Persson. All rights reserved.
+ * Copyright 2016 Atelier Disko. All rights reserved.
  *
- * Copyright (c) 2013-2014 Atelier Disko - All rights reserved.
- *
- * Licensed under the AD General Software License v1.
- *
- * This software is proprietary and confidential. Redistribution
- * not permitted. Unless required by applicable law or agreed to
- * in writing, software distributed on an "AS IS" BASIS, WITHOUT-
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * You should have received a copy of the AD General Software
- * License. If not, see https://atelierdisko.de/licenses.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
  */
 
 require(['jquery', 'nprogress', 'moment', 'domready!'], function($, Progress, Moment) {
@@ -34,14 +26,14 @@ require(['jquery', 'nprogress', 'moment', 'domready!'], function($, Progress, Mo
   });
 
   //
-  // Bridge between PHP flash messaging and JS notify.
+  // Closing bridge between application and JavaScript notifications.
   //
-  var flashMessage = $('#messages').data('flash-message');
-  var flashLevel = $('#messages').data('flash-level') || 'neutral';
-
-  if (flashMessage) {
+  if (App.flash) {
     require(['notify'], function() {
-      $.notify(flashMessage, {level: flashLevel, timeout: 3000});
+      $.notify(App.flash.message, {
+        level: App.flash.attr.level || 'neutral',
+        timeout: 3000
+      });
     });
   }
 

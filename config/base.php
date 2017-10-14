@@ -1,18 +1,10 @@
 <?php
 /**
- * Base Core
+ * Copyright 2013 David Persson. All rights reserved.
+ * Copyright 2016 Atelier Disko. All rights reserved.
  *
- * Copyright (c) 2013 Atelier Disko - All rights reserved.
- *
- * Licensed under the AD General Software License v1.
- *
- * This software is proprietary and confidential. Redistribution
- * not permitted. Unless required by applicable law or agreed to
- * in writing, software distributed on an "AS IS" BASIS, WITHOUT-
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * You should have received a copy of the AD General Software
- * License. If not, see https://atelierdisko.de/licenses.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
  */
 
 namespace base_core\config;
@@ -85,26 +77,6 @@ Settings::register('user.number', [
 //
 // Contacts
 //
-Settings::register('contact.default', [
-	// 'organization' => 'Acme Inc.',
-	// 'postal_code' => '12345',
-	// 'address_line_1' => 'Boulevard of Dreams 23',
-	// 'locality' => 'Las Vegas',
-	// 'country' => 'USA',
-	// 'email' => 'mail@example.com',
-	// 'phone' => '+49 (0) 12 345 678'
-]);
-
-Settings::register('contact.exec', [
-	'organization' => 'Atelier Disko UG (haftungsbeschränkt) & Co. KG',
-	'address_line_1' => 'Weidenallee 10b',
-	'locality' => 'Hamburg',
-	'postal_code' => '20357',
-	'country' => 'DE',
-	'website' => 'https://atelierdisko.de',
-	'email' => 'info@atelierdisko.de',
-	'phone' => null
-]);
 
 //
 // Services

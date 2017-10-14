@@ -102,10 +102,6 @@ if (!isset($meta)) {
 		}
 	?>
 	<body class="<?= implode(' ', $classes) ?>">
-		<?=$this->_render('element', 'messages', compact('flash'), [
-			'library' => 'base_core'
-		]) ?>
-
 		<div id="modal" class="hide">
 			<div class="controls"><div class="close">×</div></div>
 			<div class="content"></div>

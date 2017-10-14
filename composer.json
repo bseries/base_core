@@ -1,14 +1,12 @@
 {
-    "name": "atelierdisko/base_core",
+    "name": "bseries/base_core",
     "description": "Core functionality for Bento.",
-    "homepage": "https://atelierdisko.de",
     "type": "lithium-library",
-    "license": "proprietary",
+    "license": "BSD-3-Clause",
     "authors": [
-        {
-          "name": "Atelier Disko",
-          "homepage": "https://atelierdisko.de"
-        }
+        {"name": "David Persson"},
+        {"name": "Atelier Disko"},
+        {"name": "The Community"}
     ],
     "require": {
         "atelierdisko/cute": "0.3.*@dev",

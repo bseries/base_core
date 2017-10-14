@@ -9,10 +9,16 @@
 require(['jquery', 'domready!'], function($) {
   'use strict';
 
-  $('#UsersChangePassword').on('change', function(ev) {
-    $('#UsersPassword').prop('disabled', !$(this).is(':checked'));
-  });
-  $('#UsersChangeAnswer').on('change', function(ev) {
-    $('#UsersAnswer').prop('disabled', !$(this).is(':checked'));
+  if (App.flash) {
+    require(['notify'], function() {
+      $.notify(App.flash.message, {
+        level: App.flash.attr.level || 'neutral',
+        timeout: 3000
+      });
+    });
+  }
+
+  $('button[type=submit]').on('click', function(ev) {
+    $(this).addClass('loading');
   });
 });

@@ -69,10 +69,6 @@ $page += [
 		}
 	?>
 	<body class="<?= implode(' ', $classes) ?>">
-		<?=$this->_render('element', 'messages', compact('flash'), [
-			'library' => 'base_core'
-		]) ?>
-
 		<div id="container">
 			<header class="header--main rich-page-title">
 				<h1 class="h-super-alpha header--main__site">
