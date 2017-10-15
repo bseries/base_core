@@ -39,7 +39,6 @@ requirejs.config({
     'handlebars': 'base-core/js/handlebars',
     'widgets': 'base-core/js/widgets',
     'moment': 'base-core/js/moment',
-    'scrollTo': 'base-core/js/scrollTo',
     'qtip': 'base-core/js/qtip',
     'thingsLoaded': 'base-core/js/thingsLoaded',
     'richIndex': 'base-core/js/richIndex',
