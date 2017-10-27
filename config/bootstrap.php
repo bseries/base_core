@@ -272,11 +272,15 @@ require PROJECT_PATH . '/app/libraries/lithium/template/view/Compiler.php';
 require PROJECT_PATH . '/app/libraries/lithium/template/view/adapter/File.php';
 require PROJECT_PATH . '/app/libraries/lithium/storage/Cache.php';
 
-// Make lithium's autoloader class available and initialize composer's autoloader. Composer's
-// autoloader is by default aware of all its libraries through a statically generated file.
-// Lithium's autoloader must be told of them via `Libaries::add()`.
+// Make lithium's autoloader class available and initialize composer's autoloader.
+// Composer's autoloader is by default aware of all its libraries through a statically
+// generated file. It might not be present when just libraries of type `lithium-library`
+// have been installed. Lithium's autoloader must be told of them via `Libaries::add()`.
 require PROJECT_PATH . '/app/libraries/lithium/core/Libraries.php';
-require PROJECT_PATH . '/app/libraries/autoload.php';
+
+if (file_exists($file = PROJECT_PATH . '/app/libraries/autoload.php')) {
+	require $file;
+}
 
 use lithium\core\Libraries;
 
