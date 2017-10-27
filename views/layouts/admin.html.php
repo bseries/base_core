@@ -179,7 +179,7 @@ if (!isset($meta)) {
 						<?php endif ?>
 
 						<?php foreach ($sites as $site): ?>
-							<?= $this->html->link($site->fqdn(), 'http://' . $site->fqdn(), [
+							<?= $this->html->link($site->fqdn(), '//' . $site->fqdn(), [
 								'scope' => 'app',
 								'target' => 'new',
 								'class' => 'backlink button plain inverse'
