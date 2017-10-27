@@ -233,7 +233,7 @@ msgid "untitled"
 msgstr ""
 
 #: views/layouts/admin.html.php:141
-msgid "Moin {:name}!"
+msgid "Hello {:name}!"
 msgstr ""
 
 #: views/layouts/admin.html.php:150

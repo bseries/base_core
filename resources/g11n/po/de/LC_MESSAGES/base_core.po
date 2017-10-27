@@ -234,7 +234,7 @@ msgid "untitled"
 msgstr "ohne Titel"
 
 #: views/layouts/admin.html.php:141
-msgid "Moin {:name}!"
+msgid "Hello {:name}!"
 msgstr "Moin {:name}!"
 
 #: views/layouts/admin.html.php:150

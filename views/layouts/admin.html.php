@@ -141,7 +141,7 @@ if (!isset($meta)) {
 							])?>"
 							class="button plain"
 						>
-							<?php echo $t('Moin {:name}!', [
+							<?php echo $t('Hello {:name}!', [
 								'name' => '<span class="nav-top__name">' . strtok($authedUser->name, ' ') . '</span>'
 							]) ?>
 							<span class="button__secondary">
