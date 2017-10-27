@@ -206,7 +206,9 @@ class UsersController extends \base_core\controllers\BaseController {
 		extract(Message::aliases());
 
 		if (!$this->request->data) {
-			throw new Exception('No data.');
+			// Users is used to go to /login for session creation request, but we are using /login
+			// for actually logging the user in. Lets gracefully redirect.
+			return $this->redirect('Users::session');
 		}
 		if (!FormSignature::check($this->request)) {
 			FlashMessage::write($t('Failed to authenticate. Please retry request.', ['scope' => 'base_core']), [
