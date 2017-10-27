@@ -171,8 +171,8 @@ if (!isset($meta)) {
 							'escape' => false
 						]) ?>
 
-						<?php if (Settings::read('contactSupport.enabled')): ?>
-							<?= $this->html->link($t('Support'), Settings::read('contactSupport.url'), [
+						<?php if ($url = Settings::read('contactSupportUrl')): ?>
+							<?= $this->html->link($t('Support'), $url, [
 								'class' => 'button support',
 								'target' => 'new'
 							]) ?>

@@ -22,11 +22,9 @@ Settings::register('useSites', false);
 // General Settings
 //
 
-// Enables in-admin support button.
-Settings::register('contactSupport', [
-	'enabled' => true,
-	'url' => 'https://atelierdisko.de/clients/tickets/add'
-]);
+// A URL that when provided enables an in-admin support button. The button can
+// be used to direct users to your support page or client login.
+Settings::register('contactSupportUrl', null);
 
 // Enable checking of ownership module wide. When enabled everybody
 // else than users with the `'owner'` privilege can only view or
