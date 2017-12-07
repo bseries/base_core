@@ -19,12 +19,17 @@ class Sites {
 		static::$_registry[$name] = new Site($object);
 	}
 
+	// Returns the currently active site by looking at the given  request information.
+	// The `www` prefix will be ignored, thus `example.com` will be detected even when
+	// `www.example.com` is requested and vice versa.
 	public static function current(\lithium\action\Request $request) {
-		if (!$request->env('HTTP_HOST')) {
+		if (!$host = $request->env('HTTP_HOST')) {
 			return null;
 		}
+		$requested = new Site(['fqdn' => $host]);
+
 		foreach (static::$_registry as $name => $site) {
-			if ($site->fqdn() === $request->env('HTTP_HOST')) {
+			if ($site->fqdn('drop') === $requested->fqdn('drop')) {
 				return $site;
 			}
 		}
