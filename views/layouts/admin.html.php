@@ -102,6 +102,7 @@ if (!isset($meta)) {
 		}
 	?>
 	<body class="<?= implode(' ', $classes) ?>">
+		<div id="messages"></div>
 		<div id="modal" class="hide">
 			<div class="controls"><div class="close">×</div></div>
 			<div class="content"></div>
