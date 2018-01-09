@@ -35,7 +35,10 @@ class Base extends \lithium\data\Model {
 		return $result;
 	}
 
+	/* BC / Deprecated */
+
 	public function date($entity) {
+		trigger_error('The model date() method is deprecated.', E_USER_DEPRECATED);
 		return DateTime::createFromFormat('Y-m-d H:i:s', $entity->created);
 	}
 }
