@@ -41,10 +41,6 @@ Gate::registerRight('api.jobs');
 // Admins can do anything and have all rights.
 Gate::registerRole('admin', ['panel', 'users', 'owner', 'api.jobs', 'become']);
 
-// Members have access to the admin panel but i.e.
-// can't manage users and ownership.
-Gate::registerRole('member', ['panel']);
-
 // Technical users can only access the (protected) API but
 // not the admin panel itself.
 Gate::registerRole('technical', ['api.jobs']);
