@@ -82,6 +82,13 @@ Settings::register('user.number', [
 	'generate' => '%Y-%%04.d'
 ]);
 
+// Modules may choose to export and import CSV files. By default we will use comma as a
+// field separator and the line feed to separate rows. When mainly Microsoft Excel is in
+// use this setting allows to change the separators, so importing and exporing in the
+// application works as expected and without further adjustment to the application import
+// settings.
+Settins::register('enhanceExcelCompatibility', false);
+
 //
 // Contacts
 //
