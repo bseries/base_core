@@ -73,10 +73,6 @@ Settings::register('user.number', [
 ]);
 
 //
-// Contacts
-//
-
-//
 // Services
 //
 Settings::register('service.googleAnalytics.default', [
