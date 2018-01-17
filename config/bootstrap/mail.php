@@ -28,7 +28,9 @@ $config = [
 if (PROJECT_DEBUG) {
 	$config += [
 		'adapter' => 'Debug',
-		'log' => PROJECT_PATH . '/log/mail.log'
+		'log' => PROJECT_PATH . '/log/mail.log',
+		// Only the full format contains both text and html body text.
+		'format' => strpos(PROJECT_MAIL_TYPES, 'html') !== false ? 'full' : 'normal'
 	];
 } else {
 	$config += [
