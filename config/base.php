@@ -77,7 +77,7 @@ Settings::register('user.number', [
 // use this setting allows to change the separators, so importing and exporing in the
 // application works as expected and without further adjustment to the application import
 // settings.
-Settins::register('enhanceExcelCompatibility', false);
+Settings::register('enhanceExcelCompatibility', false);
 
 //
 // Services
