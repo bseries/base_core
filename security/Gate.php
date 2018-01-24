@@ -83,7 +83,7 @@ class Gate {
 		if (!$field) {
 			return $user;
 		}
-		if (!isset($user[$field])) {
+		if (!array_key_exists($field, $user)) {
 			throw new Exception("No field `{$field}` on \$user.");
 		}
 		return $user[$field];
