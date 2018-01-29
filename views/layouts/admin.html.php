@@ -3,6 +3,7 @@
 use base_core\base\Sites;
 use base_core\extensions\cms\Panes;
 use base_core\extensions\cms\Settings;
+use base_core\security\Gate;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\util\Inflector;
@@ -134,21 +135,29 @@ if (!isset($meta)) {
 				</h2>
 				<div class="nav-top">
 					<?php if ($authedUser): ?>
-						<a
-							href="<?= $this->url([
-								'controller' => 'users', 'action' => 'edit',
-								'id' => $authedUser->id,
-								'library' => 'base_core', 'admin' => true
-							])?>"
-							class="button plain"
-						>
+						<?php if ($linkedUser = Gate::checkRight('users')): ?>
+							<a
+								href="<?= $this->url([
+									'controller' => 'users', 'action' => 'edit',
+									'id' => $authedUser->id,
+									'library' => 'base_core', 'admin' => true
+								])?>"
+								class="button plain"
+							>
+						<?php else: ?>
+							<span class="button plain">
+						<?php endif ?>
 							<?php echo $t('Hello {:name}!', [
 								'name' => '<span class="nav-top__name">' . strtok($authedUser->name, ' ') . '</span>'
 							]) ?>
 							<span class="button__secondary">
 								<?= $authedUser->role ?>
 							</span>
-						</a>
+						<?php if ($linkedUser): ?>
+							</a>
+						<?php else: ?>
+							</span>
+						<?php endif ?>
 
 						<?php if (isset($authedUser->original)): ?>
 							<?= $this->html->link($t('Become <span class="nav-top__name">{:name}</span> again', ['name' => strtok($authedUser->original['name'], ' ')] ), [
