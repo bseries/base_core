@@ -37,6 +37,8 @@ class Gate {
 		return static::$_roles;
 	}
 
+	// Verifies if the user has given right or when providing multiple rights
+	// as an array has *all* given rights.
 	public static function checkRight($right, array $options = []) {
 		$options += [
 			'user' => true
@@ -60,7 +62,27 @@ class Gate {
 		return true;
 	}
 
-	// Provide true for user to check current one.
+	// Verifies if the user has the given role or when providing multiple roles
+	// as an array, checks if the user has *any* of the given roles.
+	public static function checkRole($role, array $options = []) {
+		$options += [
+			'user' => true
+		];
+		$userRole = static::user($options['user'], 'role');
+
+		foreach ((array) $role as $r) {
+			if (!isset(static::$_roles[$r])) {
+				throw new OutOfBoundsException("Unknown role `{$r}`.");
+			}
+			if ($r === $userRole) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	// Provide `true` to check for current active user.
 	public static function user($user, $field = null) {
 		if ($user === true) {
 			$user = Auth::check('default');
@@ -87,6 +109,11 @@ class Gate {
 			throw new Exception("No field `{$field}` on \$user.");
 		}
 		return $user[$field];
+	}
+
+	// Checks if we have a currently active user.
+	public static function hasActiveUser() {
+		return (boolean) Auth::check('default');
 	}
 
 	public static function owned($entity, array $options = []) {
