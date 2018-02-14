@@ -82,7 +82,7 @@ if (!isset($meta)) {
 		<?php
 			$scripts = array_merge(
 				[
-					'https://cdn.polyfill.io/v2/polyfill.min.js?features=es6&rum=0',
+					'/base-core/js/compat/core',
 					'/base-core/js/require'
 				],
 				$this->assets->availableScripts('base', ['admin' => true]),
