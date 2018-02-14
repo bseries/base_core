@@ -40,7 +40,6 @@ cat << EOF > .babelrc
 EOF
 babel assets/js -d assets/js
 
-
 for f in $(find assets/js -type f -name *.js); do
 	uglifyjs --compress --mangle -o $f.min -- $f && mv $f.min $f
 done
