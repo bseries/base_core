@@ -89,7 +89,7 @@ define([
             MediaExplorerModal.open();
 
             var insert = function(data) {
-              image = doc.createElement('IMG');
+              var image = doc.createElement('IMG');
 
               image.setAttribute('src', data.versions.fix2admin.url);
               image.setAttribute('alt', 'image');
