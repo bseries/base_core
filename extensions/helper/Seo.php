@@ -86,11 +86,16 @@ class Seo extends \lithium\template\Helper {
 		return sprintf('<title>%s</title>', implode($options['separator'], $result));
 	}
 
-	// Returns the meta description for the page enclosed in tags.
-	public function description() {
-		if ($this->_description) {
-			return sprintf('<meta name="description" content="%s">', $this->_description);
+	// Returns the meta description for the page by default enclosed in tags.
+	// You can return the pure description by passing an optional parameter $raw.
+	public function description($raw = false) {
+		if (!$this->_description) {
+			return null;
 		}
+		if ($raw) {
+			return $this->_description;
+		}
+		return sprintf('<meta name="description" content="%s">', $this->_description);
 	}
 }
 
