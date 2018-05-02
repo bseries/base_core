@@ -197,7 +197,7 @@ class Nav extends \lithium\template\Helper {
 						$attributes['class'] = 'active';
 					}
 				}
-				$attributes = $this->_attributes($attributes);
+				$attributes = $this->attributes($attributes);
 				$out .= "<{$options['itemTag']}{$attributes}>";
 				$out .= $this->_context->html->link($item['title'], $item['url'], $linkOptions);
 
@@ -234,7 +234,7 @@ class Nav extends \lithium\template\Helper {
 		}
 
 		if ($options['tag']) {
-			$attributes = $this->_attributes(array_filter([
+			$attributes = $this->attributes(array_filter([
 				'class' => $options['class'],
 				'id' => $options['id']
 			]));
