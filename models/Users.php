@@ -53,7 +53,7 @@ class Users extends \base_core\models\Base {
 	public static function init() {
 		extract(Message::aliases());
 
-		$model = static::_object();
+		$model = static::object();
 
 		static::$enum['role'] = array_keys(Gate::roles());
 
