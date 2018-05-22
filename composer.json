@@ -13,7 +13,7 @@
         "atelierdisko/jsend": "1.0.*",
         "atelierdisko/li3_access": "2.*@stable || 2.1.0@dev",
         "atelierdisko/li3_flash_message": "1.*",
-        "atelierdisko/li3_mailer": "^1.1@stable || 1.1.0@dev",
+        "atelierdisko/li3_mailer": "^1.1@stable || 1.2.0@alpha",
         "composer/installers": "1.*",
         "davidpersson/temporary": "1.0.*",
         "php": "^5.5 || ^7.0",
