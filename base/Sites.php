@@ -16,7 +16,7 @@ class Sites {
 	use \base_core\core\RegisterableEnumeration;
 
 	public static function register($name, array $object) {
-		static::$_registry[$name] = new Site($object);
+		static::$_registry[$name] = new Site($object + compact('name'));
 	}
 
 	// Returns the currently active site by looking at the given  request information.
