@@ -41,7 +41,8 @@ class Users extends \base_core\models\Base {
 				'number',
 				'name',
 				'role',
-				'email'
+				'email',
+				'site'
 			]
 		]
 	];
