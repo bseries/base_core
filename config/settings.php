@@ -32,15 +32,14 @@ Settings::register('contact.default', [
 ]);
 
 Settings::register('contact.exec', [
-	'organization' => 'Atelier Disko',
-	'address_line_1' => 'Budapester Straße 49',
+	'organization' => 'Atelier Disko UG (haftungsbeschränkt) & Co. KG',
+	'address_line_1' => 'Weidenallee 10b',
 	'locality' => 'Hamburg',
-	'postal_code' => '20359',
+	'postal_code' => '20357',
 	'country' => 'DE',
-	'dependent_locality' => 'St. Pauli',
-	'website' => 'http://atelierdisko.de',
+	'website' => 'https://atelierdisko.de',
 	'email' => 'info@atelierdisko.de',
-	'phone' => null,
+	'phone' => null
 ]);
 
 Settings::register('service.googleAnalytics.default.account');

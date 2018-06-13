@@ -121,6 +121,7 @@ $bootstrapFormal = function($name, $path) {
 			// App routes have already been loaded.
 			'settings',
 			'media',
+			'jobs',
 			'access',
 			'switchboard',
 			'base',
