@@ -4,10 +4,6 @@
     "homepage": "http://atelierdisko.de",
     "type": "lithium-library",
     "license": "proprietary",
-    "authors": {
-      "name": "Atelier Disko",
-      "homepage": "http://atelierdisko.de"
-    },
     "require": {
         "php": ">=5.5.0",
         "mobiledetect/mobiledetectlib": "2.*@stable",
