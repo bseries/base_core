@@ -9,7 +9,10 @@
 
 namespace base_core\config\bootstrap;
 
+use li3_mailer\action\Mailer;
 use li3_mailer\net\mail\Delivery;
+use lithium\analysis\Logger;
+use lithium\aop\Filters;
 
 $config = [
 	'types' => explode(' ', PROJECT_MAIL_TYPES),
@@ -43,5 +46,25 @@ if (PROJECT_MAIL_TEST) {
 }
 
 Delivery::config(['default' => $config]);
+
+if (PROJECT_DEBUG_LOGGING || PROJECT_DEBUG) {
+	Filters::apply(Mailer::class, 'deliver', function($params, $next) {
+		$message  = "About to send mail to `{$params['message']->to}` ";
+		$message .= "with subject `{$params['message']->subject}`...";
+		Logger::write('debug', $message);
+
+		$result = $next($params);
+		if ($result) {
+			$message  = "Successfully sent mail to `{$params['message']->to}` ";
+			$message .= "with subject `{$params['message']->subject}`.";
+			Logger::write('debug', $message);
+		} else {
+			$message  = "Failed to send mail to `{$params['message']->to}` ";
+			$message .= "with subject `{$params['message']->subject}`.";
+			Logger::write('notice', $message);
+		}
+		return $result;
+	});
+}
 
 ?>
