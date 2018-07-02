@@ -133,7 +133,7 @@ if (!PROJECT_DEBUG) {
 			return $response;
 		}
 
-		$hash = 'W/' . md5(serialize([
+		$hash = md5(serialize([
 			$response->body,
 			$response->headers,
 			PROJECT_VERSION
