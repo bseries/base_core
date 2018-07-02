@@ -138,7 +138,8 @@ if (!PROJECT_DEBUG) {
 			$response->headers,
 			PROJECT_VERSION
 		]));
-		$condition = trim($request->get('http:if_none_match'), '"');
+		$condition = ltrim($request->get('http:if_none_match'), 'W/');
+		$condition = trim($condition, '"');
 
 		if ($condition === $hash) {
 			$response->status(304);
