@@ -25,20 +25,21 @@ trait DownloadTrait {
 	}
 
 	// Opts out of the framework to get full ("low"-level) control over how we send the
-	// data.
+	// data. Intentionally not using the stat() to determine the Content-Length, this
+	// seems to be unreliable: tests show that stats reports 54472 but the actual download
+	// size 54477 bytes. Content-Length is not required.
 	protected function _renderDownload($stream, $mimeType, $encoding = null) {
 		$this->_render['auto'] = false;
 		$chunkSize = 8192;
 
 		rewind($stream);
-		$stat = fstat($stream);
 
-		header("Content-Length: {$stat['size']}");
 		if ($encoding) {
 			header("Content-Type: {$mimeType}; charset={$encoding}");
 		} else {
 			header("Content-Type: {$mimeType}");
 		}
+		ob_end_flush();
 
 		while (!feof($stream)) {
 			$chunk = fread($stream, $chunkSize);
