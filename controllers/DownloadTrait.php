@@ -24,47 +24,32 @@ trait DownloadTrait {
 		$this->response->headers('X-Accel-Redirect', $url);
 	}
 
-	protected function _renderDownload($basename, $stream) {
-		rewind($stream);
+	// Opts out of the framework to get full ("low"-level) control over how we send the
+	// data.
+	protected function _renderDownload($stream, $mimeType, $encoding = null) {
+		$this->_render['auto'] = false;
+		$chunkSize = 8192;
 
+		rewind($stream);
 		$stat = fstat($stream);
-		$this->response->headers('Content-Disposition',  'attachment; filename="' . $basename . '";');
-		$this->response->headers('Content-Length', $stat['size']);
 
-		$data = stream_get_contents($stream);
-		$this->render(['data' => $data, 'type' => 'binary']);
-		// $this->_renderChunked($stream);
-	}
-
-	protected function _renderChunked($stream, $chunkSize = 8192) {
-		rewind($stream);
+		header("Content-Length: {$stat['size']}");
+		if ($encoding) {
+			header("Content-Type: {$mimeType}; charset={$encoding}");
+		} else {
+			header("Content-Type: {$mimeType}");
+		}
 
 		while (!feof($stream)) {
 			$chunk = fread($stream, $chunkSize);
 
 			if ($chunk === false) {
-				throw new Exception("Failed to read chunk from stream.");
+				throw new Exception('Failed to read chunk from stream.');
 			}
 			echo $chunk;
 		}
+		$this->_stop();
 	}
-
-	protected function _downloadBasename($userSlug, $context, $path) {
-		$name  = '';
-		if ($userSlug) {
-			$name .= str_replace('-', '_', $userSlug) . '_';
-		}
-		$name .= $context . '_';
-
-		// May only have basename in path.
-		if (dirname($path) != '.') {
-			$name .= str_replace('/', '_', dirname($path)) . '_';
-		}
-		$name .= pathinfo($path, PATHINFO_BASENAME);
-
-		return $name;
-	}
-
 }
 
 ?>

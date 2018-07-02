@@ -11,7 +11,6 @@ namespace base_core\config;
 
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
-use lithium\net\http\Media as HttpMedia;
 
 // Enables the Sites framework feature for multi site support. Allows to place content
 // in different sites hosted by the same app. Each site must be registered via
@@ -101,14 +100,6 @@ Assets::registerScheme('http', [
 
 Assets::registerScheme('https', [
 	'base' => PROJECT_ASSETS_HTTPS_BASE
-]);
-
-// Do not touch binary media.
-HttpMedia::type('binary', 'application/octet-stream', [
-	'cast' => false,
-	'encode' => function($data) {
-		return $data;
-	}
 ]);
 
 ?>
