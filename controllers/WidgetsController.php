@@ -17,6 +17,10 @@ use lithium\analysis\Logger;
 class WidgetsController extends \base_core\controllers\BaseController {
 
 	public function admin_api_view() {
+		// This action is invoked in parallel via ajax, requests will race for the session
+		// information. Release the lock as early as possible to reduce contention.
+		session_write_close();
+
 		$start = microtime(true);
 		$item = Widgets::read($this->request->id);
 
