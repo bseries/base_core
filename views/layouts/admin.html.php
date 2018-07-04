@@ -3,6 +3,7 @@
 use base_core\base\Sites;
 use base_core\extensions\cms\Panes;
 use base_core\extensions\cms\Settings;
+use base_core\security\Gate;
 use lithium\core\Libraries;
 use lithium\g11n\Message;
 use lithium\util\Inflector;
@@ -81,7 +82,7 @@ if (!isset($meta)) {
 		<?php
 			$scripts = array_merge(
 				[
-					'https://cdn.polyfill.io/v2/polyfill.min.js?features=es6&rum=0',
+					'/base-core/js/compat/core',
 					'/base-core/js/require'
 				],
 				$this->assets->availableScripts('base', ['admin' => true]),
@@ -102,6 +103,7 @@ if (!isset($meta)) {
 		}
 	?>
 	<body class="<?= implode(' ', $classes) ?>">
+		<div id="messages"></div>
 		<div id="modal" class="hide">
 			<div class="controls"><div class="close">×</div></div>
 			<div class="content"></div>
@@ -133,21 +135,29 @@ if (!isset($meta)) {
 				</h2>
 				<div class="nav-top">
 					<?php if ($authedUser): ?>
-						<a
-							href="<?= $this->url([
-								'controller' => 'users', 'action' => 'edit',
-								'id' => $authedUser->id,
-								'library' => 'base_core', 'admin' => true
-							])?>"
-							class="button plain"
-						>
-							<?php echo $t('Moin {:name}!', [
+						<?php if ($linkedUser = Gate::checkRight('users')): ?>
+							<a
+								href="<?= $this->url([
+									'controller' => 'users', 'action' => 'edit',
+									'id' => $authedUser->id,
+									'library' => 'base_core', 'admin' => true
+								])?>"
+								class="button plain"
+							>
+						<?php else: ?>
+							<span class="button plain">
+						<?php endif ?>
+							<?php echo $t('Hello {:name}!', [
 								'name' => '<span class="nav-top__name">' . strtok($authedUser->name, ' ') . '</span>'
 							]) ?>
 							<span class="button__secondary">
 								<?= $authedUser->role ?>
 							</span>
-						</a>
+						<?php if ($linkedUser): ?>
+							</a>
+						<?php else: ?>
+							</span>
+						<?php endif ?>
 
 						<?php if (isset($authedUser->original)): ?>
 							<?= $this->html->link($t('Become <span class="nav-top__name">{:name}</span> again', ['name' => strtok($authedUser->original['name'], ' ')] ), [
@@ -171,15 +181,15 @@ if (!isset($meta)) {
 							'escape' => false
 						]) ?>
 
-						<?php if (Settings::read('contactSupport.enabled')): ?>
-							<?= $this->html->link($t('Support'), Settings::read('contactSupport.url'), [
+						<?php if ($url = Settings::read('contactSupportUrl')): ?>
+							<?= $this->html->link($t('Support'), $url, [
 								'class' => 'button support',
 								'target' => 'new'
 							]) ?>
 						<?php endif ?>
 
 						<?php foreach ($sites as $site): ?>
-							<?= $this->html->link($site->fqdn(), 'http://' . $site->fqdn(), [
+							<?= $this->html->link($site->fqdn(), '//' . $site->fqdn(), [
 								'scope' => 'app',
 								'target' => 'new',
 								'class' => 'backlink button plain inverse'

@@ -19,7 +19,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 	protected static function _methods($model, Behavior $behavior) {
 		$methods = [];
 
-		$object = $model::invokeMethod('_object');
+		$object = $model::object();
 		$key = $model::key();
 
 		$normalize = function(array $relations) {
@@ -47,7 +47,7 @@ class RelationsPlus extends \li3_behaviors\data\model\Behavior {
 
 		$results = [];
 		foreach ($methods as $name => $value) {
-			if ($model::respondsTo($name)) {
+			if (method_exists($object, $name)) {
 				continue;
 			}
 			$results[$name] = $value;

@@ -17,6 +17,7 @@ class Site {
 
 	public function __construct(array $config) {
 		$this->_config = $config + [
+			'name' => null,
 			'title' => null,
 			'fqdn' => null
 		];

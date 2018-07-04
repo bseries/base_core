@@ -68,7 +68,9 @@ $bootstrapFormal = function($name, $path) {
 				// panes are translated.
 				'libraries.' . $name . '.config.g11n' => 'optional'
 			],
-			'widgets' => null, // module only
+			'widgets' => [ // module only
+				'*.config.access'
+			],
 			'switchboard' => [
 				// Filters are disabled/enabled depending on certain settings.
 				'*.config.base' => 'optional',

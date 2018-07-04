@@ -133,12 +133,13 @@ if (!PROJECT_DEBUG) {
 			return $response;
 		}
 
-		$hash = 'W/' . md5(serialize([
+		$hash = md5(serialize([
 			$response->body,
 			$response->headers,
 			PROJECT_VERSION
 		]));
-		$condition = trim($request->get('http:if_none_match'), '"');
+		$condition = ltrim($request->get('http:if_none_match'), 'W/');
+		$condition = trim($condition, '"');
 
 		if ($condition === $hash) {
 			$response->status(304);

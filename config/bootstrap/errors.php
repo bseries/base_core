@@ -204,7 +204,7 @@ if (!PROJECT_DEBUG) {
 
 			// Some error actions may not be activated. Depends on application usage. At a minimum
 			// the controller must have a `generic()` action.
-			if (isset($map[$code]) && $controller->respondsTo((INSIDE_ADMIN ? 'admin_' : '') . $map[$code])) {
+			if (isset($map[$code]) && method_exists($controller, (INSIDE_ADMIN ? 'admin_' : '') . $map[$code])) {
 				$action = (INSIDE_ADMIN ? 'admin_' : '') . $map[$code];
 			} else {
 				$action = (INSIDE_ADMIN ? 'admin_' : '') . 'generic';

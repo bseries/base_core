@@ -14,7 +14,7 @@ use lithium\data\Connections;
 Connections::add('default', [
 	'type' => 'database',
 	'adapter' => 'MySql',
-	'encoding' => 'UTF-8',
+	'encoding' => 'utf8mb4',
 	'host' => 'localhost',
 	'persistent' => false,
 	// Using defined for BC, as _HOST was introduced later.

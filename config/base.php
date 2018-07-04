@@ -11,7 +11,6 @@ namespace base_core\config;
 
 use base_core\extensions\cms\Settings;
 use base_core\models\Assets;
-use lithium\net\http\Media as HttpMedia;
 
 // Enables the Sites framework feature for multi site support. Allows to place content
 // in different sites hosted by the same app. Each site must be registered via
@@ -22,11 +21,9 @@ Settings::register('useSites', false);
 // General Settings
 //
 
-// Enables in-admin support button.
-Settings::register('contactSupport', [
-	'enabled' => true,
-	'url' => 'https://atelierdisko.de/clients/tickets/add'
-]);
+// A URL that when provided enables an in-admin support button. The button can
+// be used to direct users to your support page or client login.
+Settings::register('contactSupportUrl', null);
 
 // Enable checking of ownership module wide. When enabled everybody
 // else than users with the `'owner'` privilege can only view or
@@ -74,9 +71,12 @@ Settings::register('user.number', [
 	'generate' => '%Y-%%04.d'
 ]);
 
-//
-// Contacts
-//
+// Modules may choose to export and import CSV files. By default we will use comma as a
+// field separator and the line feed to separate rows. When mainly Microsoft Excel is in
+// use this setting allows to change the separators, so importing and exporing in the
+// application works as expected and without further adjustment to the application import
+// settings.
+Settings::register('enhanceExcelCompatibility', false);
 
 //
 // Services
@@ -100,14 +100,6 @@ Assets::registerScheme('http', [
 
 Assets::registerScheme('https', [
 	'base' => PROJECT_ASSETS_HTTPS_BASE
-]);
-
-// Do not touch binary media.
-HttpMedia::type('binary', 'application/octet-stream', [
-	'cast' => false,
-	'encode' => function($data) {
-		return $data;
-	}
 ]);
 
 ?>

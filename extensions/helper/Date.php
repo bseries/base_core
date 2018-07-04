@@ -66,7 +66,7 @@ class Date extends \lithium\template\Helper {
 			return sprintf(
 				'<time datetime="%s"%s>%s</time>',
 				$this->_format($parsed, 'w3c', $locale, $timezone),
-				is_array($options['wrap']) ? $this->_attributes($options['wrap']) : '',
+				is_array($options['wrap']) ? $this->attributes($options['wrap']) : '',
 				$result
 			);
 		}

@@ -58,6 +58,9 @@ $nickRgb = function($nick) {
 				<?php endif ?>
 				<td data-sort="role" class="table-sort"><?= $t('Role') ?>
 				<td data-sort="modified" class="date table-sort desc"><?= $t('Modified') ?>
+				<?php if ($useSites): ?>
+					<td data-sort="site" class="table-sort"><?= $t('Site') ?>
+				<?php endif ?>
 				<td class="actions">
 					<?= $this->form->field('search', [
 						'type' => 'search',
@@ -100,6 +103,10 @@ $nickRgb = function($nick) {
 					<time datetime="<?= $this->date->format($item->modified, 'w3c') ?>">
 						<?= $this->date->format($item->modified, 'date') ?>
 					</time>
+				<?php if ($useSites): ?>
+					<td>
+						<?= $item->site ?: '-' ?>
+				<?php endif ?>
 				<td class="actions">
 					<?php if (!$item->is_locked || !$item->mustLock()): ?>
 						<?= $this->html->link($item->is_locked ? $t('unlock') : $t('lock'), [

@@ -21,11 +21,13 @@ $this->set([
 		<?=$this->form->field('email', [
 			'type' => 'email',
 			'label' => $t('E–Mail'),
-			'autofocus' => true
+			'autofocus' => true,
+			'autocomplete' => 'username email'
 		]) ?>
 		<?=$this->form->field('password', [
 			'type' => 'password',
-			'label' => $t('Password')
+			'label' => $t('Password'),
+			'autocomplete' => 'current-password'
 		]) ?>
 		<?=$this->form->button($t('Login'), [
 			'type' => 'submit',

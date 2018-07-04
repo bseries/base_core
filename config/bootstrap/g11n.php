@@ -34,6 +34,7 @@ use lithium\util\Validator;
  * Sets the default timezone used by all date/time functions.
  */
 date_default_timezone_set('UTC');
+Environment::set(true, ['timezone' => PROJECT_TIMEZONE]);
 
 /**
  * Locales
@@ -53,6 +54,7 @@ date_default_timezone_set('UTC');
  * @see lithiumm\g11n\Message
  * @see lithiumm\core\Environment
  */
+Environment::set(true, ['locale' => PROJECT_LOCALE]);
 
 /**
  * Effective/Request Locale
@@ -70,18 +72,12 @@ $setLocale = function($params, $next) {
 	// We cannot yet switch the locale early enough (or load config files late enough), so
 	// that we can use the user's locale for auto translated admin.
 	if (INSIDE_ADMIN) {
-		Environment::set(true, [
-			'timezone' => PROJECT_TIMEZONE,
-			'locale' => PROJECT_LOCALE
-		]);
 		return $next($params);
 	}
 
 	// Timezone
 	if (PHP_SAPI !== 'cli' && ($user = Auth::check('default'))) {
 		$timezone = $user['timezone'];
-	} else {
-		$timezone = Environment::get('timezone') ?: PROJECT_TIMEZONE;
 	}
 	Environment::set(true, compact('timezone'));
 

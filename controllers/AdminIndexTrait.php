@@ -30,8 +30,12 @@ trait AdminIndexTrait {
 			'limit' => 25
 		];
 
-		// Show only owner's records, if not admin.
-		if ($model::hasBehavior('Ownable') && !Gate::checkRight('owner')) {
+		// Show only owner's records, if not having the owner privilege and the feature is
+		// enabled.
+		$checkOwner = Settings::read('security.checkOwner');
+		$hasOwnerRight = Gate::checkRight('owner');
+
+		if ($model::hasBehavior('Ownable') && $checkOwner && !$hasOwnerRight) {
 			$query['conditions']['owner_id'] = Gate::user(true, 'id');
 		}
 
@@ -48,7 +52,7 @@ trait AdminIndexTrait {
 		$data = $this->_all($model, $query);
 		$paginator = $this->_paginator($model, $query);
 
-		$useOwner = Settings::read('security.checkOwner') && Gate::checkRight('owner');
+		$useOwner = $checkOwner && $hasOwnerRight;
 		if ($useSites = Settings::read('useSites')) {
 			$sites = Sites::enum();
 		}

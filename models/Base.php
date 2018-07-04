@@ -1,4 +1,11 @@
 <?php
+/**
+ * Copyright 2013 David Persson. All rights reserved.
+ * Copyright 2018 Atelier Disko. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
 
 namespace base_core\models;
 
@@ -28,7 +35,10 @@ class Base extends \lithium\data\Model {
 		return $result;
 	}
 
+	/* BC / Deprecated */
+
 	public function date($entity) {
+		trigger_error('The model date() method is deprecated.', E_USER_DEPRECATED);
 		return DateTime::createFromFormat('Y-m-d H:i:s', $entity->created);
 	}
 }

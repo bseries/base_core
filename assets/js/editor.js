@@ -153,9 +153,8 @@ function($, Translator, wysihtml5) {
         // Use <p> when hitting enter and <br> for shift+enter.
         useLineBreaks: false,
         stylesheets: [
-          // Load our iframe.css based  off the admin.css path. Overly qualidied
-          // to prevent using the reset.css sheet here (which comes first).
-          $('link[href*=css]:eq(1)').attr('href').replace(/(admin)/, 'iframe')
+          // Load our iframe.css based off the base.css path.
+          $('link[href*=css]:eq(0)').attr('href').replace(/(base.css)/, 'iframe.css')
         ]
       });
       // There is no way to disable the creation of this "helper" field

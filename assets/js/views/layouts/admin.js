@@ -31,7 +31,7 @@ require(['jquery', 'nprogress', 'moment', 'domready!'], function($, Progress, Mo
   if (App.flash) {
     require(['notify'], function() {
       $.notify(App.flash.message, {
-        level: App.flash.attr.level || 'neutral',
+        level: App.flash.attrs.level || 'neutral',
         timeout: 3000
       });
     });

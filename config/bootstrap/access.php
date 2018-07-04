@@ -38,12 +38,12 @@ Gate::registerRight('owner');
 // makes most sense when using HTTP with scheduled jobs.
 Gate::registerRight('api.jobs');
 
-// Admins can do anything and have all rights.
-Gate::registerRole('admin', ['panel', 'users', 'owner', 'api.jobs', 'become']);
+// Protects actions that can be potentially dangerous, when used wrong i.e removing all
+// unused media or tags while certain media was waiting to be used.
+Gate::registerRight('clean');
 
-// Members have access to the admin panel but i.e.
-// can't manage users and ownership.
-Gate::registerRole('member', ['panel']);
+// Admins can do anything and have all rights.
+Gate::registerRole('admin', ['panel', 'users', 'owner', 'api.jobs', 'become', 'clean']);
 
 // Technical users can only access the (protected) API but
 // not the admin panel itself.

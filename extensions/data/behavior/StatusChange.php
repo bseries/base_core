@@ -29,7 +29,7 @@ class StatusChange extends \li3_behaviors\data\model\Behavior {
 	];
 
 	protected static function _filters($model, Behavior $behavior) {
-		if (!$model::respondsTo('statusChange')) {
+		if (!method_exists($model::object(), 'statusChange')) {
 			throw new Exception("No statusChange() method implemented in model `{$model}`.");
 		}
 
