@@ -4,20 +4,20 @@
     "type": "lithium-library",
     "license": "BSD-3-Clause",
     "require": {
-        "atelierdisko/cute": "0.3.*@dev",
-        "atelierdisko/jsend": "1.0.*",
-        "atelierdisko/li3_access": "2.*@stable || 2.1.0@dev",
-        "atelierdisko/li3_flash_message": "1.*",
-        "atelierdisko/li3_mailer": "^1.1@stable || 1.2.0@alpha",
-        "composer/installers": "1.*",
-        "davidpersson/temporary": "1.0.*",
-        "php": "^5.5 || ^7.0",
-        "unionofrad/li3_behaviors": "2.1.0@dev || ^2.1",
-        "unionofrad/li3_cldr": "1.0.*@RC",
-        "unionofrad/li3_lldr": "1.0.*@RC",
+        "atelierdisko/cute": "^0.3",
+        "atelierdisko/jsend": "^1",
+        "atelierdisko/li3_access": "^2",
+        "atelierdisko/li3_flash_message": "^1",
+        "atelierdisko/li3_mailer": "^1.1",
+        "composer/installers": "^1",
+        "davidpersson/temporary": "^1",
+        "php": "^7",
+        "unionofrad/li3_behaviors": "^2.1",
+        "unionofrad/li3_cldr": "^1",
+        "unionofrad/li3_lldr": "^1",
         "unionofrad/lithium": "^1.2",
-        "zendframework/zend-paginator": "2.*",
-        "zendframework/zend-servicemanager": "2.*"
+        "zendframework/zend-paginator": "^2",
+        "zendframework/zend-servicemanager": "^2"
     },
     "suggests": {
       "ext-memcached": "Enables highly-performant object caching."
