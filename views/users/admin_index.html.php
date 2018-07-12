@@ -133,7 +133,7 @@ $nickRgb = function($nick) {
 	<?php endif ?>
 	<?php if (Settings::read('user.useBecome')): ?>
 	<div class="bottom-help">
-		<?= $t('You can temporarily use the identity of a user by clicking on the `become` button in the row of that user.') ?>
+		<?= $t('You can temporarily use the identity of a user by clicking on the “become” button in the row of that user.') ?>
 	</div>
 	<?php endif ?>
 
