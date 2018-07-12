@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: base_core 1.0\n"
 "Report-Msgid-Bugs-To: info@atelierdisko.de\n"
-"POT-Creation-Date: 2016-04-08 12:21+0200\n"
+"POT-Creation-Date: 2018-07-12 12:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,174 +17,166 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/panes.php:27 views/pages/admin_home.html.php:12
+#: config/panes.php:19 views/pages/admin_home.html.php:12
 msgid "Dashboard"
 msgstr ""
 
-#: config/panes.php:37
+#: config/panes.php:29
 msgid "Bento"
 msgstr ""
 
-#: config/panes.php:43
+#: config/panes.php:35
 msgid "User"
 msgstr ""
 
-#: config/panes.php:47 config/widgets.php:41
+#: config/panes.php:39 config/widgets.php:33
 msgid "Users"
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:46 controllers/UsersController.php:289
+#: controllers/AdminActivateTrait.php:38 controllers/UsersController.php:285
 msgid "Activated."
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:52 controllers/UsersController.php:294
+#: controllers/AdminActivateTrait.php:44 controllers/UsersController.php:290
 msgid "Failed to activate."
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:79
+#: controllers/AdminActivateTrait.php:70
 msgid "Deactivated."
 msgstr ""
 
-#: controllers/AdminActivateTrait.php:85
+#: controllers/AdminActivateTrait.php:76
 msgid "Failed to deactivate."
 msgstr ""
 
-#: controllers/AdminAddTrait.php:53 controllers/AdminEditTrait.php:54
-#: controllers/UsersController.php:57 controllers/UsersController.php:84
+#: controllers/AdminAddTrait.php:45 controllers/AdminEditTrait.php:46
+#: controllers/UsersController.php:49 controllers/UsersController.php:76
 msgid "Successfully saved."
 msgstr ""
 
-#: controllers/AdminAddTrait.php:60 controllers/AdminEditTrait.php:61
-#: controllers/UsersController.php:62 controllers/UsersController.php:89
+#: controllers/AdminAddTrait.php:52 controllers/AdminEditTrait.php:53
+#: controllers/UsersController.php:54 controllers/UsersController.php:81
 msgid "Failed to save."
 msgstr ""
 
-#: controllers/AdminDeleteTrait.php:42
+#: controllers/AdminDeleteTrait.php:34
 msgid "Successfully deleted."
 msgstr ""
 
-#: controllers/AdminDeleteTrait.php:48
+#: controllers/AdminDeleteTrait.php:40
 msgid "Failed to delete."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:50
+#: controllers/AdminLockTrait.php:42
 msgid "Successfully locked."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:56
+#: controllers/AdminLockTrait.php:48
 msgid "Failed to lock."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:87
+#: controllers/AdminLockTrait.php:78
 msgid "Successfully unlocked."
 msgstr ""
 
-#: controllers/AdminLockTrait.php:93
+#: controllers/AdminLockTrait.php:84
 msgid "Failed to unlock."
 msgstr ""
 
-#: controllers/AdminOrderTrait.php:46
-msgid "Successfully updated order."
-msgstr ""
-
-#: controllers/AdminOrderTrait.php:52
-msgid "Failed to update order."
-msgstr ""
-
-#: controllers/AdminPromoteTrait.php:45
+#: controllers/AdminPromoteTrait.php:37
 msgid "Successfully promoted."
 msgstr ""
 
-#: controllers/AdminPromoteTrait.php:50
+#: controllers/AdminPromoteTrait.php:42
 msgid "Failed to promote."
 msgstr ""
 
-#: controllers/AdminPromoteTrait.php:76
+#: controllers/AdminPromoteTrait.php:67
 msgid "Successfully unpromoted."
 msgstr ""
 
-#: controllers/AdminPromoteTrait.php:81
+#: controllers/AdminPromoteTrait.php:72
 msgid "Failed to unpromote."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:46
+#: controllers/AdminPublishTrait.php:38
 msgid "Successfully published."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:52
+#: controllers/AdminPublishTrait.php:44
 msgid "Failed to publish."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:79
+#: controllers/AdminPublishTrait.php:70
 msgid "Successfully unpublished."
 msgstr ""
 
-#: controllers/AdminPublishTrait.php:85
+#: controllers/AdminPublishTrait.php:76
 msgid "Failed to unpublish."
 msgstr ""
 
-#: controllers/AdminUpdateStatusTrait.php:47
+#: controllers/AdminUpdateStatusTrait.php:39
 msgid "Successfully updated status."
 msgstr ""
 
-#: controllers/AdminUpdateStatusTrait.php:53
+#: controllers/AdminUpdateStatusTrait.php:45
 msgid "Failed to update status."
 msgstr ""
 
-#: controllers/UsersController.php:134
+#: controllers/UsersController.php:128
 msgid "no address"
 msgstr ""
 
-#: controllers/UsersController.php:193
+#: controllers/UsersController.php:187
 msgid "Assigned role `{:role}`."
 msgstr ""
 
-#: controllers/UsersController.php:197
+#: controllers/UsersController.php:191
 msgid "Failed to assign role `{:role}`."
 msgstr ""
 
-#: controllers/UsersController.php:218
+#: controllers/UsersController.php:214
 msgid "Failed to authenticate. Please retry request."
 msgstr ""
 
-#: controllers/UsersController.php:226
+#: controllers/UsersController.php:222
 msgid "Authenticated."
 msgstr ""
 
-#: controllers/UsersController.php:231
+#: controllers/UsersController.php:227
 msgid "Failed to authenticate."
 msgstr ""
 
-#: controllers/UsersController.php:254
+#: controllers/UsersController.php:250
 msgid "Successfully logged out."
 msgstr ""
 
-#: controllers/UsersController.php:276
+#: controllers/UsersController.php:272
 msgid "Your account has been activated."
 msgstr ""
 
-#: controllers/UsersController.php:318
+#: controllers/UsersController.php:314
 msgid "Became user `{:name}`."
 msgstr ""
 
-#: controllers/UsersController.php:331
+#: controllers/UsersController.php:327
 msgid "Became user `{:name}` again."
 msgstr ""
 
-#: models/Users.php:76 models/Users.php:84 models/Users.php:102
-#: models/Users.php:111 models/Users.php:119
+#: models/Users.php:70 models/Users.php:78 models/Users.php:96
+#: models/Users.php:105 models/Users.php:113
 msgid "This field cannot be empty."
 msgstr ""
 
-#: models/Users.php:90
+#: models/Users.php:84
 msgid "The passwords are not identical."
 msgstr ""
 
-#: models/Users.php:125
+#: models/Users.php:119
 msgid "Invalid e-mail."
 msgstr ""
 
-#: models/Users.php:130
+#: models/Users.php:124
 msgid "The e-mail is already in use."
 msgstr ""
 
@@ -198,7 +190,7 @@ msgstr ""
 
 #: views/errors/admin_fiveohoh.html.php:17
 #: views/errors/admin_generic.html.php:17
-msgid "Ooops, this shouldn't have happened."
+msgid "Ooops, this shouldn’t have happened."
 msgstr ""
 
 #: views/errors/admin_fiveohoh.html.php:20
@@ -216,39 +208,39 @@ msgstr ""
 msgid "Go back to dashboard"
 msgstr ""
 
-#: views/layouts/admin.html.php:24
+#: views/layouts/admin.html.php:25
 msgid "creating"
 msgstr ""
 
-#: views/layouts/admin.html.php:25
+#: views/layouts/admin.html.php:26
 msgid "editing"
 msgstr ""
 
-#: views/layouts/admin.html.php:26
+#: views/layouts/admin.html.php:27
 msgid "listing"
 msgstr ""
 
-#: views/layouts/admin.html.php:30
+#: views/layouts/admin.html.php:31
 msgid "untitled"
 msgstr ""
 
-#: views/layouts/admin.html.php:141
+#: views/layouts/admin.html.php:150
 msgid "Hello {:name}!"
 msgstr ""
 
-#: views/layouts/admin.html.php:150
+#: views/layouts/admin.html.php:163
 msgid "Become <span class=\"nav-top__name\">{:name}</span> again"
 msgstr ""
 
-#: views/layouts/admin.html.php:158
+#: views/layouts/admin.html.php:171
 msgid "Logout"
 msgstr ""
 
-#: views/layouts/admin.html.php:159
+#: views/layouts/admin.html.php:172
 msgid "in {:minutes} minutes"
 msgstr ""
 
-#: views/layouts/admin.html.php:172
+#: views/layouts/admin.html.php:185
 msgid "Support"
 msgstr ""
 
@@ -272,179 +264,187 @@ msgstr ""
 msgid "locked"
 msgstr ""
 
-#: views/users/admin_form.html.php:29 views/users/admin_index.html.php:55
+#: views/users/admin_form.html.php:31
+msgid "Sites"
+msgstr ""
+
+#: views/users/admin_form.html.php:37 views/users/admin_index.html.php:62
+msgid "Site"
+msgstr ""
+
+#: views/users/admin_form.html.php:48 views/users/admin_index.html.php:55
 msgid "Name"
 msgstr ""
 
-#: views/users/admin_form.html.php:34 views/users/admin_index.html.php:53
+#: views/users/admin_form.html.php:55 views/users/admin_index.html.php:53
 msgid "Number"
 msgstr ""
 
-#: views/users/admin_form.html.php:35
+#: views/users/admin_form.html.php:56
 msgid "Leave empty to autogenerate number."
 msgstr ""
 
-#: views/users/admin_form.html.php:40
+#: views/users/admin_form.html.php:63
 msgid "E-mail"
 msgstr ""
 
-#: views/users/admin_form.html.php:43
+#: views/users/admin_form.html.php:68
 msgid "receives notifications"
 msgstr ""
 
-#: views/users/admin_form.html.php:55
+#: views/users/admin_form.html.php:80
 msgid "Locale"
 msgstr ""
 
-#: views/users/admin_form.html.php:60
+#: views/users/admin_form.html.php:85
 msgid "Timezone"
 msgstr ""
 
-#: views/users/admin_form.html.php:65
+#: views/users/admin_form.html.php:90
 msgid "Country"
 msgstr ""
 
-#: views/users/admin_form.html.php:71
+#: views/users/admin_form.html.php:96
 msgid "Security"
 msgstr ""
 
-#: views/users/admin_form.html.php:76 views/users/admin_form.html.php:77
+#: views/users/admin_form.html.php:101 views/users/admin_form.html.php:102
 msgid "change password"
 msgstr ""
 
-#: views/users/admin_form.html.php:77
+#: views/users/admin_form.html.php:102
 msgid "provide a password"
 msgstr ""
 
-#: views/users/admin_form.html.php:84 views/users/admin_session.html.php:22
+#: views/users/admin_form.html.php:111 views/users/admin_session.html.php:29
 msgid "Password"
 msgstr ""
 
-#: views/users/admin_form.html.php:87
+#: views/users/admin_form.html.php:114
 msgid "Pick a strong password."
 msgstr ""
 
-#: views/users/admin_form.html.php:91
+#: views/users/admin_form.html.php:119
 msgid "change reset answer"
 msgstr ""
 
-#: views/users/admin_form.html.php:91
+#: views/users/admin_form.html.php:119
 msgid "provide a reset answer"
 msgstr ""
 
-#: views/users/admin_form.html.php:98
+#: views/users/admin_form.html.php:126
 msgid "Password reset answer"
 msgstr ""
 
-#: views/users/admin_form.html.php:103
+#: views/users/admin_form.html.php:131
 msgid "Required to allow resetting password."
 msgstr ""
 
-#: views/users/admin_form.html.php:104
+#: views/users/admin_form.html.php:132
 msgid "This is an additional security measure to protect password resets."
 msgstr ""
 
-#: views/users/admin_form.html.php:110
+#: views/users/admin_form.html.php:138
 msgid "API Authentication token"
 msgstr ""
 
-#: views/users/admin_form.html.php:111
+#: views/users/admin_form.html.php:139
 msgid "Keep empty if the user has no API access."
 msgstr ""
 
-#: views/users/admin_form.html.php:114
+#: views/users/admin_form.html.php:142
 msgid "A token that can be provided instead of the password."
 msgstr ""
 
-#: views/users/admin_form.html.php:115
+#: views/users/admin_form.html.php:143
 msgid "Only needed when this is a technical user with access to the API."
 msgstr ""
 
-#: views/users/admin_form.html.php:121 views/users/admin_index.html.php:59
+#: views/users/admin_form.html.php:149 views/users/admin_index.html.php:59
 msgid "Role"
 msgstr ""
 
-#: views/users/admin_form.html.php:128
+#: views/users/admin_form.html.php:156
 msgid "Billing"
 msgstr ""
 
-#: views/users/admin_form.html.php:133
+#: views/users/admin_form.html.php:161
 msgid "Billing Address"
 msgstr ""
 
-#: views/users/admin_form.html.php:137
+#: views/users/admin_form.html.php:165
 msgid "address"
 msgstr ""
 
-#: views/users/admin_form.html.php:143 views/users/admin_index.html.php:115
+#: views/users/admin_form.html.php:171 views/users/admin_index.html.php:122
 msgid "open"
 msgstr ""
 
-#: views/users/admin_form.html.php:153
+#: views/users/admin_form.html.php:181
 msgid "Currency"
 msgstr ""
 
-#: views/users/admin_form.html.php:158
+#: views/users/admin_form.html.php:186
 msgid "VAT Reg. No."
 msgstr ""
 
-#: views/users/admin_form.html.php:162
+#: views/users/admin_form.html.php:190
 msgid "Tax No."
 msgstr ""
 
-#: views/users/admin_form.html.php:166
+#: views/users/admin_form.html.php:194
 msgid "Perferred tax type"
 msgstr ""
 
-#: views/users/admin_form.html.php:173
+#: views/users/admin_form.html.php:201
 msgid "Perferred payment method"
 msgstr ""
 
-#: views/users/admin_form.html.php:180
+#: views/users/admin_form.html.php:208
 msgid "Auto Invoice Frequency"
 msgstr ""
 
-#: views/users/admin_form.html.php:185
+#: views/users/admin_form.html.php:213
 msgid "auto invoice"
 msgstr ""
 
-#: views/users/admin_form.html.php:195
+#: views/users/admin_form.html.php:223
 msgid "eCommerce"
 msgstr ""
 
-#: views/users/admin_form.html.php:200
+#: views/users/admin_form.html.php:228
 msgid "Shipping Address"
 msgstr ""
 
-#: views/users/admin_form.html.php:204
+#: views/users/admin_form.html.php:232
 msgid "Create new address."
 msgstr ""
 
-#: views/users/admin_form.html.php:214
+#: views/users/admin_form.html.php:242
 msgid "can rent"
 msgstr ""
 
-#: views/users/admin_form.html.php:226
+#: views/users/admin_form.html.php:254
 msgid "delete"
 msgstr ""
 
-#: views/users/admin_form.html.php:234 views/users/admin_index.html.php:109
+#: views/users/admin_form.html.php:262 views/users/admin_index.html.php:116
 msgid "activate"
 msgstr ""
 
-#: views/users/admin_form.html.php:234 views/users/admin_index.html.php:109
+#: views/users/admin_form.html.php:262 views/users/admin_index.html.php:116
 msgid "deactivate"
 msgstr ""
 
-#: views/users/admin_form.html.php:238 views/users/admin_index.html.php:105
+#: views/users/admin_form.html.php:266 views/users/admin_index.html.php:112
 msgid "lock"
 msgstr ""
 
-#: views/users/admin_form.html.php:238 views/users/admin_index.html.php:105
+#: views/users/admin_form.html.php:266 views/users/admin_index.html.php:112
 msgid "unlock"
 msgstr ""
 
-#: views/users/admin_form.html.php:246
+#: views/users/admin_form.html.php:274
 msgid "save"
 msgstr ""
 
@@ -476,28 +476,28 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: views/users/admin_index.html.php:65
+#: views/users/admin_index.html.php:68
 msgid "Filter"
 msgstr ""
 
-#: views/users/admin_index.html.php:113
+#: views/users/admin_index.html.php:120
 msgid "become"
 msgstr ""
 
-#: views/users/admin_index.html.php:124
+#: views/users/admin_index.html.php:131
 msgid "The user will be notified by e-mail when her account is activated."
 msgstr ""
 
-#: views/users/admin_index.html.php:129
+#: views/users/admin_index.html.php:136
 msgid ""
-"You can temporarily use the identity of a user by clicking on the `become` "
+"You can temporarily use the identity of a user by clicking on the “become” "
 "button in the row of that user."
 msgstr ""
 
-#: views/users/admin_session.html.php:12 views/users/admin_session.html.php:23
+#: views/users/admin_session.html.php:12 views/users/admin_session.html.php:32
 msgid "Login"
 msgstr ""
 
-#: views/users/admin_session.html.php:21
+#: views/users/admin_session.html.php:23
 msgid "E-Mail"
 msgstr ""
