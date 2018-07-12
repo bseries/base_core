@@ -60,7 +60,7 @@ $this->set([
 			<section class="grid-column-right">
 				<?= $this->form->field('email', [
 					'type' => 'email',
-					'label' => $t('E–mail'),
+					'label' => $t('E-mail'),
 					'autocomplete' => 'off'
 				]) ?>
 				<?= $this->form->field('is_notified', [

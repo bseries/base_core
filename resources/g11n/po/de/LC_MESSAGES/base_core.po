@@ -182,11 +182,11 @@ msgid "The passwords are not identical."
 msgstr "Die Passwörter stimmen nicht überein."
 
 #: models/Users.php:125
-msgid "Invalid e–mail."
+msgid "Invalid e-mail."
 msgstr "Ungültige E-Mail-Adresse."
 
 #: models/Users.php:130
-msgid "The e–mail is already in use."
+msgid "The e-mail is already in use."
 msgstr "Die E-Mail-Adresse ist bereits vergeben."
 
 #: views/elements/paging.html.php:16
@@ -286,8 +286,8 @@ msgid "Leave empty to autogenerate number."
 msgstr "Freilassen, um eine Nummer automatisch zu erzeugen."
 
 #: views/users/admin_form.html.php:40
-msgid "E–mail"
-msgstr "E–Mail"
+msgid "E-mail"
+msgstr "E-Mail"
 
 #: views/users/admin_form.html.php:43
 msgid "receives notifications"
@@ -508,8 +508,8 @@ msgid "Login"
 msgstr "Login"
 
 #: views/users/admin_session.html.php:21
-msgid "E–Mail"
-msgstr "E–Mail"
+msgid "E-Mail"
+msgstr "E-Mail"
 
 #~ msgid "External"
 #~ msgstr "Extern"
