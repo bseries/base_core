@@ -1630,7 +1630,10 @@ table .button.add-nested:hover {
   display: block;
 }
 .media-explorer .available .item .title {
-  display: block;
+  display: inline-block; /* Cannot use block, as this prevents ellipsis overflow. */
+}
+.media-explorer .available .item .created {
+  display: inline-block;
 }
 
 /* Transfer Pane: Queue */
