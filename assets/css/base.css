@@ -1620,9 +1620,6 @@ table .button.add-nested:hover {
 .media-explorer .available .item .meta {
   display: none;
   margin-top: -25px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
   line-height: 1.5;
   font-family: var(--font-family-mono);
 }
