@@ -100,8 +100,15 @@ class Assets extends \lithium\template\Helper {
 					$assets[] = $asset;
 				}
 			} else {
+				$libraries = $this->_libraries();
+
+				// Styles must be loaded in reverse order, so that base styles are defined
+				// first, than overrides take place.
+				if ($assetType === 'style') {
+					$libraries = array_reverse($libraries);
+				}
 				// Load base JS/CSS files in i.e. cms_* assets/{js,css}.
-				foreach ($this->_libraries() as $name => $library) {
+				foreach ($libraries as $name => $library) {
 					if ($name == 'app' && $options['admin']) {
 						// Do not load app base.js/base.css when in admin context.
 						continue;
