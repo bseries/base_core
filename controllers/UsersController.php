@@ -56,8 +56,14 @@ class UsersController extends \base_core\controllers\BaseController {
 				]);
 			}
 		}
+
+		if ($useSites = Settings::read('useSites')) {
+			$sites = Sites::enum();
+		}
+
+
 		$this->_render['template'] = 'admin_form';
-		return compact('item') + $this->_selects($item);
+		return compact('item', 'useSites') + $this->_selects($item);
 	}
 
 	public function admin_edit() {
@@ -83,8 +89,13 @@ class UsersController extends \base_core\controllers\BaseController {
 				]);
 			}
 		}
+
+		if ($useSites = Settings::read('useSites')) {
+			$sites = Sites::enum();
+		}
+
 		$this->_render['template'] = 'admin_form';
-		return compact('item') + $this->_selects($item);
+		return compact('item', 'useSites') + $this->_selects($item);
 	}
 
 	protected function _handleCredentialsSubmission(array $submitted, array $events) {
