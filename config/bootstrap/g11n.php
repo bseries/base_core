@@ -260,14 +260,24 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * @see lithiumm\g11n\Message::aliases()
  * @see lithiumm\net\http\Media
  */
-Filters::apply(Media::class, '_handle', function($params, $next) {
+$contextAliases = [
+	'tc' => function($context, $message, array $options = []) {
+		return Message::translate($message, $options + ['default' => $message] + compact('context'));
+	},
+	'tcn' => function($context, $message1, $message2, $count, array $options = []) {
+		return Message::translate($message1, $options + compact('count', 'context') + [
+			'default' => $count === 1 ? $message1 : $message2
+		]);
+	}
+];
+Filters::apply(Media::class, '_handle', function($params, $next) use ($contextAliases) {
 	$params['handler'] += ['outputFilters' => []];
-	$params['handler']['outputFilters'] += Message::aliases();
+	$params['handler']['outputFilters'] += Message::aliases() + $contextAliases;
 	return $next($params);
 });
-Filters::apply(MailMedia::class, '_handle', function($params, $next) {
+Filters::apply(MailMedia::class, '_handle', function($params, $next) use ($contextAliases) {
 	$params['handler'] += ['outputFilters' => []];
-	$params['handler']['outputFilters'] += Message::aliases();
+	$params['handler']['outputFilters'] += Message::aliases() + $contextAliases;
 	return $next($params);
 });
 
