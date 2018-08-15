@@ -45,6 +45,5 @@ done
 
 for f in $(ls assets/*.css); do
 	cssnextgen $f > $f.tmp && mv $f.tmp $f
-	# yuicompressor breaks spaces in calc() expressions
-	sqwish $f -o $f.min && mv $f.min $f
+	cleancss --skip-rebase $f -o $f.min && mv $f.min $f
 done
