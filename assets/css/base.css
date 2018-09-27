@@ -522,7 +522,7 @@ html {
   padding-right: 90px;
 
   padding-top: 20px;
-  padding-bottom: 20px;
+  /* 20px bottom already taken by actions, see below. */
 
   text-align: right;
   transition: bottom .3s, background .25s;
