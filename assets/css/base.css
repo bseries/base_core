@@ -553,9 +553,11 @@ html {
 }
 .bottom-actions__left {
   float: left;
+  margin-bottom: 20px;
 }
 .bottom-actions__right {
   float: right;
+  margin-bottom: 20px;
 }
 
 /* Rich Titles
