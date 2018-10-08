@@ -87,7 +87,7 @@ class Assets extends \lithium\template\Helper {
 	}
 
 	protected function _availableAssets($assetType, $viewType, array $options = []) {
-		$options += ['admin' => false];
+		$options += ['admin' => false, 'site' => null];
 
 		$assets = [];
 
@@ -96,7 +96,7 @@ class Assets extends \lithium\template\Helper {
 			// in app context do not rely on any module JS/CSS, load only app base.
 			if (!$options['admin']) {
 				// Load only app's base.js not anything else, when in app context.
-				if ($asset = $this->_asset($assetType, 'app', 'base')) {
+				if ($asset = $this->_asset($assetType, 'app', $options['site'], 'base')) {
 					$assets[] = $asset;
 				}
 			} else {
@@ -106,7 +106,7 @@ class Assets extends \lithium\template\Helper {
 						// Do not load app base.js/base.css when in admin context.
 						continue;
 					}
-					if ($asset = $this->_asset($assetType, $name, 'base')) {
+					if ($asset = $this->_asset($assetType, $name, $options['site'], 'base')) {
 						$assets[] = $asset;
 					}
 				}
@@ -117,7 +117,7 @@ class Assets extends \lithium\template\Helper {
 			$library = $options['admin'] ? 'base_core' : 'app';
 			$layout = Inflector::camelize($this->_context->_config['layout'], false);
 
-			if ($asset = $this->_asset($assetType, $library, "views/layouts/{$layout}")) {
+			if ($asset = $this->_asset($assetType, $library, $options['site'], "views/layouts/{$layout}")) {
 				$assets[] = $asset;
 			}
 		} elseif ($viewType == 'view') {
@@ -126,7 +126,7 @@ class Assets extends \lithium\template\Helper {
 			$controller = $this->_context->_config['controller'];
 			$template = Inflector::camelize($this->_context->_config['template'], false);
 
-			if ($asset = $this->_asset($assetType, $library, "views/{$controller}/{$template}")) {
+			if ($asset = $this->_asset($assetType, $library, $options['site'], "views/{$controller}/{$template}")) {
 				$assets[] = $asset;
 			}
 		} elseif ($viewType == 'element') {
@@ -189,8 +189,15 @@ class Assets extends \lithium\template\Helper {
 		return $libraries;
 	}
 
-	protected function _asset($assetType, $library, $file) {
+	protected function _asset($assetType, $library, $site, $file) {
 		$library = str_replace('_', '-', $library);
+		if ($site) {
+			if (is_object($site)) {
+				$library .= '/sites/' . $site->name();
+			} else {
+				$library .= "/sites/{$site}";
+			}
+		}
 		$base = parse_url(AssetsModel::base('file'), PHP_URL_PATH);
 
 		if (!is_dir($base)) {
