@@ -18,7 +18,10 @@ use lithium\util\Inflector;
 class Assets extends \lithium\template\Helper {
 
 	public function image($path, array $options = []) {
-		$path = $this->url($path);
+		$defaults = ['site' => null];
+		list($scope, $options) = $this->_options($defaults, $options);
+
+		$path = $this->url($path, null, $scope['site']);
 		return $this->_context->html->image($path, $options);
 	}
 
@@ -38,33 +41,52 @@ class Assets extends \lithium\template\Helper {
 	}
 
 	public function script($path, array $options = []) {
-		$defaults = ['inline' => true];
+		$defaults = ['inline' => true, 'site' => null];
 		list($scope, $options) = $this->_options($defaults, $options);
 
 		if (is_array($path)) {
 			foreach ($path as $i => $item) {
-				$item = $this->url($item, '.js');
+				$item = $this->url($item, '.js', $scope['site']);
 				$path[$i] = $this->script($item, $scope);
 			}
 			return ($scope['inline']) ? join("\n\t", $path) . "\n" : null;
 		}
 		if (strpos($path, '://') === false) {
-			$path = $this->url($path, '.js');
+			$path = $this->url($path, '.js', $scope['site']);
 		}
 		return $this->_context->html->script($path, $options);
 	}
 
-	public function url($path, $suffix = null) {
+	public function url($path, $suffix = null, $site = null) {
 		if (strpos($path, '://') !== false) {
 			return $path;
 		}
+		$parts = explode('/', trim($path, '/')); // trim to ensure first element is library name
+		$path = '/' . array_shift($parts); // i.e. 'app', the library name
+		if ($site) {
+			if (is_object($site)) {
+				$path .= '/sites/' . $site->name();
+			} else {
+				$path .= "/sites/{$site}";
+			}
+		}
+		$path .= '/' . implode('/', $parts);
+
 		$version = PROJECT_VERSION;
 		return $this->base() . '/v:' . $version . $path . $suffix;
 	}
 
-	public function urls($pattern) {
+	public function urls($pattern, $site = null) {
 		$fileBase = parse_url($this->base('file'), PHP_URL_PATH);
 		$httpBase = $this->base();
+
+		if ($site) {
+			if (is_object($site)) {
+				$fileBase .= '/sites/' . $site->name();
+			} else {
+				$fileBase .= "/sites/{$site}";
+			}
+		}
 
 		$results = glob($fileBase . $pattern);
 
