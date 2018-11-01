@@ -14,7 +14,7 @@ $t = function($message, array $options = []) {
 		<span class="error-page__message"><?= $this->title($this->_response->status['message']) ?></span>
 	</h1>
 	<div class="error-page__reason t-beta">
-		<?= $t("Ooops, this shouldn't have happened.") ?>
+		<?= $t("Ooops, this shouldn’t have happened.") ?>
 	</div>
 	<div class="error-page__id">
 		<?php echo $t('The ID for this error is <strong>{:id}</strong>', [

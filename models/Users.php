@@ -116,12 +116,12 @@ class Users extends \base_core\models\Base {
 				'email',
 				'deep' => true,
 				'on' => ['create', 'update'],
-				'message' => $t('Invalid e–mail.', ['scope' => 'base_core'])
+				'message' => $t('Invalid e-mail.', ['scope' => 'base_core'])
 			],
 			'isUnique' => [
 				'Users.isUnique',
 				'on' => ['create', 'update'],
-				'message' => $t('The e–mail is already in use.', ['scope' => 'base_core'])
+				'message' => $t('The e-mail is already in use.', ['scope' => 'base_core'])
 			]
 		];
 		Validator::add('Users.isUnique', function($value, $format, $options) {

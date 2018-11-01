@@ -20,7 +20,7 @@ class ClientRouter {
 
 	protected static $_routes = [];
 
-	public static function provide($name, array $params, array $options = []) {
+	public static function provide($name, $params, array $options = []) {
 		$options += ['scope' => Router::scope()];
 		static::$_routes[] = compact('name', 'params', 'options');
 	}

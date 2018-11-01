@@ -28,7 +28,7 @@ trait DownloadTrait {
 	// data. Intentionally not using the stat() to determine the Content-Length, this
 	// seems to be unreliable: tests show that stats reports 54472 but the actual download
 	// size 54477 bytes. Content-Length is not required.
-	protected function _renderDownload($stream, $mimeType, $encoding = null) {
+	protected function _renderDownload($stream, $mimeType, $encoding = null, $basename = null) {
 		$this->_render['auto'] = false;
 		$chunkSize = 8192;
 
@@ -39,6 +39,10 @@ trait DownloadTrait {
 		} else {
 			header("Content-Type: {$mimeType}");
 		}
+		if ($basename) {
+			header("Content-Disposition: attachment; filename=\"{$basename}\";");
+		}
+
 		ob_end_flush();
 
 		while (!feof($stream)) {

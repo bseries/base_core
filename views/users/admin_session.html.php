@@ -20,7 +20,7 @@ $this->set([
 	<?=$this->form->create(null, ['url' => 'Users::login']) ?>
 		<?=$this->form->field('email', [
 			'type' => 'email',
-			'label' => $t('E–Mail'),
+			'label' => $t('E-Mail'),
 			'autofocus' => true,
 			'autocomplete' => 'username email'
 		]) ?>

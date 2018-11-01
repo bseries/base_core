@@ -18,7 +18,10 @@ use lithium\util\Inflector;
 class Assets extends \lithium\template\Helper {
 
 	public function image($path, array $options = []) {
-		$path = $this->url($path);
+		$defaults = ['site' => null];
+		list($scope, $options) = $this->_options($defaults, $options);
+
+		$path = $this->url($path, null, $scope['site']);
 		return $this->_context->html->image($path, $options);
 	}
 
@@ -38,33 +41,52 @@ class Assets extends \lithium\template\Helper {
 	}
 
 	public function script($path, array $options = []) {
-		$defaults = ['inline' => true];
+		$defaults = ['inline' => true, 'site' => null];
 		list($scope, $options) = $this->_options($defaults, $options);
 
 		if (is_array($path)) {
 			foreach ($path as $i => $item) {
-				$item = $this->url($item, '.js');
+				$item = $this->url($item, '.js', $scope['site']);
 				$path[$i] = $this->script($item, $scope);
 			}
 			return ($scope['inline']) ? join("\n\t", $path) . "\n" : null;
 		}
 		if (strpos($path, '://') === false) {
-			$path = $this->url($path, '.js');
+			$path = $this->url($path, '.js', $scope['site']);
 		}
 		return $this->_context->html->script($path, $options);
 	}
 
-	public function url($path, $suffix = null) {
+	public function url($path, $suffix = null, $site = null) {
 		if (strpos($path, '://') !== false) {
 			return $path;
 		}
+		$parts = explode('/', trim($path, '/')); // trim to ensure first element is library name
+		$path = '/' . array_shift($parts); // i.e. 'app', the library name
+		if ($site) {
+			if (is_object($site)) {
+				$path .= '/sites/' . $site->name();
+			} else {
+				$path .= "/sites/{$site}";
+			}
+		}
+		$path .= '/' . implode('/', $parts);
+
 		$version = PROJECT_VERSION;
 		return $this->base() . '/v:' . $version . $path . $suffix;
 	}
 
-	public function urls($pattern) {
+	public function urls($pattern, $site = null) {
 		$fileBase = parse_url($this->base('file'), PHP_URL_PATH);
 		$httpBase = $this->base();
+
+		if ($site) {
+			if (is_object($site)) {
+				$fileBase .= '/sites/' . $site->name();
+			} else {
+				$fileBase .= "/sites/{$site}";
+			}
+		}
 
 		$results = glob($fileBase . $pattern);
 
@@ -87,7 +109,7 @@ class Assets extends \lithium\template\Helper {
 	}
 
 	protected function _availableAssets($assetType, $viewType, array $options = []) {
-		$options += ['admin' => false];
+		$options += ['admin' => false, 'site' => null];
 
 		$assets = [];
 
@@ -96,7 +118,7 @@ class Assets extends \lithium\template\Helper {
 			// in app context do not rely on any module JS/CSS, load only app base.
 			if (!$options['admin']) {
 				// Load only app's base.js not anything else, when in app context.
-				if ($asset = $this->_asset($assetType, 'app', 'base')) {
+				if ($asset = $this->_asset($assetType, 'app', $options['site'], 'base')) {
 					$assets[] = $asset;
 				}
 			} else {
@@ -113,7 +135,7 @@ class Assets extends \lithium\template\Helper {
 						// Do not load app base.js/base.css when in admin context.
 						continue;
 					}
-					if ($asset = $this->_asset($assetType, $name, 'base')) {
+					if ($asset = $this->_asset($assetType, $name, $options['site'], 'base')) {
 						$assets[] = $asset;
 					}
 				}
@@ -124,7 +146,7 @@ class Assets extends \lithium\template\Helper {
 			$library = $options['admin'] ? 'base_core' : 'app';
 			$layout = Inflector::camelize($this->_context->_config['layout'], false);
 
-			if ($asset = $this->_asset($assetType, $library, "views/layouts/{$layout}")) {
+			if ($asset = $this->_asset($assetType, $library, $options['site'], "views/layouts/{$layout}")) {
 				$assets[] = $asset;
 			}
 		} elseif ($viewType == 'view') {
@@ -133,7 +155,7 @@ class Assets extends \lithium\template\Helper {
 			$controller = $this->_context->_config['controller'];
 			$template = Inflector::camelize($this->_context->_config['template'], false);
 
-			if ($asset = $this->_asset($assetType, $library, "views/{$controller}/{$template}")) {
+			if ($asset = $this->_asset($assetType, $library, $options['site'], "views/{$controller}/{$template}")) {
 				$assets[] = $asset;
 			}
 		} elseif ($viewType == 'element') {
@@ -196,8 +218,15 @@ class Assets extends \lithium\template\Helper {
 		return $libraries;
 	}
 
-	protected function _asset($assetType, $library, $file) {
+	protected function _asset($assetType, $library, $site, $file) {
 		$library = str_replace('_', '-', $library);
+		if ($site) {
+			if (is_object($site)) {
+				$library .= '/sites/' . $site->name();
+			} else {
+				$library .= "/sites/{$site}";
+			}
+		}
 		$base = parse_url(AssetsModel::base('file'), PHP_URL_PATH);
 
 		if (!is_dir($base)) {
