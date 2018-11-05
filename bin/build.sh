@@ -23,17 +23,34 @@ last 2 Firefox versions
 last 2 Safari versions
 EOF
 
+# Babel cli can be installed locally, but presets are always search locally.
+cat << EOF > package.json
+{
+	"devDependencies": {
+		"@babel/preset-env": "^7.0.0"
+	}
+}
+EOF
+npm install --save-dev
+
 # Babelify in-place for full current ESx compatiblity.
 cat << EOF > .babelrc
 {
 	"ignore": [
-		"wysihtml5.js",
-		"underscore.js",
-		"require.js",
-		"require",
-		"jquery.js",
-		"modernizr.js",
-		"core.js"
+		"**/wysihtml5.js",
+		"**/underscore.js",
+		"**/require.js",
+		"**/require",
+		"**/jquery.js",
+		"**/modernizr.js",
+		"**/core.js"
+	],
+	"presets": [
+		[
+			"@babel/preset-env", {
+				"debug": true
+			}
+		]
 	]
 }
 EOF
@@ -47,3 +64,6 @@ for f in $(ls assets/*.css); do
 	cssnextgen $f > $f.tmp && mv $f.tmp $f
 	cleancss --skip-rebase $f -o $f.min && mv $f.min $f
 done
+
+rm -r node_modules package.json package-lock.json .browserslistrc .babelrc
+
