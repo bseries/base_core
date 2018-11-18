@@ -237,6 +237,16 @@ if (defined('PROJECT_FEATURE_DEVICE_DETECTION')) {
 	$message  = 'Device detection is not available anymore.';
 	trigger_error($message, E_USER_DEPRECATED);
 }
+if (!defined('PROJECT_BEANSTALKD_HOST')) {
+	$message  = 'BEANSTALKD_HOST not available, defining as `localhost`.';
+	define('PROJECT_BEANSTALKD_HOST', 'localhost');
+	trigger_error($message, E_USER_DEPRECATED);
+}
+if (!defined('PROJECT_MEMCACHED_HOST')) {
+	$message  = 'MEMCACHED_HOST not available, defining as `localhost`.';
+	define('PROJECT_MEMCACHED_HOST', 'localhost');
+	trigger_error($message, E_USER_DEPRECATED);
+}
 
 // Define some lithium internal constants. We won't use them ourserselves as they are
 // planned to go away in future lithium versions.

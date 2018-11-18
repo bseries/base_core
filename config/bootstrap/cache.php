@@ -32,7 +32,7 @@ if (PROJECT_HAS_MEMCACHED) {
 	$default = [
 		'scope' => PROJECT_NAME . ':' . PROJECT_CONTEXT . ':' . PROJECT_VERSION,
 		'adapter' => 'Memcache',
-		'host' => '127.0.0.1:11211'
+		'host' => PROJECT_MEMCACHED_HOST . ':11211'
 	];
 } else {
 	$default = [

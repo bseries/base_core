@@ -8,11 +8,11 @@
 
 namespace base_core\models;
 
-use Exception;
 use Cute\Connection;
+use Exception;
 use Monolog\Handler\NullHandler;
-use Monolog\Handler\SyslogHandler;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogHandler;
 use Monolog\Logger as MonologLogger;
 use lithium\analysis\Logger;
 
@@ -37,7 +37,7 @@ trait CuteConnectionTrait {
 		$log->pushHandler($handler);
 
 		return static::$_cuteConnection = new Connection(
-			$log, PROJECT_NAME . '_' . PROJECT_CONTEXT
+			$log, PROJECT_NAME . '_' . PROJECT_CONTEXT, PROJECT_BEANSTALKD_HOST
 		);
 	}
 }
