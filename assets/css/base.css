@@ -27,6 +27,8 @@
   --color-gray-darkest: #808080;
 
   /* Typography */
+  --font-family-sans: Helvetica, Arial, sans-serif;
+  --font-family-neue: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-family-mono: "Anonymous Pro", Consolas, Monaco, Courier, monospace;
 
   --font-size-super-alpha: 32px;
@@ -53,7 +55,7 @@
 ---------------------------------------------------------------- */
 body {
   font-size: var(--font-size-delta);
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--font-family-sans);
 
   word-spacing: -.02em;
 
@@ -251,7 +253,7 @@ h1,h2,h3,h4,
 /* Consider these kind of headlines too. */
 table thead,
 .tab-h {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-family-neue);
 }
 
 .h-super-alpha,
@@ -264,7 +266,7 @@ table thead,
   line-height: var(--line-height-tighter);
   margin: 0;
 
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-family-neue);
   font-weight: bolder;
 }
 .h-super-alpha {
@@ -611,7 +613,7 @@ textarea {
   -webkit-border-radius:0;
   border-radius: 0;
 
-  font-family: "Anonymous Pro", Helvetica, Arial, sans-serif;
+  font-family: var(--font-family-mono);
   color: var(--color-dim-black);
   border: 2px solid var(--color-gray-dark);
 
@@ -881,6 +883,7 @@ a.button {
   border: none;
   text-transform: capitalize;
   display: inline-block;
+  font-family: var(--font-family-sans);
   font-size: var(--font-size-delta);
 
   height: 40px;
