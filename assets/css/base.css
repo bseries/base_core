@@ -1437,6 +1437,9 @@ table .button.add-nested:hover {
   color: transparent; /* .button override */
   background-color: var(--color-green);
 }
+table .button.add-nested + .button {
+  margin-left: 10px;
+}
 
 
 /* Notifications
