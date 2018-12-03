@@ -237,15 +237,25 @@ if (defined('PROJECT_FEATURE_DEVICE_DETECTION')) {
 	$message  = 'Device detection is not available anymore.';
 	trigger_error($message, E_USER_DEPRECATED);
 }
+if (!defined('PROJECT_DB_HOST')) {
+	$message  = 'DB_HOST not available, defining as `localhost`.';
+	define('PROJECT_DB_HOST', 'localhost');
+	trigger_error($message, E_USER_NOTICE);
+}
+if (!defined('PROJECT_DB_TEST')) {
+	$message  = 'DB_TEST not defined, defining as disabled.';
+	trigger_error($message, E_USER_NOTICE);
+	define('PROJECT_DB_TEST', false);
+}
 if (!defined('PROJECT_BEANSTALKD_HOST')) {
 	$message  = 'BEANSTALKD_HOST not available, defining as `localhost`.';
 	define('PROJECT_BEANSTALKD_HOST', 'localhost');
-	trigger_error($message, E_USER_DEPRECATED);
+	trigger_error($message, E_USER_NOTICE);
 }
 if (!defined('PROJECT_MEMCACHED_HOST')) {
 	$message  = 'MEMCACHED_HOST not available, defining as `localhost`.';
 	define('PROJECT_MEMCACHED_HOST', 'localhost');
-	trigger_error($message, E_USER_DEPRECATED);
+	trigger_error($message, E_USER_NOTICE);
 }
 
 // Define some lithium internal constants. We won't use them ourserselves as they are

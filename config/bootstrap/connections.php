@@ -17,11 +17,24 @@ Connections::add('default', [
 	'encoding' => 'utf8mb4',
 	'host' => 'localhost',
 	'persistent' => false,
-	// Using defined for BC, as _HOST was introduced later.
-	'host' => defined('PROJECT_DB_HOST') ? PROJECT_DB_HOST : 'localhost',
+	'host' => PROJECT_DB_HOST,
 	'database' => PROJECT_DB_DATABASE,
 	'login' => PROJECT_DB_USER,
 	'password' => PROJECT_DB_PASSWORD
 ]);
+
+if (PROJECT_DB_TEST) {
+	Connections::add('test', [
+		'type' => 'database',
+		'adapter' => 'MySql',
+		'encoding' => 'utf8mb4',
+		'host' => 'localhost',
+		'persistent' => false,
+		'host' => PROJECT_DB_TEST_HOST,
+		'database' => PROJECT_DB_TEST_DATABASE,
+		'login' => PROJECT_DB_TEST_USER,
+		'password' => PROJECT_DB_TEST_PASSWORD
+	]);
+}
 
 ?>
