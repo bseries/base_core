@@ -173,7 +173,9 @@ if (!PROJECT_DEBUG) {
 				$key = md5(serialize([
 					$url,
 					$options,
-					$req->url
+					$req->url,
+					$req->scheme,
+					$req->host,
 				]));
 				if (isset($cachedUrls[$key])) {
 					return $cachedUrls[$key];
