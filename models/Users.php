@@ -387,7 +387,11 @@ class Users extends \base_core\models\Base {
 	//
 	// Can only be used if base_address is available. Address type field
 	// availability depends on used libraries.
-	public function address($entity, $type = 'billing') {
+	public function address($entity, $type = 'billing', array $options = []) {
+		$options += [
+			'useFallback' => true
+		];
+
 		if (!static::hasField("{$type}_address_id")) {
 			$message  = "User model has no field `{$type}_address_id`. ";
 			$message .= "You may need to require the ecommerce_core or billing_core library.";
@@ -403,15 +407,22 @@ class Users extends \base_core\models\Base {
 			$message .= "Require it as a dependency to enable `Users::address()`.";
 			throw new RuntimeException($message);
 		}
-		return Addresses::find('first', [
+		$existing = Addresses::find('first', [
 			'conditions' => [
 				'id' => $entity->{"{$type}_address_id"}
 			]
-		]) ?: Addresses::create([
-			'user_id' => $entity->id,
-			'recipient' => $entity->name,
-			'country' => $entity->country
 		]);
+		if ($existing) {
+			return $existing;
+		}
+		if ($options['useFallback']) {
+			return Addresses::create([
+				'user_id' => $entity->id,
+				'recipient' => $entity->name,
+				'country' => $entity->country
+			]);
+		}
+		return false;
 	}
 
 	/* Billing */
