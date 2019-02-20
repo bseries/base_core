@@ -56,4 +56,3 @@ for f in $(ls assets/*.css); do
 done
 
 rm .browserslistrc .babelrc
-
