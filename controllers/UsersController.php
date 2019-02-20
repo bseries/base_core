@@ -12,14 +12,15 @@ namespace base_core\controllers;
 use Exception;
 use base_address\models\Addresses;
 use base_address\models\Countries;
+use base_core\base\Sites;
 use base_core\extensions\cms\Settings;
 use base_core\models\Locales;
 use base_core\models\Timezones;
 use base_core\models\Users;
-use billing_core\models\Currencies;
 use billing_core\billing\TaxTypes;
-use billing_payment\billing\payment\Methods as PaymentMethods;
+use billing_core\models\Currencies;
 use billing_invoice\models\Invoices;
+use billing_payment\billing\payment\Methods as PaymentMethods;
 use li3_flash_message\extensions\storage\FlashMessage;
 use li3_mailer\action\Mailer;
 use lithium\analysis\Logger;
@@ -63,7 +64,7 @@ class UsersController extends \base_core\controllers\BaseController {
 
 
 		$this->_render['template'] = 'admin_form';
-		return compact('item', 'useSites') + $this->_selects($item);
+		return compact('item', 'useSites', 'sites') + $this->_selects($item);
 	}
 
 	public function admin_edit() {
@@ -95,7 +96,7 @@ class UsersController extends \base_core\controllers\BaseController {
 		}
 
 		$this->_render['template'] = 'admin_form';
-		return compact('item', 'useSites') + $this->_selects($item);
+		return compact('item', 'useSites', 'sites') + $this->_selects($item);
 	}
 
 	protected function _handleCredentialsSubmission(array $submitted, array $events) {

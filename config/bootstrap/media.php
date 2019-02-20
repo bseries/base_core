@@ -49,6 +49,7 @@ HttpMedia::type('text', 'text/plain', $default); // change to render templates
 HttpMedia::type('xml', 'application/xml', $default); // new but very common
 
 MailerMedia::type('text', 'text/plain', [
+	'layout' => 'default',
 	'view' => 'li3_mailer\template\Mail',
 	'paths' => [
 		'template' => [
