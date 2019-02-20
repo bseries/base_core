@@ -98,7 +98,6 @@ $this->set([
 			<div class="grid-column-left cred-fields">
 				<?= $this->form->field('change_password', [
 					'type' => 'checkbox',
-					'label' => $t('change password'),
 					'label' => !$item->exists() ? $t('provide a password') : $t('change password'),
 					'checked' => !$item->exists(),
 					'value' => 1,
