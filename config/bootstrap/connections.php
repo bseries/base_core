@@ -15,7 +15,6 @@ Connections::add('default', [
 	'type' => 'database',
 	'adapter' => 'MySql',
 	'encoding' => 'utf8mb4',
-	'host' => 'localhost',
 	'persistent' => false,
 	// Using defined for BC, as _HOST was introduced later.
 	'host' => defined('PROJECT_DB_HOST') ? PROJECT_DB_HOST : 'localhost',
