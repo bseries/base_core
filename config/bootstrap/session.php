@@ -17,8 +17,17 @@ if (strlen(PROJECT_SECRET_BASE) < 20) {
 }
 $secret = substr(PROJECT_SECRET_BASE, 0, 20);
 
+$base = [];
+
+if (PROJECT_HAS_MEMCACHED) {
+	$base += [
+		'session.save_handler' => 'memcached',
+		'session.save_path' => PROJECT_MEMCACHED_HOST . ':11211',
+	];
+}
+
 Session::config([
-	'default' => [
+	'default' => $base + [
 		'adapter' => 'Php',
 		'session.name' => PROJECT_NAME . '_session',
 		'session.cache_limiter' => false,
