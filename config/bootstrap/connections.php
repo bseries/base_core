@@ -20,7 +20,6 @@ $default = [
 	'type' => 'database',
 	'adapter' => 'MySql',
 	'encoding' => 'utf8mb4',
-	'host' => 'localhost',
 	'persistent' => false,
 ];
 if (!defined('TEST_EXECUTION')) {
