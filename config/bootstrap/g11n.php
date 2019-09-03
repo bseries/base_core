@@ -77,9 +77,8 @@ $setLocale = function($params, $next) {
 
 	// Timezone
 	if (PHP_SAPI !== 'cli' && ($user = Auth::check('default'))) {
-		$timezone = $user['timezone'];
+		Environment::set(true, ['timezone' => $user['timezone']]);
 	}
-	Environment::set(true, compact('timezone'));
 
 	// Locale
 	if (!empty($request->locale)) { // Explitic locale overrides anything.

@@ -31,6 +31,7 @@ trait AdminIndexOrderedTrait {
 		$data = $model::find('all', $query);
 		$useOwner = Settings::read('security.checkOwner') && Gate::checkRight('owner');
 
+		$sites = null;
 		if ($useSites = Settings::read('useSites')) {
 			$sites = Sites::enum();
 		}

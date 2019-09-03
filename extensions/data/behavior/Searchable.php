@@ -68,7 +68,7 @@ class Searchable extends \li3_behaviors\data\model\Behavior {
 				case 'integer':
 				case 'float':
 					if (!is_numeric($q)) {
-						continue;
+						continue 2;
 					}
 					$field = static::_qualifyField($model, $behavior, $field);
 					$query['conditions']['OR'][$field] = $q;

@@ -11,7 +11,7 @@ namespace base_core\extensions\cms;
 
 use lithium\util\Set;
 
-class Settings extends \lithium\core\StaticObject {
+class Settings {
 
 	protected static $_data = [];
 

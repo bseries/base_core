@@ -16,7 +16,7 @@ use Exception;
 // This class is used to generate the overall admin navigation bars.
 // Panes may have subpanes but just one level deep. Actions of panes
 // are not handled intentionally.
-class Panes extends \lithium\core\StaticObject {
+class Panes {
 
 	protected static $_data = [];
 

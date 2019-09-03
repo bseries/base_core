@@ -66,10 +66,11 @@ trait AdminAddTrait {
 
 		$useOwner = Settings::read('security.checkOwner') && $model::hasBehavior('Ownable');
 		$useOwner = $useOwner && Gate::checkRight('owner');
+		$users = null;
 		if ($useOwner) {
 			$users = $this->_users($item, ['field' => 'owner_id']);
 		}
-
+		$sites = null;
 		if ($useSites = Settings::read('useSites')) {
 			$sites = Sites::enum();
 		}

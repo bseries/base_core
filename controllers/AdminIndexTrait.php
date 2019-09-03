@@ -53,6 +53,8 @@ trait AdminIndexTrait {
 		$paginator = $this->_paginator($model, $query);
 
 		$useOwner = $checkOwner && $hasOwnerRight;
+
+		$sites = null;
 		if ($useSites = Settings::read('useSites')) {
 			$sites = Sites::enum();
 		}

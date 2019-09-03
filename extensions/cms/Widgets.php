@@ -11,7 +11,7 @@ namespace base_core\extensions\cms;
 
 use lithium\util\Collection;
 
-class Widgets extends \lithium\core\StaticObject {
+class Widgets {
 
 	const GROUP_NONE = 'none';
 	const GROUP_DASHBOARD = 'dashboard';

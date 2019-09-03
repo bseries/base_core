@@ -58,6 +58,7 @@ class UsersController extends \base_core\controllers\BaseController {
 			}
 		}
 
+		$sites = null;
 		if ($useSites = Settings::read('useSites')) {
 			$sites = Sites::enum();
 		}
@@ -134,6 +135,8 @@ class UsersController extends \base_core\controllers\BaseController {
 			$countries = array_combine($list = explode(' ', PROJECT_COUNTRIES), $list);
 		}
 
+		$result = compact('roles', 'timezones', 'countries', 'locales');
+
 		if ($item) {
 			if (Libraries::get('base_address')) {
 				$addresses = [
@@ -147,43 +150,30 @@ class UsersController extends \base_core\controllers\BaseController {
 						]
 					]
 				]);
+				$result['addresses'] = $addresses;
 			}
 		}
 
 		if ($useBilling = Libraries::get('billing_core')) {
-			$currencies = Currencies::find('list');
-			$taxTypes = TaxTypes::enum();
+			$result += ['currencies' => Currencies::find('list'), 'taxTypes' => TaxTypes::enum()];
 		}
 		if ($useBillingPayment = Libraries::get('billing_payment')) {
-			$paymentMethods = PaymentMethods::enum();
+			$result['paymentMethods'] = PaymentMethods::enum();
 		}
 		$useInvoice = Libraries::get('billing_invoice');
 		$useEcommerce = Libraries::get('ecommerce_core');
 		$useRent = Libraries::get('ecommerce_rent');
 
 		if ($useAutoInvoice = $useInvoice && Settings::read('invoice.autoInvoice')) {
-			$autoInvoiceFrequencies = Invoices::enum('frequency');
+			$result['autoInvoiceFrequencies'] = Invoices::enum('frequency');
 		}
-
-		return compact(
-			'roles',
-			'timezones',
-			'countries',
-			'locales',
-
-			// Optional
-			'currencies',
-			'addresses',
-			'autoInvoiceFrequencies',
-			'taxTypes',
-			'paymentMethods',
-
+		return $result += compact(
 			'useBilling',
 			'useBillingPayment',
+			'useAutoInvoice',
 			'useInvoice',
 			'useEcommerce',
-			'useRent',
-			'useAutoInvoice'
+			'useRent'
 		);
 	}
 
