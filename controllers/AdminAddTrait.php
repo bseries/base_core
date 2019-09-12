@@ -82,7 +82,8 @@ trait AdminAddTrait {
 			'isTranslated',
 			'autoNumber', 'nextNumber',
 			'useOwner',
-			'useSites', 'sites'
+			'useSites',
+			'sites'
 		) + $this->_selects($item);
 	}
 }

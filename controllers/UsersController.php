@@ -92,6 +92,7 @@ class UsersController extends \base_core\controllers\BaseController {
 			}
 		}
 
+		$sites = null;
 		if ($useSites = Settings::read('useSites')) {
 			$sites = Sites::enum();
 		}
